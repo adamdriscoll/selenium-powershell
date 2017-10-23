@@ -28,6 +28,34 @@ Start-SeFirefox
 function Start-SeFirefox {
     New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
 }
+<#
+.SYNOPSIS
+Starts a Selenium Edge driver
+
+.DESCRIPTION
+Starts a Selenium Edge driver
+
+.EXAMPLE
+Start-SeEdge
+#>
+function Start-SeEdge {
+    New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
+}
+
+<#
+.SYNOPSIS
+Starts a Selenium Internet Explorer driver
+
+.DESCRIPTION
+Starts a Selenium Internet Explorer driver
+
+.EXAMPLE
+Start-SeInternetExplorer
+#>
+function Start-SeInternetExplorer {
+    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
+}
+
 
 <#
 .SYNOPSIS
@@ -40,7 +68,7 @@ Stops a Selenium driver.
 The driver to stop.
 #>
 function Stop-SeDriver {
-    param($Driver) 
+    param([OpenQA.Selenium.IWebDriver]$Driver) 
 
     $Driver.Dispose()
 }
@@ -63,7 +91,7 @@ Enter-SeUrl -Url https://www.google.com -Driver (Start-SeChrome)
 #>
 
 function Enter-SeUrl {
-    param($Driver, $Url)
+    param([OpenQA.Selenium.IWebDriver]$Driver, $Url)
 
     $Driver.Navigate().GoToUrl($Url)
 }
@@ -96,7 +124,7 @@ $Element = Find-SeElement -Driver $Driver -Id "MyTextbox"
 function Find-SeElement {
     param(
         [Parameter()]
-        $Driver,
+        [OpenQA.Selenium.IWebDriver]$Driver,
         [Parameter(ParameterSetName = "ByName")]
         $Name,
         [Parameter(ParameterSetName = "ById")]
@@ -143,6 +171,31 @@ function Invoke-SeClick {
 
     $Element.Click()
 }
+
+function Invoke-SeNavigateBack {
+    param(
+        [Parameter()]
+        [OpenQA.Selenium.IWebDriver]$Driver)
+
+        $Driver.Navigate.Back()
+}
+
+function Invoke-SeNavigateForward {
+    param(
+        [Parameter()]
+        [OpenQA.Selenium.IWebDriver]$Driver)
+
+        $Driver.Navigate.Forward()
+}
+
+function Invoke-SeRefresh {
+    param(
+        [Parameter()]
+        [OpenQA.Selenium.IWebDriver]$Driver)
+
+        $Driver.Navigate.Refresh()
+}
+
 
 <#
 .SYNOPSIS
