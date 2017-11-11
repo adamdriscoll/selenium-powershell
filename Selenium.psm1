@@ -1,130 +1,32 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\WebDriver.Support.dll")
 
-<#
-.SYNOPSIS
-Starts a Selenium Chrome driver
-
-.DESCRIPTION
-Starts a Selenium Chrome driver
-
-.EXAMPLE
-Start-SeChrome
-#>
 function Start-SeChrome {
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver"
 }
 
-<#
-.SYNOPSIS
-Starts a Selenium Firefox driver
-
-.DESCRIPTION
-Starts a Selenium Firefox driver
-
-.EXAMPLE
-Start-SeFirefox
-#>
 function Start-SeFirefox {
     New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
 }
-<#
-.SYNOPSIS
-Starts a Selenium Edge driver
 
-.DESCRIPTION
-Starts a Selenium Edge driver
-
-.EXAMPLE
-Start-SeEdge
-#>
-function Start-SeEdge {
-    New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
-}
-
-<#
-.SYNOPSIS
-Starts a Selenium Internet Explorer driver
-
-.DESCRIPTION
-Starts a Selenium Internet Explorer driver
-
-.EXAMPLE
-Start-SeInternetExplorer
-#>
-function Start-SeInternetExplorer {
-    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
-}
-
-
-<#
-.SYNOPSIS
-Stops a Selenium driver.
-
-.DESCRIPTION
-Stops a Selenium driver.
-
-.PARAMETER Driver
-The driver to stop.
-#>
 function Stop-SeDriver {
-    param([OpenQA.Selenium.IWebDriver]$Driver) 
+    param($Driver) 
 
     $Driver.Dispose()
 }
 
-<#
-.SYNOPSIS
-Navigates to a url.
-
-.DESCRIPTION
-Navigates to a url.
-
-.PARAMETER Driver
-The driver to navigate with. See Start-SeChrome and Start-SeFirefox.
-
-.PARAMETER Url
-The URL to navigate to. 
-
-.EXAMPLE
-Enter-SeUrl -Url https://www.google.com -Driver (Start-SeChrome)
-#>
-
 function Enter-SeUrl {
-    param([OpenQA.Selenium.IWebDriver]$Driver, $Url)
+    param($Driver, $Url)
 
     $Driver.Navigate().GoToUrl($Url)
 }
 
-<#
-.SYNOPSIS
-Find an element in the currently loaded page.
-
-.DESCRIPTION
-Find an element in the currently loaded page.
-
-.PARAMETER Driver
-The driver to navigate with. See Start-SeChrome and Start-SeFirefox.
-
-.PARAMETER Name
-The name of the element to find. 
-
-.PARAMETER Id
-The Id of the element to find. 
-
-.PARAMETER ClassName
-The ClassName of the element to find. 
-
-.PARAMETER LinkText
-The LinkText of the element to find. 
-
-.EXAMPLE
-$Element = Find-SeElement -Driver $Driver -Id "MyTextbox"
-#>
 function Find-SeElement {
     param(
         [Parameter()]
-        [OpenQA.Selenium.IWebDriver]$Driver,
+        $Driver,
+        [Parameter()]
+        $Element,
         [Parameter(ParameterSetName = "ByName")]
         $Name,
         [Parameter(ParameterSetName = "ById")]
@@ -132,89 +34,88 @@ function Find-SeElement {
         [Parameter(ParameterSetName = "ByClassName")]
         $ClassName,
         [Parameter(ParameterSetName = "ByLinkText")]
-        $LinkText)
+        $LinkText,
+        [Parameter(ParameterSetName = "ByTagName")]
+        $TagName)
 
     Process {
+
+        if ($Driver -ne $null -and $Element -ne $null) {
+            throw "Driver and Element may not be specified together."
+        }
+        elseif ($Driver -ne $Null) {
+            $Target = $Driver
+        }
+        elseif ($Element -ne $Null) {
+            $Target = $Element
+        }
+        else {
+            "Driver or element must be specified"
+        }
+
         if ($PSCmdlet.ParameterSetName -eq "ByName") {
-            $Driver.FindElement([OpenQA.Selenium.By]::Name($Name))
+            $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
         }
 
         if ($PSCmdlet.ParameterSetName -eq "ById") {
-            $Driver.FindElement([OpenQA.Selenium.By]::Id($Id))
+            $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
         }
 
         if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
-            $Driver.FindElement([OpenQA.Selenium.By]::LinkText($LinkText))
+            $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
         }
 
         if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
-            $Driver.FindElement([OpenQA.Selenium.By]::ClassName($ClassName))
+            $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
+            $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
         }
     }
 }
 
-<#
-.SYNOPSIS
-Clicks an element
-
-.DESCRIPTION
-Clicks an element
-
-.PARAMETER Element
-The element to click.
-
-.EXAMPLE
-Invoke-SeClick -Element $Element
-#>
 function Invoke-SeClick {
     param([OpenQA.Selenium.IWebElement]$Element)
 
     $Element.Click()
 }
 
-function Invoke-SeNavigateBack {
-    param(
-        [Parameter()]
-        [OpenQA.Selenium.IWebDriver]$Driver)
-
-        $Driver.Navigate.Back()
-}
-
-function Invoke-SeNavigateForward {
-    param(
-        [Parameter()]
-        [OpenQA.Selenium.IWebDriver]$Driver)
-
-        $Driver.Navigate.Forward()
-}
-
-function Invoke-SeRefresh {
-    param(
-        [Parameter()]
-        [OpenQA.Selenium.IWebDriver]$Driver)
-
-        $Driver.Navigate.Refresh()
-}
-
-
-<#
-.SYNOPSIS
-Sends keys to an element
-
-.DESCRIPTION
-Sends keys to an element
-
-.PARAMETER Element
-The element to send keys to. 
-
-.PARAMETER Keys
-The keys to send.
-
-.EXAMPLE
-Send-SeKeys -Element $Element -Keys "Hey, there!"
-#>
 function Send-SeKeys {
     param([OpenQA.Selenium.IWebElement]$Element, [string]$Keys)
 
     $Element.SendKeys($Keys)
+}
+
+function Get-SeCookie {
+    param($Driver)
+
+    $Driver.Manage().Cookies.AllCookies.GetEnumerator()
+}
+
+function Remove-SeCookie {
+    param($Driver)
+    
+    $Driver.Manage().Cookies.DeleteAllCookies()
+}
+
+function Set-SeCookie {
+    param($Driver, $name, $value)
+
+    $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$value
+    
+    $Driver.Manage().Cookies.AddCookie($cookie)
+}
+
+function Get-SeElementAttribute {
+    param(
+        [Parameter(ValueFromPipeline=$true, Mandatory = $true)]
+        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter(Mandatory=$true)]
+        [string]$Attribute
+    )
+
+    Process {
+        $Element.GetAttribute($Attribute)
+    }   
 }
