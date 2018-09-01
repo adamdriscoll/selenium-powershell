@@ -1,12 +1,25 @@
-[System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\WebDriver.dll")
-[System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\WebDriver.Support.dll")
-
+[System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
+[System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
 function Start-SeChrome {
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver"
 }
 
 function Start-SeFirefox {
-    New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
+    param([Switch]$Profile)
+
+    if ($Profile) {
+        #Doesn't work....
+        $ProfilePath = Join-Path $PSScriptRoot "Assets\ff-profile\rust_mozprofile.YwpEBLY3hCRX"
+        $firefoxProfile = New-Object OpenQA.Selenium.Firefox.FirefoxProfile -ArgumentList ($ProfilePath)
+        $firefoxProfile.WriteToDisk()
+        New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $firefoxProfile
+    }
+    else {
+        $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
+        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+        $Driver
+    }
+    
 }
 
 function Stop-SeDriver {
@@ -36,7 +49,9 @@ function Find-SeElement {
         [Parameter(ParameterSetName = "ByLinkText")]
         $LinkText,
         [Parameter(ParameterSetName = "ByTagName")]
-        $TagName)
+        $TagName,
+        [Parameter(ParameterSetName = "ByXPath")]
+        $XPath)
 
     Process {
 
@@ -72,13 +87,30 @@ function Find-SeElement {
         if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
             $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
         }
+
+        if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
+            $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
+        }
     }
 }
 
 function Invoke-SeClick {
-    param([OpenQA.Selenium.IWebElement]$Element)
+    param(
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter()]
+        [Switch]$JavaScriptClick,
+        [Parameter()]
+        $Driver
+        )
 
-    $Element.Click()
+    if ($JavaScriptClick) {
+        $Driver.ExecuteScript("arguments[0].click()", $Element)
+    } else {
+        $Element.Click()
+    }
+
+    
 }
 
 function Send-SeKeys {
@@ -118,4 +150,27 @@ function Get-SeElementAttribute {
     Process {
         $Element.GetAttribute($Attribute)
     }   
+}
+
+function Invoke-SeScreenshot {
+    param($Driver, [Switch]$AsBase64EncodedString)
+
+    $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Driver)
+    if ($AsBase64String) {
+        $Screenshot.AsBase64EncodedString
+    }
+}
+
+function Save-SeScreenshot {
+    param(
+        [Parameter(ValueFromPipeline = $true, Mandatory = $true)]
+        [OpenQA.Selenium.Screenshot]$Screenshot,
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [Parameter()]
+        [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png)
+
+        Process {
+            $Screenshot.SaveAsFile($Path, $ImageFormat)
+        }
 }
