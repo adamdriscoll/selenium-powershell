@@ -1,7 +1,12 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
+
 function Start-SeChrome {
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver"
+}
+
+function Start-SeIe {
+    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
 }
 
 function Start-SeFirefox {
@@ -51,7 +56,9 @@ function Find-SeElement {
         [Parameter(ParameterSetName = "ByTagName")]
         $TagName,
         [Parameter(ParameterSetName = "ByXPath")]
-        $XPath)
+        $XPath,
+        [Parameter(ParameterSetName = "ByCssSelector")]
+        $Css)
 
     Process {
 
@@ -91,6 +98,10 @@ function Find-SeElement {
         if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
             $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
         }
+
+        if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+            $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
+        }
     }
 }
 
@@ -110,7 +121,6 @@ function Invoke-SeClick {
         $Element.Click()
     }
 
-    
 }
 
 function Send-SeKeys {
