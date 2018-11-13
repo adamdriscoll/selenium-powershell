@@ -56,9 +56,7 @@ function Find-SeElement {
         [Parameter(ParameterSetName = "ByTagName")]
         $TagName,
         [Parameter(ParameterSetName = "ByXPath")]
-        $XPath,
-        [Parameter(ParameterSetName = "ByCssSelector")]
-        $Css)
+        $XPath)
 
     Process {
 
@@ -97,10 +95,6 @@ function Find-SeElement {
 
         if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
             $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
-        }
-
-        if ($PSCmdlet.ParameterSetName -eq "ByCss") {
-            $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
         }
     }
 }
