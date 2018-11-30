@@ -44,3 +44,9 @@ Enter-SeUrl https://www.poshud.com -Driver $Driver
 $Element = Find-SeElement -Driver $Driver -Id "txtEmail"
 Send-SeKeys -Element $Element -Keys "adam@poshtools.com"
 ```
+
+## Run Chrome with options
+
+```powershell
+$Driver = Start-SeChrome -Arguments "headless","incognito" 
+```
