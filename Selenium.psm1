@@ -1,7 +1,15 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
 function Start-SeChrome {
-    New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver"
+    Param(
+        [Parameter(Mandatory = $false)]
+        [array]$Arguments
+    )
+    if($Arguments) {
+        $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
+        $Chrome_Options.AddArguments($Arguments)
+    }
+    New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
 }
 
 function Start-SeFirefox {
