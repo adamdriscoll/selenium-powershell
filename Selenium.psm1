@@ -164,8 +164,10 @@ function Invoke-SeScreenshot {
     param($Driver, [Switch]$AsBase64EncodedString)
 
     $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Driver)
-    if ($AsBase64String) {
+    if ($AsBase64EncodedString) {
         $Screenshot.AsBase64EncodedString
+    } else {
+        $Screenshot
     }
 }
 
