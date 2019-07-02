@@ -198,3 +198,29 @@ function Save-SeScreenshot {
             $Screenshot.SaveAsFile($Path, $ImageFormat)
         }
 }
+
+function Wait-SeElementExists {
+    param(
+        $Driver,
+        $Timeout = 30,
+        $Id,
+        $Name
+    )
+    if($Id)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::Id($Id)
+    }
+    elseif($Name)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::Name($Name)
+    }
+    else
+    {
+        throw "Please specify -Id or -Name"
+    }
+    $WebDriverWait = New-Object OpenQA.Selenium.Support.UI.WebDriverWait $Driver, ($Timeout * 10000000) # ticks
+    $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
+    $WebDriverWait.Until($Condition)
+}
+
+
