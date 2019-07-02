@@ -3,11 +3,16 @@
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
-        [array]$Arguments
+        [array]$Arguments,
+        [switch]$HideVersionHint
     )
     if($Arguments) {
         $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
         $Chrome_Options.AddArguments($Arguments)
+    }
+    if(!$HideVersionHint)
+    {
+        Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
     }
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
 }
@@ -121,9 +126,18 @@ function Invoke-SeClick {
     
 }
 
+function Get-SeKeys {
+    
+    [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static | Select-Object -Property Name
+}
+
 function Send-SeKeys {
     param([OpenQA.Selenium.IWebElement]$Element, [string]$Keys)
-
+    
+    foreach($Key in @(Get-SeKeys).Name)
+    {
+        $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
+    }
     $Element.SendKeys($Keys)
 }
 
