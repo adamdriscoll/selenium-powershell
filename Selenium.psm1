@@ -6,12 +6,11 @@ function Start-SeChrome {
         [array]$Arguments,
         [switch]$HideVersionHint
     )
-    if($Arguments) {
+    if ($Arguments) {
         $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
         $Chrome_Options.AddArguments($Arguments)
     }
-    if(!$HideVersionHint)
-    {
+    if (!$HideVersionHint) {
         Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
     }
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
@@ -53,6 +52,8 @@ function Find-SeElement {
         $Driver,
         [Parameter()]
         $Element,
+        [Parameter(ParameterSetName = "ByCss")]
+        $Css,
         [Parameter(ParameterSetName = "ByName")]
         $Name,
         [Parameter(ParameterSetName = "ById")]
@@ -104,6 +105,9 @@ function Find-SeElement {
         if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
             $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
         }
+        if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+            $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
+        }
     }
 }
 
@@ -115,11 +119,12 @@ function Invoke-SeClick {
         [Switch]$JavaScriptClick,
         [Parameter()]
         $Driver
-        )
+    )
 
     if ($JavaScriptClick) {
         $Driver.ExecuteScript("arguments[0].click()", $Element)
-    } else {
+    }
+    else {
         $Element.Click()
     }
 
@@ -128,16 +133,16 @@ function Invoke-SeClick {
 
 function Get-SeKeys {
     
-    [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static | Select-Object -Property Name,@{N = "ObjectString"; E = {"[OpenQA.Selenium.Keys]::$($_.Name)"}}
+    [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static | Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 }
 
 function Send-SeKeys {
     param([OpenQA.Selenium.IWebElement]$Element, [string]$Keys)
     
-    foreach($Key in @(Get-SeKeys).Name)
-    {
+    foreach ($Key in @(Get-SeKeys).Name) {
         $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
     }
+    
     $Element.SendKeys($Keys)
 }
 
@@ -156,16 +161,16 @@ function Remove-SeCookie {
 function Set-SeCookie {
     param($Driver, $name, $value)
 
-    $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$value
+    $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name, $value
     
     $Driver.Manage().Cookies.AddCookie($cookie)
 }
 
 function Get-SeElementAttribute {
     param(
-        [Parameter(ValueFromPipeline=$true, Mandatory = $true)]
+        [Parameter(ValueFromPipeline = $true, Mandatory = $true)]
         [OpenQA.Selenium.IWebElement]$Element,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string]$Attribute
     )
 
@@ -180,7 +185,8 @@ function Invoke-SeScreenshot {
     $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Driver)
     if ($AsBase64EncodedString) {
         $Screenshot.AsBase64EncodedString
-    } else {
+    }
+    else {
         $Screenshot
     }
 }
@@ -194,9 +200,9 @@ function Save-SeScreenshot {
         [Parameter()]
         [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png)
 
-        Process {
-            $Screenshot.SaveAsFile($Path, $ImageFormat)
-        }
+    Process {
+        $Screenshot.SaveAsFile($Path, $ImageFormat)
+    }
 }
 
 function Wait-SeElementExists {
@@ -206,16 +212,13 @@ function Wait-SeElementExists {
         $Id,
         $Name
     )
-    if($Id)
-    {
+    if ($Id) {
         $TargetElement = [OpenQA.Selenium.By]::Id($Id)
     }
-    elseif($Name)
-    {
+    elseif ($Name) {
         $TargetElement = [OpenQA.Selenium.By]::Name($Name)
     }
-    else
-    {
+    else {
         throw "Please specify -Id or -Name"
     }
     $WebDriverWait = New-Object OpenQA.Selenium.Support.UI.WebDriverWait $Driver, ($Timeout * 10000000) # ticks
