@@ -4,10 +4,20 @@ function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
         [array]$Arguments,
-        [switch]$HideVersionHint
+        [switch]$HideVersionHint,
+        [System.IO.FileInfo]$DefaultDownloadPath,
+        [bool]$DisableBuiltInPDFViewer=$true
     )
+
+    $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
+    if($DefaultDownloadPath){
+        Write-Host "Setting Default Download directory: $DefaultDownloadPath"
+        $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
+    }
+    if($DisableBuiltInPDFViewer){
+       $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
+    }
     if($Arguments) {
-        $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
         $Chrome_Options.AddArguments($Arguments)
     }
     if(!$HideVersionHint)
@@ -199,12 +209,14 @@ function Save-SeScreenshot {
         }
 }
 
-function Wait-SeElementExists {
+function Wait-SeElementExists{
     param(
         $Driver,
         $Timeout = 30,
         $Id,
-        $Name
+        $Name,
+        $TagName,
+        $ClassName
     )
     if($Id)
     {
@@ -214,11 +226,20 @@ function Wait-SeElementExists {
     {
         $TargetElement = [OpenQA.Selenium.By]::Name($Name)
     }
+    elseif($TagName)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
+    }
+    elseif($ClassName)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
+    }
     else
     {
-        throw "Please specify -Id or -Name"
+        throw "Please specify -Id or -Name or -TagName or -ClassName"
     }
-    $WebDriverWait = New-Object OpenQA.Selenium.Support.UI.WebDriverWait $Driver, ($Timeout * 10000000) # ticks
+
+    $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
     $WebDriverWait.Until($Condition)
 }
