@@ -71,10 +71,16 @@ function Find-SeElement {
         $ClassName,
         [Parameter(ParameterSetName = "ByLinkText")]
         $LinkText,
+        [Parameter(ParameterSetName = "ByPartialLinkText")]
+        $PartialLinkText,
         [Parameter(ParameterSetName = "ByTagName")]
         $TagName,
         [Parameter(ParameterSetName = "ByXPath")]
-        $XPath)
+        $XPath,
+        [Parameter(ParameterSetName = "ByCss")]
+        $Css
+        )
+
 
     Process {
 
@@ -103,6 +109,10 @@ function Find-SeElement {
             $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
         }
 
+        if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+            $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
+        }
+
         if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
             $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
         }
@@ -113,6 +123,10 @@ function Find-SeElement {
 
         if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
             $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+            $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
         }
     }
 }
