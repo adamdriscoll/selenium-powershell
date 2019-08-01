@@ -83,7 +83,7 @@ FunctionsToExport = @(
     "Set-SeCookie",
     "Start-SeChrome",
     "Start-SeFirefox",
-    "Start-SeIe"
+    "Start-SeInternetExplorer"
     "Stop-SeDriver",
     "Wait-SeElementExists"
 )

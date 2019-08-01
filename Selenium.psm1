@@ -31,7 +31,7 @@ function Start-SeChrome {
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
 }
 
-function Start-SeIe {
+function Start-SeInternetExplorer {
     New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
 }
 
@@ -86,9 +86,7 @@ function Find-SeElement {
         [Parameter(ParameterSetName = "ByTagName")]
         $TagName,
         [Parameter(ParameterSetName = "ByXPath")]
-        $XPath,
-        [Parameter(ParameterSetName = "ByCss")]
-        $Css
+        $XPath
         )
 
 

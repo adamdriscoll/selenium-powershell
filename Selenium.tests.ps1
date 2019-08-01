@@ -1,4 +1,4 @@
-Import-Module (Join-Path $PSScriptRoot "Selenium.psm1")
+Import-Module (Join-Path $PSScriptRoot "Selenium.psd1") -Force
 
 Describe "Get-SeCookie" {
     $Driver = Start-SeFirefox
