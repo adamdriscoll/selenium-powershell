@@ -4,12 +4,26 @@ function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
         [array]$Arguments,
-        [switch]$HideVersionHint
+        [switch]$HideVersionHint,
+        [System.IO.FileInfo]$DefaultDownloadPath,
+        [bool]$DisableBuiltInPDFViewer=$true
     )
+
+    $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
+    
+    if($DefaultDownloadPath){
+        Write-Host "Setting Default Download directory: $DefaultDownloadPath"
+        $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
+    }
+    
+    if($DisableBuiltInPDFViewer){
+       $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
+    }
+    
     if ($Arguments) {
-        $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
         $Chrome_Options.AddArguments($Arguments)
     }
+    
     if (!$HideVersionHint) {
         Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
     }
@@ -62,10 +76,16 @@ function Find-SeElement {
         $ClassName,
         [Parameter(ParameterSetName = "ByLinkText")]
         $LinkText,
+        [Parameter(ParameterSetName = "ByPartialLinkText")]
+        $PartialLinkText,
         [Parameter(ParameterSetName = "ByTagName")]
         $TagName,
         [Parameter(ParameterSetName = "ByXPath")]
-        $XPath)
+        $XPath,
+        [Parameter(ParameterSetName = "ByCss")]
+        $Css
+        )
+
 
     Process {
 
@@ -94,6 +114,10 @@ function Find-SeElement {
             $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
         }
 
+        if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+            $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
+        }
+
         if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
             $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
         }
@@ -105,6 +129,7 @@ function Find-SeElement {
         if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
             $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
         }
+        
         if ($PSCmdlet.ParameterSetName -eq "ByCss") {
             $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
         }
@@ -205,12 +230,14 @@ function Save-SeScreenshot {
     }
 }
 
-function Wait-SeElementExists {
+function Wait-SeElementExists{
     param(
         $Driver,
         $Timeout = 30,
         $Id,
-        $Name
+        $Name,
+        $TagName,
+        $ClassName
     )
     if ($Id) {
         $TargetElement = [OpenQA.Selenium.By]::Id($Id)
@@ -218,10 +245,20 @@ function Wait-SeElementExists {
     elseif ($Name) {
         $TargetElement = [OpenQA.Selenium.By]::Name($Name)
     }
-    else {
-        throw "Please specify -Id or -Name"
+    elseif($TagName)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
     }
-    $WebDriverWait = New-Object OpenQA.Selenium.Support.UI.WebDriverWait $Driver, ($Timeout * 10000000) # ticks
+    elseif($ClassName)
+    {
+        $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
+    }
+    else
+    {
+        throw "Please specify -Id or -Name or -TagName or -ClassName"
+    }
+
+    $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
     $WebDriverWait.Until($Condition)
 }
