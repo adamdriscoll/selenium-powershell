@@ -1,5 +1,6 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
+
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
@@ -28,6 +29,10 @@ function Start-SeChrome {
         Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
     }
     New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
+}
+
+function Start-SeIe {
+    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
 }
 
 function Start-SeFirefox {
@@ -153,7 +158,6 @@ function Invoke-SeClick {
         $Element.Click()
     }
 
-    
 }
 
 function Get-SeKeys {
