@@ -12,7 +12,7 @@
 RootModule = '.\Selenium.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.1'
+ModuleVersion = '1.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -27,7 +27,7 @@ Author = 'Adam Driscoll'
 CompanyName = 'Unknown'
 
 # Copyright statement for this module
-Copyright = '(c) 2018 Adam Driscoll. All rights reserved.'
+Copyright = '(c) 2019 Adam Driscoll. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Web automation using the Selenium Web Driver'
@@ -83,6 +83,7 @@ FunctionsToExport = @(
     "Set-SeCookie",
     "Start-SeChrome",
     "Start-SeFirefox",
+    "Start-SeIe"
     "Stop-SeDriver",
     "Wait-SeElementExists"
 )
