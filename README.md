@@ -10,6 +10,12 @@
 Install-Module Selenium
 ```
 
+OR
+
+```
+Import-Module "{FullPath}\selenium-powershell\Selenium.psm1"
+```
+
 # Usage
 
 ## Navigate to a URL
@@ -43,4 +49,18 @@ $Driver = Start-SeFirefox
 Enter-SeUrl https://www.poshud.com -Driver $Driver
 $Element = Find-SeElement -Driver $Driver -Id "txtEmail"
 Send-SeKeys -Element $Element -Keys "adam@poshtools.com"
+```
+
+## Run Chrome with options
+
+```powershell
+$Driver = Start-SeChrome -Arguments "headless","incognito" 
+```
+
+## Wait for an element
+```powershell
+$Driver = Start-SeChrome
+Enter-SeUrl https://www.google.com -Driver $Driver
+Wait-SeElementExists -Driver $Driver -Timeout 3 -Id "q"
+Wait-SeElementExists -Driver $Driver -Timeout 3 -Name "q"
 ```
