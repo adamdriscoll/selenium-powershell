@@ -1,5 +1,19 @@
 Import-Module (Join-Path $PSScriptRoot "Selenium.psd1") -Force
 
+Describe "Start-SeChrome" {
+    Context "Should Start Chrome Driver" {
+        $Driver = Start-SeChrome 
+        Stop-SeDriver $Driver
+    }
+}
+
+Describe "Start-SeFirefox" {
+    Context "Should Start Firefox Driver" {
+        $Driver = Start-SeFirefox 
+        Stop-SeDriver $Driver
+    }
+}
+
 Describe "Get-SeCookie" {
     $Driver = Start-SeFirefox
     Context "Should get cookies from google" {
