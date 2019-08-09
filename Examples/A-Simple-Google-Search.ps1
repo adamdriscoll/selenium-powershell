@@ -1,5 +1,5 @@
 <#
-.VERSION - 0.1
+.VERSION - 0.2
 
 .DESCRIPTION
 This is an example script that will show you how to use the Selenium driver to preform a simple google search.
@@ -7,13 +7,13 @@ Using this example script you will learn the basic usage of the Selenium powersh
 Each comment line will explain the line that will come after it so you can follow it in a step by step fashion.
 #>
 
-# The line below will Import-Module Selenium if it fails it will display the installation command 
-try{Import-Module -Name Selenium -ErrorAction Stop}catch{Write-Host 'Importing the Selenium module failed. Please install it using the following command: Install-Module Selenium'}
+# The line below will Import-Module Selenium if it fails it will display the installation command and stop the script. 
+try{Import-Module -Name Selenium -ErrorAction Stop}catch{Write-Host 'Importing the Selenium module failed. Please install it using the following command: Install-Module Selenium';break}
 
 # Start the Selenium Chrome Driver
 $Driver = Start-SeChrome
 
-# Next we will check if the driver is running and if it's not running we will show a message. if the driver is running we will run the commands inside the if statment
+# Next we will check if the driver is running and if it's not running we will show a message. If the driver is running we will run the commands inside the if statment.
 if($Driver){
     # Now that we verified that the driver is running we can start doing cool things with it.
 
@@ -48,20 +48,20 @@ if($Driver){
     # Now that we can see all the keys we can send send some keys to the SearchBoxElement
     Send-SeKeys -Element $SearchBoxElement -Keys 'Powershell-Selenium'
 
-    # You can send special key strokes to the textbox, you should use the Selenium Keys enum. For example, if we wanted to send an enter key stroke, you could do it like this
+    # You can send special key strokes to the SearchBoxElement, you should use the Selenium Keys enum. For example, if we wanted to send an enter key stroke, you could do it like this
     Send-SeKeys -Element $SearchBoxElement -Keys ([OpenQA.Selenium.Keys]::Enter)
     
     # When working with dynamic websites, it’s often necessary to wait awhile for elements to appear on the page. By default, Selenium won’t wait and you’ll receive $null from Find-SeElement because the element isn’t there yet. There are a couple ways to work around this.
     # The first is to use the Wait-SeElementExists cmdlet to wait for the existence of an element in the document.
     # The Wait-SeElementExists will also return the element once it is found so you can use in order to wait and then find elements on the page.
 
-    #This command will wait for the img elements for 10 seconds and then return it to you or time out if the element wasn't found on.
+    # This command will wait for the img elements for 10 seconds and then return it to you or time out if the element wasn't found on.
     $ImageElements = Wait-SeElementExists -Driver $Driver -TagName 'img' -Timeout 10
 
-    # Once we have the image element we can simulate a mouse click on it using the Invoke-SeClick command
+    # Once we have the image element we can simulate a mouse click on it using the Invoke-SeClick command.
     Invoke-SeClick -Driver $Driver -Element $ImageElements
 
-    # Once we are done with the web driver and we finished with all our testing/automation we can release the driver by running the Stop-SeDriver command
+    # Once we are done with the web driver and we finished with all our testing/automation we can release the driver by running the Stop-SeDriver command.
     Stop-SeDriver -Driver $Driver
 }
 # if the driver is not running we will enter the script block in the else section and display a message
