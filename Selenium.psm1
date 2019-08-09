@@ -7,7 +7,8 @@ function Start-SeChrome {
         [array]$Arguments,
         [switch]$HideVersionHint,
         [System.IO.FileInfo]$DefaultDownloadPath,
-        [bool]$DisableBuiltInPDFViewer=$true
+        [bool]$DisableBuiltInPDFViewer=$true,
+        [bool]$Headless=$false
     )
 
     $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
@@ -21,6 +22,10 @@ function Start-SeChrome {
        $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
     }
     
+    if ($Headless) {
+        $Chrome_Options.AddArguments('headless')
+    }
+
     if ($Arguments) {
         $Chrome_Options.AddArguments($Arguments)
     }

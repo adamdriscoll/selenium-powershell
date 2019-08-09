@@ -7,6 +7,13 @@ Describe "Start-SeChrome" {
     }
 }
 
+Describe "Start-SeChrome headless" {
+    Context "Should Start Chrome Driver in headless mode" {
+        $Driver = Start-SeChrome -Headless $true
+        Stop-SeDriver $Driver
+    }
+}
+
 Describe "Start-SeFirefox" {
     Context "Should Start Firefox Driver" {
         $Driver = Start-SeFirefox 
