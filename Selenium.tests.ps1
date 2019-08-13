@@ -1,5 +1,44 @@
 Import-Module (Join-Path $PSScriptRoot "Selenium.psd1") -Force
 
+Describe "Verify the Binaries SHA256 Hash" {
+    It "Check WebDriver.dll Hash"{
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/0ee619b1786cf5971c0f9c6ee1859497aecba93a4953cf92fea998e8eefadf3c/detection
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\WebDriver.dll).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\WebDriver.dll.sha256)
+    }
+
+    It "Check WebDriver.Support.dll Hash"{
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/b59ba7d0cffe43e722b13ad737cf596f030788b86b5b557cb479f0b6957cce8a/detection
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\WebDriver.Support.dll).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\WebDriver.Support.dll.sha256)
+    }
+
+    It "Check ChromeDriver.exe Hash"{
+        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/69ffe387a3fa4fbf8a108391580f1a0befb8b96b82486da4417cfcdab4add4d4/detection
+        # ChromeDriver.exe - VirusTotal Scan URL = https://www.virustotal.com/gui/file/66cfa645f83fde41720beac7061a559fd57b6f5caa83d7918f44de0f4dd27845/detection
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\chromedriver.exe.sha256)
+    }
+
+    It "Check GeckoDriver.exe Hash"{
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/1ae81b2a6f40f7d11be3c91c4d83977ae0c0897bd5d154c02a6d869b58866b58/detection
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\geckodriver.exe).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\geckodriver.exe.sha256)
+    }
+
+    It "Check IEDriverServer.exe Hash"{
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/a1e26b0e8cb5f8db1cd784bac71bbf540485d81e697293b0b4586e25a31a8187/detection - this driver seems to have 2 false positives and is marked as clean in the comments
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\IEDriverServer.exe).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\IEDriverServer.exe.sha256)
+    }
+
+    It "Check MicrosoftWebDriver.exe Hash"{
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/6e8182697ea5189491b5519d8496a3392e43741b7c0515130f2f8205881d208e/detection
+        $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\MicrosoftWebDriver.exe).Hash
+        $Hash |Should Be (Get-Content -Path  $PSScriptRoot\assemblies\MicrosoftWebDriver.exe.sha256)
+    }
+}
+
 Describe "Start-SeChrome" {
     Context "Should Start Chrome Driver" {
         $Driver = Start-SeChrome 
