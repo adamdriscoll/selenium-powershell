@@ -12,7 +12,7 @@
 RootModule = '.\Selenium.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.2'
+ModuleVersion = '1.3'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -83,7 +83,8 @@ FunctionsToExport = @(
     "Set-SeCookie",
     "Start-SeChrome",
     "Start-SeFirefox",
-    "Start-SeInternetExplorer"
+    "Start-SeInternetExplorer",
+    "Start-SeEdge",
     "Stop-SeDriver",
     "Wait-SeElementExists"
 )
