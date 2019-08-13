@@ -40,6 +40,10 @@ function Start-SeInternetExplorer {
     New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
 }
 
+function Start-SeEdge {
+    New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
+}
+
 function Start-SeFirefox {
     param([Switch]$Profile)
 

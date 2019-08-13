@@ -21,6 +21,20 @@ Describe "Start-SeFirefox" {
     }
 }
 
+Describe "Start-SeEdge" {
+    Context "Should Start Edge Driver" {
+        $Driver = Start-SeEdge 
+        Stop-SeDriver $Driver
+    }
+}
+
+Describe "Start-SeInternetExplorer" {
+    Context "Should Start InternetExplorer Driver" {
+        $Driver = Start-SeInternetExplorer 
+        Stop-SeDriver $Driver
+    }
+}
+
 Describe "Get-SeCookie" {
     $Driver = Start-SeFirefox
     Context "Should get cookies from google" {
