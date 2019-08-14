@@ -12,7 +12,7 @@
 RootModule = '.\Selenium.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.3-beta1'
+ModuleVersion = '1.3'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -126,6 +126,8 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = 'Updating WebDrivers for Selenium'
+        
+        Prerelease = 'beta1'
 
     } # End of PSData hashtable
 
