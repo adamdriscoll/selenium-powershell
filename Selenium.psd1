@@ -12,7 +12,7 @@
 RootModule = '.\Selenium.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.4'
+ModuleVersion = '1.3-beta1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
