@@ -15,7 +15,7 @@ function Start-SeChrome {
         [switch]$HideVersionHint,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [bool]$DisableBuiltInPDFViewer=$true,
-        [bool]$Headless=$false
+        [switch]$Headless
     )
 
     $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"

@@ -18,6 +18,19 @@ Import-Module "{FullPath}\selenium-powershell\Selenium.psm1"
 
 # Usage
 
+## Start a Browser Driver
+```powershell
+# Start a driver for a browser of your choise (Chrome/Firefox/Edge/InternetExplorer)
+# To start a Firefox Driver
+$Driver = Start-SeFirefox 
+
+# To start a Chrome Driver
+$Driver = Start-SeChrome
+
+# To start an Edge Driver
+$Driver = Start-SeEdge
+```
+
 ## Navigate to a URL
 
 ```powershell
@@ -54,7 +67,14 @@ Send-SeKeys -Element $Element -Keys "adam@poshtools.com"
 ## Run Chrome with options
 
 ```powershell
-$Driver = Start-SeChrome -Arguments "headless","incognito" 
+# Run Chrome in Headless mode 
+$Driver = Start-SeChrome -Headless
+
+# Run Chrome in incognito mode
+$Driver = Start-SeChrome -Arguments "incognito" 
+
+# Run Chrome with alternative download folder
+$Driver = Start-SeChrome -DefaultDownloadPath  c:\temp
 ```
 
 ## Wait for an element
