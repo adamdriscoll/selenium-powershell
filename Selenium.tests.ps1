@@ -72,7 +72,7 @@ Describe "Start-SeChrome" {
 
 Describe "Start-SeChrome headless" {
     Context "Should Start Chrome Driver in headless mode" {
-        $Driver = Start-SeChrome -Headless $true
+        $Driver = Start-SeChrome -Headless
         Stop-SeDriver $Driver
     }
 }
