@@ -1,6 +1,13 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
 
+if($IsLinux){
+    $AssembliesPath = "$PSScriptRoot/assemblies/linux"
+}
+elseif($IsMacOS){
+    $AssembliesPath = "$PSScriptRoot/assemblies/macos"
+}
+
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
@@ -33,7 +40,13 @@ function Start-SeChrome {
     if (!$HideVersionHint) {
         Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
     }
-    New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
+
+    if($IsLinux -or $IsMacOS){
+        New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $AssembliesPath,$Chrome_Options
+    }
+    else{
+        New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
+    }
 }
 
 function Start-SeInternetExplorer {
@@ -52,14 +65,23 @@ function Start-SeFirefox {
         $ProfilePath = Join-Path $PSScriptRoot "Assets\ff-profile\rust_mozprofile.YwpEBLY3hCRX"
         $firefoxProfile = New-Object OpenQA.Selenium.Firefox.FirefoxProfile -ArgumentList ($ProfilePath)
         $firefoxProfile.WriteToDisk()
-        New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $firefoxProfile
+        if($IsLinux -or $IsMacOS){
+            New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $AssembliesPath,$firefoxProfile
+        }
+        else{
+            New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $firefoxProfile
+        }
     }
     else {
-        $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
-        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
-        $Driver
+        if($IsLinux -or $IsMacOS){
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $AssembliesPath
+        }
+        else{
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"
+        }
     }
-    
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+    $Driver
 }
 
 function Stop-SeDriver {
