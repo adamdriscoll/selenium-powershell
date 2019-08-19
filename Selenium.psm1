@@ -16,7 +16,8 @@ function Start-SeChrome {
         [System.IO.FileInfo]$DefaultDownloadPath,
         [bool]$DisableBuiltInPDFViewer=$true,
         [switch]$Headless,
-        [switch]$Incognito
+        [switch]$Incognito,
+        [switch]$Maximized
     )
 
     $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
@@ -36,6 +37,10 @@ function Start-SeChrome {
 
     if ($Incognito) {
         $Chrome_Options.AddArguments('Incognito')
+    }
+
+    if ($Maximized) {
+        $Chrome_Options.AddArguments('start-maximized')
     }
 
     if ($Arguments) {

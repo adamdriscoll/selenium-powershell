@@ -77,10 +77,27 @@ Describe "Start-SeChrome headless" {
     }
 }
 
-Describe "Start-SeChrome incognito" {
-    Context "Should Start Chrome Driver in headless mode" {
-        $Driver = Start-SeChrome -Incognito
-        Stop-SeDriver $Driver
+Describe "Start-SeChrome with Options" {
+    Context "Should Start Chrome Driver with different startup options" {
+        It "Start Chrome in Headless mode"{
+            $Driver = Start-SeChrome -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Maximized "{
+            $Driver = Start-SeChrome -Maximized
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Incognito "{
+            $Driver = Start-SeChrome -Incognito
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Maximized and Incognito "{
+            $Driver = Start-SeChrome -Maximized -Incognito
+            Stop-SeDriver $Driver
+        }
     }
 }
 
