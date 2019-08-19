@@ -60,7 +60,9 @@ function Start-SeChrome {
 }
 
 function Start-SeInternetExplorer {
-    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver"
+    $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
+    $InternetExplorer_Options.IgnoreZoomLevel = $true
+    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options 
 }
 
 function Start-SeEdge {
