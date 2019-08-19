@@ -71,7 +71,7 @@ Send-SeKeys -Element $Element -Keys "adam@poshtools.com"
 $Driver = Start-SeChrome -Headless
 
 # Run Chrome in incognito mode
-$Driver = Start-SeChrome -Arguments "incognito" 
+$Driver = Start-SeChrome -Incognito
 
 # Run Chrome with alternative download folder
 $Driver = Start-SeChrome -DefaultDownloadPath  c:\temp
@@ -81,6 +81,6 @@ $Driver = Start-SeChrome -DefaultDownloadPath  c:\temp
 ```powershell
 $Driver = Start-SeChrome
 Enter-SeUrl https://www.google.com -Driver $Driver
-Wait-SeElementExists -Driver $Driver -Timeout 3 -Id "q"
-Wait-SeElementExists -Driver $Driver -Timeout 3 -Name "q"
+Find-SeElement -Driver $d -Wait -Timeout 10 -Css input[name='q'] 
+Find-SeElement -Driver $d -Wait -Timeout 10 -Name q 
 ```

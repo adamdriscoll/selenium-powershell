@@ -15,7 +15,8 @@ function Start-SeChrome {
         [switch]$HideVersionHint,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [bool]$DisableBuiltInPDFViewer=$true,
-        [switch]$Headless
+        [switch]$Headless,
+        [switch]$Incognito
     )
 
     $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
@@ -31,6 +32,10 @@ function Start-SeChrome {
     
     if ($Headless) {
         $Chrome_Options.AddArguments('headless')
+    }
+
+    if ($Incognito) {
+        $Chrome_Options.AddArguments('Incognito')
     }
 
     if ($Arguments) {
@@ -102,6 +107,8 @@ function Find-SeElement {
         $Driver,
         [Parameter()]
         $Element,
+        [Parameter()][Switch]$Wait,
+        [Parameter()]$Timeout = 30,
         [Parameter(ParameterSetName = "ByCss")]
         $Css,
         [Parameter(ParameterSetName = "ByName")]
@@ -136,36 +143,75 @@ function Find-SeElement {
             "Driver or element must be specified"
         }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByName") {
-            $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
-        }
+        if($Wait){
+            if ($PSCmdlet.ParameterSetName -eq "ByName") {
+                $TargetElement = [OpenQA.Selenium.By]::Name($Name)
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ById") {
-            $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
-        }
+            if ($PSCmdlet.ParameterSetName -eq "ById") {
+                $TargetElement = [OpenQA.Selenium.By]::Id($Id)
+            }
+            
+            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
+                $TargetElement = [OpenQA.Selenium.By]::LinkText($LinkText)
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
-            $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
-        }
+            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+                $TargetElement = [OpenQA.Selenium.By]::PartialLinkText($PartialLinkText)
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
-            $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
-        }
+            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
+                $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
-            $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
-        }
+            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
+                $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
+            }
+            
+            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
+                $TargetElement = [OpenQA.Selenium.By]::XPath($XPath)
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
-            $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
+            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+                $TargetElement = [OpenQA.Selenium.By]::CssSelector($Css)
+            }
+            
+            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
+            $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
+            $WebDriverWait.Until($Condition)
         }
+        else{
+            if ($PSCmdlet.ParameterSetName -eq "ByName") {
+                $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
+            }
 
-        if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
-            $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
-        }
-        
-        if ($PSCmdlet.ParameterSetName -eq "ByCss") {
-            $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
+            if ($PSCmdlet.ParameterSetName -eq "ById") {
+                $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
+            }
+
+            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
+                $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
+            }
+
+            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+                $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
+            }
+
+            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
+                $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
+            }
+
+            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
+                $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
+            }
+
+            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
+                $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
+            }
+            
+            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+                $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
+            }
         }
     }
 }
@@ -262,38 +308,3 @@ function Save-SeScreenshot {
         $Screenshot.SaveAsFile($Path, $ImageFormat)
     }
 }
-
-function Wait-SeElementExists{
-    param(
-        $Driver,
-        $Timeout = 30,
-        $Id,
-        $Name,
-        $TagName,
-        $ClassName
-    )
-    if ($Id) {
-        $TargetElement = [OpenQA.Selenium.By]::Id($Id)
-    }
-    elseif ($Name) {
-        $TargetElement = [OpenQA.Selenium.By]::Name($Name)
-    }
-    elseif($TagName)
-    {
-        $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
-    }
-    elseif($ClassName)
-    {
-        $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
-    }
-    else
-    {
-        throw "Please specify -Id or -Name or -TagName or -ClassName"
-    }
-
-    $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
-    $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-    $WebDriverWait.Until($Condition)
-}
-
-
