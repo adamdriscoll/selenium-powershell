@@ -358,3 +358,24 @@ function Save-SeScreenshot {
         $Screenshot.SaveAsFile($Path, $ImageFormat)
     }
 }
+
+function Get-SeWindow {
+    param(
+        [Parameter(Mandatory = $true)][OpenQA.Selenium.IWebDriver]$Driver
+    )
+
+    Process {
+        $Driver.WindowHandles
+    }   
+}
+
+function Switch-SeWindow {
+    param(
+        [Parameter(Mandatory = $true)][OpenQA.Selenium.IWebDriver]$Driver,
+        [Parameter(Mandatory = $true)]$Window
+    )
+
+    Process {
+        $Driver.SwitchTo().Window($Window)|Out-Null
+    }   
+}
