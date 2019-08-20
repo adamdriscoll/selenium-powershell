@@ -13,4 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run a one-line script
-      run: pwsh ./Selenium.tests.ps1
+      run: | 
+        pwsh -Command "Install-Module Pester -Force -Scope CurrentUser"
+        pwsh ./Selenium.tests.ps1
+        
