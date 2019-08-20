@@ -77,6 +77,30 @@ Describe "Start-SeChrome headless" {
     }
 }
 
+Describe "Start-SeChrome with Options" {
+    Context "Should Start Chrome Driver with different startup options" {
+        It "Start Chrome in Headless mode"{
+            $Driver = Start-SeChrome -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Maximized "{
+            $Driver = Start-SeChrome -Maximized
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Incognito "{
+            $Driver = Start-SeChrome -Incognito
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Maximized and Incognito "{
+            $Driver = Start-SeChrome -Maximized -Incognito
+            Stop-SeDriver $Driver
+        }
+    }
+}
+
 Describe "Start-SeFirefox" {
     Context "Should Start Firefox Driver" {
         $Driver = Start-SeFirefox 
@@ -114,7 +138,7 @@ Describe "Get-SeCookie" {
 
 Describe "Send-SeKeys" {
     $Driver = Start-SeFirefox
-    Enter-SeUrl -Driver $Driver -Url "http://www.google.com"
+    Enter-SeUrl -Driver $Driver -Url "http://www.google.com/ncr"
     Context "Find-SeElement" {
         It "By Css" {
             $SearchInput = Find-SeElement -Driver $Driver -Css "input[name='q']"
@@ -123,3 +147,22 @@ Describe "Send-SeKeys" {
     }
     Stop-SeDriver $Driver
 }
+
+Describe "Find-SeElement Firefox" {
+    $Driver = Start-SeFirefox
+    Enter-SeUrl -Driver $Driver -Url "http://www.google.com/ncr"
+    Context "Find-SeElement" {
+        It "By Css" {
+            $SearchInput = Find-SeElement -Driver $Driver -Css "input[name='q']"
+        }
+    }
+    
+    Context "Find-SeElement -Wait" {
+        It "By Name"{
+            $SearchInput = Find-SeElement -Driver $Driver -Wait -Name q -Timeout 60
+        }
+    }
+
+    Stop-SeDriver $Driver
+}
+
