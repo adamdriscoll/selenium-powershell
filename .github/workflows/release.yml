@@ -1,0 +1,16 @@
+name: Release
+
+on: [release]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    secrets: ["api_key"]
+        
+    steps:
+    - uses: actions/checkout@v1
+    - name: Publish
+      run: | 
+        pwsh -Command "Publish-Module -Path ./Selenium.psd1 -NuGetApiKey $Env:api_key"
+        
