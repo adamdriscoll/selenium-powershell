@@ -8,6 +8,25 @@ elseif($IsMacOS){
     $AssembliesPath = "$PSScriptRoot/assemblies/macos"
 }
 
+# Grant Execution permission to assemblies on Linux and MacOS 
+if($IsLinux -or $IsMacOS){
+    # Check if powershell is NOT running as root
+    $AssemblieFiles = Get-ChildItem -Path $AssembliesPath |Where-Object{$_.Name -eq 'chromedriver' -or $_.Name -eq 'geckodriver'}
+    foreach($AssemblieFile in $AssemblieFiles){
+        if($IsLinux){
+            $FileMod = stat -c "%a" $AssemblieFile.fullname
+        }
+        elseif($IsMacOS){
+            $FileMod = /usr/bin/stat -f "%A" $AssemblieFile.fullname
+        }
+
+        if($FileMod[2] -ne '5' -and $FileMod[2] -ne '7' ){
+            Write-Host "Granting $($AssemblieFile.fullname) Execution Permissions ..."
+            chmod +x $AssemblieFile.fullname
+        }
+    }
+}
+
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
