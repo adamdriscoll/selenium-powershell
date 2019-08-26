@@ -8,54 +8,118 @@ elseif($IsMacOS){
     $AssembliesPath = "$PSScriptRoot/assemblies/macos"
 }
 
+# Grant Execution permission to assemblies on Linux and MacOS 
+if($IsLinux -or $IsMacOS){
+    # Check if powershell is NOT running as root
+    $AssemblieFiles = Get-ChildItem -Path $AssembliesPath |Where-Object{$_.Name -eq 'chromedriver' -or $_.Name -eq 'geckodriver'}
+    foreach($AssemblieFile in $AssemblieFiles){
+        if($IsLinux){
+            $FileMod = stat -c "%a" $AssemblieFile.fullname
+        }
+        elseif($IsMacOS){
+            $FileMod = /usr/bin/stat -f "%A" $AssemblieFile.fullname
+        }
+
+        if($FileMod[2] -ne '5' -and $FileMod[2] -ne '7' ){
+            Write-Host "Granting $($AssemblieFile.fullname) Execution Permissions ..."
+            chmod +x $AssemblieFile.fullname
+        }
+    }
+}
+
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
         [array]$Arguments,
         [switch]$HideVersionHint,
+        [string]$StartURL,
         [System.IO.FileInfo]$DefaultDownloadPath,
+        [System.IO.FileInfo]$ProfileDirectoryPath,
         [bool]$DisableBuiltInPDFViewer=$true,
         [switch]$Headless,
         [switch]$Incognito,
-        [switch]$Maximized
+        [switch]$Maximized,
+        [switch]$Minimized,
+        [switch]$Fullscreen
     )
 
-    $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
-    
-    if($DefaultDownloadPath){
-        Write-Host "Setting Default Download directory: $DefaultDownloadPath"
-        $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
-    }
-    
-    if($DisableBuiltInPDFViewer){
-       $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
-    }
-    
-    if ($Headless) {
-        $Chrome_Options.AddArguments('headless')
-    }
+    BEGIN{
+        if($Maximized -ne $false -and $Minimized -ne $false) {
+            throw 'Maximized and Minimized may not be specified together.'
+        }
+        elseif($Maximized -ne $false -and $Fullscreen -ne $false){
+            throw 'Maximized and Fullscreen may not be specified together.'
+        }
+        elseif($Minimized -ne $false -and $Fullscreen -ne $false){
+            throw 'Minimized and Fullscreen may not be specified together.'
+        }
 
-    if ($Incognito) {
-        $Chrome_Options.AddArguments('Incognito')
+        if($StartURL){
+            if(![system.uri]::IsWellFormedUriString($StartURL,[System.UriKind]::Absolute)){
+                throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'
+            }
+        }
     }
-
-    if ($Maximized) {
-        $Chrome_Options.AddArguments('start-maximized')
-    }
-
-    if ($Arguments) {
-        $Chrome_Options.AddArguments($Arguments)
-    }
+    PROCESS{
+        $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
     
-    if (!$HideVersionHint) {
-        Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
-    }
+        if($DefaultDownloadPath){
+            Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
+            $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
+        }
+        if($ProfileDirectoryPath){
+            Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
+            $Chrome_Options.AddArgument("user-data-dir=$ProfileDirectoryPath")
+        }
+        
+        if($DisableBuiltInPDFViewer){
+            $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
+        }
+        
+        if ($Headless) {
+            $Chrome_Options.AddArguments('headless')
+        }
 
-    if($IsLinux -or $IsMacOS){
-        New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $AssembliesPath,$Chrome_Options
+        if ($Incognito) {
+            $Chrome_Options.AddArguments('Incognito')
+        }
+
+        if ($Maximized) {
+            $Chrome_Options.AddArguments('start-maximized')
+        }
+
+        if ($Fullscreen) {
+            $Chrome_Options.AddArguments('start-fullscreen')
+        }
+
+        if ($Arguments) {
+            foreach ($Argument in $Arguments){
+                $Chrome_Options.AddArguments($Argument)
+            }
+        }
+        
+        if (!$HideVersionHint) {
+            Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
+        }
+
+        if($IsLinux -or $IsMacOS){
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $AssembliesPath,$Chrome_Options
+        }
+        else{
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
+        }
+
+        if($Minimized){
+            $driver.Manage().Window.Minimize();
+
+        }
+
+        if($StartURL){
+            Enter-SeUrl -Driver $Driver -Url $StartURL
+        }
     }
-    else{
-        New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
+    END{
+        return $Driver
     }
 }
 
@@ -264,20 +328,29 @@ function Get-SeCookie {
 }
 
 function Remove-SeCookie {
-    param($Driver)
-    
-    $Driver.Manage().Cookies.DeleteAllCookies()
+    param(
+        $Driver,
+        [switch]$DeleteAllCookies,
+        [string]$Name
+    )
+
+    if($DeleteAllCookies){
+        $Driver.Manage().Cookies.DeleteAllCookies()
+    }
+    else{
+        $Driver.Manage().Cookies.DeleteCookieNamed($Name)
+    }
 }
 
 function Set-SeCookie {
     param(
-        $Driver, 
-        [string]$Name, 
+        [ValidateNotNull()]$Driver, 
+        [string]$Name,
         [string]$Value,
         [string]$Path,
         [string]$Domain,
-        [datetime]$ExpiryDate
-        )
+        $ExpiryDate
+    )
 
     <# Selenium Cookie Information
     Cookie(String, String)
@@ -289,37 +362,44 @@ function Set-SeCookie {
     Cookie(String, String, String, String, Nullable<DateTime>)
     Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date. 
     #>
+    Begin{
+        if($ExpiryDate -ne $null -and $ExpiryDate.GetType().Name -ne 'DateTime'){
+            throw '$ExpiryDate can only be $null or TypeName: System.DateTime'
+        }
+    }
 
-    if($Name -and $Value -and (!$Path -and !$Domain -and !$ExpiryDate)){
-        $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value
-    }
-    Elseif($Name -and $Value -and $Path -and (!$Domain -and !$ExpiryDate)){
-        $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Path
-    }
-    Elseif($Name -and $Value -and $Path -and $ExpiryDate -and !$Domain){
-        $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Path,$ExpiryDate
-    }
-    Elseif($Name -and $Value -and $Path -and $ExpiryDate -and $Domain){
-        if($Driver.Url -match $Domain){
-            $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Domain,$Path,$ExpiryDate
+    Process {
+        if($Name -and $Value -and (!$Path -and !$Domain -and !$ExpiryDate)){
+            $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value
+        }
+        Elseif($Name -and $Value -and $Path -and (!$Domain -and !$ExpiryDate)){
+            $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Path
+        }
+        Elseif($Name -and $Value -and $Path -and $ExpiryDate -and !$Domain){
+            $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Path,$ExpiryDate
+        }
+        Elseif($Name -and $Value -and $Path -and $Domain -and (!$ExpiryDate -or $ExpiryDate)){
+            if($Driver.Url -match $Domain){
+                $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value,$Domain,$Path,$ExpiryDate
+            }
+            else{
+                Throw 'In order to set the cookie the browser needs to be on the cookie domain URL'
+            }
         }
         else{
-            Throw 'In order to set the cookie the browser needs to be on the cookie domain URL'
+            Throw "Incorrect Cookie Layout:
+            Cookie(String, String)
+            Initializes a new instance of the Cookie class with a specific name and value.
+            Cookie(String, String, String)
+            Initializes a new instance of the Cookie class with a specific name, value, and path.
+            Cookie(String, String, String, Nullable<DateTime>)
+            Initializes a new instance of the Cookie class with a specific name, value, path and expiration date.
+            Cookie(String, String, String, String, Nullable<DateTime>)
+            Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date."
         }
-    }
-    else{
-        Throw "Incorrect Cookie Layout:
-        Cookie(String, String)
-        Initializes a new instance of the Cookie class with a specific name and value.
-        Cookie(String, String, String)
-        Initializes a new instance of the Cookie class with a specific name, value, and path.
-        Cookie(String, String, String, Nullable<DateTime>)
-        Initializes a new instance of the Cookie class with a specific name, value, path and expiration date.
-        Cookie(String, String, String, String, Nullable<DateTime>)
-        Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date."
-    }
 
-    $Driver.Manage().Cookies.AddCookie($cookie)
+        $Driver.Manage().Cookies.AddCookie($cookie)
+    }
 }
 
 function Get-SeElementAttribute {
