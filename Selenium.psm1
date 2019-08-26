@@ -64,11 +64,11 @@ function Start-SeChrome {
         $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
     
         if($DefaultDownloadPath){
-            Write-Host "Setting Default Download directory: $DefaultDownloadPath"
+            Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
             $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
         }
         if($ProfileDirectoryPath){
-            Write-Host "Setting Profile directory: $ProfileDirectoryPath"
+            Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
             $Chrome_Options.AddArgument("user-data-dir=$ProfileDirectoryPath")
         }
         
@@ -99,7 +99,7 @@ function Start-SeChrome {
         }
         
         if (!$HideVersionHint) {
-            Write-Host "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'" -ForegroundColor Yellow
+            Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
 
         if($IsLinux -or $IsMacOS){
