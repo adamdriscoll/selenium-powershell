@@ -114,6 +114,14 @@ function Start-SeChrome {
 
         }
 
+        if($Headless -and $DefaultDownloadPath) {
+            $HeadlessDownloadParams = New-Object 'system.collections.generic.dictionary[[System.String],[System.Object]]]'
+            $HeadlessDownloadParams.Add('behavior', 'allow')
+            $HeadlessDownloadParams.Add('downloadPath', $DefaultDownloadPath.FullName)
+
+            $Driver.ExecuteChromeCommand('Page.setDownloadBehavior', $HeadlessDownloadParams)
+        }
+
         if($StartURL){
             Enter-SeUrl -Driver $Driver -Url $StartURL
         }
