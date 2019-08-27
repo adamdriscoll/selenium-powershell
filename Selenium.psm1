@@ -8,7 +8,7 @@ elseif($IsMacOS){
     $AssembliesPath = "$PSScriptRoot/assemblies/macos"
 }
 
-# Grant Execution permission to assemblies on Linux and MacOS 
+# Grant Execution permission to assemblies on Linux and MacOS
 if($IsLinux -or $IsMacOS){
     # Check if powershell is NOT running as root
     $AssemblieFiles = Get-ChildItem -Path $AssembliesPath |Where-Object{$_.Name -eq 'chromedriver' -or $_.Name -eq 'geckodriver'}
@@ -62,7 +62,7 @@ function Start-SeChrome {
     }
     PROCESS{
         $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
-    
+
         if($DefaultDownloadPath){
             Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
             $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
@@ -71,11 +71,11 @@ function Start-SeChrome {
             Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
             $Chrome_Options.AddArgument("user-data-dir=$ProfileDirectoryPath")
         }
-        
+
         if($DisableBuiltInPDFViewer){
             $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
         }
-        
+
         if ($Headless) {
             $Chrome_Options.AddArguments('headless')
         }
@@ -97,7 +97,7 @@ function Start-SeChrome {
                 $Chrome_Options.AddArguments($Argument)
             }
         }
-        
+
         if (!$HideVersionHint) {
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
@@ -106,12 +106,20 @@ function Start-SeChrome {
             $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $AssembliesPath,$Chrome_Options
         }
         else{
-            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
         }
 
         if($Minimized){
             $driver.Manage().Window.Minimize();
 
+        }
+
+        if($Headless -and $DefaultDownloadPath) {
+            $CmdParams = New-Object 'system.collections.generic.dictionary[[System.String],[System.Object]]]'
+            $CmdParams.Add('behavior', 'allow')
+            $CmdParams.Add('downloadPath', $DefaultDownloadPath.FullName)
+
+            $Driver.ExecuteChromeCommand('Page.setDownloadBehavior', $CmdParams)
         }
 
         if($StartURL){
@@ -126,7 +134,7 @@ function Start-SeChrome {
 function Start-SeInternetExplorer {
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
-    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options 
+    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options
 }
 
 function Start-SeEdge {
@@ -161,7 +169,7 @@ function Start-SeFirefox {
 }
 
 function Stop-SeDriver {
-    param($Driver) 
+    param($Driver)
 
     $Driver.Dispose()
 }
@@ -222,7 +230,7 @@ function Find-SeElement {
             if ($PSCmdlet.ParameterSetName -eq "ById") {
                 $TargetElement = [OpenQA.Selenium.By]::Id($Id)
             }
-            
+
             if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
                 $TargetElement = [OpenQA.Selenium.By]::LinkText($LinkText)
             }
@@ -238,7 +246,7 @@ function Find-SeElement {
             if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
                 $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
             }
-            
+
             if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
                 $TargetElement = [OpenQA.Selenium.By]::XPath($XPath)
             }
@@ -246,7 +254,7 @@ function Find-SeElement {
             if ($PSCmdlet.ParameterSetName -eq "ByCss") {
                 $TargetElement = [OpenQA.Selenium.By]::CssSelector($Css)
             }
-            
+
             $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
             $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
             $WebDriverWait.Until($Condition)
@@ -279,7 +287,7 @@ function Find-SeElement {
             if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
                 $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
             }
-            
+
             if ($PSCmdlet.ParameterSetName -eq "ByCss") {
                 $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
             }
@@ -307,17 +315,17 @@ function Invoke-SeClick {
 }
 
 function Get-SeKeys {
-    
+
     [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static | Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 }
 
 function Send-SeKeys {
     param([OpenQA.Selenium.IWebElement]$Element, [string]$Keys)
-    
+
     foreach ($Key in @(Get-SeKeys).Name) {
         $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
     }
-    
+
     $Element.SendKeys($Keys)
 }
 
@@ -344,7 +352,7 @@ function Remove-SeCookie {
 
 function Set-SeCookie {
     param(
-        [ValidateNotNull()]$Driver, 
+        [ValidateNotNull()]$Driver,
         [string]$Name,
         [string]$Value,
         [string]$Path,
@@ -360,7 +368,7 @@ function Set-SeCookie {
     Cookie(String, String, String, Nullable<DateTime>)
     Initializes a new instance of the Cookie class with a specific name, value, path and expiration date.
     Cookie(String, String, String, String, Nullable<DateTime>)
-    Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date. 
+    Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date.
     #>
     Begin{
         if($ExpiryDate -ne $null -and $ExpiryDate.GetType().Name -ne 'DateTime'){
@@ -412,7 +420,7 @@ function Get-SeElementAttribute {
 
     Process {
         $Element.GetAttribute($Attribute)
-    }   
+    }
 }
 
 function Invoke-SeScreenshot {
@@ -448,7 +456,7 @@ function Get-SeWindow {
 
     Process {
         $Driver.WindowHandles
-    }   
+    }
 }
 
 function Switch-SeWindow {
@@ -459,5 +467,5 @@ function Switch-SeWindow {
 
     Process {
         $Driver.SwitchTo().Window($Window)|Out-Null
-    }   
+    }
 }
