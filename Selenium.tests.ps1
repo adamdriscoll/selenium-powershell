@@ -33,7 +33,7 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check GeckoDriver.exe Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/1ae81b2a6f40f7d11be3c91c4d83977ae0c0897bd5d154c02a6d869b58866b58/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/3104a5ba26ff22962d0d75536506c081939bcd7580ba16503d4f3ce5507d06d2/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\geckodriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\geckodriver.exe.sha256)
     }
