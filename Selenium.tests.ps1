@@ -72,8 +72,18 @@ Describe "Start-SeChrome" {
 
 Describe "Start-SeChrome with Options" {
     Context "Should Start Chrome Driver with different startup options" {
+        It "Start Chrome with StartURL" {
+            $Driver = Start-SeChrome -StartURL 'https://github.com/adamdriscoll/selenium-powershell'
+            Stop-SeDriver $Driver
+        }
+
         It "Start Chrome in Headless mode" {
             $Driver = Start-SeChrome -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Minimize" {
+            $Driver = Start-SeChrome -Minimize
             Stop-SeDriver $Driver
         }
 
@@ -99,6 +109,7 @@ Describe "Start-SeChrome with Options" {
 
         It "Start Chrome with Multiple arguments" {
             $Driver = Start-SeChrome -Arguments @('Incognito','start-maximized')
+            Stop-SeDriver $Driver
         }
     }
 }
@@ -107,6 +118,50 @@ Describe "Start-SeFirefox"{
     Context "Should Start Firefox Driver" {
         $Driver = Start-SeFirefox 
         Stop-SeDriver $Driver
+    }
+}
+
+Describe "Start-SeFirefox with Options" {
+    Context "Should Start Firefox Driver with different startup options" {
+        It "Start Firefox with StartURL" {
+            $Driver = Start-SeFirefox -StartURL 'https://github.com/adamdriscoll/selenium-powershell'
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox in Headless mode" {
+            $Driver = Start-SeFirefox -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Minimize" {
+            $Driver = Start-SeFirefox -Minimize
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Maximized" {
+            $Driver = Start-SeFirefox -Maximized
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox PrivateBrowsing (Incognito)" {
+            $Driver = Start-SeFirefox -PrivateBrowsing
+            Stop-SeDriver $Driver
+        }
+        
+        It "Start Firefox Fullscreen" {
+            $Driver = Start-SeFirefox -Fullscreen
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Maximized and PrivateBrowsing (Incognito)" {
+            $Driver = Start-SeFirefox -Maximized -PrivateBrowsing
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox with Multiple arguments" {
+            $Driver = Start-SeFirefox -Arguments @('-headless','-private')
+            Stop-SeDriver $Driver
+        }
     }
 }
 
