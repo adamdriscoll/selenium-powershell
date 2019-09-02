@@ -27,7 +27,7 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check ChromeDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/57097bb65200f003152906c831ccd226ebbd5a9fd47df46f18adc29f7d01f2f0/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/e19d7c2806adaea658c3f5465da0231c090e354d1339d1544a9f92501964a471/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\chromedriver.sha256)
     }
