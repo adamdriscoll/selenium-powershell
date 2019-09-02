@@ -40,7 +40,7 @@ if($Driver){
 
     # The $AllInputElements contains all the input elements on the page if we want to find the specific element for the google search box we will need to loop through each input element in the $AllInputElements array and get the attibute we want in this case we're looking for the title attribute.
     # And we only want to return the element that has a title equal to Search we can find this out based on the html code on the page.
-    $SearchBoxElement = $AllInputElements|%{if($_.GetAttribute('title') -eq 'Search'){return $_}}
+    $SearchBoxElement = $AllInputElements|ForEach-Object{if($_.GetAttribute('title') -eq 'Search'){return $_}}
 
     # Now for the fun part after finding the element we want to send keyboard input to it. this will allow us to automate the search process
     # We can get the list of all special keyboard keys like enter/backspace etc using the Get-SeKeys command
@@ -51,15 +51,15 @@ if($Driver){
     # You can send special key strokes to the SearchBoxElement, you should use the Selenium Keys enum. For example, if we wanted to send an enter key stroke, you could do it like this
     Send-SeKeys -Element $SearchBoxElement -Keys ([OpenQA.Selenium.Keys]::Enter)
     
-    # When working with dynamic websites, it’s often necessary to wait awhile for elements to appear on the page. By default, Selenium won’t wait and you’ll receive $null from Find-SeElement because the element isn’t there yet. There are a couple ways to work around this.
-    # The first is to use the Wait-SeElementExists cmdlet to wait for the existence of an element in the document.
-    # The Wait-SeElementExists will also return the element once it is found so you can use in order to wait and then find elements on the page.
+    # When working with dynamic websites, it's often necessary to wait awhile for elements to appear on the page. By default, Selenium won't wait and you'll receive $null from Find-SeElement because the element isnï¿½t there yet. There are a couple ways to work around this.
+    # The first is to use the Find-SeElement cmdlet with the -Wait switch to wait for the existence of an element in the document.
+    # When using the Find-SeElement with the -Wait please take into account that only 1 element can be returned unlike the without the -Wait switch where multiple elements can be returned.
 
     # This command will wait for the img elements for 10 seconds and then return it to you or time out if the element wasn't found on.
-    $ImageElements = Wait-SeElementExists -Driver $Driver -TagName 'img' -Timeout 10
-
+    $LogoImageElement = Find-SeElement -Driver $Driver -Wait -Timeout 10 -Id 'logo'
+    
     # Once we have the image element we can simulate a mouse click on it using the Invoke-SeClick command.
-    Invoke-SeClick -Driver $Driver -Element $ImageElements
+    Invoke-SeClick -Driver $Driver -Element $LogoImageElement
 
     # Once we are done with the web driver and we finished with all our testing/automation we can release the driver by running the Stop-SeDriver command.
     Stop-SeDriver -Driver $Driver

@@ -15,25 +15,25 @@ Describe "Verify the Binaries SHA256 Hash" {
 
     It "Check ChromeDriver.exe Hash" {
         # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/69ffe387a3fa4fbf8a108391580f1a0befb8b96b82486da4417cfcdab4add4d4/detection
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/66cfa645f83fde41720beac7061a559fd57b6f5caa83d7918f44de0f4dd27845/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/297e5f1be088a60b0fbfd67bf6b6e9d3aff4acbe228cddd77642a9e270cb4c30/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\chromedriver.exe.sha256)
     }
     
     It "Check ChromeDriver Linux Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/3da69344b8b2b3b7e1497378672231a179eed6b3a0fdccbfacd3d053612e2547/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/da1ff4d52963446f679b2175fc05af020fd4e02b92b7b3447ed51fab8f4f4d28/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\linux\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\linux\chromedriver.sha256)
     }
 
     It "Check ChromeDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/57097bb65200f003152906c831ccd226ebbd5a9fd47df46f18adc29f7d01f2f0/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/e19d7c2806adaea658c3f5465da0231c090e354d1339d1544a9f92501964a471/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\chromedriver.sha256)
     }
 
     It "Check GeckoDriver.exe Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/1ae81b2a6f40f7d11be3c91c4d83977ae0c0897bd5d154c02a6d869b58866b58/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/3104a5ba26ff22962d0d75536506c081939bcd7580ba16503d4f3ce5507d06d2/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\geckodriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\geckodriver.exe.sha256)
     }
@@ -72,8 +72,18 @@ Describe "Start-SeChrome" {
 
 Describe "Start-SeChrome with Options" {
     Context "Should Start Chrome Driver with different startup options" {
+        It "Start Chrome with StartURL" {
+            $Driver = Start-SeChrome -StartURL 'https://github.com/adamdriscoll/selenium-powershell'
+            Stop-SeDriver $Driver
+        }
+
         It "Start Chrome in Headless mode" {
             $Driver = Start-SeChrome -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Chrome Minimize" {
+            $Driver = Start-SeChrome -Minimize
             Stop-SeDriver $Driver
         }
 
@@ -99,6 +109,7 @@ Describe "Start-SeChrome with Options" {
 
         It "Start Chrome with Multiple arguments" {
             $Driver = Start-SeChrome -Arguments @('Incognito','start-maximized')
+            Stop-SeDriver $Driver
         }
     }
 }
@@ -107,6 +118,50 @@ Describe "Start-SeFirefox"{
     Context "Should Start Firefox Driver" {
         $Driver = Start-SeFirefox 
         Stop-SeDriver $Driver
+    }
+}
+
+Describe "Start-SeFirefox with Options" {
+    Context "Should Start Firefox Driver with different startup options" {
+        It "Start Firefox with StartURL" {
+            $Driver = Start-SeFirefox -StartURL 'https://github.com/adamdriscoll/selenium-powershell'
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox in Headless mode" {
+            $Driver = Start-SeFirefox -Headless
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Minimize" {
+            $Driver = Start-SeFirefox -Minimize
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Maximized" {
+            $Driver = Start-SeFirefox -Maximized
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox PrivateBrowsing (Incognito)" {
+            $Driver = Start-SeFirefox -PrivateBrowsing
+            Stop-SeDriver $Driver
+        }
+        
+        It "Start Firefox Fullscreen" {
+            $Driver = Start-SeFirefox -Fullscreen
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox Maximized and PrivateBrowsing (Incognito)" {
+            $Driver = Start-SeFirefox -Maximized -PrivateBrowsing
+            Stop-SeDriver $Driver
+        }
+
+        It "Start Firefox with Multiple arguments" {
+            $Driver = Start-SeFirefox -Arguments @('-headless','-private')
+            Stop-SeDriver $Driver
+        }
     }
 }
 
