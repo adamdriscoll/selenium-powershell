@@ -103,3 +103,8 @@ Enter-SeUrl 'https://www.google.com/ncr' -Driver $Driver
 Find-SeElement -Driver $d -Wait -Timeout 10 -Css input[name='q'] 
 Find-SeElement -Driver $d -Wait -Timeout 10 -Name q 
 ```
+
+# Maintainers 
+
+- [Adam Driscoll](https://github.com/adamdriscoll)
+- [Dementor](https://github.com/the-mentor)
