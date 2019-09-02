@@ -107,4 +107,4 @@ Find-SeElement -Driver $d -Wait -Timeout 10 -Name q
 # Maintainers 
 
 - [Adam Driscoll](https://github.com/adamdriscoll)
-- [Dementor](https://github.com/the-mentor)
+- [Avri Chen-Roth](https://github.com/the-mentor)
