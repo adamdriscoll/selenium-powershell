@@ -44,7 +44,7 @@ function Start-SeChrome {
     )
 
     BEGIN{
-        if($Maximized -ne $false -and $Minimized -ne $false) {
+        if($Maximized -ne $false -and $Minimized -ne $false){
             throw 'Maximized and Minimized may not be specified together.'
         }
         elseif($Maximized -ne $false -and $Fullscreen -ne $false){
@@ -76,29 +76,29 @@ function Start-SeChrome {
             $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
         }
         
-        if ($Headless) {
+        if($Headless){
             $Chrome_Options.AddArguments('headless')
         }
 
-        if ($Incognito) {
+        if($Incognito){
             $Chrome_Options.AddArguments('Incognito')
         }
 
-        if ($Maximized) {
+        if($Maximized){
             $Chrome_Options.AddArguments('start-maximized')
         }
 
-        if ($Fullscreen) {
+        if($Fullscreen){
             $Chrome_Options.AddArguments('start-fullscreen')
         }
 
-        if ($Arguments) {
+        if($Arguments){
             foreach ($Argument in $Arguments){
                 $Chrome_Options.AddArguments($Argument)
             }
         }
         
-        if (!$HideVersionHint) {
+        if(!$HideVersionHint){
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
 
@@ -109,18 +109,18 @@ function Start-SeChrome {
             $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
         }
 
-        if($Minimized){
+        if($Minimized -and $Driver){
             $driver.Manage().Window.Minimize();
         }
 
-        if($Headless -and $DefaultDownloadPath) {
+        if($Headless -and $DefaultDownloadPath -and $Driver){
             $HeadlessDownloadParams = New-Object 'system.collections.generic.dictionary[[System.String],[System.Object]]]'
             $HeadlessDownloadParams.Add('behavior', 'allow')
             $HeadlessDownloadParams.Add('downloadPath', $DefaultDownloadPath.FullName)
             $Driver.ExecuteChromeCommand('Page.setDownloadBehavior', $HeadlessDownloadParams)
         }
 
-        if($StartURL){
+        if($StartURL -and $Driver){
             Enter-SeUrl -Driver $Driver -Url $StartURL
         }
     }
@@ -152,7 +152,7 @@ function Start-SeFirefox {
     )
 
     BEGIN{
-        if($Maximized -ne $false -and $Minimized -ne $false) {
+        if($Maximized -ne $false -and $Minimized -ne $false){
             throw 'Maximized and Minimized may not be specified together.'
         }
         elseif($Maximized -ne $false -and $Fullscreen -ne $false){
@@ -171,7 +171,7 @@ function Start-SeFirefox {
     PROCESS{
         $Firefox_Options = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxOptions"
 
-        if($Headless) {
+        if($Headless){
             $Firefox_Options.AddArguments('-headless')
         }
 
@@ -185,7 +185,7 @@ function Start-SeFirefox {
             $Firefox_Options.SetPreference("browser.privatebrowsing.autostart", $true)
         }
 
-        if ($Arguments) {
+        if($Arguments){
             foreach ($Argument in $Arguments){
                 $Firefox_Options.AddArguments($Argument)
             }
@@ -198,21 +198,23 @@ function Start-SeFirefox {
             $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $Firefox_Options
         }
 
-        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
-        
-        if($Minimized){
+        if($Driver){
+            $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+        }
+
+        if($Minimized -and $Driver){
             $Driver.Manage().Window.Minimize()
         }
 
-        if($Maximized){
+        if($Maximized -and $Driver){
             $Driver.Manage().Window.Maximize()
         }
 
-        if($Fullscreen){
+        if($Fullscreen -and $Driver){
             $Driver.Manage().Window.FullScreen()
         }
 
-        if($StartURL){
+        if($StartURL -and $Driver){
             Enter-SeUrl -Driver $Driver -Url $StartURL
         }
     }
@@ -220,7 +222,6 @@ function Start-SeFirefox {
         return $Driver
     }
 }
-
 
 function Stop-SeDriver {
     param($Driver) 
