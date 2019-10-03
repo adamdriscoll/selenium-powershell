@@ -128,7 +128,7 @@ PrivateData = @{
         # ReleaseNotes of this module
         ReleaseNotes = 'Updating WebDrivers for Selenium'
         
-        Prerelease = 'beta1'
+        #Prerelease = 'beta1'
 
     } # End of PSData hashtable
 
