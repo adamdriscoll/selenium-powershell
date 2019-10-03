@@ -14,8 +14,8 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check ChromeDriver.exe Hash" {
-        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/69ffe387a3fa4fbf8a108391580f1a0befb8b96b82486da4417cfcdab4add4d4/detection
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/297e5f1be088a60b0fbfd67bf6b6e9d3aff4acbe228cddd77642a9e270cb4c30/detection
+        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/959e6d054ab90deb141b6802dbac103c1a88c3ceb1ea9e51419e9f8d1fce3986/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/16b847237787d54c562ea2fc9e52dcf8830f638718905b611c8bad11897a34a8/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\chromedriver.exe.sha256)
     }
