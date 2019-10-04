@@ -40,7 +40,8 @@ function Start-SeChrome {
         [switch]$Incognito,
         [switch]$Maximized,
         [switch]$Minimized,
-        [switch]$Fullscreen
+        [switch]$Fullscreen,
+        [System.IO.FileInfo]$ChromeBinaryPath
     )
 
     BEGIN{
@@ -67,11 +68,18 @@ function Start-SeChrome {
             Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
             $Chrome_Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
         }
+
         if($ProfileDirectoryPath){
             Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
             $Chrome_Options.AddArgument("user-data-dir=$ProfileDirectoryPath")
         }
         
+        if($ChromeBinaryPath){
+            Write-Verbose "Setting Chrome Binary directory: $ChromeBinaryPath"
+            $Chrome_Options.BinaryLocation ="$ChromeBinaryPath"
+        }
+        
+
         if($DisableBuiltInPDFViewer){
             $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
         }
