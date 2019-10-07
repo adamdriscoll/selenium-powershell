@@ -14,20 +14,20 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check ChromeDriver.exe Hash" {
-        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/76.0.3809.68/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/69ffe387a3fa4fbf8a108391580f1a0befb8b96b82486da4417cfcdab4add4d4/detection
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/297e5f1be088a60b0fbfd67bf6b6e9d3aff4acbe228cddd77642a9e270cb4c30/detection
+        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/959e6d054ab90deb141b6802dbac103c1a88c3ceb1ea9e51419e9f8d1fce3986/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/16b847237787d54c562ea2fc9e52dcf8830f638718905b611c8bad11897a34a8/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\chromedriver.exe.sha256)
     }
     
     It "Check ChromeDriver Linux Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/da1ff4d52963446f679b2175fc05af020fd4e02b92b7b3447ed51fab8f4f4d28/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/b470963df497fdafc6de8e033e059e97ae786589994b23cbcf044677d2209512/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\linux\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\linux\chromedriver.sha256)
     }
 
     It "Check ChromeDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/e19d7c2806adaea658c3f5465da0231c090e354d1339d1544a9f92501964a471/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/c8726dbd612d209957731372ec6e105ef4851f2e70bc3737caedc4c58218382c/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\chromedriver.sha256)
     }
