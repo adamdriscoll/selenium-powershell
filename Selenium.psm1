@@ -156,7 +156,8 @@ function Start-SeFirefox {
         [switch]$PrivateBrowsing,
         [switch]$Maximized,
         [switch]$Minimized,
-        [switch]$Fullscreen
+        [switch]$Fullscreen,
+        [switch]$SuppressLogging
     )
 
     BEGIN{
@@ -197,6 +198,11 @@ function Start-SeFirefox {
             foreach ($Argument in $Arguments){
                 $Firefox_Options.AddArguments($Argument)
             }
+        }
+
+        if($SuppressLogging){
+            # Sets GeckoDriver log level to Fatal.
+            $Firefox_Options.LogLevel = 6
         }
 
         if($IsLinux -or $IsMacOS){
