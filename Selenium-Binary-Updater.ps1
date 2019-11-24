@@ -2,29 +2,7 @@ param(
     [Parameter(Mandatory=$true)][ValidateSet('Chrome','Firefox','Edge')]$Browser
 )
 
-switch ($true) {
-    $IsLinux {
-        $TempDir = "/tmp"
-    }
-
-    $IsMacOS {
-        #code to check temp folder on mac needs to be added
-    }
-
-    $IsWindows {
-        $TempDir = $env:temp
-    }
-    default {
-        $TempDir = $env:temp
-    }
-}
-
-if($IsLinux){
-    $TempDir = '/tmp'
-}
-elseif($IsMacOS){
-    #mac temp folder 
-}
+$TempDir = [System.IO.Path]::GetTempPath()
 
 switch ($Browser){
     'Chrome'{
@@ -49,13 +27,15 @@ switch ($Browser){
             }
         
             $BuildFileName = "$Build.zip"
-            Write-host "$BuildFileName $AssembliesDir"
-            Invoke-WebRequest -OutFile "/tmp/$BuildFileName" "https://chromedriver.storage.googleapis.com/$LatestChromeStableRelease/$BuildFileName" 
+            Write-Verbose "Downloading: $BuildFileName"
+            Invoke-WebRequest -OutFile "$($TempDir + $BuildFileName)" "https://chromedriver.storage.googleapis.com/$LatestChromeStableRelease/$BuildFileName" 
             
             # Expand the ZIP Archive to the correct Assemblies Dir 
-            Expand-Archive -Path "$TempDir/$BuildFileName" -DestinationPath $AssembliesDir -Force
+            Write-Verbose "Explanding: $($TempDir + $BuildFileName) to $AssembliesDir"
+            Expand-Archive -Path "$($TempDir + $BuildFileName)" -DestinationPath $AssembliesDir -Force
             
             # Generate Hash Files 
+            Write-Verbose "Generating SHA256 Hash File: $AssembliesDir/$BinaryFileName.sha256"
             Get-FileHash -Path "$AssembliesDir/$BinaryFileName"  -Algorithm SHA256 | Select-Object -ExpandProperty Hash | Set-Content -Path "$AssembliesDir/$BinaryFileName.sha256" -Force
             
         }
@@ -68,4 +48,3 @@ switch ($Browser){
         Write-Host 'Not Supported Yet' 
     }
 }
-
