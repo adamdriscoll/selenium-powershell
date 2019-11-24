@@ -14,19 +14,19 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check ChromeDriver.exe Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/770748555041ba072e1f44680c030e9735edc6776150b1c763e3f1f7f5ff90d9/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/c5c852d8f0890eb8c0b77fed623a3c36f50434552e9623e47fadf1e445f2f772/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\chromedriver.exe.sha256)
     }
     
     It "Check ChromeDriver Linux Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/7aa23072114151a2392f5be44e7a508df3f814e88855c50a164c919223cd2e0f/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/ed50bce67a54727b7bf323d588d62be699233a75300d24c92409499a9329b2e6/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\linux\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\linux\chromedriver.sha256)
     }
 
     It "Check ChromeDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/8bff19204d30add391122703e79957d143d0de454c807bcaea72dde4af7e53e9/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/6bb2996ebdeea6b2d10e6a9397ff53c394ebbaa8388087f134a4bc10f532863c/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\chromedriver.sha256)
     }
