@@ -5,6 +5,8 @@
 - Works well with Pester
 
 # Installation
+`Note: Firefox's Latest Gecko Driver on Windows requires Microsoft Visual Studio Redistributables for the binary to run get them `[Here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
+
 
 ```powershell
 Install-Module Selenium

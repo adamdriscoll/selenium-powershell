@@ -14,38 +14,37 @@ Describe "Verify the Binaries SHA256 Hash" {
     }
 
     It "Check ChromeDriver.exe Hash" {
-        # The ChromeDriver.exe was extracted from https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_win32.zip its VirusTotal Scan URL - https://www.virustotal.com/gui/url/959e6d054ab90deb141b6802dbac103c1a88c3ceb1ea9e51419e9f8d1fce3986/detection
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/16b847237787d54c562ea2fc9e52dcf8830f638718905b611c8bad11897a34a8/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/770748555041ba072e1f44680c030e9735edc6776150b1c763e3f1f7f5ff90d9/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\chromedriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\chromedriver.exe.sha256)
     }
     
     It "Check ChromeDriver Linux Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/b470963df497fdafc6de8e033e059e97ae786589994b23cbcf044677d2209512/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/7aa23072114151a2392f5be44e7a508df3f814e88855c50a164c919223cd2e0f/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\linux\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\linux\chromedriver.sha256)
     }
 
     It "Check ChromeDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/c8726dbd612d209957731372ec6e105ef4851f2e70bc3737caedc4c58218382c/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/8bff19204d30add391122703e79957d143d0de454c807bcaea72dde4af7e53e9/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\chromedriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\chromedriver.sha256)
     }
 
     It "Check GeckoDriver.exe Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/3104a5ba26ff22962d0d75536506c081939bcd7580ba16503d4f3ce5507d06d2/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/255c9d3571c86841213f49b26d176a6ad440be8c720e3c2d9226076adf4f603d/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\geckodriver.exe).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\geckodriver.exe.sha256)
     }
 
     It "Check GeckoDriver Linux Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/4490a47280ab38f68511ac0dfff214bfad89bfd5442b1c3096c28d5372dfe2e9/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/6590e3b9d9bf292c8df50b6df5bcf8a5191d999f9e48f68aa2055eb5746b2c05/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\linux\geckodriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\linux\geckodriver.sha256)
     }
 
     It "Check GeckoDriver MacOS Hash" {
-        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/1f3873a8ee0b2cb9f2918329cbdf0d65e45c0182127ea03520bec70f0dab3917/detection
+        # VirusTotal Scan URL = https://www.virustotal.com/gui/file/d62c2178377addeb1bb860426b2c9b10b68d2eeabf0c521529a4a6a7b1e208c4/detection
         $Hash = (Get-FileHash -Algorithm SHA256 -Path $PSScriptRoot\assemblies\macos\geckodriver).Hash
         $Hash |Should Be (Get-Content -Path $PSScriptRoot\assemblies\macos\geckodriver.sha256)
     }
