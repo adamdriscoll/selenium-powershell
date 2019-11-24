@@ -27,6 +27,14 @@ if($IsLinux -or $IsMacOS){
     }
 }
 
+function Validate-URL{
+    param(
+        [Parameter(Mandatory=$true)]$URL
+    )
+    $Out = $null
+    [uri]::TryCreate($URL,[System.UriKind]::Absolute, [ref]$Out)
+}
+
 function Start-SeChrome {
     Param(
         [Parameter(Mandatory = $false)]
@@ -56,7 +64,7 @@ function Start-SeChrome {
         }
 
         if($StartURL){
-            if(![system.uri]::IsWellFormedUriString($StartURL,[System.UriKind]::Absolute)){
+            if(!(Validate-URL -URL $StartURL)){
                 throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'
             }
         }
@@ -172,7 +180,7 @@ function Start-SeFirefox {
         }
 
         if($StartURL){
-            if(![system.uri]::IsWellFormedUriString($StartURL,[System.UriKind]::Absolute)){
+            if(!(Validate-URL -URL $StartURL)){
                 throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'
             }
         }
