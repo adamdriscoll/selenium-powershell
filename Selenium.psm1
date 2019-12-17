@@ -1,6 +1,14 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
+<#
+ipmo Selenium
+$anaheimService = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService("C:\Users\mcp\Downloads\", "msedgedriver.exe")
+$anaheimOptions = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property  @{BinaryLocation = "C:\Program Files (x86)\Microsoft\Edge Beta\Application\msedge.exe"}
+$driver         = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $anaheimService, $anaheimOptions
+$driver.Navigate().GoToUrl("https://google.com/");
+$driver.Navigate().GoToUrl("http://bbc.co.uk/")
 
+#>
 if($IsLinux){
     $AssembliesPath = "$PSScriptRoot/assemblies/linux"
 }
