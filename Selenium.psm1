@@ -321,9 +321,14 @@ function Start-SeFirefox {
 }
 
 function Stop-SeDriver {
-    param($Driver)
-
-    $Driver.Dispose()
+    param(
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, position=0,ParameterSetName='Driver')]
+        $Driver,
+        [Parameter(Mandatory=$true, ParameterSetName='Default')]
+        [switch]$Default
+    )
+    if($Driver) {$Driver.Dispose()}
+    elseif($Default) {$Global:SeDriver.Dispose()}
 }
 
 function Enter-SeUrl {
@@ -568,9 +573,14 @@ function Send-SeKeys {
 }
 
 function Get-SeCookie {
-    param($Driver)
-
-    $Driver.Manage().Cookies.AllCookies.GetEnumerator()
+    param(
+        [Alias("Driver")]
+        $Target = $Global:SeDriver
+    )
+    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
+        throw "No valid driver was provided. "
+    }
+    $Target.Manage().Cookies.AllCookies.GetEnumerator()
 }
 
 function Remove-SeCookie {
@@ -662,9 +672,15 @@ function Get-SeElementAttribute {
 }
 
 function Invoke-SeScreenshot {
-    param($Driver, [Switch]$AsBase64EncodedString)
-
-    $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Driver)
+    param(
+        [Alias("Driver")]
+        $Target = $Global:SeDriver,
+        [Switch]$AsBase64EncodedString
+    )
+    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
+        throw "No valid driver was provided. "
+    }
+    $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Target)
     if ($AsBase64EncodedString) {
         $Screenshot.AsBase64EncodedString
     }

@@ -11,6 +11,10 @@ Valdate-URL
    Function Renamed to validateUrl (private helper function does not need to use verb-noun naming and "validate" verb upsets script analyzer)
    added old name backs as an alias (which _is_ allowed. )
 
+Get-SeCookie & Invoke-SeScreenshot
+  In line with other functions, Driver is renamed Target, with alias "Driver", and will come from $Global:SeDriver
+  and throws an error if no driver passed or found from Global var
+
 New-SeScreenShot alias SeScreenshot . Merges Invoke-ScreenShot and SaveSeScreenShot
    Can pass -path,
             -passthru (Alias PT)
@@ -46,4 +50,3 @@ new function Send-SeClick (with alias SeClick) {replacement for Invoke-SeClick}
   JavaScriptClick can be abreviated JS
   Driver is ignored  (element.wrapedDriver used instead)
   Added SleepSeconds parameter
-
