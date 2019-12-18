@@ -1,65 +1,72 @@
 Changes from 2.3.1 made November 2019  JO'N
 
-DLL loading now from the PSD1 file instead of the PSM1 file.
-Now use presence AssembliesPath to judge "IsMacOS" -or "IsLinux"
+DLL loading is now from the PSD1 file instead of the PSM1 file.
+Now use presence of $AssembliesPath to judge "IsMacOS" -or "IsLinux"
 
 Send-SeKeys
-  Element and keys parameters are both mandatory
-  Selenium keys now cached in a script-scoped variable for performance. (Get-SEKeys can be dopped)
+  -Element and -Keys parameters are both mandatory
+  Selenium-keys are now cached in a script-scoped variable for performance. (Get-SEKeys can be dropped)
 
 Valdate-URL
    Function Renamed to validateUrl (private helper function does not need to use verb-noun naming and "validate" verb upsets script analyzer)
-   added old name backs as an alias (which _is_ allowed. )
+   Added the old name back as an alias (which _is_ allowed. )
 
 Get-SeCookie & Invoke-SeScreenshot
-  In line with other functions, Driver is renamed Target, with alias "Driver", and will come from $Global:SeDriver
-  and throws an error if no driver passed or found from Global var
-
-New-SeScreenShot alias SeScreenshot . Merges Invoke-ScreenShot and SaveSeScreenShot
-   Can pass -path,
-            -passthru (Alias PT)
-            -path & -passthru
-       or   -AsBase64
-   "Target" used instead of "driver", with alias "Driver", and will come from $Global:SeDriver
-   and throws an error if no driver passed or found from Global var
-
+  In line with other functions, -Driver prarameter is renamed -Target, with alias "Driver", and will come from $Global:SeDriver
+  and throws an error if no driver is passed or found from Global var
 
 Start-Fe-Firefox & Start-SeChrome
-  Made startUrl the first parameter and added aliases "Chrome" and "Firefox"
-  User can now write in a sort or DSL CHROME $URL etc.
-  Now use parameter sets to avoid the conflict between Minimized/maximized/fullScreen,
-  and use parameter validation to ensure StartURL is valid
+  Added aliases "Chrome" and "Firefox" - user can now write in a sort of DSL "CHROME $URL -asDefault" etc.
+  Made -StartUrl the first parameter and use parameter-validation to check it.
+  Now call the .Navigate method directly instead of via Enter-SeURL if -StartURL is specified
+  Now use parameter-sets to avoid the conflict between Minimized/Maximized/FullScreen,
   Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
-  Trap failure to return driver, raise a warning and simplified the subsequent ifs
-  Added Parameter AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
-  Removed a possible bug with piped input by not returning the driver in the process block instead of the end block
-  Now calls .navigate method directly instead of via enter-SeURL
-
-Start-SeEdge
-  Added Alias "MSEdge", and parameters StartUrl, Maximized, Minimized parameters
-  & AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
-  Set Implicit wait to 10 seconds
+  Now trap a failure to return driver, and simplified the subsequent if statements
+  Added Parameter -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Removed a possible bug with piped input, by returning the driver in the process block instead of the end block
 
 Start-SeInternetExplorer
-  Added Alias "InternetExplorer" and parameters StartUrl  parameter & AsDefaultDriver which sets
-  $Global:SeDriver, instead of returning the driver
+  Added Alias "InternetExplorer" and parameter -StartUrl 
+  Plus AsDefaultDriver which sets   $Global:SeDriver, instead of returning the driver
   Set Implicit wait to 10 seconds
 
-commented out Enter-SeURL and changed PSD1,
-Open-SeURL made interoperable with Eneter-SEURL via aliases
+Start-SeEdge
+  Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized
+  Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Set Implicit Wait to 10 seconds
+
+Start-SeNewEdge  **New function** with alias, credge to support Chromium based edge. 
+  Also added V79 webdriver. V80 and V81 don't work. 
+
+Send-SeClick **New function** (with alias SeClick) {replacement for Invoke-SeClick}
+  Element can be passed by position (first)
+  -JavaScriptClick can be abreviated -JS
+  Driver is ignored  (element.wrapedDriver used instead)
+  Added -SleepSeconds parameter
+
+New-SeScreenShot: **new function** with alias SeScreenshot. Merges functionality of Invoke-ScreenShot and SaveSeScreenShot
+   Can pass -Path,
+            -Passthru (Alias PT)
+            -Path & -Passthru
+       or   -AsBase64
+   "Target" with alias "Driver", can come from $Global:SeDriver
+   and throws an error if no driver passed or found from Global var
+
+Open-SeURL *new function** SeNavigate
   Url is first on the commandline and mandatory
   Driver is renamed target, with alias "Driver", and will come from $Global:SeDriver
   Throws an error if no driver passed or found from Global var
+  Made interoperable with Enter-SEURL via aliases
+  Commented out Enter-SeURL and changed PSD1,
 
-new function Send-SeClick (with alias SeClick) {replacement for Invoke-SeClick}
-  Element can be passed by position (first)
-  JavaScriptClick can be abreviated JS
-  Driver is ignored  (element.wrapedDriver used instead)
-  Added SleepSeconds parameter
+Get-SeElement **New Function** alias seElement 
+    New -By parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
+    combined with a "Selection" parameter which holds the value, replaces the 8 parameters with those names and parametersets.
+    Wait made optional; -Wait without -Timeout sets timeout to 30 , and -Timeout 5 works without -Wait
+    -Element and -Driver are merged as -Target which has aliases of 'Element' and 'Driver'
+    Made interoperable with Find-seElement by aliases
+    Commented out Find-seElement and updated PSD1.
 
-Commented out Find-seElement and updated PSD1.
-Get-SeElement alias seElement made interoperable with Find-seElement by aliases
-    A BY parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
-    combined with a "Selection" parameter which holds the value replaces the 8 parameters with those names and parametersets.
-    Wait made optional; -wait without timeout sets timeout to 30 , and -Timeout 5 works without -Wait
-    Element and Driver are merged as "target" which has aliases of Element and driver
+Added some new examples - showing DSL style in Pester.
+
+Reorder PSD file for easy reading
