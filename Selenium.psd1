@@ -54,7 +54,7 @@ Description = 'Web automation using the Selenium Web Driver'
 # RequiredModules = @()
 
 # Assemblies that must be loaded prior to importing this module
-# RequiredAssemblies = @()
+RequiredAssemblies   = @('.\assemblies\WebDriver.dll', '.\assemblies\WebDriver.Support.dll')
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
@@ -73,19 +73,25 @@ FunctionsToExport = @(
     "Enter-SeUrl",
     "Find-SeElement",
     "Get-SeCookie",
+    'Get-SeElement',
     "Get-SeElementAttribute",
     "Invoke-SeClick",
     "Invoke-SeScreenshot",
-    "Remove-SeCookie",
+    'Save-SeScreenshot' ,
+    'New-SeScreenshot' ,
     "Save-SeScreenshot",
     "Get-SeKeys",
     "Send-SeKeys",
+    'Send-SeClick' ,
     "Set-SeCookie",
+    "Remove-SeCookie",
     "Start-SeChrome",
     "Start-SeFirefox",
     "Start-SeInternetExplorer",
     "Start-SeEdge",
-    "Stop-SeDriver",
+    'Start-SeNewEdge' ,
+    "Stop-SeDriver" ,
+    'Open-SeUrl' ,
     "Get-SeWindow",
     "Switch-SeWindow"
 )
@@ -97,8 +103,16 @@ CmdletsToExport = '*'
 VariablesToExport = '*'
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = '*'
-
+AliasesToExport = @(
+    'Chrome' ,
+    'Firefox' ,
+    'InternetExplorer' ,
+    'CrEdge' ,
+    'MSEdge' ,
+    'SeNavigate',
+    'SeClick' ,
+    'SeType',
+    'SeScreenshot')
 # DSC resources to export from this module
 # DscResourcesToExport = @()
 
@@ -127,7 +141,7 @@ PrivateData = @{
 
         # ReleaseNotes of this module
         ReleaseNotes = 'Updating WebDrivers for Selenium'
-        
+
         #Prerelease = 'beta1'
 
     } # End of PSData hashtable
