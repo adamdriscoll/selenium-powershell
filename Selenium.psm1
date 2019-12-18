@@ -1,4 +1,4 @@
-$Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
+$Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static  |
         Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 
 #region Set path to assemblies on Linux and MacOS and Grant Execution permissions on them
