@@ -71,41 +71,40 @@ function Start-SeNewEdge {
 }
 
 function Start-SeChrome {
+    [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Chrome')]
-    Param(
+    param(
+        [ValidateScript({
+            $Out = $null
+            write-host $_
+            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
+            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
+        })]
+        [Parameter(Position=0)]
+        [string]$StartURL,
         [Parameter(Mandatory = $false)]
         [array]$Arguments,
         [switch]$HideVersionHint,
-        [string]$StartURL,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [System.IO.FileInfo]$ProfileDirectoryPath,
+        [Parameter(DontShow)]
         [bool]$DisableBuiltInPDFViewer=$true,
+        [switch]$EnablePDFViewer,
         [switch]$Headless,
+        [Alias('PrivateBrowsing')]
         [switch]$Incognito,
+        [parameter(ParameterSetName='Min',Mandatory=$true)]
         [switch]$Maximized,
+        [parameter(ParameterSetName='Max',Mandatory=$true)]
         [switch]$Minimized,
+        [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
-        [System.IO.FileInfo]$ChromeBinaryPath
+        [System.IO.FileInfo]$ChromeBinaryPath,
+        [switch]$AsDefaultDriver
     )
 
-    BEGIN{
-        if($Maximized -ne $false -and $Minimized -ne $false){
-            throw 'Maximized and Minimized may not be specified together.'
-        }
-        elseif($Maximized -ne $false -and $Fullscreen -ne $false){
-            throw 'Maximized and Fullscreen may not be specified together.'
-        }
-        elseif($Minimized -ne $false -and $Fullscreen -ne $false){
-            throw 'Minimized and Fullscreen may not be specified together.'
-        }
-
-        if($StartURL){
-            if(!(ValidateURL -URL $StartURL)){
-                throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'
-            }
-        }
-    }
-    PROCESS{
+    process {
+        #region chrome set-up options
         $Chrome_Options = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeOptions"
 
         if($DefaultDownloadPath){
@@ -160,74 +159,119 @@ function Start-SeChrome {
         if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
 
-        if($Minimized -and $Driver){
-            $driver.Manage().Window.Minimize();
+        #region post start options
+        if($Minimized){
+            $Driver.Manage().Window.Minimize();
         }
 
-        if($Headless -and $DefaultDownloadPath -and $Driver){
+        if($Headless -and $DefaultDownloadPath){
             $HeadlessDownloadParams = New-Object 'system.collections.generic.dictionary[[System.String],[System.Object]]]'
             $HeadlessDownloadParams.Add('behavior', 'allow')
             $HeadlessDownloadParams.Add('downloadPath', $DefaultDownloadPath.FullName)
             $Driver.ExecuteChromeCommand('Page.setDownloadBehavior', $HeadlessDownloadParams)
         }
 
-        if($StartURL -and $Driver){
-            Enter-SeUrl -Driver $Driver -Url $StartURL
+        if($StartURL) {$Driver.Navigate().GoToUrl($StartURL)}
+        #endregion
+
+        if($AsDefaultDriver) {
+            if($Global:SeDriver) {$Global:SeDriver.Dispose()}
+            $Global:SeDriver = $Driver
         }
-    }
-    END{
-        return $Driver
+        else {$Driver}
     }
 }
 
 function Start-SeInternetExplorer {
     [Alias('InternetExplorer')]
-    param()
+    param(
+        [ValidateScript({
+            $Out = $null
+            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
+            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
+        })]
+        [Parameter(Position=0)]
+        [string]$StartURL,
+        [switch]$AsDefaultDriver
+    )
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
-    New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options
+    $Driver = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options
+
+    if(-not $Driver) {Write-Warning "Web driver was not created"; return}
+
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+    if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
+
+    if($AsDefaultDriver) {
+        if($Global:SeDriver) {$Global:SeDriver.Dispose()}
+        $Global:SeDriver = $Driver
+    }
+    else {$Driver}
 }
 
 function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('MSEdge')]
-    param()
-    New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
+    [Alias('MSEdge')]
+    param(
+        [ValidateScript({
+            $Out = $null
+            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
+            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
+        })]
+        [Parameter(Position=0)]
+        [string]$StartURL,
+        [parameter(ParameterSetName='Min',Mandatory=$true)]
+        [switch]$Maximized,
+        [parameter(ParameterSetName='Max',Mandatory=$true)]
+        [switch]$Minimized,
+        [switch]$AsDefaultDriver
+    )
+    $Driver = New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
+    if(-not $Driver) {Write-Warning "Web driver was not created"; return}
+
+    #region post creation options
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+    if($Minimized) {$Driver.Manage().Window.Minimize()    }
+    if($Maximized) {$Driver.Manage().Window.Maximize()    }
+    if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
+    #endregion
+
+    if($AsDefaultDriver) {
+        if($Global:SeDriver) {$Global:SeDriver.Dispose()}
+        $Global:SeDriver = $Driver
+    }
+    else {$Driver}
 }
 
 function Start-SeFirefox {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Firefox')]
     param(
-        [array]$Arguments,
+        [ValidateScript({
+            $Out = $null
+            if([uri]::TryCreate($_, [System.UriKind]::Absolute, [ref]$Out)) {return $true}
+            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
+        })]
+        [Parameter(Position=0)]
         [string]$StartURL,
+        [array]$Arguments,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$Headless,
+        [alias('Incognito')]
         [switch]$PrivateBrowsing,
+        [parameter(ParameterSetName='Min',Mandatory=$true)]
         [switch]$Maximized,
+        [parameter(ParameterSetName='Max',Mandatory=$true)]
         [switch]$Minimized,
+        [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
-        [switch]$SuppressLogging
+        [switch]$SuppressLogging,
+        [switch]$AsDefaultDriver
     )
-
-    BEGIN{
-        if($Maximized -ne $false -and $Minimized -ne $false){
-            throw 'Maximized and Minimized may not be specified together.'
-        }
-        elseif($Maximized -ne $false -and $Fullscreen -ne $false){
-            throw 'Maximized and Fullscreen may not be specified together.'
-        }
-        elseif($Minimized -ne $false -and $Fullscreen -ne $false){
-            throw 'Minimized and Fullscreen may not be specified together.'
-        }
-
-        if($StartURL){
-            if(!(ValidateURL -URL $StartURL)){
-                throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'
-            }
-        }
-    }
-    PROCESS{
+    process {
+        #region firefox set-up options
         $Firefox_Options = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxOptions"
 
         if($Headless){
@@ -260,28 +304,19 @@ function Start-SeFirefox {
         $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"-ArgumentList $arglist
         if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
-        if($Driver){
-            $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
-        }
+        #region post creation options
+        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
+        if($Minimized) {$Driver.Manage().Window.Minimize()    }
+        if($Maximized) {$Driver.Manage().Window.Maximize()    }
+        if($Fullscreen){$Driver.Manage().Window.FullScreen()  }
+        if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
+        #endregion
 
-        if($Minimized -and $Driver){
-            $Driver.Manage().Window.Minimize()
+        if($AsDefaultDriver) {
+            if($Global:SeDriver) {$Global:SeDriver.Dispose()}
+            $Global:SeDriver = $Driver
         }
-
-        if($Maximized -and $Driver){
-            $Driver.Manage().Window.Maximize()
-        }
-
-        if($Fullscreen -and $Driver){
-            $Driver.Manage().Window.FullScreen()
-        }
-
-        if($StartURL -and $Driver){
-            Enter-SeUrl -Driver $Driver -Url $StartURL
-        }
-    }
-    END{
-        return $Driver
+        else {$Driver}
     }
 }
 

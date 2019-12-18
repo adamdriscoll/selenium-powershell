@@ -11,7 +11,6 @@ Valdate-URL
    Function Renamed to validateUrl (private helper function does not need to use verb-noun naming and "validate" verb upsets script analyzer)
    added old name backs as an alias (which _is_ allowed. )
 
-
 New-SeScreenShot alias SeScreenshot . Merges Invoke-ScreenShot and SaveSeScreenShot
    Can pass -path,
             -passthru (Alias PT)
@@ -22,14 +21,25 @@ New-SeScreenShot alias SeScreenshot . Merges Invoke-ScreenShot and SaveSeScreenS
 
 
 Start-Fe-Firefox & Start-SeChrome
+  Made startUrl the first parameter and added aliases "Chrome" and "Firefox"
   User can now write in a sort or DSL CHROME $URL etc.
-  Trap failure to return driver, raise a warning
+  Now use parameter sets to avoid the conflict between Minimized/maximized/fullScreen,
+  and use parameter validation to ensure StartURL is valid
+  Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
+  Trap failure to return driver, raise a warning and simplified the subsequent ifs
+  Added Parameter AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Removed a possible bug with piped input by not returning the driver in the process block instead of the end block
+  Now calls .navigate method directly instead of via enter-SeURL
 
 Start-SeEdge
-  Added Alias "MSEdge",
+  Added Alias "MSEdge", and parameters StartUrl, Maximized, Minimized parameters
+  & AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Set Implicit wait to 10 seconds
 
 Start-SeInternetExplorer
-  Added Alias "InternetExplorer"
+  Added Alias "InternetExplorer" and parameters StartUrl  parameter & AsDefaultDriver which sets
+  $Global:SeDriver, instead of returning the driver
+  Set Implicit wait to 10 seconds
 
 new function Send-SeClick (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)
