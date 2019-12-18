@@ -1,6 +1,7 @@
 $Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
         Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 
+#region Set path to assemblies on Linux and MacOS and Grant Execution permissions on them
 if($IsLinux){
     $AssembliesPath = "$PSScriptRoot/assemblies/linux"
 }
@@ -21,7 +22,7 @@ if($AssembliesPath){
     }
 }
 #endregion
-function ValidateURL{
+function ValidateURL {
     [Alias("Validate-Url")]
     param(
         [Parameter(Mandatory=$true)]$URL
@@ -122,8 +123,7 @@ function Start-SeChrome {
             $Chrome_Options.BinaryLocation ="$ChromeBinaryPath"
         }
 
-
-        if($DisableBuiltInPDFViewer){
+        if($DisableBuiltInPDFViewer -and -not $EnablePDFViewer){
             $Chrome_Options.AddUserProfilePreference('plugins', @{'always_open_pdf_externally' =  $true;})
         }
 
@@ -148,7 +148,7 @@ function Start-SeChrome {
                 $Chrome_Options.AddArguments($Argument)
             }
         }
-
+        #endregion
         if(!$HideVersionHint){
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
@@ -157,7 +157,6 @@ function Start-SeChrome {
         else               { $arglist = @( $Chrome_Options)}
         $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $arglist
         if(-not $Driver) {Write-Warning "Web driver was not created"; return}
-
 
         #region post start options
         if($Minimized){
@@ -212,7 +211,6 @@ function Start-SeInternetExplorer {
 
 function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('MSEdge')]
     [Alias('MSEdge')]
     param(
         [ValidateScript({
@@ -298,6 +296,7 @@ function Start-SeFirefox {
             # Sets GeckoDriver log level to Fatal.
             $Firefox_Options.LogLevel = 6
         }
+        #endregion
 
         if($AssembliesPath){ $arglist = @( $AssembliesPath,$Firefox_Options) }
         else               { $arglist = @( $Firefox_Options)}
@@ -331,14 +330,14 @@ function Stop-SeDriver {
     elseif($Default) {$Global:SeDriver.Dispose()}
 }
 
-function Enter-SeUrl {
+<#function Enter-SeUrl {
     param($Driver, $Url)
 
     $Driver.Navigate().GoToUrl($Url)
 }
-
+#>
 function Open-SeUrl {
-    [Alias('SeNavigate')] #  ,"Enter-SeUrl"
+    [Alias('SeNavigate',"Enter-SeUrl")]
     param(
         [Parameter(Mandatory=$true, position=0)]
         [string]$Url,
@@ -351,8 +350,7 @@ function Open-SeUrl {
     else {$Target.Navigate().GoToUrl($Url) }
 }
 
-
-function Find-SeElement {
+<#function Find-SeElement {
     param(
         [Parameter()]
         $Driver,
@@ -379,15 +377,15 @@ function Find-SeElement {
         )
 
 
-    Process {
+    process {
 
-        if ($Driver -ne $null -and $Element -ne $null) {
+        if($null -ne $Driver  -and $null -ne  $Element) {
             throw "Driver and Element may not be specified together."
         }
-        elseif ($Driver -ne $Null) {
+        elseif($null -ne $Driver) {
             $Target = $Driver
         }
-        elseif ($Element -ne $Null) {
+        elseif(-ne $Null $Element) {
             $Target = $Element
         }
         else {
@@ -395,35 +393,35 @@ function Find-SeElement {
         }
 
         if($Wait){
-            if ($PSCmdlet.ParameterSetName -eq "ByName") {
+            if($PSCmdlet.ParameterSetName -eq "ByName") {
                 $TargetElement = [OpenQA.Selenium.By]::Name($Name)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ById") {
+            if($PSCmdlet.ParameterSetName -eq "ById") {
                 $TargetElement = [OpenQA.Selenium.By]::Id($Id)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
+            if($PSCmdlet.ParameterSetName -eq "ByLinkText") {
                 $TargetElement = [OpenQA.Selenium.By]::LinkText($LinkText)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+            if($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
                 $TargetElement = [OpenQA.Selenium.By]::PartialLinkText($PartialLinkText)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
+            if($PSCmdlet.ParameterSetName -eq "ByClassName") {
                 $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
+            if($PSCmdlet.ParameterSetName -eq "ByTagName") {
                 $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
+            if($PSCmdlet.ParameterSetName -eq "ByXPath") {
                 $TargetElement = [OpenQA.Selenium.By]::XPath($XPath)
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+            if($PSCmdlet.ParameterSetName -eq "ByCss") {
                 $TargetElement = [OpenQA.Selenium.By]::CssSelector($Css)
             }
 
@@ -432,43 +430,43 @@ function Find-SeElement {
             $WebDriverWait.Until($Condition)
         }
         else{
-            if ($PSCmdlet.ParameterSetName -eq "ByName") {
+            if($PSCmdlet.ParameterSetName -eq "ByName") {
                 $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ById") {
+            if($PSCmdlet.ParameterSetName -eq "ById") {
                 $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
+            if($PSCmdlet.ParameterSetName -eq "ByLinkText") {
                 $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
+            if($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
                 $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
+            if($PSCmdlet.ParameterSetName -eq "ByClassName") {
                 $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
+            if($PSCmdlet.ParameterSetName -eq "ByTagName") {
                 $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
+            if($PSCmdlet.ParameterSetName -eq "ByXPath") {
                 $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
             }
 
-            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
+            if($PSCmdlet.ParameterSetName -eq "ByCss") {
                 $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
             }
         }
     }
 }
-
+#>
 function Get-SeElement {
-#    [Alias('Find-SeElement')]
+    [Alias('Find-SeElement')]
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
         [Parameter(Position=0)]
@@ -526,7 +524,7 @@ function Invoke-SeClick {
         $Driver
     )
 
-    if ($JavaScriptClick) {
+    if($JavaScriptClick) {
         $Driver.ExecuteScript("arguments[0].click()", $Element)
     }
     else {
@@ -554,7 +552,6 @@ function Send-SeClick {
 }
 
 function Get-SeKeys {
-
     [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static | Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 }
 
@@ -599,13 +596,15 @@ function Remove-SeCookie {
 }
 
 function Set-SeCookie {
+    [cmdletbinding()]
     param(
-        [ValidateNotNull()]$Driver,
         [string]$Name,
         [string]$Value,
         [string]$Path,
         [string]$Domain,
-        $ExpiryDate
+        $ExpiryDate,
+        [Alias("Driver")]
+        $Target = $Global:SeDriver
     )
 
     <# Selenium Cookie Information
@@ -618,13 +617,16 @@ function Set-SeCookie {
     Cookie(String, String, String, String, Nullable<DateTime>)
     Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date.
     #>
-    Begin{
-        if($ExpiryDate -ne $null -and $ExpiryDate.GetType().Name -ne 'DateTime'){
+    begin {
+        if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
+            throw "No valid driver was provided. "
+        }
+        if($null -ne $ExpiryDate -and $ExpiryDate.GetType().Name -ne 'DateTime'){
             throw '$ExpiryDate can only be $null or TypeName: System.DateTime'
         }
     }
 
-    Process {
+    process {
         if($Name -and $Value -and (!$Path -and !$Domain -and !$ExpiryDate)){
             $cookie = New-Object -TypeName OpenQA.Selenium.Cookie -ArgumentList $Name,$Value
         }
@@ -665,8 +667,7 @@ function Get-SeElementAttribute {
         [Parameter(Mandatory = $true)]
         [string]$Attribute
     )
-
-    Process {
+    process {
         $Element.GetAttribute($Attribute)
     }
 }
@@ -681,7 +682,7 @@ function Invoke-SeScreenshot {
         throw "No valid driver was provided. "
     }
     $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Target)
-    if ($AsBase64EncodedString) {
+    if($AsBase64EncodedString) {
         $Screenshot.AsBase64EncodedString
     }
     else {
@@ -698,7 +699,7 @@ function Save-SeScreenshot {
         [Parameter()]
         [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png)
 
-    Process {
+    process {
         $Screenshot.SaveAsFile($Path, $ImageFormat)
     }
 }
@@ -741,7 +742,7 @@ function Get-SeWindow {
         [Parameter(Mandatory = $true)][OpenQA.Selenium.IWebDriver]$Driver
     )
 
-    Process {
+    process {
         $Driver.WindowHandles
     }
 }
@@ -752,7 +753,7 @@ function Switch-SeWindow {
         [Parameter(Mandatory = $true)]$Window
     )
 
-    Process {
+    process {
         $Driver.SwitchTo().Window($Window)|Out-Null
     }
 }

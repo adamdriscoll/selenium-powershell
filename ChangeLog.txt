@@ -45,8 +45,21 @@ Start-SeInternetExplorer
   $Global:SeDriver, instead of returning the driver
   Set Implicit wait to 10 seconds
 
+commented out Enter-SeURL and changed PSD1,
+Open-SeURL made interoperable with Eneter-SEURL via aliases
+  Url is first on the commandline and mandatory
+  Driver is renamed target, with alias "Driver", and will come from $Global:SeDriver
+  Throws an error if no driver passed or found from Global var
+
 new function Send-SeClick (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)
   JavaScriptClick can be abreviated JS
   Driver is ignored  (element.wrapedDriver used instead)
   Added SleepSeconds parameter
+
+Commented out Find-seElement and updated PSD1.
+Get-SeElement alias seElement made interoperable with Find-seElement by aliases
+    A BY parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
+    combined with a "Selection" parameter which holds the value replaces the 8 parameters with those names and parametersets.
+    Wait made optional; -wait without timeout sets timeout to 30 , and -Timeout 5 works without -Wait
+    Element and Driver are merged as "target" which has aliases of Element and driver
