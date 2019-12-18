@@ -63,3 +63,7 @@ Get-SeElement alias seElement made interoperable with Find-seElement by aliases
     combined with a "Selection" parameter which holds the value replaces the 8 parameters with those names and parametersets.
     Wait made optional; -wait without timeout sets timeout to 30 , and -Timeout 5 works without -Wait
     Element and Driver are merged as "target" which has aliases of Element and driver
+
+Added some new examples - showing DSL style in Pester.
+
+Reorder PSD file for easy reading
