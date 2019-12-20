@@ -40,7 +40,8 @@ FunctionsToExport    = @(
     'Get-SeWindow' ,
     'Switch-SeWindow',
     'SeOpen',
-    'SeClose'  )
+    'SeClose',
+    'SeShouldHave'  )
 AliasesToExport      = @(
     'Chrome' ,
     'Enter-SeUrl' ,

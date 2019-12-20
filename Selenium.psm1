@@ -458,7 +458,6 @@ function Get-SeElement {
     [Alias('Find-SeElement')]
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
-        [Parameter(Position=0)]
         [ValidateSet("CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath")]
         [string]$By = "XPath",
         #Text to select on
@@ -547,7 +546,7 @@ function Get-SeKeys {
 function Send-SeKeys {
     [Alias('SeType')]
     param(
-        [Parameter(Mandatory=$true,Position=0)]
+        [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true)]
         [OpenQA.Selenium.IWebElement]$Element,
         [Parameter(Mandatory=$true,Position=1)]
         [string]$Keys
@@ -767,6 +766,89 @@ function SeOpen {
         Open-SeUrl -Url $URL
     }
 }
-Function SeClose {
+
+function SeClose {
     Stop-SeDriver -Default
+}
+
+function SeShouldHave {
+    [cmdletbinding(DefaultParameterSetName='DefaultPS')]
+    param(
+        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$true)]
+        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$true)]
+        [string]$Selection,
+        
+        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$false)]
+        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$false)]
+        [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
+        [string]$By = 'XPath',
+        
+        [Parameter(ParameterSetName='Element' ,Mandatory=$true,Position=1)]
+        [string]$With,
+
+        [Parameter(ParameterSetName='URL',Mandatory=$true )]
+        [switch]$url,
+        [Parameter(ParameterSetName='Title',Mandatory=$true )]
+        [switch]$Title,
+
+        [Parameter(ParameterSetName='URL',Position=2 )]
+        [Parameter(ParameterSetName='Title',Position=2  )]
+        [Parameter(ParameterSetName='Element',Position=2)]
+        [ValidateSet('Like', 'match', 'eq', 'ge', 'lt')]
+        [String]$Operator = 'Like',
+        
+        [Parameter(ParameterSetName='URL',Position=3  )]
+        [Parameter(ParameterSetName='Title',Position=3  )]
+        [Parameter(ParameterSetName='Element',Position=3  )]
+        [AllowEmptyString()]
+        $Value,
+        #Specifies a time out
+        [Int]$Timeout = 0
+    )
+    #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement. 
+    if     ($url)   {$testitem = $Global:SeDriver.Url}
+    elseif ($Title) {$testitem = $Global:SeDriver.Title}
+    else   {
+        
+        $gSEParams =  @{By=$By; Selection=$Selection}
+        if ($Timeout) {$gSEParams['Timeout'] = $Timeout}
+        try           {$e = Get-SeElement @gSEParams }
+        catch         {throw $_.Exception.Message}
+        #throw if we didn't get the element, and if were only asked to check it was there return gracefully
+        if (-not $e) {throw "Didn't find '$selection' by $by"}
+        elseif ($PSCmdlet.ParameterSetName -eq "DefaultPS" ) {
+            Write-Verbose "Found $selection"
+            return
+        }
+        else {
+          #if we got here we're not in the default parameter set, weren't asked for URL or title, and got an element
+          #with can be an element property (text, displayed etc or an attribute name. Get that ... )  
+          switch ($with) {
+            'Text'      {$testitem = $e.Text}
+            'Displayed' {$testitem = $e.Displayed}
+            'Enabled'   {$testitem = $e.Enabled}
+            'TagName'   {$testitem = $e.TagName}
+            'X'         {$testitem = $e.Location.X}
+            'Y'         {$testitem = $e.Location.Y}
+            'Width'     {$testitem = $e.Size.Width}
+            'Height'    {$testitem = $e.Size.Height}
+            default     {$testitem = $e.GetAttribute($with)}
+          }
+          if (-not $testItem -and ($value -ne '')) {
+            throw "Didn't find '$with' on element"
+          }
+          else {Write-Verbose  "Found $with = '$testitem'"}
+        }
+    }
+    #So we either had URl, Title or element with either a property name or attribute name and we got one of those ... Now compare with Value 
+    Switch ($Operator) {
+        'eq'    {$result = ($testItem -eq    $value)}
+        'like'  {$result = ($testItem -like  $value)}
+        'match' {$result = ($testItem -match $value)}
+        'gt'    {$result = ($testItem -gt    $value)}
+        'le'    {$result = ($testItem -le    $value)}
+    }
+    if (-not $result) {
+            throw "$with had value of '$testitem'. The comparison '-$($Pscmdlet.ParameterSetName) $value' failed."
+    }
 }
