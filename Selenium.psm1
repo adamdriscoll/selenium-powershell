@@ -21,6 +21,16 @@ if($AssembliesPath){
         }
     }
 }
+
+class ValidateURIAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
+    [void] Validate([object] $arguments , [System.Management.Automation.EngineIntrinsics]$EngineIntrinsics) {
+        $Out = $null
+        if   ([uri]::TryCreate($arguments,[System.UriKind]::Absolute, [ref]$Out)) {return}
+        else {throw  [System.Management.Automation.ValidationMetadataException]::new('Incorrect StartURL please make sure the URL starts with http:// or https://')}
+        return
+    }
+}
+
 #endregion
 function ValidateURL {
     [Alias("Validate-Url")]
@@ -33,14 +43,9 @@ function ValidateURL {
 
 function Start-SeNewEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('CrEdge')]
+    [Alias('CrEdge','NewEdge')]
     param(
-        [ValidateScript({
-            $Out = $null
-            write-host $_
-            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
-            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
-        })]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$HideVersionHint,
@@ -75,12 +80,7 @@ function Start-SeChrome {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Chrome')]
     param(
-        [ValidateScript({
-            $Out = $null
-            write-host $_
-            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
-            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
-        })]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [Parameter(Mandatory = $false)]
@@ -182,13 +182,9 @@ function Start-SeChrome {
 }
 
 function Start-SeInternetExplorer {
-    [Alias('InternetExplorer')]
+    [Alias('InternetExplorer','IE')]
     param(
-        [ValidateScript({
-            $Out = $null
-            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
-            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
-        })]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$AsDefaultDriver
@@ -213,11 +209,7 @@ function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('MSEdge')]
     param(
-        [ValidateScript({
-            $Out = $null
-            if([uri]::TryCreate($_,[System.UriKind]::Absolute, [ref]$Out)) {return $true}
-            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
-        })]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [parameter(ParameterSetName='Min',Mandatory=$true)]
@@ -247,11 +239,7 @@ function Start-SeFirefox {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Firefox')]
     param(
-        [ValidateScript({
-            $Out = $null
-            if([uri]::TryCreate($_, [System.UriKind]::Absolute, [ref]$Out)) {return $true}
-            else { throw 'Incorrect StartURL please make sure the URL starts with http:// or https://'}
-        })]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [array]$Arguments,
@@ -326,8 +314,9 @@ function Stop-SeDriver {
         [Parameter(Mandatory=$true, ParameterSetName='Default')]
         [switch]$Default
     )
-    if($Driver) {$Driver.Dispose()}
-    elseif($Default) {$Global:SeDriver.Dispose()}
+    if($Default) {$Driver = $Global:SeDriver}
+    $Driver.Close()
+    $Driver.Dispose()
 }
 
 <#function Enter-SeUrl {
@@ -756,4 +745,28 @@ function Switch-SeWindow {
     process {
         $Driver.SwitchTo().Window($Window)|Out-Null
     }
+}
+
+function SeOpen {
+    [CmdletBinding()]
+    Param(
+        [ValidateSet('Chrome','CrEdge','FireFox','InternetExplorer','IE','MSEdge','NewEdge')]
+        [Parameter(Mandatory=$true,Position=1)]
+        $In,
+        [ValidateURIAttribute()]
+        $URL
+    )
+    switch -regex ($In) {
+        'Chrome'   {Start-SeChrome           -asdefault -erroraction Stop ; continue}
+        'FireFox'  {Start-SeFirefox          -asdefault -erroraction Stop ; continue}
+        'MSEdge'   {Start-SeEdge             -asdefault -erroraction Stop ; continue}
+        'Edge$'    {Start-SeNewEdge          -asdefault -erroraction Stop ; continue}
+        '^I'       {Start-SeInternetExplorer -asdefault -erroraction Stop ; continue}
+    }
+    if ($url) {
+        Open-SeUrl -Url $URL
+    }
+}
+Function SeClose {
+    Stop-SeDriver -Default
 }

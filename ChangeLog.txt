@@ -17,7 +17,7 @@ Get-SeCookie & Invoke-SeScreenshot
 
 Start-Fe-Firefox & Start-SeChrome
   Added aliases "Chrome" and "Firefox" - user can now write in a sort of DSL "CHROME $URL -asDefault" etc.
-  Made -StartUrl the first parameter and use parameter-validation to check it.
+  Made -StartUrl the first parameter and use a parameter-validation class to check it.
   Now call the .Navigate method directly instead of via Enter-SeURL if -StartURL is specified
   Now use parameter-sets to avoid the conflict between Minimized/Maximized/FullScreen,
   Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
@@ -26,17 +26,19 @@ Start-Fe-Firefox & Start-SeChrome
   Removed a possible bug with piped input, by returning the driver in the process block instead of the end block
 
 Start-SeInternetExplorer
-  Added Alias "InternetExplorer" and parameter -StartUrl 
+  Added Aliases "InternetExplorer" & "IE" and parameter -StartUrl
   Plus AsDefaultDriver which sets   $Global:SeDriver, instead of returning the driver
-  Set Implicit wait to 10 seconds
+  Set ImplicitWait to 10 seconds
 
 Start-SeEdge
   Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
-  Set Implicit Wait to 10 seconds
+  Set ImplicitWait to 10 seconds
 
-Start-SeNewEdge  **New function** with alias, credge to support Chromium based edge. 
-  Also added V79 webdriver. V80 and V81 don't work. 
+SeOpen and SeClose **New Functions** Open takes -In (name of browser) -URL and opens AsDefault. Close, exits the default
+
+Start-SeNewEdge  **New function** with alias, credge to support Chromium based edge.
+  Also added V79 webdriver. V80 and V81 don't work.
 
 Send-SeClick **New function** (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)
@@ -59,7 +61,7 @@ Open-SeURL *new function** SeNavigate
   Made interoperable with Enter-SEURL via aliases
   Commented out Enter-SeURL and changed PSD1,
 
-Get-SeElement **New Function** alias seElement 
+Get-SeElement **New Function** alias seElement
     New -By parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
     combined with a "Selection" parameter which holds the value, replaces the 8 parameters with those names and parametersets.
     Wait made optional; -Wait without -Timeout sets timeout to 30 , and -Timeout 5 works without -Wait
