@@ -38,17 +38,23 @@ FunctionsToExport    = @(
     'Invoke-SeScreenshot' ,
     'Open-SeUrl' ,
     'Get-SeWindow' ,
-    'Switch-SeWindow' )
+    'Switch-SeWindow',
+    'SeOpen',
+    'SeClose',
+    'SeShouldHave'  )
 AliasesToExport      = @(
     'Chrome' ,
     'Enter-SeUrl' ,
     'Find-SeElement' ,
     'Firefox' ,
+    'IE',
     'InternetExplorer' ,
     'CrEdge' ,
+    'NewEdge',
     'MSEdge' ,
-    'SeNavigate',
+    'OldEdge',
     'SeClick' ,
+    'SeNavigate',
     'SeType',
     'SeScreenshot')
 CmdletsToExport      = @()
