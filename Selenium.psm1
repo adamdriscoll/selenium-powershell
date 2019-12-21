@@ -544,7 +544,6 @@ function Get-SeKeys {
 }
 
 function Send-SeKeys {
-    [Alias('SeType')]
     param(
         [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true)]
         [OpenQA.Selenium.IWebElement]$Element,
@@ -771,58 +770,97 @@ function SeClose {
     Stop-SeDriver -Default
 }
 
+function SeType {
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Keys,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+        [OpenQA.Selenium.IWebElement]$Element,
+        [switch]$ClearFirst
+    )
+    begin{
+        foreach ($Key in $Script:SeKeys.Name) {
+            $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
+        }
+    }
+    process {
+        if ($ClearFirst) {$Element.Clear()}
+        $Element.SendKeys($Keys)
+    }
+}
+
 function SeShouldHave {
     [cmdletbinding(DefaultParameterSetName='DefaultPS')]
     param(
-        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$true)]
-        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$true)]
+        [Parameter(ParameterSetName='DefaultPS', Mandatory=$true, Position=0)]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$true, Position=0)]
         [string]$Selection,
-        
-        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$false)]
-        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$false)]
+
+        [Parameter(ParameterSetName='DefaultPS', Mandatory=$false)]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$false)]
         [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
         [string]$By = 'XPath',
-        
-        [Parameter(ParameterSetName='Element' ,Mandatory=$true,Position=1)]
+
+        [Parameter(ParameterSetName='Element'  , Mandatory=$true,Position=1)]
         [string]$With,
 
-        [Parameter(ParameterSetName='URL',Mandatory=$true )]
+        [Parameter(ParameterSetName='URL'      , Mandatory=$true)]
         [switch]$url,
-        [Parameter(ParameterSetName='Title',Mandatory=$true )]
+        [Parameter(ParameterSetName='Title'    , Mandatory=$true)]
         [switch]$Title,
 
-        [Parameter(ParameterSetName='URL',Position=2 )]
-        [Parameter(ParameterSetName='Title',Position=2  )]
-        [Parameter(ParameterSetName='Element',Position=2)]
-        [ValidateSet('Like', 'match', 'eq', 'ge', 'lt')]
+        [Parameter(ParameterSetName='URL'      , Position=3)]
+        [Parameter(ParameterSetName='Title'    , Position=3)]
+        [Parameter(ParameterSetName='Element'  , Position=3)]
+        [ValidateSet('Like', 'match', 'eq', 'gt', 'lt')]
         [String]$Operator = 'Like',
-        
-        [Parameter(ParameterSetName='URL',Position=3  )]
-        [Parameter(ParameterSetName='Title',Position=3  )]
-        [Parameter(ParameterSetName='Element',Position=3  )]
+
+        [Parameter(ParameterSetName='URL'      , Position=4  )]
+        [Parameter(ParameterSetName='Title'    , Position=4  )]
+        [Parameter(ParameterSetName='Element'  , Position=4  )]
+        [Alias('like','match','eq','gt','lt')]
         [AllowEmptyString()]
         $Value,
-        #Specifies a time out
+
+        [Parameter(ParameterSetName='DefaultPS', Mandatory=$false)]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$false)]
+        [Alias('PT')]
+        [switch]$PassThru,
+
         [Int]$Timeout = 0
     )
-    #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement. 
-    if     ($url)   {$testitem = $Global:SeDriver.Url}
-    elseif ($Title) {$testitem = $Global:SeDriver.Title}
+    $lineText = $MyInvocation.Line.TrimEnd("$([System.Environment]::NewLine)")
+    $lineNo   = $MyInvocation.ScriptLineNumber
+    $file     = $MyInvocation.ScriptName
+
+
+    Function expandErr {
+        param ($message)
+        $ex       = New-Object exception $message
+        $id       = 'PesterAssertionFailed';
+        $cat      = [Management.Automation.ErrorCategory]::InvalidResult ;
+        New-Object Management.Automation.ErrorRecord $ex, $id, $cat,
+            @{Message = $message; File = $file; Line=$lineNo; Linetext=$lineText}
+    }
+
+    #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
+    if     ($url)   {$testitem = $Global:SeDriver.Url   ; $With = 'URL' }
+    elseif ($Title) {$testitem = $Global:SeDriver.Title ; $With = 'Title'  }
     else   {
-        
         $gSEParams =  @{By=$By; Selection=$Selection}
         if ($Timeout) {$gSEParams['Timeout'] = $Timeout}
         try           {$e = Get-SeElement @gSEParams }
-        catch         {throw $_.Exception.Message}
+        catch         {throw (expandErr $_.Exception.Message)}
+
         #throw if we didn't get the element, and if were only asked to check it was there return gracefully
-        if (-not $e) {throw "Didn't find '$selection' by $by"}
+        if (-not $e) {throw (expandErr "Didn't find '$selection' by $by")}
         elseif ($PSCmdlet.ParameterSetName -eq "DefaultPS" ) {
             Write-Verbose "Found $selection"
-            return
+            if ($PassThru) {return $e} else {return}
         }
         else {
           #if we got here we're not in the default parameter set, weren't asked for URL or title, and got an element
-          #with can be an element property (text, displayed etc or an attribute name. Get that ... )  
+          #with can be an element property (text, displayed etc or an attribute name. Get that ... )
           switch ($with) {
             'Text'      {$testitem = $e.Text}
             'Displayed' {$testitem = $e.Displayed}
@@ -835,20 +873,23 @@ function SeShouldHave {
             default     {$testitem = $e.GetAttribute($with)}
           }
           if (-not $testItem -and ($value -ne '')) {
-            throw "Didn't find '$with' on element"
+            throw (expandErr "Didn't find '$with' on element")
           }
           else {Write-Verbose  "Found $with = '$testitem'"}
         }
     }
-    #So we either had URl, Title or element with either a property name or attribute name and we got one of those ... Now compare with Value 
+    #So we either had URl, Title or element with either a property name or attribute name and we got one of those ... Now compare with Value
+    #if operator was not passed, allow it to be taken from an alias for the -value
+    if (-not $PSBoundParameters.ContainsKey('operator') -and $lineText -match ' -(eq|match|like|gt|lt) ') {
+        $Operator = $matches[1]
+    }
     Switch ($Operator) {
         'eq'    {$result = ($testItem -eq    $value)}
         'like'  {$result = ($testItem -like  $value)}
         'match' {$result = ($testItem -match $value)}
         'gt'    {$result = ($testItem -gt    $value)}
-        'le'    {$result = ($testItem -le    $value)}
+        'le'    {$result = ($testItem -lt    $value)}
     }
-    if (-not $result) {
-            throw "$with had value of '$testitem'. The comparison '-$($Pscmdlet.ParameterSetName) $value' failed."
-    }
+    if (-not $result) {throw (expandErr  "$with had value of '$testitem'. The comparison '-$operator $value' failed.") }
+    elseif ($PassThru) {$e}
 }

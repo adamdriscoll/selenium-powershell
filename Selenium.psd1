@@ -41,6 +41,7 @@ FunctionsToExport    = @(
     'Switch-SeWindow',
     'SeOpen',
     'SeClose',
+    'SeType',
     'SeShouldHave'  )
 AliasesToExport      = @(
     'Chrome' ,
@@ -55,7 +56,6 @@ AliasesToExport      = @(
     'OldEdge',
     'SeClick' ,
     'SeNavigate',
-    'SeType',
     'SeScreenshot')
 CmdletsToExport      = @()
 VariablesToExport    = @()

@@ -61,13 +61,26 @@ Open-SeURL *new function** SeNavigate
   Made interoperable with Enter-SEURL via aliases
   Commented out Enter-SeURL and changed PSD1,
 
-Get-SeElement **New Function** alias seElement
+Get-SeElement **New Function** automatic alias seElement
     New -By parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
     combined with a "Selection" parameter which holds the value, replaces the 8 parameters with those names and parametersets.
     Wait made optional; -Wait without -Timeout sets timeout to 30 , and -Timeout 5 works without -Wait
     -Element and -Driver are merged as -Target which has aliases of 'Element' and 'Driver'
     Made interoperable with Find-seElement by aliases
     Commented out Find-seElement and updated PSD1.
+
+SeOpen and SeClose **New Functions**
+SeClose closes the default session. seOpen will start any of the drivers as default
+
+SeType **New Function**
+More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box.
+
+SeShouldHave **NewFunction**
+Drives pester tests as a single command See examples for details, but allows things like
+    SeShouldHave -url -match 'packages\?q=selenium'
+    SeShouldHave -Selection $linkpath -By XPath -With Text -Operator Like  -Value "*selenium*"
+    which can be shortened to
+    seShouldHave $linkpath text -Like "*selenium*"
 
 Added some new examples - showing DSL style in Pester.
 
