@@ -1,4 +1,4 @@
-Changes from 2.3.1 made November 2019  JO'N
+Changes from 2.3.1 made November/December 2019  JO'N
 
 DLL loading is now from the PSD1 file instead of the PSM1 file.
 Now use presence of $AssembliesPath to judge "IsMacOS" -or "IsLinux"
@@ -10,6 +10,9 @@ Send-SeKeys
 Valdate-URL
    Function Renamed to validateUrl (private helper function does not need to use verb-noun naming and "validate" verb upsets script analyzer)
    Added the old name back as an alias (which _is_ allowed. )
+   Moved functionality into a validation class which so URLs are validated before enering functions
+
+Checks for valid webdriver also moved to a validation class.
 
 Get-SeCookie & Invoke-SeScreenshot
   In line with other functions, -Driver prarameter is renamed -Target, with alias "Driver", and will come from $Global:SeDriver
@@ -35,18 +38,22 @@ Start-SeEdge
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
   Set ImplicitWait to 10 seconds
 
-SeOpen and SeClose **New Functions** Open takes -In (name of browser) -URL and opens AsDefault. Close, exits the default
+Stop-SeDriver
+  Updated to handle the default drive being in $global:SeDriver.
 
-Start-SeNewEdge  **New function** with alias, credge to support Chromium based edge.
+Start-SeNewEdge  **New Function** with alias, credge to support Chromium based edge.
   Also added V79 webdriver. V80 and V81 don't work.
 
-Send-SeClick **New function** (with alias SeClick) {replacement for Invoke-SeClick}
+SeOpen **New Function**
+Open takes -In (name of browser) -URL and opens that browser -AsDefault. Mainly for Pester/DSL freindliness
+
+Send-SeClick **New Function** (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)
   -JavaScriptClick can be abreviated -JS
   Driver is ignored  (element.wrapedDriver used instead)
-  Added -SleepSeconds parameter
+  Added -SleepSeconds and passthru parameter
 
-New-SeScreenShot: **new function** with alias SeScreenshot. Merges functionality of Invoke-ScreenShot and SaveSeScreenShot
+New-SeScreenShot: **New Function** with alias SeScreenshot. Merges functionality of Invoke-ScreenShot and SaveSeScreenShot
    Can pass -Path,
             -Passthru (Alias PT)
             -Path & -Passthru
@@ -54,7 +61,7 @@ New-SeScreenShot: **new function** with alias SeScreenshot. Merges functionality
    "Target" with alias "Driver", can come from $Global:SeDriver
    and throws an error if no driver passed or found from Global var
 
-Open-SeURL *new function** SeNavigate
+Open-SeURL *New Function** alias SeNavigate
   Url is first on the commandline and mandatory
   Driver is renamed target, with alias "Driver", and will come from $Global:SeDriver
   Throws an error if no driver passed or found from Global var
@@ -69,13 +76,18 @@ Get-SeElement **New Function** automatic alias seElement
     Made interoperable with Find-seElement by aliases
     Commented out Find-seElement and updated PSD1.
 
-SeOpen and SeClose **New Functions**
-SeClose closes the default session. seOpen will start any of the drivers as default
+Switch-SeFrame **New Function** with alias SeFrame
+    Selects a frame.
+
+Close-SeAlert **New Function** Aliases SeAccept, SeDissmiss
+    Accepts or dismisses an alert box so execution can continue
+    If called using the aliases selects Accept or dismiss.
 
 SeType **New Function**
-More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box.
+More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box and passthru, to allow
+element to be fetched and keys typed, and Pester to throw if element was not found.
 
-SeShouldHave **NewFunction**
+SeShouldHave **New Function**
 Drives pester tests as a single command See examples for details, but allows things like
     SeShouldHave -url -match 'packages\?q=selenium'
     SeShouldHave -Selection $linkpath -By XPath -With Text -Operator Like  -Value "*selenium*"

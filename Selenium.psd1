@@ -14,6 +14,7 @@ Author               = 'Adam Driscoll'
 CompanyName          = 'Unknown'
 Copyright            = '(c) 2019 Adam Driscoll. All rights reserved.'
 Description          = 'Web automation using the Selenium Web Driver'
+ScriptsToProcess     = @('.\validationClasses.ps1')
 RootModule           = '.\Selenium.psm1'
 RequiredAssemblies   = @('.\assemblies\WebDriver.dll', '.\assemblies\WebDriver.Support.dll')
 FunctionsToExport    = @(
@@ -39,8 +40,9 @@ FunctionsToExport    = @(
     'Open-SeUrl' ,
     'Get-SeWindow' ,
     'Switch-SeWindow',
+    'Switch-SeFrame',
+    'Clear-SeAlert',
     'SeOpen',
-    'SeClose',
     'SeType',
     'SeShouldHave'  )
 AliasesToExport      = @(
@@ -54,7 +56,12 @@ AliasesToExport      = @(
     'NewEdge',
     'MSEdge' ,
     'OldEdge',
-    'SeClick' ,
+    'SeAccept',
+    'SeDismiss',
+    'SeClick',
+    'SeClose',
+    'SeElement',
+    'SeFrame',
     'SeNavigate',
     'SeScreenshot')
 CmdletsToExport      = @()
@@ -98,8 +105,7 @@ PrivateData          = @{
 # Modules that must be imported into the global environment prior to importing this module
 # RequiredModules = @()
 
-# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-# ScriptsToProcess = @()
+
 
 # Type files (.ps1xml) to be loaded when importing this module
 # TypesToProcess = @()
