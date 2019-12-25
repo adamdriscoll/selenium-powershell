@@ -41,8 +41,13 @@ function Start-SeNewEdge {
         [string]$StartURL,
         [switch]$HideVersionHint,
         [switch]$Minimized,
-        [System.IO.FileInfo]$BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe",
+        $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe",
+        $ProfileDirectoryPath,
+        $DefaultDownloadPath,
         [switch]$AsDefaultDriver,
+        [switch]$Headless,
+        [Alias('Incognito')]
+        [switch]$PrivateBrowsing,
         $WebDriverDirectory = "$PSScriptRoot\Assemblies\"
     )
     if(!$HideVersionHint){
@@ -50,8 +55,20 @@ function Start-SeNewEdge {
     }
 
     $Service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
-    $Options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property  @{BinaryLocation = $BinaryPath}
-    $Driver  = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $Service, $Options
+    $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property  @{BinaryLocation = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)}
+    if ($PrivateBrowsing)       {$options.AddArguments('InPrivate')}
+    if ($Headless)              {$options.AddArguments('headless')}
+    if ($ProfileDirectoryPath)  {
+        $ProfileDirectoryPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfileDirectoryPath)
+        Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
+        $options.AddArgument("user-data-dir=$ProfileDirectoryPath")
+    }
+    if($DefaultDownloadPath){
+        $DefaultDownloadPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($DefaultDownloadPath)
+        Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
+        $Options.AddUserProfilePreference('download', @{'default_directory' = $DefaultDownloadPath; 'prompt_for_download' = $false; })
+    }
+    $Driver  = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $Service, $options
     if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
     if($StartURL) {$Driver.Navigate().GoToUrl($StartURL)}
