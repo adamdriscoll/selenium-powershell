@@ -45,7 +45,7 @@ Start-SeNewEdge  **New Function** with alias, credge to support Chromium based e
   Also added V79 webdriver. V80 and V81 don't work.
 
 SeOpen **New Function**
-Open takes -In (name of browser) -URL and opens that browser -AsDefault. Mainly for Pester/DSL freindliness
+  Open takes -In (name of browser) -URL and opens that browser -AsDefault. Mainly for Pester/DSL freindliness
 
 Send-SeClick **New Function** (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)
@@ -61,14 +61,14 @@ New-SeScreenShot: **New Function** with alias SeScreenshot. Merges functionality
    "Target" with alias "Driver", can come from $Global:SeDriver
    and throws an error if no driver passed or found from Global var
 
-Open-SeURL *New Function** alias SeNavigate
+Open-SeURL *New Function** with alias SeNavigate
   Url is first on the commandline and mandatory
   Driver is renamed target, with alias "Driver", and will come from $Global:SeDriver
   Throws an error if no driver passed or found from Global var
   Made interoperable with Enter-SEURL via aliases
   Commented out Enter-SeURL and changed PSD1,
 
-Get-SeElement **New Function** automatic alias seElement
+Get-SeElement **New Function** with alias seElement
     New -By parameter with possible values "CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath"
     combined with a "Selection" parameter which holds the value, replaces the 8 parameters with those names and parametersets.
     Wait made optional; -Wait without -Timeout sets timeout to 30 , and -Timeout 5 works without -Wait
@@ -79,13 +79,15 @@ Get-SeElement **New Function** automatic alias seElement
 Switch-SeFrame **New Function** with alias SeFrame
     Selects a frame.
 
-Close-SeAlert **New Function** Aliases SeAccept, SeDissmiss
+Clear-SeAlert **New Function** with aliases SeAccept, SeDissmiss
     Accepts or dismisses an alert box so execution can continue
     If called using the aliases selects Accept or dismiss.
 
 SeType **New Function**
-More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box and passthru, to allow
-element to be fetched and keys typed, and Pester to throw if element was not found.
+  More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box and passthru, to allow element to be fetched and keys typed, and Pester to throw if element was not found.
+
+Get-SeSelectionOption **New Function** alias SeSelection
+  For setting and checking options in a dropdown lists.
 
 SeShouldHave **New Function**
 Drives pester tests as a single command See examples for details, but allows things like

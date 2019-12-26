@@ -26,15 +26,15 @@ Function ClickOpensModal {
     $modal = SeElement  $modalXPath -by XPath
     if (-not $modal.displayed) {Write-Warning -Message 'Modal not displayed'; return $false}
     else {
-       $modal | SeElement ClassName 'close'  | seclick -Js -Sleep 1
-       $null =  SeElement TagName   'body'
-          if ($modal.displayed)   {Write-Warning -Message 'Modal did not close'; return $false}
-       else {return $true}
+        $modal | SeElement ClassName 'close'  | seclick -Js -Sleep 1
+        $null =  SeElement TagName   'body'
+        if ($modal.displayed)   {Write-Warning -Message 'Modal did not close'; return $false}
+        else {return $true}
     }
 }
 
 Describe "Testing $env:SITE_URL" {
-    BeforeAll { Chrome $env:SITE_URL -AsDefaultDriver }
+    BeforeAll {SeOpen $env:SITE_URL -in Chrome}
 
     Context "Testing Modal Dialogs" {
         It "Produced the right modal for the <name>" -TestCases $ModaltestCases {
@@ -45,5 +45,5 @@ Describe "Testing $env:SITE_URL" {
 
     #more tests here
 
-    AfterAll {Stop-SeDriver -Default }
+    AfterAll {SeClose}
 }

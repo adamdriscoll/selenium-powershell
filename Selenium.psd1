@@ -14,7 +14,7 @@ Author               = 'Adam Driscoll'
 CompanyName          = 'Unknown'
 Copyright            = '(c) 2019 Adam Driscoll. All rights reserved.'
 Description          = 'Web automation using the Selenium Web Driver'
-ScriptsToProcess     = @('.\validationClasses.ps1')
+ScriptsToProcess     = @('.\SeleniumClasses.ps1')
 RootModule           = '.\Selenium.psm1'
 RequiredAssemblies   = @('.\assemblies\WebDriver.dll', '.\assemblies\WebDriver.Support.dll')
 FunctionsToExport    = @(
@@ -32,6 +32,7 @@ FunctionsToExport    = @(
     'Set-SeCookie' ,
     'Get-SeElement',
     'Get-SeElementAttribute' ,
+    'Get-SeSelectionOption',
     'Get-SeKeys' ,
     'Send-SeKeys' ,
     'Save-SeScreenshot' ,
@@ -63,7 +64,8 @@ AliasesToExport      = @(
     'SeElement',
     'SeFrame',
     'SeNavigate',
-    'SeScreenshot')
+    'SeScreenshot',
+    'SeSelection')
 CmdletsToExport      = @()
 VariablesToExport    = @()
 DscResourcesToExport = @()

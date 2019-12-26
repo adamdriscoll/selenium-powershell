@@ -324,7 +324,7 @@ function Stop-SeDriver {
         [Parameter(Mandatory=$true, ParameterSetName='Default')]
         [switch]$Default
     )
-    if(-not $PSBoundParameters.ContainsKey('Driver') -and ($Default -or $MyInvocation.InvocationName -eq 'SeClose')) {
+    if(-not $PSBoundParameters.ContainsKey('Driver') -and $Global:SeDriver -and ($Default -or $MyInvocation.InvocationName -eq 'SeClose')) {
         Write-Verbose -Message "Closing $($Global:SeDriver.Capabilities.browsername)..."
         $Global:SeDriver.Close()
         $Global:SeDriver.Dispose()
@@ -344,15 +344,21 @@ function Stop-SeDriver {
 }
 #>
 function Open-SeUrl {
+    [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('SeNavigate',"Enter-SeUrl")]
     param(
-        [Parameter(Mandatory=$true, position=0)]
+        [Parameter(Mandatory=$true, position=0,ParameterSetName='default')]
+        [validateuri()]
         [string]$Url,
         [Alias("Driver")]
         [ValidateIsWebDriver()]
-        $Target = $Global:SeDriver
+        $Target = $Global:SeDriver,
+        [Parameter(Mandatory=$true,ParameterSetName='back')]
+        [switch]$Back
+
     )
-    $Target.Navigate().GoToUrl($Url)
+    if ($Back) {$Target.Navigate().Back()}
+    else       {$Target.Navigate().GoToUrl($Url)}
 }
 
 <#function Find-SeElement {
@@ -477,7 +483,7 @@ function Get-SeElement {
         [ValidateSet("CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath")]
         [string]$By = "XPath",
         #Text to select on
-        [Alias("Name", "Id", "ClassName","LinkText", "PartialLinkText", "TagName","XPath")]
+        [Alias("CssSelector","Name", "Id", "ClassName","LinkText", "PartialLinkText", "TagName","XPath")]
         [Parameter(Position=1,Mandatory=$true)]
         [string]$Selection,
         #Specifies a time out
@@ -498,14 +504,14 @@ function Get-SeElement {
         # capture Param and set it as the value for by
         $mi = $MyInvocation.InvocationName
         if(-not $PSBoundParameters.ContainsKey("By") -and
-          ($MyInvocation.Line -match  "$mi[^>\|;]*-(Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath)")) {
+          ($MyInvocation.Line -match  "$mi[^>\|;]*-(CssSelector|Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath)")) {
                 $By = $Matches[1]
         }
         if($wait -and $Timeout -eq 0) {$Timeout = 30 }
 
         if($TimeOut -and $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
             $TargetElement = [OpenQA.Selenium.By]::$By($Selection)
-            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
+            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait -ArgumentList $Target, (New-TimeSpan -Seconds $Timeout)
             $Condition     = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
             $WebDriverWait.Until($Condition)
         }
@@ -840,6 +846,90 @@ function SeType {
     }
 }
 
+function Get-SeSelectionOption {
+    [Alias('SeSelection')]
+    [cmdletbinding(DefaultParameterSetName='default')]
+    param (
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byValue', Position=0)]
+        [String]$ByValue,
+
+        [Parameter(Mandatory=$true,  ValueFromPipeline=$true,    Position=1)]
+        [OpenQA.Selenium.IWebElement]$Element,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byText')]
+        [String]$ByText,
+
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [switch]$PartialText,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byIndex')]
+        [int]$ByIndex,
+
+        [Parameter(Mandatory=$false, ParameterSetName='default')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$Clear,
+
+        [Parameter(Mandatory=$false, ParameterSetName='default')]
+        [switch]$ListOptionText,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='multi')]
+        [switch]$IsMultiSelect,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='selected')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$GetSelected,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='allSelected')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$GetAllSelected,
+
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [Alias('PT')]
+        [switch]$PassThru
+    )
+    try {
+        #byindex can be 0, but ByText and ByValue can't be empty strings
+        if ($ByText -or $ByValue -or $PSBoundParameters.ContainsKey('ByIndex')) {
+            if ($Clear) {
+                if     ($ByText)    {[SeleniumSelection.Option]::DeselectByText( $Element,$ByText)}
+                elseif ($ByValue)   {[SeleniumSelection.Option]::DeselectByValue($Element,$ByValue)}
+                else                {[SeleniumSelection.Option]::DeselectByIndex($Element,$ByIndex)}
+            }
+            else {
+                if     ($ByText)    {[SeleniumSelection.Option]::SelectByText( $Element,$ByText,([bool]$PartialText))}
+                elseif ($ByValue)   {[SeleniumSelection.Option]::SelectByValue($Element,$ByValue)}
+                else                {[SeleniumSelection.Option]::SelectByIndex($Element,$ByIndex)}
+            }
+        }
+        elseif ($Clear)             {[SeleniumSelection.Option]::DeselectAll($Element) }
+        if ($IsMultiSelect)  {return [SeleniumSelection.Option]::IsMultiSelect($Element)
+        }
+        if ($PassThru -and ($GetAllSelected -or $GetAllSelected)) {
+            Write-Warning -Message "-Passthru option ignored because other values are returned"
+        }
+        if ($GetSelected)    {return [SeleniumSelection.Option]::GetSelectedOption($Element).text
+        }
+        if ($GetAllSelected) {return [SeleniumSelection.Option]::GetAllSelectedOptions($Element).text
+        }
+        if ($PSCmdlet.ParameterSetName -eq 'default') {
+            [SeleniumSelection.Option]::GetOptions($Element) | Select-Object -ExpandProperty Text
+        }
+        elseif ($PassThru) {$Element}
+    }
+    catch {
+        throw "An error occured checking the selection box, the message was:`r`n    $($_.exception.message)"
+    }
+}
+
 function SeShouldHave {
     [cmdletbinding(DefaultParameterSetName='DefaultPS')]
     param(
@@ -870,14 +960,14 @@ function SeShouldHave {
         [Parameter(ParameterSetName='Title'    , Mandatory=$false, Position=3)]
         [Parameter(ParameterSetName='URL'      , Mandatory=$false, Position=3)]
         [ValidateSet('like', 'notlike', 'match',
-                         'notmatch', 'eq', 'ne', 'gt', 'lt')]
+                         'notmatch', 'contains', 'eq', 'ne', 'gt', 'lt')]
         [String]$Operator = 'like',
 
         [Parameter(ParameterSetName='Element'  , Mandatory=$false, Position=4)]
         [Parameter(ParameterSetName='Alert'    , Mandatory=$false, Position=4)]
         [Parameter(ParameterSetName='Title'    , Mandatory=$true , Position=4)]
         [Parameter(ParameterSetName='URL'      , Mandatory=$true , Position=4)]
-        [Alias('like', 'notlike', 'match', 'notmatch', 'eq', 'ne', 'gt', 'lt')]
+        [Alias('contains', 'like', 'notlike', 'match', 'notmatch', 'eq', 'ne', 'gt', 'lt')]
         [AllowEmptyString()]
         $Value,
 
@@ -901,16 +991,45 @@ function SeShouldHave {
             New-Object Management.Automation.ErrorRecord $ex, $id, $cat,
                 @{Message = $message; File = $file; Line=$lineNo; Linetext=$lineText}
         }
+        function applyTest{
+            param($with,
+                  $testitems,
+                  $operator,
+                  $value
+            )
+            if     (-not $Value)              {$result = $true}
+            elseif ($operator -eq 'Contains') {$result= ($testitems -contains $value)}
+            else {
+              foreach ($t in $testitems) {
+                Switch ($Operator) {
+                    'eq'       {$result = ($t -eq       $value)}
+                    'ne'       {$result = ($t -ne       $value)}
+                    'like'     {$result = ($t -like     $value)}
+                    'notlike'  {$result = ($t -notlike  $value)}
+                    'match'    {$result = ($t -match    $value)}
+                    'notmatch' {$result = ($t -notmatch $value)}
+                    'gt'       {$result = ($t -gt       $value)}
+                    'le'       {$result = ($t -lt       $value)}
+                }
+              }
+            }
+            if (-not $result) {throw (expandErr  "$with had value of '$testitems'. The comparison '$t -$operator $value' failed.") }
+
+        }
+
+        #if operator was not passed, allow it to be taken from an alias for the -value
+        if (-not $PSBoundParameters.ContainsKey('operator') -and $lineText -match ' -(eq|ne|contains|match|notmatch|like|notlike|gt|lt) ') {
+            $Operator = $matches[1]
+        }
+
     }
     process {
-        $testitems = @()
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
-        if     ($URL)   {$testitems += $Global:SeDriver.Url   ; $With = 'URL' }
-        elseif ($Title) {$testitems += $Global:SeDriver.Title ; $With = 'Title'}
+        if     ($URL)   { applyTest -with 'URL'   -testitems $Global:SeDriver.Url   -operator $Operator -value $Value }
+        elseif ($Title) { applyTest -with 'Title' -testitems $Global:SeDriver.Title -operator $Operator -value $Value }
         elseif ($Alert -or $NoAlert) {
             try  {
                 $a =$Global:SeDriver.SwitchTo().alert()
-                if($Alert) {$testitems += $a.Text ; $with = 'Alert' };
             }
             catch {
                 if($Alert) {throw (expandErr  "Expected an alert but but none was displayed") }
@@ -918,17 +1037,17 @@ function SeShouldHave {
             finally {
                 if($NoAlert -and $a) {throw (expandErr  "Expected no alert but an alert of '$($a.Text)' was displayed") }
             }
-            if(     $a -and -not $Value -and $PassThru) {return $a}
-            elseif ($a -and -not $value) {return}
+            if($value)    {applyTest -with 'Alert' -testitems $a.text -operator $Operator -value $value}
+            if($PassThru) {return $a}
         }
         else   {
             foreach ($s in $Selection) {
-                $gSEParams =  @{By=$By; Selection=$s}
-                if ($Timeout) {$gSEParams['Timeout'] = $Timeout}
-                try           {$e = Get-SeElement @gSEParams }
-                catch         {throw (expandErr $_.Exception.Message)}
+                $GSEParams =  @{By=$By; Selection=$s}
+                if($Timeout) {$GSEParams['Timeout'] = $Timeout}
+                try          {$e = Get-SeElement @GSEParams }
+                catch        {throw (expandErr $_.Exception.Message)}
 
-                #throw if we didn't get the element, and if were only asked to check it was there, return gracefully
+                #throw if we didn't get the element; if were only asked to check it was there, return gracefully
                 if (-not $e) {throw (expandErr "Didn't find '$s' by $by")}
                 elseif ($PSCmdlet.ParameterSetName -eq "DefaultPS" ) {
                     Write-Verbose "Found $s"
@@ -938,45 +1057,25 @@ function SeShouldHave {
                 #if we got here we're not in the default parameter set, weren't asked for URL or title, and got an element
                 #with an element property (text, displayed etc or an attribute name. Get that ... )
                     switch ($with) {
-                        'Text'      {$newTestItem = $e.Text}
-                        'Displayed' {$newTestItem = $e.Displayed}
-                        'Enabled'   {$newTestItem = $e.Enabled}
-                        'TagName'   {$newTestItem = $e.TagName}
-                        'X'         {$newTestItem = $e.Location.X}
-                        'Y'         {$newTestItem = $e.Location.Y}
-                        'Width'     {$newTestItem = $e.Size.Width}
-                        'Height'    {$newTestItem = $e.Size.Height}
-                        default     {$newTestItem = $e.GetAttribute($with)}
+                        'Text'      {$testItem = $e.Text}
+                        'Displayed' {$testItem = $e.Displayed}
+                        'Enabled'   {$testItem = $e.Enabled}
+                        'TagName'   {$testItem = $e.TagName}
+                        'X'         {$testItem = $e.Location.X}
+                        'Y'         {$testItem = $e.Location.Y}
+                        'Width'     {$testItem = $e.Size.Width}
+                        'Choice'    {$testItem = (Get-SeSelectionOption -Element $e -ListOptionText)}
+                        'Height'    {$testItem = $e.Size.Height}
+                        default     {$testItem = $e.GetAttribute($with)}
                     }
-                    if (-not $newTestItem -and ($value -ne '')) {
+                    if (-not $testItem -and ($Value -ne '')) {
                         throw (expandErr "Didn't find '$with' on element")
                     }
-                    else {
-                        Write-Verbose  "Found $with = '$newTestItem'"
-                        $testitems += $newTestItem
-                    }
+                    applyTest -with $with -testitems $testItem -operator $Operator -value $Value
+                    if ($PassThru)             {$e}
                 }
             }
         }
-        #if we either had URl, Title or Element with either a property name or attribute name and we got one of those ... Now compare with Value
-        #if operator was not passed, allow it to be taken from an alias for the -value
-        if (-not $PSBoundParameters.ContainsKey('operator') -and $lineText -match ' -(eq|ne|match|notmatch|like|notlike|gt|lt) ') {
-            $Operator = $matches[1]
-        }
-        foreach ($t in $testitems) {
-            Switch ($Operator) {
-                'eq'       {$result = ($t -eq       $value)}
-                'ne'       {$result = ($t -ne       $value)}
-                'like'     {$result = ($t -like     $value)}
-                'notlike'  {$result = ($t -notlike  $value)}
-                'match'    {$result = ($t -match    $value)}
-                'notmatch' {$result = ($t -notmatch $value)}
-                'gt'       {$result = ($t -gt       $value)}
-                'le'       {$result = ($t -lt       $value)}
-            }
-            if (-not $result) {throw (expandErr  "$with had value of '$testitems'. The comparison '-$operator $value' failed.") }
-            elseif ($PassThru -and $Alert) {$a}
-            elseif ($PassThru)             {$e}
-        }
+
     }
 }
