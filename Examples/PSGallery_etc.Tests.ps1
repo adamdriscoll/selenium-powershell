@@ -18,10 +18,10 @@ $SelectTestPage   = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_e
 SeOpen $PSGalleryPage -In $Browser
 Describe "PsGallery Test with $Browser"  {
     It "Opened $Browser, saving the driver in a global variable".padright(71) {
-        $Driver  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
-        $Browser = Get-Process | Where-Object {$_.Parent.id -eq $driver.id}
-        $Driver                                                        | should not beNullOrEmpty
-        $Browser                                                       | should not beNullOrEmpty
+        $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
+        $BrowserProcess = Get-Process | Where-Object {$_.Parent.id -eq $DriverProcess.id}
+        $DriverProcess                                                 | should not beNullOrEmpty
+        $BrowserProcess                                                | should not beNullOrEmpty
         $Global:SeDriver                                               | should not beNullOrEmpty
         $Global:SeDriver -is [OpenQA.Selenium.Remote.RemoteWebDriver]  | should     be true
     }
@@ -81,9 +81,11 @@ Describe "PsGallery Test with $Browser"  {
         SeShouldHave -URL eq $PSGalleryPage
         SeClose
         $Global:SeDriver                                               | should     beNullOrEmpty
-        (Get-Process -id $Driver.id ).HasExited                        | should     be $true
-        if ($Browser.Id) {
-            (Get-Process -id $Browser.id).HasExited                    | should     be $true
+        if ($DriverProcess.Id) {
+            (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+        }
+        if ($BrowserProcess.Id) {
+            (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
         }
     }
 }
@@ -91,9 +93,9 @@ Describe "PsGallery Test with $Browser"  {
 SeOpen $alertTestPage -In $Browser -Options $TestCaseSettings[$Browser].PrivOptions
 Describe "Alerts, Selection boxes and Private browsing with $Browser"{
     It "Re-opended $browser in 'InPrivate' mode".padright(71) {
-        $Driver  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
-        $Browser = Get-Process         | Where-Object {$_.Parent.id -eq $driver.id}
-        $Browser.MainWindowTitle                                       | should match $TestCaseSettings[$Browser].InPrivateLabel
+        $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
+        $BrowserProcess = Get-Process         | Where-Object {$_.Parent.id -eq $DriverProcess.id}
+        $BrowserProcess.MainWindowTitle                                | should match $TestCaseSettings[$Browser].InPrivateLabel
     }
     It 'Opened the right page                                                  ' {
         SeShouldHave -URL -eq $alertTestPage
@@ -131,10 +133,11 @@ Describe "Alerts, Selection boxes and Private browsing with $Browser"{
     }
     it 'Closed the in-private browser instance                                 ' {
         SeClose
-        $Global:SeDriver                                               | should     beNullOrEmpty
-        (Get-Process -id $Driver.id ).HasExited                        | should     be $true
-        if ($Browser.Id) {
-            (Get-Process -id $Browser.id).HasExited                    | should     be $true
+        if ($DriverProcess.Id) {
+            (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+        }
+        if ($BrowserProcess.Id) {
+            (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
         }
     }
 }
@@ -142,16 +145,18 @@ Describe "Alerts, Selection boxes and Private browsing with $Browser"{
 SeOpen $Browser -Options $TestCaseSettings[$Browser].HeadlessOptions
 Describe "Headless browser mode with $browser" {
     it "Re-opened $Browser in 'Headless' mode".padright(71){
-        $Driver  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
-        $Browser = Get-Process | Where-Object {$_.Parent.id -eq $driver.id}
-        $Browser.MainWindowHandle | should be 0
+        $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
+        $BrowserProcess = Get-Process | Where-Object {$_.Parent.id -eq $DriverProcess.id}
+        $BrowserProcess.MainWindowHandle | should be 0
     }
     it 'Closed the browser a third time                                        ' {
         SeClose
         $Global:SeDriver                                               | should     beNullOrEmpty
-        (Get-Process -id $Driver.id ).HasExited                        | should     be $true
-        if ($Browser.Id) {
-            (Get-Process -id $Browser.id).HasExited                        | should     be $true
+        if ($DriverProcess.Id) {
+            (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+        }
+        if ($BrowserProcess.Id) {
+            (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
         }
     }
 }

@@ -3,9 +3,9 @@
     This is a reworking of the C# file used for the selenium test in the the mslearn training "Deploy applications with Azure DevOps" at
     https://docs.microsoft.com/en-gb/learn/modules/run-functional-tests-azure-pipelines/5-write-ui-tests
     The C# File is https://github.com/MicrosoftDocs/mslearn-tailspin-spacegame-web-deploy/blob/selenium/Tailspin.SpaceGame.Web.UITests/HomePageTest.cs
-
 #>
-#$env:SITE_URL='http://tailspin-spacegame-web.azurewebsites.net'
+
+if (-not $env:SITE_URL) {$env:SITE_URL='http://tailspin-spacegame-web.azurewebsites.net'}
 $ModaltestCases = @(
     @{Name       = 'Download Page'
       linkXPath  = '/html/body/div/div/section[2]/div[2]/a'
@@ -20,30 +20,22 @@ $ModaltestCases = @(
       modalXPath = '//*[@id="profile-modal-1"]/div/div'}
 )
 
-Function ClickOpensModal {
-    Param ($linkXPath , $modalXPath)
-    Get-SeElement -by XPath  $linkXPath | Send-SeClick -JavaScriptClick -SleepSeconds 1
-    $modal = SeElement  $modalXPath -by XPath
-    if (-not $modal.displayed) {Write-Warning -Message 'Modal not displayed'; return $false}
-    else {
-        $modal | SeElement ClassName 'close'  | seclick -Js -Sleep 1
-        $null =  SeElement TagName   'body'
-        if ($modal.displayed)   {Write-Warning -Message 'Modal did not close'; return $false}
-        else {return $true}
-    }
-}
-
 Describe "Testing $env:SITE_URL" {
-    BeforeAll {SeOpen $env:SITE_URL -in Chrome}
+    BeforeAll {
+        if ($env:DefaultBrowser)  {SeOpen $env:SITE_URL -In  $env:DefaultBrowser}
+        else                      {SeOpen $env:SITE_URL -In Chrome}
+    }
 
-    Context "Testing Modal Dialogs" {
+    Context "Testing Modal Dialogs in $(($SeDriver.Capabilities.ToDictionary()).browserName) $(($SeDriver.Capabilities.ToDictionary()).browserVersion)" {
         It "Produced the right modal for the <name>" -TestCases $ModaltestCases {
             Param ($linkXPath, $modalXPath)
-            ClickOpensModal $linkXPath  $modalXPath | should contain $true
+                SeShouldHave   $modalXPath -With displayed eq $false
+                SeElement      $linkXPath | SeClick -JavaScriptClick -SleepSeconds 1
+                SeShouldHave   $modalXPath -With displayed eq $true -PassThru| SeElement -By Class 'close' | SeClick -J -S 1
+                SeShouldHave  'body'       -By   TagName
+                SeShouldHave   $modalXPath -With displayed eq $false
         }
     }
-
-    #more tests here
-
+#                               Additional tests would be here
     AfterAll {SeClose}
 }
