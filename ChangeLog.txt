@@ -45,7 +45,10 @@ Start-SeNewEdge  **New Function** with alias, credge to support Chromium based e
   Also added V79 webdriver. V80 and V81 don't work.
 
 SeOpen **New Function**
-  Open takes -In (name of browser) -URL and opens that browser -AsDefault. Mainly for Pester/DSL freindliness
+  Takes -In (name of browser) and opens that browser and optional naviagates to destination in -URL
+  The browser is opened as with -AsDefault and other options passed in -Options.
+  If the browser name is omitted the function will look for $env:DefaultBrowser.
+  Mainly for Pester/DSL freindliness - by changing the environment variable a different browser can be used in different test runs
 
 Send-SeClick **New Function** (with alias SeClick) {replacement for Invoke-SeClick}
   Element can be passed by position (first)

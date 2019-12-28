@@ -803,7 +803,6 @@ function SeOpen {
     [CmdletBinding()]
     Param(
         [ValidateSet('Chrome','CrEdge','FireFox','InternetExplorer','IE','MSEdge','NewEdge')]
-        [Parameter(Mandatory=$true ,Position=0)]
         $In,
         [ValidateURI()]
         [Parameter(Mandatory=$False,Position=1)]
@@ -811,9 +810,20 @@ function SeOpen {
         [hashtable]$Options =@{},
         [int]$SleepSeconds
     )
-    $Options['AsDefaultDriver']     = $true;
+    #Allow the browser to specified in an Environment variable if not passed as a parameter
+    if ($env:DefaultBrowser -and  -not $PSBoundParameters.ContainsKey('In')) {
+        $In = $env:DefaultBrowser
+    }
+    #It may have been passed as a parameter, in an environment variable, or a parameter default, but if not, bail out
+    if (-not $In) {throw 'No Browser was selected'}
+
+    $Options['AsDefaultDriver']     = $true
+    $Options['Verbose']             = $false
     $Options['ErrorAction']         = 'Stop'
-    if ($url) {$Options['StartUrl'] = $url}
+    if ($url) {
+         $Options['StartUrl']       = $url
+    }
+
     switch -regex ($In) {
         'Chrome'   {Start-SeChrome           @Options; continue}
         'FireFox'  {Start-SeFirefox          @Options; continue}
@@ -821,9 +831,9 @@ function SeOpen {
         'Edge$'    {Start-SeNewEdge          @Options; continue}
         '^I'       {Start-SeInternetExplorer @Options; continue}
     }
-    Write-Verbose -Message "Opened $($Global:SeDriver.Capabilities.browsername)"
+    Write-Verbose -Message "Opened $($Global:SeDriver.Capabilities.browsername) $($Global:SeDriver.Capabilities.ToDictionary().browserVersion)"
     if ($SleepSeconds) {Start-Sleep -Seconds $SleepSeconds}
-}
+}`
 
 function SeType {
     param(
