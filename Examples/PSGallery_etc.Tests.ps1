@@ -24,10 +24,10 @@ Describe "PsGallery Test"  {
             It 'opened the browser, saving the webdriver in a global variable          ' {
                 $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
                 $BrowserProcess = Get-Process         | Where-Object {$_.Parent.id -eq $DriverProcess.id}
-                $DriverProcess                                                 | should not beNullOrEmpty
-                $BrowserProcess                                                | should not beNullOrEmpty
-                $Global:SeDriver                                               | should not beNullOrEmpty
-                $Global:SeDriver -is [OpenQA.Selenium.Remote.RemoteWebDriver]  | should     be true
+                $DriverProcess                                                 | Should -Not -BeNullOrEmpty
+                $BrowserProcess                                                | Should -Not -BeNullOrEmpty
+                $Global:SeDriver                                               | Should -Not -BeNullOrEmpty
+                $Global:SeDriver -is [OpenQA.Selenium.Remote.RemoteWebDriver]  | Should      -be true
             }
             It 'reached the right starting page                                        ' {
                 #Should have can check alerts, page title, URL or an element on the page
@@ -54,7 +54,7 @@ Describe "PsGallery Test"  {
                 #get element, pipe as input element for Typing, pass the element through
                 #so pester catches 'null or empty' if it was not found
                 SeElement -By Name 'q' |
-                    SeType -ClearFirst "selenium{{Enter}}" -PassThru           | should not beNullorEmpty
+                    SeType -ClearFirst "selenium{{Enter}}" -PassThru           | Should -Not -BeNullorEmpty
             }
             $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'
             It 'searched successfully                                                  ' {
@@ -73,7 +73,7 @@ Describe "PsGallery Test"  {
                 #Can test with "Get-SeElement | where-object <<complex test>>" rather than "with <<feild>> <<operator>> <<value>>"
                 SeElement    '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a'  |
                     Where {($_.text -eq "Project Site") -and ($_.GetAttribute('href') -match "selenium") } |
-                        SeClick -PassThru    | should not benullorempty
+                        SeClick -PassThru    | Should -Not -Benullorempty
             }
             It 'went to Github from the project link on the search result              ' {
                 SeShouldHave -URL  match 'github'
@@ -84,12 +84,12 @@ Describe "PsGallery Test"  {
                 SeNavigate   -Back
                 SeShouldHave -URL eq $PSGalleryPage
                 SeClose
-                $Global:SeDriver                                               | should     beNullOrEmpty
+                $Global:SeDriver                                               | Should      -BeNullOrEmpty
                 if ($DriverProcess.Id) {
-                    (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+                    (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
                 }
                 if ($BrowserProcess.Id) {
-                    (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
+                    (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
         }
@@ -103,7 +103,7 @@ if ($BrowserOptions) {
             It 're-opended the browser in "InPrivate" mode                             ' {
                 $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
                 $BrowserProcess = Get-Process         | Where-Object {$_.Parent.id -eq $DriverProcess.id}
-                $BrowserProcess.MainWindowTitle                                | should match $TestCaseSettings[$env:DefaultBrowser].InPrivateLabel
+                $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$env:DefaultBrowser].InPrivateLabel
             }
             It 'opened the right page                                                  ' {
                 SeShouldHave -URL -eq $alertTestPage
@@ -111,12 +111,11 @@ if ($BrowserOptions) {
             It 'found and clicked a button in frame 1                                  ' {
                 sleep -Seconds 5 #can go too fast for frames
                 SeFrame 1
-                SeElement "/html/body/button" -Timeout 10 |
-                        SeClick -SleepSeconds 2 -PassThru                      | should not beNullOrEmpty
+                SeElement "/html/body/button" -Timeout 10 | SeClick -Sleep 2 -PassThru   | Should -Not -BeNullOrEmpty
             }
             It 'saw and dismissed an alert                                             ' {
-                #checking the text of the alert is optional. Dissmiss can the alert result through
-                SeShouldHave -Alert match "box" -PassThru | SeDismiss -PT      | should not beNullOrEmpty
+                #Checking the text of the alert is optional. Dissmiss can pass the alert result through
+                SeShouldHave -Alert match "box" -PassThru | SeDismiss -PassThru          | Should -Not -BeNullOrEmpty
             }
             It 'reselected the parent frame                                            ' {
                 SeFrame -Parent
@@ -130,9 +129,9 @@ if ($BrowserOptions) {
             It 'made selections from the "cars" selection box                          ' {
                 $e = SeElement -by Name "cars" -Timeout 10
                 #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
-                {$e | SeSelection -ByValue "Audi"}                             | should     throw
-                {$e | SeSelection -ByValue "audi"}                             | should not throw
-                $e | SeSelection -ByIndex "2" -GetSelected                    | should     be 'Fiat'
+                {$e | SeSelection -ByValue "Audi"}                             | Should      -Throw
+                {$e | SeSelection -ByValue "audi"}                             | Should -not -throw
+                $e | SeSelection -ByIndex "2" -GetSelected                     | Should      -Be 'Fiat'
                 $e | SeSelection -ByText "Sa" -PartialText
             }
             It 'submitted the form and got the expected response                       ' {
@@ -142,10 +141,10 @@ if ($BrowserOptions) {
             It 'closed the in-private browser instance                                 ' {
                 SeClose
                 if ($DriverProcess.Id) {
-                    (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+                    (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
                 }
                 if ($BrowserProcess.Id) {
-                    (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
+                    (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
         }
@@ -160,16 +159,16 @@ if ($BrowserOptions){
             It 're-opened the Browser in "Headless" mode                               ' {
                 $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
                 $BrowserProcess = Get-Process | Where-Object {$_.Parent.id -eq $DriverProcess.id}
-                $BrowserProcess.MainWindowHandle | should be 0
+                $BrowserProcess.MainWindowHandle | Should be 0
             }
             It 'closed the browser a third time                                        ' {
                 SeClose
-                $Global:SeDriver                                               | should     beNullOrEmpty
+                $Global:SeDriver                                               | Should      -BeNullOrEmpty
                 if ($DriverProcess.Id) {
-                    (Get-Process -id $DriverProcess.id ).HasExited             | should     be $true
+                    (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
                 }
                 if ($BrowserProcess.Id) {
-                    (Get-Process -id $BrowserProcess.id).HasExited             | should     be $true
+                    (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
         }
