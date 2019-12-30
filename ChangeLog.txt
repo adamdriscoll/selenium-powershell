@@ -26,16 +26,21 @@ Start-Fe-Firefox & Start-SeChrome
   Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
   Now trap a failure to return driver, and simplified the subsequent if statements
   Added Parameter -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Added Parameter -Quiet to run tests without web driver prattle.
+  Allow AzureDevops environment vars to specify source of Webdrivers.
   Removed a possible bug with piped input, by returning the driver in the process block instead of the end block
 
 Start-SeInternetExplorer
   Added Aliases "InternetExplorer" & "IE" and parameter -StartUrl
-  Plus AsDefaultDriver which sets   $Global:SeDriver, instead of returning the driver
+  Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
+  without web driver prattle.
+  Allow AzureDevops environment vars to specify source of Webdriver.
   Set ImplicitWait to 10 seconds
 
 Start-SeEdge
-  Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized
-  Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
+  Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized, and -PrivateBrowsing (alias Incognito)
+  Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
+  without web driver prattle.
   Set ImplicitWait to 10 seconds
 
 Stop-SeDriver
@@ -54,7 +59,7 @@ Send-SeClick **New Function** (with alias SeClick) {replacement for Invoke-SeCli
   Element can be passed by position (first)
   -JavaScriptClick can be abreviated -JS
   Driver is ignored  (element.wrapedDriver used instead)
-  Added -SleepSeconds and passthru parameter
+  Added -SleepSeconds and -PassThru parameters
 
 New-SeScreenShot: **New Function** with alias SeScreenshot. Merges functionality of Invoke-ScreenShot and SaveSeScreenShot
    Can pass -Path,
