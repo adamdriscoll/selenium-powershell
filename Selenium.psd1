@@ -14,9 +14,9 @@ Author               = 'Adam Driscoll'
 CompanyName          = 'Unknown'
 Copyright            = '(c) 2019 Adam Driscoll. All rights reserved.'
 Description          = 'Web automation using the Selenium Web Driver'
-ScriptsToProcess     = @('.\SeleniumClasses.ps1')
-RootModule           = '.\Selenium.psm1'
-RequiredAssemblies   = @('.\assemblies\WebDriver.dll', '.\assemblies\WebDriver.Support.dll')
+ScriptsToProcess     = @('SeleniumClasses.ps1')
+RootModule           =   'Selenium.psm1'
+RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
 FunctionsToExport    = @(
     'Start-SeChrome' ,
     'Start-SeEdge' ,

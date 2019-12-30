@@ -50,6 +50,9 @@ class OperatorTransformAttribute : System.Management.Automation.ArgumentTransfor
     }
 }
 
+$dll1Path = Join-path -path (Join-path -path $PSScriptRoot -ChildPath 'assemblies') -ChildPath 'WebDriver.dll'
+$dll2Path = Join-path -path (Join-path -path $PSScriptRoot -ChildPath 'assemblies') -ChildPath 'WebDriver.Support.dll'
+
 Add-type @"
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -102,4 +105,4 @@ namespace SeleniumSelection {
         }
     }
 }
-"@ -ReferencedAssemblies "$PSScriptRoot\assemblies\WebDriver.dll","$PSScriptRoot\assemblies\WebDriver.Support.dll", mscorlib
+"@ -ReferencedAssemblies $dll1Path,$dll2Path, mscorlib

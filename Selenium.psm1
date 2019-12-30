@@ -36,7 +36,7 @@ function Start-SeNewEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('CrEdge','NewEdge')]
     param(
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$HideVersionHint,
@@ -90,7 +90,7 @@ function Start-SeChrome {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Chrome')]
     param(
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [Parameter(Mandatory = $false)]
@@ -197,7 +197,7 @@ function Start-SeChrome {
 function Start-SeInternetExplorer {
     [Alias('InternetExplorer','IE')]
     param(
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$Quiet,
@@ -226,7 +226,7 @@ function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('MSEdge')]
     param(
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [parameter(ParameterSetName='Min',Mandatory=$true)]
@@ -271,7 +271,7 @@ function Start-SeFirefox {
     [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('Firefox')]
     param(
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [array]$Arguments,
@@ -346,7 +346,7 @@ function Stop-SeDriver {
     [alias('SeClose')]
     param(
         [Parameter(ValueFromPipeline=$true, position=0,ParameterSetName='Driver')]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Driver,
         [Parameter(Mandatory=$true, ParameterSetName='Default')]
         [switch]$Default
@@ -375,10 +375,10 @@ function Open-SeUrl {
     [Alias('SeNavigate',"Enter-SeUrl")]
     param(
         [Parameter(Mandatory=$true, position=0,ParameterSetName='default')]
-        [validateuri()]
+        [ValidateURIAttribute()]
         [string]$Url,
         [Alias("Driver")]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver,
         [Parameter(Mandatory=$true,ParameterSetName='back')]
         [switch]$Back
@@ -508,7 +508,7 @@ function Get-SeElement {
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
         [ValidateSet("CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath")]
-        [ByTransform()]
+        [ByTransformAttribute()]
         [string]$By = "XPath",
         #Text to select on
         [Alias("CssSelector","Name", "Id", "ClassName","LinkText", "PartialLinkText", "TagName","XPath")]
@@ -612,7 +612,7 @@ function Send-SeKeys {
 function Get-SeCookie {
     param(
         [Alias("Driver")]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver
     )
     $Target.Manage().Cookies.AllCookies.GetEnumerator()
@@ -642,7 +642,7 @@ function Set-SeCookie {
         [string]$Domain,
         $ExpiryDate,
         [Alias("Driver")]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver
     )
 
@@ -711,7 +711,7 @@ function Get-SeElementAttribute {
 function Invoke-SeScreenshot {
     param(
         [Alias("Driver")]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver,
         [Switch]$AsBase64EncodedString
     )
@@ -751,7 +751,7 @@ function New-SeScreenshot {
         [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png,
 
         [Alias("Driver")]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver ,
 
         [Parameter(ParameterSetName='Base64',  Mandatory=$true)]
@@ -795,7 +795,7 @@ function Switch-SeFrame {
     param (
         $Frame,
         [switch]$Parent,
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver
     )
     if     ($frame)  {[void]$Target.SwitchTo().Frame($Frame) }
@@ -808,7 +808,7 @@ function Clear-SeAlert {
         [parameter(ParameterSetName='Alert', Position=0,ValueFromPipeline=$true)]
         $Alert,
         [parameter(ParameterSetName='Driver')]
-        [ValidateIsWebDriver()]
+        [ValidateIsWebDriverAttribute()]
         [Alias("Driver")]
         $Target = $Global:SeDriver,
         [ValidateSet('Accept','Dismiss')]
@@ -831,7 +831,7 @@ function SeOpen {
     Param(
         [ValidateSet('Chrome','CrEdge','FireFox','InternetExplorer','IE','MSEdge','NewEdge')]
         $In,
-        [ValidateURI()]
+        [ValidateURIAttribute()]
         [Parameter(Mandatory=$False,Position=1)]
         $URL,
         [hashtable]$Options =@{'Quiet'=$true},
@@ -981,7 +981,7 @@ function SeShouldHave {
         [Parameter(ParameterSetName='DefaultPS', Mandatory=$false)]
         [Parameter(ParameterSetName='Element'  , Mandatory=$false)]
         [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
-        [ByTransform()]
+        [ByTransformAttribute()]
         [string]$By = 'XPath',
 
         [Parameter(ParameterSetName='Element'  , Mandatory=$true , Position=1)]
@@ -1002,7 +1002,7 @@ function SeShouldHave {
         [Parameter(ParameterSetName='Title'    , Mandatory=$false, Position=3)]
         [Parameter(ParameterSetName='URL'      , Mandatory=$false, Position=3)]
         [ValidateSet('like', 'notlike', 'match', 'notmatch', 'contains', 'eq', 'ne', 'gt', 'lt')]
-        [OperatorTransform()]
+        [OperatorTransformAttribute()]
         [String]$Operator = 'like',
 
         [Parameter(ParameterSetName='Element'  , Mandatory=$false, Position=4)]

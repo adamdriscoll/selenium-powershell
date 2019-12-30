@@ -1,0 +1,30 @@
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+    - '*'
+    # - master
+    # - releases/*
+  paths:
+    exclude:
+    - additions.md
+    - ChangeLog.Txt
+    - README.md
+
+jobs:
+  - job: 'Windows'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - powershell: './CI.ps1 '
+      displayName: 'Run Test on Windows PowerShell'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/results'
+        artifact: 'Windows Results'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: '**/TestResults*.xml'
+        failTaskOnFailedTests: true
