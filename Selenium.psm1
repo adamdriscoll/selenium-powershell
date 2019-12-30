@@ -899,10 +899,10 @@ function Get-SeSelectionOption {
         [OpenQA.Selenium.IWebElement]$Element,
 
         [Parameter(Mandatory=$true,  ParameterSetName='byText', ValueFromPipelineByPropertyName=$true)]
-        [String]$ByText,
+        [String]$ByFullText,
 
-        [Parameter(Mandatory=$false, ParameterSetName='byText')]
-        [switch]$PartialText,
+        [Parameter(Mandatory=$true,  ParameterSetName='bypart', ValueFromPipelineByPropertyName=$true)]
+        [String]$ByPartialText,
 
         [Parameter(Mandatory=$true,  ParameterSetName='byIndex', ValueFromPipelineByPropertyName=$true)]
         [int]$ByIndex,
@@ -922,44 +922,48 @@ function Get-SeSelectionOption {
         [Parameter(Mandatory=$true,  ParameterSetName='selected')]
         [Parameter(Mandatory=$false, ParameterSetName='byValue')]
         [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
         [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
         [switch]$GetSelected,
 
         [Parameter(Mandatory=$true,  ParameterSetName='allSelected')]
         [Parameter(Mandatory=$false, ParameterSetName='byValue')]
         [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
         [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
         [switch]$GetAllSelected,
 
         [Parameter(Mandatory=$false, ParameterSetName='byValue')]
         [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
         [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
         [Alias('PT')]
         [switch]$PassThru
     )
     try {
         #byindex can be 0, but ByText and ByValue can't be empty strings
-        if ($ByText -or $ByValue -or $PSBoundParameters.ContainsKey('ByIndex')) {
+        if ($ByFullText -or $ByPartialText -or $ByValue -or $PSBoundParameters.ContainsKey('ByIndex')) {
             if ($Clear) {
-                if     ($ByText)    {[SeleniumSelection.Option]::DeselectByText( $Element,$ByText)}
-                elseif ($ByValue)   {[SeleniumSelection.Option]::DeselectByValue($Element,$ByValue)}
-                else                {[SeleniumSelection.Option]::DeselectByIndex($Element,$ByIndex)}
+                if     ($ByText)        {[SeleniumSelection.Option]::DeselectByText( $Element,$ByText)}
+                elseif ($ByValue)       {[SeleniumSelection.Option]::DeselectByValue($Element,$ByValue)}
+                else                    {[SeleniumSelection.Option]::DeselectByIndex($Element,$ByIndex)}
             }
             else {
-                if     ($ByText)    {[SeleniumSelection.Option]::SelectByText( $Element,$ByText,([bool]$PartialText))}
-                elseif ($ByValue)   {[SeleniumSelection.Option]::SelectByValue($Element,$ByValue)}
-                else                {[SeleniumSelection.Option]::SelectByIndex($Element,$ByIndex)}
+                if     ($ByText)        {[SeleniumSelection.Option]::SelectByText( $Element,$ByText,$false)}
+                if     ($ByPartialText) {[SeleniumSelection.Option]::SelectByText( $Element,$ByPartialText,$true)}
+                elseif ($ByValue)       {[SeleniumSelection.Option]::SelectByValue($Element,$ByValue)}
+                else                    {[SeleniumSelection.Option]::SelectByIndex($Element,$ByIndex)}
             }
         }
-        elseif ($Clear)             {[SeleniumSelection.Option]::DeselectAll($Element) }
-        if ($IsMultiSelect)  {return [SeleniumSelection.Option]::IsMultiSelect($Element)
+        elseif ($Clear)                 {[SeleniumSelection.Option]::DeselectAll($Element) }
+        if ($IsMultiSelect)      {return [SeleniumSelection.Option]::IsMultiSelect($Element)
         }
         if ($PassThru -and ($GetAllSelected -or $GetAllSelected)) {
             Write-Warning -Message "-Passthru option ignored because other values are returned"
         }
-        if ($GetSelected)    {return [SeleniumSelection.Option]::GetSelectedOption($Element).text
+        if ($GetSelected)        {return [SeleniumSelection.Option]::GetSelectedOption($Element).text
         }
-        if ($GetAllSelected) {return [SeleniumSelection.Option]::GetAllSelectedOptions($Element).text
+        if ($GetAllSelected)     {return [SeleniumSelection.Option]::GetAllSelectedOptions($Element).text
         }
         if ($PSCmdlet.ParameterSetName -eq 'default') {
             [SeleniumSelection.Option]::GetOptions($Element) | Select-Object -ExpandProperty Text
@@ -1022,6 +1026,7 @@ function SeShouldHave {
         [Int]$Timeout = 0
     )
     begin {
+        $endTime  = [datetime]::now.AddSeconds($Timeout)
         $lineText = $MyInvocation.Line.TrimEnd("$([System.Environment]::NewLine)")
         $lineNo   = $MyInvocation.ScriptLineNumber
         $file     = $MyInvocation.ScriptName
@@ -1061,30 +1066,48 @@ function SeShouldHave {
     }
     process {
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
-        if     ($URL -and -not (applyTest -testitems $Global:SeDriver.Url   -operator $Operator -value $Value)){
-            throw (expandErr  "PageURL was $($Global:SeDriver.Url). The comparison '-$operator $value' failed.")
+        if ($URL) {
+            do {
+                     $Success = applyTest -testitems $Global:SeDriver.Url   -operator $Operator -value $Value
+                     Start-Sleep -Milliseconds 500
+            }
+            until (  $Success -or [datetime]::now -gt $endTime )
+            if (-not $Success) {
+                throw (expandErr  "PageURL was $($Global:SeDriver.Url). The comparison '-$operator $value' failed.")
+            }
         }
-        elseif ($Title -and -not (applyTest -testitems $Global:SeDriver.Title -operator $Operator -value $Value)){
-            throw (expandErr  "Page title was $($Global:SeDriver.Title). The comparison '-$operator $value' failed.")
+        elseif ($Title) {
+            do {
+                     $Success = applyTest -testitems $Global:SeDriver.Title -operator $Operator -value $Value
+                     Start-Sleep -Milliseconds 500
+            }
+            until (  $Success -or [datetime]::now -gt $endTime )
+            if (-not $Success) {
+                throw (expandErr  "Page title was $($Global:SeDriver.Title). The comparison '-$operator $value' failed.")
+            }
         }
-        elseif($Title -or $URL) {$Success = $true}
         elseif($Alert -or $NoAlert) {
-            try  {
-                $a =$Global:SeDriver.SwitchTo().alert()
+            do {
+                try  {
+                    $a =$Global:SeDriver.SwitchTo().alert()
+                    $Success = $true
+                }
+                catch {
+                    Start-Sleep -Milliseconds 500
+                }
+                finally {
+                    if($NoAlert -and $a) {throw (expandErr  "Expected no alert but an alert of '$($a.Text)' was displayed") }
+                }
             }
-            catch {
-                if($Alert) {throw (expandErr  "Expected an alert but but none was displayed") }
+            until ($Success -or [datetime]::now -gt $endTime )
+
+            if($Alert -and -not $Success ) {
+                throw (expandErr  "Expected an alert but but none was displayed")
             }
-            finally {
-                if($NoAlert -and $a) {throw (expandErr  "Expected no alert but an alert of '$($a.Text)' was displayed") }
-            }
-            if($value -and -not (applyTest -testitems $a.text -operator $Operator -value $value)) {
+            elseif($value -and -not (applyTest -testitems $a.text -operator $Operator -value $value)) {
                 throw (expandErr  "Alert text was $($a.text). The comparison '-$operator $value' failed.")
             }
-            else {
-                $success = $true
-                if($PassThru) {return $a}
-            }
+            elseif($PassThru) {return $a}
         }
         else   {
             foreach ($s in $Selection) {

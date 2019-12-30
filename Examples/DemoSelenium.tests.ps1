@@ -4,6 +4,8 @@
     https://docs.microsoft.com/en-gb/learn/modules/run-functional-tests-azure-pipelines/5-write-ui-tests
     The C# File is https://github.com/MicrosoftDocs/mslearn-tailspin-spacegame-web-deploy/blob/selenium/Tailspin.SpaceGame.Web.UITests/HomePageTest.cs
 
+    An improved version of this is included in Combined.tests.ps1
+
 #>
 #$env:SITE_URL='http://tailspin-spacegame-web.azurewebsites.net'
 $ModaltestCases = @(

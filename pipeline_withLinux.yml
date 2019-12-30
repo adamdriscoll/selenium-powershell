@@ -32,3 +32,21 @@ jobs:
         testResultsFormat: 'NUnit'
         testResultsFiles: '**/TestResults*.xml'
         failTaskOnFailedTests: true
+
+  - job: 'Ubuntu'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
+      displayName: 'Update Pester'
+    - powershell: './CI.ps1 '
+      displayName: 'Run Test on Linux'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/*.XLSx'
+        artifact: 'Linux Results'
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'NUnit'
+        testResultsFiles: '**/TestResults*.xml'
+        failTaskOnFailedTests: true

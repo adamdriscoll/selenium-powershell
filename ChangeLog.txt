@@ -41,6 +41,8 @@ Start-SeEdge
   Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized, and -PrivateBrowsing (alias Incognito)
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
   without web driver prattle.
+  Added message if driver load errors - Webdriver is now added as a windows Feature and will be found from windows\system32,
+  which is on the path. Removed old driver and SHA file.
   Set ImplicitWait to 10 seconds
 
 Stop-SeDriver

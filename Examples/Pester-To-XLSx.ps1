@@ -72,8 +72,11 @@ $os          = $resultXML.environment.platform -replace '\|.*$'," $($resultXML.e
                  Results
                    Test-Suite [Name] = Context block name [result], [Time] to execute etc.
                       Results
-                         Test-Case [name] = Describe.Context.It block names [description]= it block name, result], [Time] to execute etc
-
+                        Test-Case [name] = Describe.Context.It block names [description]= it block name, result], [Time] to execute etc
+                      or if the tests are parameterized
+                        Test suite [description] - name in the the it block with <vars> not filled in
+                          Results
+                             Test-case  [description] - name as rendered for display with <vars> filled in
 #>
 $testResults = foreach ($test in $resultXML.'test-suite'.results.'test-suite') {
     $testPs1File         = $test.name
@@ -83,7 +86,11 @@ $testResults = foreach ($test in $resultXML.'test-suite'.results.'test-suite') {
             $Describe    = $suite.description
             foreach ($subsuite in $suite.results.'test-suite') {
               $Context     = $subsuite.description
-              $subsuite.results.'test-case'| ForEach-Object {
+              if ($subsuite.results.'test-suite'.results.'test-case') {
+                    $testCases = $subsuite.results.'test-suite'.results.'test-case'
+              }
+              else {$testCases = $subsuite.results.'test-case'}
+              $testCases | ForEach-Object {
                 New-Object -TypeName psobject -Property ([ordered]@{
                    Machine  = $machine    ; OS       = $os
                    Date     = $startDate  ; Time     = $startTime
