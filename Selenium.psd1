@@ -69,6 +69,16 @@ AliasesToExport      = @(
 CmdletsToExport      = @()
 VariablesToExport    = @()
 DscResourcesToExport = @()
+FileList             = @('.\assemblies',
+                         '.\Examples',
+                         '.\ChangeLog.txt',
+                         '.\README.md',
+                         '.\additions.md',
+                         '.\Selenium.psm1'
+                        ' .\SeleniumClasses.ps1'
+                         '.\Selenium.tests.ps1'
+                         '.\Selenium-Binary-Updater.ps1')
+
 PrivateData          = @{
     PSData = @{
         Tags         = @('selenium', 'automation', 'web')
@@ -107,8 +117,6 @@ PrivateData          = @{
 # Modules that must be imported into the global environment prior to importing this module
 # RequiredModules = @()
 
-
-
 # Type files (.ps1xml) to be loaded when importing this module
 # TypesToProcess = @()
 
@@ -121,8 +129,6 @@ PrivateData          = @{
 # List of all modules packaged with this module
 # ModuleList = @()
 
-# List of all files packaged with this module
-# FileList = @()
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 

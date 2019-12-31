@@ -19,9 +19,9 @@ jobs:
     steps:
     - powershell: 'Install-Module -Name Pester -Force -SkipPublisherCheck'
       displayName: 'Update Pester'
-    - powershell: './CI.ps1 '
+    - powershell: './CI/CI.ps1 '
       displayName: 'Run Test on Windows PowerShell'
-    - pwsh: './CI.ps1 '
+    - pwsh: './CI/CI.ps1 '
       displayName: 'Run Test on PowerShell core on Windows'
     - task: PublishPipelineArtifact@1
       inputs:
