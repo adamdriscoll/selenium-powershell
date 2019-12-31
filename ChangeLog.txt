@@ -108,4 +108,6 @@ Drives pester tests as a single command See examples for details, but allows thi
 
 Added some new examples - showing DSL style in Pester.
 
-Reorder PSD file for easy reading
+Reorder PSD file for easy reading & add file list.
+
+Create CI directory with files for doing a build / test pass is Azure devops.

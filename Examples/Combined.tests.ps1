@@ -21,10 +21,11 @@ $ModaltestCases   = @(
       linkXPath   = '/html/body/div/div/section[4]/div/div/div[1]/div[2]/div[2]/div/a/div'
       modalXPath  = '//*[@id="profile-modal-1"]/div/div'}
 )
+$AlwaysHeadless   = $env:AlwaysHeadless -eq $true
 
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
-        $BrowserID = SeOpen -URL $env:SITE_URL  -Verbose  4>&1
+        $BrowserID = SeOpen -URL $env:SITE_URL -Options @{Headless=$AlwaysHeadless} -Verbose  4>&1
         $BrowserID = ($BrowserID.Message -replace '^Opened ','') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "Testing Modal Dialogs in $BrowserID" {
@@ -50,17 +51,20 @@ $SelectTestPage   = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_e
 #For each browser we will test in, specify the options for headless, inprivate & window title label for in-private
 $TestCaseSettings = @{
     'NewEdge'     = @{ HeadlessOptions = @{Headless=$true}
-                       PrivOptions     = @{PrivateBrowsing=$true}
+                       PrivOptions     = @{PrivateBrowsing=$true
+                                           Headless=$AlwaysHeadless }
                        InPrivateLabel  = 'InPrivate'}
     'Chrome'      = @{ HeadlessOptions = @{Headless=$true}
-                       PrivOptions     = @{PrivateBrowsing=$true}}
+                       PrivOptions     = @{PrivateBrowsing=$true
+                                           Headless=$AlwaysHeadless}}
     'Firefox'     = @{ HeadlessOptions = @{Headless=$true}
-                       PrivOptions     = @{PrivateBrowsing=$true}}
+                       PrivOptions     = @{PrivateBrowsing=$true
+                                           Headless=$AlwaysHeadless}}
     'Edge'        = @{ PrivOptions     = @{PrivateBrowsing=$true}}
 }
 
 #Rely on environment variable to choose browser. Capture ID by requesting verbose and redirecting it. Will use in logs
-$BrowserID = SeOpen -URL $PSGalleryPage -Verbose  4>&1
+$BrowserID = SeOpen -URL $PSGalleryPage -Options @{Headless=$AlwaysHeadless } -Verbose  4>&1
 $BrowserID = ($BrowserID.Message -replace '^Opened ','') + ' on ' + [System.Environment]::OSVersion.Platform
 Describe "PsGallery Test"  {
         Context "in $BrowserID"{

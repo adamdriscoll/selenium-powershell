@@ -12,9 +12,10 @@ elseif($IsMacOS){
 # Grant Execution permission to assemblies on Linux and MacOS
 if($AssembliesPath){
     # Check if powershell is NOT running as root
-    Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/chromedriver" | ForEach-Object {
-        if($IsLinux)    {$FileMod          = stat -c "%a" $_.fullname }
-        elseif($IsMacOS){$FileMod = /usr/bin/stat -f "%A" $_.fullname}
+    Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/geckodriver" | ForEach-Object {
+        if($IsLinux)    {$FileMod          = stat -c "%a" $_.FullName}
+        elseif($IsMacOS){$FileMod = /usr/bin/stat -f "%A" $_.FullName}
+        Write-Verbose "$($_.FullName) $Filemod"
         if($FileMod[2] -ne '5' -and $FileMod[2] -ne '7' ){
             Write-Host "Granting $($AssemblieFile.fullname) Execution Permissions ..."
             chmod +x $_.fullname
