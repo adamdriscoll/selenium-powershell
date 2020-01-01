@@ -49,7 +49,7 @@ if (-not $UseExisting) {
     $InvokePesterParams.Remove('WorkSheetName')
     Invoke-Pester @InvokePesterParams
 }
-$InvokePesterParams | Out-Host
+
 if (-not (Test-Path -Path $InvokePesterParams['OutputFile'])) {
     throw "Could not output file $($InvokePesterParams['OutputFile'])"; return
 }
@@ -60,7 +60,6 @@ $startTime   = $resultXML.time
 $machine     = $resultXML.environment.'machine-name'
 #$user       = $resultXML.environment.'user-domain' + '\' + $resultXML.environment.user
 $os          = $resultXML.environment.platform -replace '\|.*$'," $($resultXML.environment.'os-version')"
-write-host $startTime, $os
 <#hierarchy goes
     root, [date], start [time], [Name] (always "Pester"), test results broken down as [total],[errors],[failures],[not-run] etc.
       Environment (user & machine info)
@@ -126,7 +125,6 @@ if (-not $testResults) {Write-Warning 'No Results found' ; return}
 $clearSheet = -not $Append
 $excel      =  $testResults | Export-Excel  -Path $xlFile -WorkSheetname $WorkSheetName -ClearSheet:$clearSheet -Append:$append -PassThru  -BoldTopRow -FreezeTopRow -AutoSize -AutoFilter -AutoNameRange
 $ws         =  $excel.Workbook.Worksheets[$WorkSheetName]
-write-host $ws.Dimension.address
 <#  Worksheet should look like ..
   |A        |B             |C      D      |E        |F       |G          |H       |I        |J        |K    |L       |M
  1|Machine  |OS            |Date   Time   |Executed |Success |Duration   |File    |Group    |SubGroup |Name |Result  |FullDescription
@@ -143,5 +141,4 @@ Set-Column -Worksheet $ws -Column 3 -NumberFormat 'Short Date' # -AutoSize
 $endRow = $ws.Dimension.End.Row
 Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endrow" -RuleType ContainsText -ConditionValue "Failure" -BackgroundPattern None -ForegroundColor Red   -Bold
 Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endRow" -RuleType ContainsText -ConditionValue "Success" -BackgroundPattern None -ForeGroundColor Green
-write-host "saving $($excel.File.FullName)"
 Close-ExcelPackage -ExcelPackage $excel  -Show:$show

@@ -30,7 +30,7 @@ $RunParameters  = @{
 }
 foreach ( $b   in $BrowserList) {
     $env:DefaultBrowser = $b
-    $RunParameters['OutputFile']    = Join-Path $pwd "testresults-$platform$b.xml"
+    $RunParameters['OutputFile']    = Join-Path $pwd "TestResults-$platform$b.xml"
     $RunParameters['WorkSheetName'] =  "$B $Platform"
     $RunParameters | Out-Host
     & "$PSScriptRoot\Pester-To-XLSx.ps1"  @RunParameters
@@ -40,7 +40,6 @@ foreach ( $b   in $BrowserList) {
 $excel          = Open-ExcelPackage $RunParameters.XLFile
 $wslist         = $excel.Workbook.Worksheets.name
 Close-ExcelPackage -NoSave $excel
-Write-Host ("Merging sheets" + ($wslist -join ',') + "in $($RunParameters.XLFile)")
 Merge-MultipleSheets -path  $RunParameters.XLFile -WorksheetName $wslist -OutputSheetName combined -OutputFile $RunParameters.XLFile -HideRowNumbers -Property name,result
 
 #Hide everything on 'combined' except test name, results for each browser, and test group, Set column widths, tweak titles, apply conditional formatting.
@@ -65,5 +64,4 @@ Set-ExcelRow -Worksheet $ws -Height 28.5
 $cfRange        = [OfficeOpenXml.ExcelAddress]::new(2,3,$ws.Dimension.end.Row,  (3*$wslist.count -2)).Address
 Add-ConditionalFormatting -WorkSheet $ws -range $cfRange -RuleType ContainsText -ConditionValue "Failure" -BackgroundPattern None -ForegroundColor Red   -Bold
 Add-ConditionalFormatting -WorkSheet $ws -range $cfRange -RuleType ContainsText -ConditionValue "Success" -BackgroundPattern None -ForeGroundColor Green
-Write-Host ("Saving $($excel.File.FullName)")
 Close-ExcelPackage $excel

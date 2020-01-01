@@ -202,8 +202,11 @@ function Start-SeInternetExplorer {
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
+    if ($Headless) {Write-Warning 'Internet explorer does not support headless operation; the Headless switch is ignored'}
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
     if($StartURL) {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
@@ -237,8 +240,11 @@ function Start-SeEdge {
         [Alias('Incognito')]
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
+    if ($Headless) {Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored'}
     $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
     $options = New-Object -TypeName OpenQA.Selenium.Edge.EdgeOptions
     if($Quiet)           {$service.HideCommandPromptWindow = $true}
