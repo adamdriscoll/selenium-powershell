@@ -1,34 +1,38 @@
-#Chrome and firefox or on Windows and Linux. Get the OS/PS version info for later.
-#If we're on Windows add IE  as a browser. If PS 6 (not 7) add WinPowershell to the module path
-$BrowserList    = 'Chrome' , 'FireFox'
+param (
+    [string[]]$BrowserList=@('Chrome','Firefox')
+)
+#Get the OS/PS version info for later. On Linux run headless On windows and PS 6 (but not 7)  add WindowsPowershell to the module path.
 $Platform       = ([environment]::OSVersion.Platform).ToString() + ' PS' + $PSVersionTable.PSVersion.Major
-if ($Platform -like 'win*') {
-    $BrowserList+= 'IE'
-    if ($Platform -like '*6') {
-        $env:PSModulePath -split ';' | where {$_ -match "\w:\\Prog.*PowerShell\\modules"} | ForEach-Object {
+if ($Platform -notlike 'win*')  {$env:AlwaysHeadless = $true}
+if ($Platform -like    'win*6') {
+        $env:PSModulePath -split ';' | Where-Object {$_ -match "\w:\\Prog.*PowerShell\\modules"} | ForEach-Object {
             $env:PSModulePath = ($_ -replace "PowerShell","WindowsPowerShell") + ";" +  $env:PSModulePath
         }
-    }
 }
+
 #Make sure we have the modules we need
 Import-Module .\Selenium.psd1 -Force -ErrorAction Stop
-if (-not (Get-Module -ListAvailable ImportExcel)) {
+$checkImportExcel = Get-Module -ListAvailable ImportExcel
+if (-not ($checkImportExcel)) {
     Write-Verbose -Verbose 'Installing ImportExcel'
     Install-Module ImportExcel -Force -SkipPublisherCheck
 }
-if (-not (Get-Module -ListAvailable Pester| Where-Object {$_.version.major -ge 4 -and $_.version.minor -ge 4})) {
+else {$checkImportExcel | Out-Host}
+$checkPester = Get-Module -ListAvailable Pester| Where-Object {$_.version.major -ge 4 -and $_.version.minor -ge 4}
+if (-not $checkPester) {
     Write-Verbose -Verbose 'Installing Pester'
     Install-Module Pester -Force -SkipPublisherCheck
 }
+else {$checkPester | Out-Host}
 
 #Run the test and results export to an Excel file for current OS - Test picks up the selected browser from an environment variable.
 $RunParameters  = @{
-    XLFile     = '{0}/results/Results-{1}.xlsx' -f $env:Build_ArtifactStagingDirectory, [environment]::OSVersion.Platform.ToString()
+    XLFile     = '{0}/results/Results-{1}.xlsx' -f $env:BUILD_ARTIFACTSTAGINGDIRECTORY, [environment]::OSVersion.Platform.ToString()
     Script     = Join-Path -Path (Join-Path $pwd 'Examples') -ChildPath 'Combined.tests.ps1'
 }
 foreach ( $b   in $BrowserList) {
     $env:DefaultBrowser = $b
-    $RunParameters['OutputFile']    = Join-Path $pwd "testresults-$platform$b.xml"
+    $RunParameters['OutputFile']    = Join-Path $pwd "TestResults-$platform$b.xml"
     $RunParameters['WorkSheetName'] =  "$B $Platform"
     $RunParameters | Out-Host
     & "$PSScriptRoot\Pester-To-XLSx.ps1"  @RunParameters

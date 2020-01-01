@@ -15,7 +15,7 @@ if($AssembliesPath){
     Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/geckodriver" | ForEach-Object {
         if($IsLinux)    {$FileMod          = stat -c "%a" $_.FullName}
         elseif($IsMacOS){$FileMod = /usr/bin/stat -f "%A" $_.FullName}
-        Write-Host "$($_.FullName) $Filemod"
+        Write-Verbose "$($_.FullName) $Filemod"
         if($FileMod[2] -ne '5' -and $FileMod[2] -ne '7' ){
             Write-Host "Granting $($AssemblieFile.fullname) Execution Permissions ..."
             chmod +x $_.fullname
@@ -202,8 +202,11 @@ function Start-SeInternetExplorer {
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
+    if ($Headless) {Write-Warning 'Internet explorer does not support headless operation; the Headless switch is ignored'}
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
     if($StartURL) {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
@@ -237,8 +240,11 @@ function Start-SeEdge {
         [Alias('Incognito')]
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
+    if ($Headless) {Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored'}
     $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
     $options = New-Object -TypeName OpenQA.Selenium.Edge.EdgeOptions
     if($Quiet)           {$service.HideCommandPromptWindow = $true}
