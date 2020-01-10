@@ -47,12 +47,12 @@ FunctionsToExport    = @(
     'SeType',
     'SeShouldHave'  )
 AliasesToExport      = @(
-    'Chrome' ,
+    'SeChrome' ,
     'Enter-SeUrl' ,
     'Find-SeElement' ,
-    'Firefox' ,
-    'IE',
-    'InternetExplorer' ,
+    'SeFirefox' ,
+    'SeIE',
+    'SeInternetExplorer' ,
     'CrEdge' ,
     'NewEdge',
     'MSEdge' ,
