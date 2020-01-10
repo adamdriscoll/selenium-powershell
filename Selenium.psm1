@@ -12,22 +12,14 @@ elseif($IsMacOS){
 # Grant Execution permission to assemblies on Linux and MacOS
 if($AssembliesPath){
     # Check if powershell is NOT running as root
-    Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/chromedriver" | ForEach-Object {
-        if($IsLinux)    {$FileMod          = stat -c "%a" $_.fullname }
-        elseif($IsMacOS){$FileMod = /usr/bin/stat -f "%A" $_.fullname}
+    Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/geckodriver" | ForEach-Object {
+        if($IsLinux)    {$FileMod          = stat -c "%a" $_.FullName}
+        elseif($IsMacOS){$FileMod = /usr/bin/stat -f "%A" $_.FullName}
+        Write-Verbose "$($_.FullName) $Filemod"
         if($FileMod[2] -ne '5' -and $FileMod[2] -ne '7' ){
             Write-Host "Granting $($AssemblieFile.fullname) Execution Permissions ..."
             chmod +x $_.fullname
         }
-    }
-}
-
-class ValidateURIAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
-    [void] Validate([object] $arguments , [System.Management.Automation.EngineIntrinsics]$EngineIntrinsics) {
-        $Out = $null
-        if   ([uri]::TryCreate($arguments,[System.UriKind]::Absolute, [ref]$Out)) {return}
-        else {throw  [System.Management.Automation.ValidationMetadataException]::new('Incorrect StartURL please make sure the URL starts with http:// or https://')}
-        return
     }
 }
 
@@ -50,19 +42,71 @@ function Start-SeNewEdge {
         [string]$StartURL,
         [switch]$HideVersionHint,
         [switch]$Minimized,
-        [System.IO.FileInfo]$BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe",
+        $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe", #change after edge is released.
+        $ProfileDirectoryPath,
+        $DefaultDownloadPath,
         [switch]$AsDefaultDriver,
-        $WebDriverDirectory = "$PSScriptRoot\Assemblies\"
+        [switch]$Headless,
+        [switch]$Quiet,
+        [Alias('Incognito')]
+        [switch]$PrivateBrowsing,
+        $WebDriverDirectory
     )
-    if(!$HideVersionHint){
-        Write-Verbose "Download the right webdriver from 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'"
+    $OptionSettings =  @{ browserName=''}
+    #region check / set paths for browser and web driver
+    if ($BinaryPath -and -not (Test-Path -Path $BinaryPath)) {
+        throw "Could not find $BinaryPath"; return
+    }
+    elseif ($BinaryPath) {
+        $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
     }
 
-    $Service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
-    $Options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property  @{BinaryLocation = $BinaryPath}
-    $Driver  = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $Service, $Options
-    if(-not $Driver) {Write-Warning "Web driver was not created"; return}
-
+    if ($WebDriverDirectory -and -not (Test-Path -Path (Join-Path -Path $WebDriverDirectory -ChildPath 'msedgedriver.exe' ))) {
+        throw "Could not find msedgedriver.exe in $WebDriverDirectory"; return
+    }
+    elseif (-not $WebDriverDirectory) {
+        if ($BinaryPath) {$binaryDir = Split-Path -Path $BinaryPath -Parent}
+        if ($binarydir -and (Test-Path (Join-Path -Path $binaryDir  -ChildPath 'msedgedriver.exe'))) {
+            $WebDriverDirectory = $binaryDir
+        }
+        elseif (Test-Path (Join-path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe')) {
+            $WebDriverDirectory =  "$PSScriptRoot\Assemblies\"
+        }
+        else {throw "Could not find msedgedriver.exe"; return}
+    }
+    #endregion
+    $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
+    $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
+    #The command line args may now be  --inprivate --headless   but msedge driver V81 does not pass them
+    if ($PrivateBrowsing)       {$options.AddArguments('InPrivate')}
+    if ($Headless)              {$options.AddArguments('headless')}
+    if ($Quiet)                 {$service.HideCommandPromptWindow = $true}
+    if ($ProfileDirectoryPath)  {
+        $ProfileDirectoryPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfileDirectoryPath)
+        Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
+        $options.AddArgument("user-data-dir=$ProfileDirectoryPath")
+    }
+    if($DefaultDownloadPath){
+        $DefaultDownloadPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($DefaultDownloadPath)
+        Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
+        $Options.AddUserProfilePreference('download', @{'default_directory' = $DefaultDownloadPath; 'prompt_for_download' = $false; })
+    }
+    $Driver = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $service, $options
+    #Check driver loaded. If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
+    if(-not $Driver) {
+            Write-Warning "Web driver was not created"; return}
+    else {
+            $driverversion = $Driver.Capabilities.ToDictionary().msedge.msedgedriverVersion -replace '^([\d.]+).*$','$1'
+            Write-Verbose "Web Driver version $driverversion"
+            Write-Verbose "Browser $($Driver.Capabilities.ToDictionary().browserName) $($Driver.Capabilities.ToDictionary().browserVersion)"
+            $browserCmdline = (Get-CimInstance -Query "Select * from win32_process where parentprocessid = $($service.ProcessId)" ).commandline
+            $options.arguments | Where-Object {$browserCmdline -notlike "*$_*"} | ForEach-Object {
+                Write-Warning "Argument $_ was not passed to the Browser. This is a known issue with some web driver versions"
+            }
+            if(!$HideVersionHint){
+                Write-Verbose "Download the right webdriver from 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'"
+            }
+    }
     if($StartURL) {$Driver.Navigate().GoToUrl($StartURL)}
 
     if($Minimized){
@@ -101,6 +145,7 @@ function Start-SeChrome {
         [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
         [System.IO.FileInfo]$ChromeBinaryPath,
+        [switch]$Quiet,
         [switch]$AsDefaultDriver
     )
 
@@ -153,9 +198,11 @@ function Start-SeChrome {
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
 
-        if($AssembliesPath){ $arglist = @( $AssembliesPath,$Chrome_Options) }
-        else               { $arglist = @( $Chrome_Options)}
-        $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $arglist
+        if($env:ChromeWebDriver) {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($env:ChromeWebDriver)}
+        elseif($AssembliesPath)  {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($AssembliesPath)}
+        else                     {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService()}
+        if ($Quiet)              {$service.HideCommandPromptWindow = $true}
+        $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $service,$Chrome_Options
         if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
         #region post start options
@@ -187,16 +234,23 @@ function Start-SeInternetExplorer {
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
-        [switch]$AsDefaultDriver
+        [switch]$Quiet,
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
+    if($Headless) {Write-Warning 'Internet explorer does not support headless operation; the Headless switch is ignored'}
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
-    $Driver = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $InternetExplorer_Options
+    if($StartURL) {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
+    if($env:IEWebDriver) {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($env:IEWebDriver)}
+    else                 {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService()}
+    if($Quiet)           {$Service.HideCommandPromptWindow = $true}
+    $Driver = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $service, $InternetExplorer_Options
 
     if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
-    if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
 
     if($AsDefaultDriver) {
         if($Global:SeDriver) {$Global:SeDriver.Dispose()}
@@ -216,16 +270,34 @@ function Start-SeEdge {
         [switch]$Maximized,
         [parameter(ParameterSetName='Max',Mandatory=$true)]
         [switch]$Minimized,
-        [switch]$AsDefaultDriver
+        [Alias('Incognito')]
+        [switch]$PrivateBrowsing,
+        [switch]$Quiet,
+        [switch]$AsDefaultDriver,
+        [Parameter(DontShow)]
+        [switch]$Headless
     )
-    $Driver = New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver"
+    if($Headless) {Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored'}
+    $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
+    $options = New-Object -TypeName OpenQA.Selenium.Edge.EdgeOptions
+    if($Quiet)           {$service.HideCommandPromptWindow = $true}
+    if($PrivateBrowsing) {$options.UseInPrivateBrowsing    = $true}
+    if($StartURL)        {$options.StartPage               = $StartURL}
+
+    try {
+        $Driver = New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver" -ArgumentList $service ,$options
+    }
+    catch {$driverversion  = (Get-Item .\assemblies\MicrosoftWebDriver.exe ).VersionInfo.ProductVersion
+           $WindowsVersion = [System.Environment]::OSVersion.Version.ToString()
+           Write-Warning -Message "Edge driver is $driverversion. Windows is $WindowsVersion. If the driver is out-of-date update it as a Windows feature,`r`nand then delete $PSScriptRoot\assemblies\MicrosoftWebDriver.exe"
+           throw $_ ; return
+    }
     if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
     #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds(10)
     if($Minimized) {$Driver.Manage().Window.Minimize()    }
     if($Maximized) {$Driver.Manage().Window.Maximize()    }
-    if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
     #endregion
 
     if($AsDefaultDriver) {
@@ -254,6 +326,7 @@ function Start-SeFirefox {
         [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
         [switch]$SuppressLogging,
+        [switch]$Quiet,
         [switch]$AsDefaultDriver
     )
     process {
@@ -285,10 +358,12 @@ function Start-SeFirefox {
             $Firefox_Options.LogLevel = 6
         }
         #endregion
+        if($env:GeckoWebDriver){$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($env:GeckoWebDriver)}
+        elseif($AssembliesPath){$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath)}
+        else                   {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService()}
+        if($Quiet)             {$service.HideCommandPromptWindow = $true}
 
-        if($AssembliesPath){ $arglist = @( $AssembliesPath,$Firefox_Options) }
-        else               { $arglist = @( $Firefox_Options)}
-        $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver"-ArgumentList $arglist
+        $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $service, $Firefox_Options
         if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
         #region post creation options
@@ -299,7 +374,7 @@ function Start-SeFirefox {
         if($StartURL)  {$Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 
-        if($AsDefaultDriver) {
+        if($AsDefaultDriver)   {
             if($Global:SeDriver) {$Global:SeDriver.Dispose()}
             $Global:SeDriver = $Driver
         }
@@ -308,15 +383,25 @@ function Start-SeFirefox {
 }
 
 function Stop-SeDriver {
+    [alias('SeClose')]
     param(
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true, position=0,ParameterSetName='Driver')]
+        [Parameter(ValueFromPipeline=$true, position=0,ParameterSetName='Driver')]
+        [ValidateIsWebDriverAttribute()]
         $Driver,
         [Parameter(Mandatory=$true, ParameterSetName='Default')]
         [switch]$Default
     )
-    if($Default) {$Driver = $Global:SeDriver}
-    $Driver.Close()
-    $Driver.Dispose()
+    if(-not $PSBoundParameters.ContainsKey('Driver') -and $Global:SeDriver -and ($Default -or $MyInvocation.InvocationName -eq 'SeClose')) {
+        Write-Verbose -Message "Closing $($Global:SeDriver.Capabilities.browsername)..."
+        $Global:SeDriver.Close()
+        $Global:SeDriver.Dispose()
+        Remove-Variable -Name SeDriver -Scope global
+    }
+    elseif($Driver) {
+           $Driver.Close()
+           $Driver.Dispose()
+    }
+    else {Write-Warning -Message 'No Driver Specified'}
 }
 
 <#function Enter-SeUrl {
@@ -326,17 +411,21 @@ function Stop-SeDriver {
 }
 #>
 function Open-SeUrl {
+    [cmdletbinding(DefaultParameterSetName='default')]
     [Alias('SeNavigate',"Enter-SeUrl")]
     param(
-        [Parameter(Mandatory=$true, position=0)]
+        [Parameter(Mandatory=$true, position=0,ParameterSetName='default')]
+        [ValidateURIAttribute()]
         [string]$Url,
         [Alias("Driver")]
-        $Target = $Global:SeDriver
+        [ValidateIsWebDriverAttribute()]
+        $Target = $Global:SeDriver,
+        [Parameter(Mandatory=$true,ParameterSetName='back')]
+        [switch]$Back
+
     )
-    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-        throw "No valid driver was provided. "
-    }
-    else {$Target.Navigate().GoToUrl($Url) }
+    if($Back) {$Target.Navigate().Back()}
+    else      {$Target.Navigate().GoToUrl($Url)}
 }
 
 <#function Find-SeElement {
@@ -455,13 +544,14 @@ function Open-SeUrl {
 }
 #>
 function Get-SeElement {
-    [Alias('Find-SeElement')]
+    [Alias('Find-SeElement','SeElement')]
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
         [ValidateSet("CssSelector", "Name", "Id", "ClassName", "LinkText", "PartialLinkText", "TagName", "XPath")]
+        [ByTransformAttribute()]
         [string]$By = "XPath",
         #Text to select on
-        [Alias("Name", "Id", "ClassName","LinkText", "PartialLinkText", "TagName","XPath")]
+        [Alias("CssSelector","Name", "Id", "ClassName","LinkText", "PartialLinkText", "TagName","XPath")]
         [Parameter(Position=1,Mandatory=$true)]
         [string]$Selection,
         #Specifies a time out
@@ -482,19 +572,19 @@ function Get-SeElement {
         # capture Param and set it as the value for by
         $mi = $MyInvocation.InvocationName
         if(-not $PSBoundParameters.ContainsKey("By") -and
-          ($MyInvocation.Line -match  "$mi[^>\|;]*-(Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath)")) {
+          ($MyInvocation.Line -match  "$mi[^>\|;]*-(CssSelector|Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath)")) {
                 $By = $Matches[1]
         }
         if($wait -and $Timeout -eq 0) {$Timeout = 30 }
 
         if($TimeOut -and $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
             $TargetElement = [OpenQA.Selenium.By]::$By($Selection)
-            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
+            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait -ArgumentList $Target, (New-TimeSpan -Seconds $Timeout)
             $Condition     = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
             $WebDriverWait.Until($Condition)
         }
         elseif($Target -is [OpenQA.Selenium.Remote.RemoteWebElement] -or
-                $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
+               $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
             if($Timeout) {Write-Warning "Timeout does not apply when searching an Element"}
             $Target.FindElements([OpenQA.Selenium.By]::$By($Selection))
         }
@@ -530,12 +620,15 @@ function Send-SeClick {
         [Switch]$JavaScriptClick,
         $SleepSeconds = 0 ,
         [Parameter(DontShow)]
-        $Driver
+        $Driver,
+        [Alias('PT')]
+        [switch]$PassThru
     )
     Process {
         if($JavaScriptClick) { $Element.WrappedDriver.ExecuteScript("arguments[0].click()", $Element) }
         else                 { $Element.Click() }
         if($SleepSeconds)    { Start-Sleep -Seconds $SleepSeconds}
+        if($PassThru)        { $Element}
     }
 }
 
@@ -544,7 +637,6 @@ function Get-SeKeys {
 }
 
 function Send-SeKeys {
-    [Alias('SeType')]
     param(
         [Parameter(Mandatory=$true,Position=0,ValueFromPipeline=$true)]
         [OpenQA.Selenium.IWebElement]$Element,
@@ -560,11 +652,9 @@ function Send-SeKeys {
 function Get-SeCookie {
     param(
         [Alias("Driver")]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver
     )
-    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-        throw "No valid driver was provided. "
-    }
     $Target.Manage().Cookies.AllCookies.GetEnumerator()
 }
 
@@ -592,6 +682,7 @@ function Set-SeCookie {
         [string]$Domain,
         $ExpiryDate,
         [Alias("Driver")]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver
     )
 
@@ -606,9 +697,6 @@ function Set-SeCookie {
     Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date.
     #>
     begin {
-        if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-            throw "No valid driver was provided. "
-        }
         if($null -ne $ExpiryDate -and $ExpiryDate.GetType().Name -ne 'DateTime'){
             throw '$ExpiryDate can only be $null or TypeName: System.DateTime'
         }
@@ -663,12 +751,10 @@ function Get-SeElementAttribute {
 function Invoke-SeScreenshot {
     param(
         [Alias("Driver")]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver,
         [Switch]$AsBase64EncodedString
     )
-    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-        throw "No valid driver was provided. "
-    }
     $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Target)
     if($AsBase64EncodedString) {
         $Screenshot.AsBase64EncodedString
@@ -696,27 +782,25 @@ function New-SeScreenshot {
     [Alias('SeScreenshot')]
     [cmdletbinding(DefaultParameterSetName='Path')]
     param(
-        [Parameter(ParameterSetName='Path',Mandatory=$true,Position=0)]
+        [Parameter(ParameterSetName='Path'    ,Position=0,Mandatory=$true)]
         [Parameter(ParameterSetName='PassThru',Position=0)]
         $Path,
 
-        [Parameter(ParameterSetName='Path',Position=1)]
+        [Parameter(ParameterSetName='Path',    Position=1)]
         [Parameter(ParameterSetName='PassThru',Position=1)]
         [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png,
 
         [Alias("Driver")]
+        [ValidateIsWebDriverAttribute()]
         $Target = $Global:SeDriver ,
 
-        [Parameter(ParameterSetName='Base64',Mandatory=$true)]
+        [Parameter(ParameterSetName='Base64',  Mandatory=$true)]
         [Switch]$AsBase64EncodedString,
 
         [Parameter(ParameterSetName='PassThru',Mandatory=$true)]
         [Alias('PT')]
         [Switch]$PassThru
     )
-    if(-not $Target -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-        throw "No valid driver was provided" ; return}
-
     $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Target)
     if($AsBase64EncodedString) {$Screenshot.AsBase64EncodedString}
     elseif($Path)              {
@@ -746,109 +830,374 @@ function Switch-SeWindow {
     }
 }
 
+function Switch-SeFrame {
+    [Alias('SeFrame')]
+    param (
+        $Frame,
+        [switch]$Parent,
+        [ValidateIsWebDriverAttribute()]
+        $Target = $Global:SeDriver
+    )
+    if     ($frame)  {[void]$Target.SwitchTo().Frame($Frame) }
+    elseif ($Parent) {[void]$Target.SwitchTo().ParentFrame()}
+}
+
+function Clear-SeAlert {
+    [Alias('SeAccept','SeDismiss')]
+    param (
+        [parameter(ParameterSetName='Alert', Position=0,ValueFromPipeline=$true)]
+        $Alert,
+        [parameter(ParameterSetName='Driver')]
+        [ValidateIsWebDriverAttribute()]
+        [Alias("Driver")]
+        $Target = $Global:SeDriver,
+        [ValidateSet('Accept','Dismiss')]
+        $Action = 'Dismiss',
+        [Alias('PT')]
+        [switch]$PassThru
+    )
+    if ($Target) {
+        try   {$Alert = $Target.SwitchTo().alert() }
+        catch {Write-warning 'No alert was displayed'; return}
+    }
+    if (-not $PSBoundParameters.ContainsKey('Action') -and
+        $MyInvocation.InvocationName -match 'Accept') {$Action = 'Accept'}
+    if ($Alert) {$alert.$action() }
+    if ($PassThru) {$Alert}
+}
+
 function SeOpen {
     [CmdletBinding()]
     Param(
         [ValidateSet('Chrome','CrEdge','FireFox','InternetExplorer','IE','MSEdge','NewEdge')]
-        [Parameter(Mandatory=$true,Position=1)]
         $In,
         [ValidateURIAttribute()]
-        $URL
+        [Parameter(Mandatory=$False,Position=1)]
+        $URL,
+        [hashtable]$Options =@{'Quiet'=$true},
+        [int]$SleepSeconds
     )
-    switch -regex ($In) {
-        'Chrome'   {Start-SeChrome           -asdefault -erroraction Stop ; continue}
-        'FireFox'  {Start-SeFirefox          -asdefault -erroraction Stop ; continue}
-        'MSEdge'   {Start-SeEdge             -asdefault -erroraction Stop ; continue}
-        'Edge$'    {Start-SeNewEdge          -asdefault -erroraction Stop ; continue}
-        '^I'       {Start-SeInternetExplorer -asdefault -erroraction Stop ; continue}
+    #Allow the browser to specified in an Environment variable if not passed as a parameter
+    if ($env:DefaultBrowser -and  -not $PSBoundParameters.ContainsKey('In')) {
+        $In = $env:DefaultBrowser
     }
+    #It may have been passed as a parameter, in an environment variable, or a parameter default, but if not, bail out
+    if (-not $In) {throw 'No Browser was selected'}
+
+    $Options['AsDefaultDriver']     = $true
+    $Options['Verbose']             = $false
+    $Options['ErrorAction']         = 'Stop'
+    $Options['Quiet']               = $true
     if ($url) {
-        Open-SeUrl -Url $URL
+         $Options['StartUrl']       = $url
+    }
+
+    switch -regex ($In) {
+        'Chrome'   {Start-SeChrome           @Options; continue}
+        'FireFox'  {Start-SeFirefox          @Options; continue}
+        'MSEdge'   {Start-SeEdge             @Options; continue}
+        'Edge$'    {Start-SeNewEdge          @Options; continue}
+        '^I'       {Start-SeInternetExplorer @Options; continue}
+    }
+    Write-Verbose -Message "Opened $($Global:SeDriver.Capabilities.browsername) $($Global:SeDriver.Capabilities.ToDictionary().browserVersion)"
+    if ($SleepSeconds) {Start-Sleep -Seconds $SleepSeconds}
+}`
+
+function SeType {
+    param(
+        [Parameter(Mandatory=$true,Position=0)]
+        [string]$Keys,
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
+        [OpenQA.Selenium.IWebElement]$Element,
+        [switch]$ClearFirst,
+        $SleepSeconds = 0 ,
+        [Alias('PT')]
+        [switch]$PassThru
+    )
+    begin{
+        foreach ($Key in $Script:SeKeys.Name) {
+            $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
+        }
+    }
+    process {
+        if ($ClearFirst) {$Element.Clear()}
+        $Element.SendKeys($Keys)
+        if($SleepSeconds)    { Start-Sleep -Seconds $SleepSeconds}
+        if ($PassThru) {$Element}
     }
 }
 
-function SeClose {
-    Stop-SeDriver -Default
+function Get-SeSelectionOption {
+    [Alias('SeSelection')]
+    [cmdletbinding(DefaultParameterSetName='default')]
+    param (
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byValue', Position=0, ValueFromPipelineByPropertyName=$true)]
+        [String]$ByValue,
+
+        [Parameter(Mandatory=$true,  ValueFromPipeline=$true,    Position=1)]
+        [OpenQA.Selenium.IWebElement]$Element,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byText', ValueFromPipelineByPropertyName=$true)]
+        [String]$ByFullText,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='bypart', ValueFromPipelineByPropertyName=$true)]
+        [String]$ByPartialText,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='byIndex', ValueFromPipelineByPropertyName=$true)]
+        [int]$ByIndex,
+
+        [Parameter(Mandatory=$false, ParameterSetName='default')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$Clear,
+
+        [Parameter(Mandatory=$false, ParameterSetName='default')]
+        [switch]$ListOptionText,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='multi')]
+        [switch]$IsMultiSelect,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='selected')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$GetSelected,
+
+        [Parameter(Mandatory=$true,  ParameterSetName='allSelected')]
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [switch]$GetAllSelected,
+
+        [Parameter(Mandatory=$false, ParameterSetName='byValue')]
+        [Parameter(Mandatory=$false, ParameterSetName='byText')]
+        [Parameter(Mandatory=$false, ParameterSetName='bypart')]
+        [Parameter(Mandatory=$false, ParameterSetName='byIndex')]
+        [Alias('PT')]
+        [switch]$PassThru
+    )
+    try {
+        #byindex can be 0, but ByText and ByValue can't be empty strings
+        if ($ByFullText -or $ByPartialText -or $ByValue -or $PSBoundParameters.ContainsKey('ByIndex')) {
+            if ($Clear) {
+                if     ($ByText)        {[SeleniumSelection.Option]::DeselectByText( $Element,$ByText)}
+                elseif ($ByValue)       {[SeleniumSelection.Option]::DeselectByValue($Element,$ByValue)}
+                else                    {[SeleniumSelection.Option]::DeselectByIndex($Element,$ByIndex)}
+            }
+            else {
+                if     ($ByText)        {[SeleniumSelection.Option]::SelectByText( $Element,$ByText,$false)}
+                if     ($ByPartialText) {[SeleniumSelection.Option]::SelectByText( $Element,$ByPartialText,$true)}
+                elseif ($ByValue)       {[SeleniumSelection.Option]::SelectByValue($Element,$ByValue)}
+                else                    {[SeleniumSelection.Option]::SelectByIndex($Element,$ByIndex)}
+            }
+        }
+        elseif ($Clear)                 {[SeleniumSelection.Option]::DeselectAll($Element) }
+        if ($IsMultiSelect)      {return [SeleniumSelection.Option]::IsMultiSelect($Element)
+        }
+        if ($PassThru -and ($GetAllSelected -or $GetAllSelected)) {
+            Write-Warning -Message "-Passthru option ignored because other values are returned"
+        }
+        if ($GetSelected)        {return [SeleniumSelection.Option]::GetSelectedOption($Element).text
+        }
+        if ($GetAllSelected)     {return [SeleniumSelection.Option]::GetAllSelectedOptions($Element).text
+        }
+        if ($PSCmdlet.ParameterSetName -eq 'default') {
+            [SeleniumSelection.Option]::GetOptions($Element) | Select-Object -ExpandProperty Text
+        }
+        elseif ($PassThru) {$Element}
+    }
+    catch {
+        throw "An error occured checking the selection box, the message was:`r`n    $($_.exception.message)"
+    }
 }
 
 function SeShouldHave {
     [cmdletbinding(DefaultParameterSetName='DefaultPS')]
     param(
-        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$true)]
-        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$true)]
-        [string]$Selection,
-        
-        [Parameter(ParameterSetName='DefaultPS', Position=0,Mandatory=$false)]
-        [Parameter(ParameterSetName='Element'  , Position=0,Mandatory=$false)]
+        [Parameter(ParameterSetName='DefaultPS', Mandatory=$true , Position=0, ValueFromPipeline=$true)]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$true , Position=0, ValueFromPipeline=$true)]
+        [string[]]$Selection,
+
+        [Parameter(ParameterSetName='DefaultPS', Mandatory=$false)]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$false)]
         [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
+        [ByTransformAttribute()]
         [string]$By = 'XPath',
-        
-        [Parameter(ParameterSetName='Element' ,Mandatory=$true,Position=1)]
+
+        [Parameter(ParameterSetName='Element'  , Mandatory=$true , Position=1)]
         [string]$With,
 
-        [Parameter(ParameterSetName='URL',Mandatory=$true )]
-        [switch]$url,
-        [Parameter(ParameterSetName='Title',Mandatory=$true )]
+        [Parameter(ParameterSetName='Alert'    , Mandatory=$true )]
+        [switch]$Alert,
+        [Parameter(ParameterSetName='NoAlert'  , Mandatory=$true )]
+        [switch]$NoAlert,
+        [Parameter(ParameterSetName='Title'    , Mandatory=$true )]
         [switch]$Title,
+        [Parameter(ParameterSetName='URL'      , Mandatory=$true )]
+        [Alias('URI')]
+        [switch]$URL,
 
-        [Parameter(ParameterSetName='URL',Position=2 )]
-        [Parameter(ParameterSetName='Title',Position=2  )]
-        [Parameter(ParameterSetName='Element',Position=2)]
-        [ValidateSet('Like', 'match', 'eq', 'ge', 'lt')]
-        [String]$Operator = 'Like',
-        
-        [Parameter(ParameterSetName='URL',Position=3  )]
-        [Parameter(ParameterSetName='Title',Position=3  )]
-        [Parameter(ParameterSetName='Element',Position=3  )]
+        [Parameter(ParameterSetName='Element'  , Mandatory=$false, Position=3)]
+        [Parameter(ParameterSetName='Alert'    , Mandatory=$false, Position=3)]
+        [Parameter(ParameterSetName='Title'    , Mandatory=$false, Position=3)]
+        [Parameter(ParameterSetName='URL'      , Mandatory=$false, Position=3)]
+        [ValidateSet('like', 'notlike', 'match', 'notmatch', 'contains', 'eq', 'ne', 'gt', 'lt')]
+        [OperatorTransformAttribute()]
+        [String]$Operator = 'like',
+
+        [Parameter(ParameterSetName='Element'  , Mandatory=$false, Position=4)]
+        [Parameter(ParameterSetName='Alert'    , Mandatory=$false, Position=4)]
+        [Parameter(ParameterSetName='Title'    , Mandatory=$true , Position=4)]
+        [Parameter(ParameterSetName='URL'      , Mandatory=$true , Position=4)]
+        [Alias('contains', 'like', 'notlike', 'match', 'notmatch', 'eq', 'ne', 'gt', 'lt')]
         [AllowEmptyString()]
         $Value,
-        #Specifies a time out
+
+        [Parameter(ParameterSetName='DefaultPS')]
+        [Parameter(ParameterSetName='Element'  )]
+        [Parameter(ParameterSetName='Alert'    )]
+        [Alias('PT')]
+        [switch]$PassThru,
+
         [Int]$Timeout = 0
     )
-    #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement. 
-    if     ($url)   {$testitem = $Global:SeDriver.Url}
-    elseif ($Title) {$testitem = $Global:SeDriver.Title}
-    else   {
-        
-        $gSEParams =  @{By=$By; Selection=$Selection}
-        if ($Timeout) {$gSEParams['Timeout'] = $Timeout}
-        try           {$e = Get-SeElement @gSEParams }
-        catch         {throw $_.Exception.Message}
-        #throw if we didn't get the element, and if were only asked to check it was there return gracefully
-        if (-not $e) {throw "Didn't find '$selection' by $by"}
-        elseif ($PSCmdlet.ParameterSetName -eq "DefaultPS" ) {
-            Write-Verbose "Found $selection"
-            return
+    begin {
+        $endTime  = [datetime]::now.AddSeconds($Timeout)
+        $lineText = $MyInvocation.Line.TrimEnd("$([System.Environment]::NewLine)")
+        $lineNo   = $MyInvocation.ScriptLineNumber
+        $file     = $MyInvocation.ScriptName
+        Function expandErr {
+            param ($message)
+            $ex       = New-Object exception $message
+            $id       = 'PesterAssertionFailed';
+            $cat      = [Management.Automation.ErrorCategory]::InvalidResult ;
+            New-Object Management.Automation.ErrorRecord $ex, $id, $cat,
+                @{Message = $message; File = $file; Line=$lineNo; Linetext=$lineText}
         }
+        function applyTest{
+            param(
+                $Testitems,
+                $Operator,
+                $Value
+            )
+            Switch ($Operator) {
+                    'Contains' {return ($testitems -contains $Value)}
+                    'eq'       {return ($TestItems -eq       $Value)}
+                    'ne'       {return ($TestItems -ne       $Value)}
+                    'like'     {return ($TestItems -like     $Value)}
+                    'notlike'  {return ($TestItems -notlike  $Value)}
+                    'match'    {return ($TestItems -match    $Value)}
+                    'notmatch' {return ($TestItems -notmatch $Value)}
+                    'gt'       {return ($TestItems -gt       $Value)}
+                    'le'       {return ($TestItems -lt       $Value)}
+            }
+        }
+
+        #if operator was not passed, allow it to be taken from an alias for the -value
+        if (-not $PSBoundParameters.ContainsKey('operator') -and $lineText -match ' -(eq|ne|contains|match|notmatch|like|notlike|gt|lt) ') {
+            $Operator = $matches[1]
+        }
+        $Success       = $false
+        $foundElements = @()
+    }
+    process {
+        #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
+        if ($URL) {
+            do {
+                     $Success = applyTest -testitems $Global:SeDriver.Url   -operator $Operator -value $Value
+                     Start-Sleep -Milliseconds 500
+            }
+            until (  $Success -or [datetime]::now -gt $endTime )
+            if (-not $Success) {
+                throw (expandErr  "PageURL was $($Global:SeDriver.Url). The comparison '-$operator $value' failed.")
+            }
+        }
+        elseif ($Title) {
+            do {
+                     $Success = applyTest -testitems $Global:SeDriver.Title -operator $Operator -value $Value
+                     Start-Sleep -Milliseconds 500
+            }
+            until (  $Success -or [datetime]::now -gt $endTime )
+            if (-not $Success) {
+                throw (expandErr  "Page title was $($Global:SeDriver.Title). The comparison '-$operator $value' failed.")
+            }
+        }
+        elseif($Alert -or $NoAlert) {
+            do {
+                try  {
+                    $a =$Global:SeDriver.SwitchTo().alert()
+                    $Success = $true
+                }
+                catch {
+                    Start-Sleep -Milliseconds 500
+                }
+                finally {
+                    if($NoAlert -and $a) {throw (expandErr  "Expected no alert but an alert of '$($a.Text)' was displayed") }
+                }
+            }
+            until ($Success -or [datetime]::now -gt $endTime )
+
+            if($Alert -and -not $Success ) {
+                throw (expandErr  "Expected an alert but but none was displayed")
+            }
+            elseif($value -and -not (applyTest -testitems $a.text -operator $Operator -value $value)) {
+                throw (expandErr  "Alert text was $($a.text). The comparison '-$operator $value' failed.")
+            }
+            elseif($PassThru) {return $a}
+        }
+        else   {
+            foreach ($s in $Selection) {
+                $GSEParams =  @{By=$By; Selection=$s}
+                if($Timeout) {$GSEParams['Timeout'] = $Timeout}
+                try          {$e = Get-SeElement @GSEParams }
+                catch        {throw (expandErr $_.Exception.Message)}
+
+                #throw if we didn't get the element; if were only asked to check it was there, return gracefully
+                if (-not $e) {throw (expandErr "Didn't find '$s' by $by")}
+                else         {
+                    Write-Verbose "Matched element(s) for $s"
+                    $foundElements += $e
+                }
+            }
+        }
+    }
+    end     {
+        if    ($PSCmdlet.ParameterSetName -eq "DefaultPS" -and $PassThru) {return $e}
+        elseif($PSCmdlet.ParameterSetName -eq "DefaultPS")                {return }
         else {
-          #if we got here we're not in the default parameter set, weren't asked for URL or title, and got an element
-          #with can be an element property (text, displayed etc or an attribute name. Get that ... )  
-          switch ($with) {
-            'Text'      {$testitem = $e.Text}
-            'Displayed' {$testitem = $e.Displayed}
-            'Enabled'   {$testitem = $e.Enabled}
-            'TagName'   {$testitem = $e.TagName}
-            'X'         {$testitem = $e.Location.X}
-            'Y'         {$testitem = $e.Location.Y}
-            'Width'     {$testitem = $e.Size.Width}
-            'Height'    {$testitem = $e.Size.Height}
-            default     {$testitem = $e.GetAttribute($with)}
-          }
-          if (-not $testItem -and ($value -ne '')) {
-            throw "Didn't find '$with' on element"
-          }
-          else {Write-Verbose  "Found $with = '$testitem'"}
+            foreach ($e in $foundElements) {
+                switch ($with) {
+                    'Text'      {$testItem = $e.Text}
+                    'Displayed' {$testItem = $e.Displayed}
+                    'Enabled'   {$testItem = $e.Enabled}
+                    'TagName'   {$testItem = $e.TagName}
+                    'X'         {$testItem = $e.Location.X}
+                    'Y'         {$testItem = $e.Location.Y}
+                    'Width'     {$testItem = $e.Size.Width}
+                    'Height'    {$testItem = $e.Size.Height}
+                    'Choice'    {$testItem = (Get-SeSelectionOption -Element $e -ListOptionText)}
+                    default     {$testItem = $e.GetAttribute($with)}
+                }
+                if (-not $testItem -and ($Value -ne '' -and $foundElements.count -eq 1)) {
+                    throw (expandErr "Didn't find '$with' on element")
+                }
+                if (applyTest -testitems $testItem -operator $Operator -value $Value) {
+                    $Success = $true
+                    if ($PassThru) {$e}
+                }
+            }
+            if (-not $Success) {
+                if ($foundElements.count -gt 1) {
+                    throw (expandErr  "$Selection match $($foundElements.Count) elements, none has a value for $with which passed the comparison '-$operator $value'.")
+                }
+                else {
+                    throw (expandErr  "$with had a value of $testitem which did not pass the the comparison '-$operator $value'.")
+                }
+            }
         }
-    }
-    #So we either had URl, Title or element with either a property name or attribute name and we got one of those ... Now compare with Value 
-    Switch ($Operator) {
-        'eq'    {$result = ($testItem -eq    $value)}
-        'like'  {$result = ($testItem -like  $value)}
-        'match' {$result = ($testItem -match $value)}
-        'gt'    {$result = ($testItem -gt    $value)}
-        'le'    {$result = ($testItem -le    $value)}
-    }
-    if (-not $result) {
-            throw "$with had value of '$testitem'. The comparison '-$($Pscmdlet.ParameterSetName) $value' failed."
     }
 }

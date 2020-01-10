@@ -14,8 +14,9 @@ Author               = 'Adam Driscoll'
 CompanyName          = 'Unknown'
 Copyright            = '(c) 2019 Adam Driscoll. All rights reserved.'
 Description          = 'Web automation using the Selenium Web Driver'
-RootModule           = '.\Selenium.psm1'
-RequiredAssemblies   = @('.\assemblies\WebDriver.dll', '.\assemblies\WebDriver.Support.dll')
+ScriptsToProcess     = @('SeleniumClasses.ps1')
+RootModule           =   'Selenium.psm1'
+RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
 FunctionsToExport    = @(
     'Start-SeChrome' ,
     'Start-SeEdge' ,
@@ -31,6 +32,7 @@ FunctionsToExport    = @(
     'Set-SeCookie' ,
     'Get-SeElement',
     'Get-SeElementAttribute' ,
+    'Get-SeSelectionOption',
     'Get-SeKeys' ,
     'Send-SeKeys' ,
     'Save-SeScreenshot' ,
@@ -39,27 +41,44 @@ FunctionsToExport    = @(
     'Open-SeUrl' ,
     'Get-SeWindow' ,
     'Switch-SeWindow',
+    'Switch-SeFrame',
+    'Clear-SeAlert',
     'SeOpen',
-    'SeClose',
+    'SeType',
     'SeShouldHave'  )
 AliasesToExport      = @(
-    'Chrome' ,
+    'SeChrome' ,
     'Enter-SeUrl' ,
     'Find-SeElement' ,
-    'Firefox' ,
-    'IE',
-    'InternetExplorer' ,
+    'SeFirefox' ,
+    'SeIE',
+    'SeInternetExplorer' ,
     'CrEdge' ,
     'NewEdge',
     'MSEdge' ,
     'OldEdge',
-    'SeClick' ,
+    'SeAccept',
+    'SeDismiss',
+    'SeClick',
+    'SeClose',
+    'SeElement',
+    'SeFrame',
     'SeNavigate',
-    'SeType',
-    'SeScreenshot')
+    'SeScreenshot',
+    'SeSelection')
 CmdletsToExport      = @()
 VariablesToExport    = @()
 DscResourcesToExport = @()
+FileList             = @('.\assemblies',
+                         '.\Examples',
+                         '.\ChangeLog.txt',
+                         '.\README.md',
+                         '.\additions.md',
+                         '.\Selenium.psm1'
+                        ' .\SeleniumClasses.ps1'
+                         '.\Selenium.tests.ps1'
+                         '.\Selenium-Binary-Updater.ps1')
+
 PrivateData          = @{
     PSData = @{
         Tags         = @('selenium', 'automation', 'web')
@@ -98,9 +117,6 @@ PrivateData          = @{
 # Modules that must be imported into the global environment prior to importing this module
 # RequiredModules = @()
 
-# Script files (.ps1) that are run in the caller's environment prior to importing this module.
-# ScriptsToProcess = @()
-
 # Type files (.ps1xml) to be loaded when importing this module
 # TypesToProcess = @()
 
@@ -113,8 +129,6 @@ PrivateData          = @{
 # List of all modules packaged with this module
 # ModuleList = @()
 
-# List of all files packaged with this module
-# FileList = @()
 
 # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
 
