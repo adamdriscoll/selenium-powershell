@@ -18,20 +18,21 @@ Get-SeCookie & Invoke-SeScreenshot
   In line with other functions, -Driver prarameter is renamed -Target, with alias "Driver", and will come from $Global:SeDriver
   and throws an error if no driver is passed or found from Global var
 
-Start-Fe-Firefox & Start-SeChrome
-  Added aliases "Chrome" and "Firefox" - user can now write in a sort of DSL "CHROME $URL -asDefault" etc.
+Start-SeFirefox & Start-SeChrome
+  Added aliases "SeChrome" and "SeFirefox" - user can now write in a sort of DSL "SeCHROME $URL -asDefault" etc.
   Made -StartUrl the first parameter and use a parameter-validation class to check it.
   Now call the .Navigate method directly instead of via Enter-SeURL if -StartURL is specified
   Now use parameter-sets to avoid the conflict between Minimized/Maximized/FullScreen,
   Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
   Now trap a failure to return driver, and simplified the subsequent if statements
+  Set ImplicitWait to 10 seconds
   Added Parameter -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
   Added Parameter -Quiet to run tests without web driver prattle.
-  Allow AzureDevops environment vars to specify source of Webdrivers.
+  Allow AzureDevops environment vars (GeckoWebDriver) to specify source of Webdrivers.
   Removed a possible bug with piped input, by returning the driver in the process block instead of the end block
 
 Start-SeInternetExplorer
-  Added Aliases "InternetExplorer" & "IE" and parameter -StartUrl
+  Added Aliases "SeInternetExplorer" & "SeIE" and parameter -StartUrl
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
   without web driver prattle.
   Allow AzureDevops environment vars to specify source of Webdriver.
