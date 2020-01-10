@@ -19,7 +19,7 @@ jobs:
     steps:
     - powershell: './CI/CI.ps1 -browserlist Chrome,Firefox,IE'
       displayName: 'Run Test on Windows PowerShell'
-    - pwsh: './CI/CI.ps1 -browserlist Chrome,Firefox,IE'
+    - pwsh: './CI/CI.ps1 -browserlist Chrome'
       displayName: 'Run Test on PowerShell core on Windows'
     - task: PublishPipelineArtifact@1
       inputs:

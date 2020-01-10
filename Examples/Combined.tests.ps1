@@ -50,10 +50,10 @@ $SelectTestPage   = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_e
 
 #For each browser we will test in, specify the options for headless, inprivate & window title label for in-private
 $TestCaseSettings = @{
-    'NewEdge'     = @{ HeadlessOptions = @{Headless=$true}
+    'NewEdge'     = @{}<#@{ HeadlessOptions = @{Headless=$true}}
                        PrivOptions     = @{PrivateBrowsing=$true
                                            Headless=$AlwaysHeadless }
-                       InPrivateLabel  = 'InPrivate'}
+                       InPrivateLabel  = 'InPrivate'} # broken after build 79 of web driver#>
     'Chrome'      = @{ HeadlessOptions = @{Headless=$true}
                        PrivOptions     = @{PrivateBrowsing=$true
                                            Headless=$AlwaysHeadless}}
@@ -136,56 +136,62 @@ $BrowserOptions = $TestCaseSettings[$env:DefaultBrowser].PrivOptions.keys -join 
 if ($BrowserOptions) {
     $NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$env:DefaultBrowser].InPrivateLabel)
     SeOpen   -Options $TestCaseSettings[$env:DefaultBrowser].PrivOptions -URL $alertTestPage
-    Describe "Alerts, Selection boxes and Private browsing test"{
-        Context "with setting $BrowserOptions in $BrowserID" {
-            It 're-opended the browser and validated "InPrivate" mode by window title  ' {
-                $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
-                $BrowserProcess = Get-Process         | Where-Object {$_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost"}
-                $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$env:DefaultBrowser].InPrivateLabel
-            } -Skip:$NoLabel
-            It 'opened the right page                                                  ' {
-                SeShouldHave -URL -eq $alertTestPage -Timeout 10
+    $privateString = " (In Private)"
+}
+else {
+    $NoLabel = $true
+    $PrivateString = ''
+    SeOpen -URL $alertTestPage
+}
+Describe "Alerts, Selection boxes and Private browsing test"{
+    Context "with setting $BrowserOptions in $BrowserID$PrivateString" {
+        It 're-opended the browser and validated "InPrivate" mode by window title  ' {
+            $DriverProcess  = Get-Process *driver | Where-Object {$_.Parent.id -eq $pid}
+            $BrowserProcess = Get-Process         | Where-Object {$_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost"}
+            $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$env:DefaultBrowser].InPrivateLabel
+        } -Skip:$NoLabel
+        It 'opened the right page                                                  ' {
+            SeShouldHave -URL -eq $alertTestPage -Timeout 10
+        }
+        It 'found and clicked a button in frame 1                                  ' {
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
+            SeFrame 'iframeResult'
+            SeElement "/html/body/button" -Timeout 10 | SeClick -PassThru   | Should -Not -BeNullOrEmpty
+        }
+        It 'saw and dismissed an alert                                             ' {
+            #Checking the text of the alert is optional. Dissmiss can pass the alert result through
+            SeShouldHave -Alert match "box" -PassThru -Timeout 10 |
+                        SeDismiss -PassThru                                             | Should -Not -BeNullOrEmpty
+        }
+        It 'reselected the parent frame                                            ' {
+            SeFrame -Parent
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
+        }
+        It 'navigated to a new page, and found the "cars" selection box in frame 1 ' {
+            SeNavigate $SelectTestPage
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult -Timeout 10
+            SeFrame 'iframeResult'
+            SeShouldHave -By Name "cars" -With choice contains "volvo" -Timeout 10
+        }
+        It 'made selections from the "cars" selection box                          ' {
+            $e = SeElement -by Name "cars" -Timeout 10
+            #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
+            {$e | SeSelection -ByValue "Audi"}                              | Should      -Throw
+            {$e | SeSelection -ByValue "audi"}                              | Should -not -throw
+            $e | SeSelection -ByIndex "2"  -GetSelected                    | Should      -Be 'Fiat'
+            $e | SeSelection -ByPartialText  "Sa"
+        }
+        It 'submitted the form and got the expected response                       ' {
+            SeElement '/html/body/form/input' | SeClick -SleepSeconds 5
+            SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
+        }
+        It 'closed the in-private browser instance                                 ' {
+            SeClose
+            if ($DriverProcess.Id) {
+                (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
             }
-            It 'found and clicked a button in frame 1                                  ' {
-                SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
-                SeFrame 'iframeResult'
-                SeElement "/html/body/button" -Timeout 10 | SeClick -PassThru   | Should -Not -BeNullOrEmpty
-            }
-            It 'saw and dismissed an alert                                             ' {
-                #Checking the text of the alert is optional. Dissmiss can pass the alert result through
-                SeShouldHave -Alert match "box" -PassThru -Timeout 10 |
-                         SeDismiss -PassThru                                             | Should -Not -BeNullOrEmpty
-            }
-            It 'reselected the parent frame                                            ' {
-                SeFrame -Parent
-                SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
-            }
-            It 'navigated to a new page, and found the "cars" selection box in frame 1 ' {
-                SeNavigate $SelectTestPage
-                SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult -Timeout 10
-                SeFrame 'iframeResult'
-                SeShouldHave -By Name "cars" -With choice contains "volvo" -Timeout 10
-            }
-            It 'made selections from the "cars" selection box                          ' {
-                $e = SeElement -by Name "cars" -Timeout 10
-                #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
-               {$e | SeSelection -ByValue "Audi"}                              | Should      -Throw
-               {$e | SeSelection -ByValue "audi"}                              | Should -not -throw
-                $e | SeSelection -ByIndex "2"  -GetSelected                    | Should      -Be 'Fiat'
-                $e | SeSelection -ByPartialText  "Sa"
-            }
-            It 'submitted the form and got the expected response                       ' {
-                SeElement '/html/body/form/input' | SeClick -SleepSeconds 5
-                SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
-            }
-            It 'closed the in-private browser instance                                 ' {
-                SeClose
-                if ($DriverProcess.Id) {
-                    (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
-                }
-                if ($BrowserProcess.Id) {
-                    (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
-                }
+            if ($BrowserProcess.Id) {
+                (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
             }
         }
     }
