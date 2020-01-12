@@ -22,24 +22,26 @@ Start-SeFirefox & Start-SeChrome
   Added aliases "SeChrome" and "SeFirefox" - user can now write in a sort of DSL "SeCHROME $URL -asDefault" etc.
   Made -StartUrl the first parameter and use a parameter-validation class to check it.
   Now call the .Navigate method directly instead of via Enter-SeURL if -StartURL is specified
-  Now use parameter-sets to avoid the conflict between Minimized/Maximized/FullScreen,
+  Now use parameter-sets to avoid the conflict between Minimized/Maximized/FullScreen/Headless,
   Added parameter aliases so "Incognito" works with Firefox and "PrivateBrowsing" works with Chrome
   Now trap a failure to return driver, and simplified the subsequent if statements
   Set ImplicitWait to 10 seconds
   Added Parameter -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver
   Added Parameter -Quiet to run tests without web driver prattle.
-  Allow AzureDevops environment vars (GeckoWebDriver) to specify source of Webdrivers.
+  Allow AzureDevops environment vars (GeckoWebDriver / ChromeWebDriver)  or commandline
+  parameter -WebDriverDirectory to specify source of Webdriver.
   Removed a possible bug with piped input, by returning the driver in the process block instead of the end block
 
 Start-SeInternetExplorer
   Added Aliases "SeInternetExplorer" & "SeIE" and parameter -StartUrl
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
   without web driver prattle.
-  Allow AzureDevops environment vars to specify source of Webdriver.
+  Allow AzureDevops environment vars or commandline parameter -WebDriverDirectory to specify source of Webdriver
   Set ImplicitWait to 10 seconds
 
 Start-SeEdge
-  Added Alias "MSEdge", and parameters -StartUrl, -Maximized, -Minimized, and -PrivateBrowsing (alias Incognito)
+  Added Aliases "MSEdge" & "LegacyEdge", and parameters -StartUrl, -Maximized, -Minimized, FullScreen
+  and -PrivateBrowsing (alias Incognito)
   Plus -AsDefaultDriver which sets $Global:SeDriver, instead of returning the driver, and -Quiet to run tests
   without web driver prattle.
   Added message if driver load errors - Webdriver is now added as a windows Feature and will be found from windows\system32,
@@ -50,7 +52,25 @@ Stop-SeDriver
   Updated to handle the default drive being in $global:SeDriver.
 
 Start-SeNewEdge  **New Function** with alias, credge to support Chromium based edge.
-  Also added V79 webdriver. V80 and V81 don't work.
+  Also added V79 webdriver. Specifying V80. V81 from an ENV variable, or via command line requires it to be in the same
+  directory as MSEdge.exe and -inPrivate, -headless, and -binaryLocation options don't work.
+
+                    Start-SeChrome  Start-SeEdge Start-SeFirefox  Start-SeInternetExplorer Start-SeNewEdge
+    AsDefaultDriver	     X               X            X                X                        X
+    Fullscreen           X               X            X                X                        X
+    Headless             X               X            X                X                        X
+    ImplicitWait         X               X            X                X                        X
+    Maximized            X               X            X                X                        X
+    Minimized            X               X            X                X                        X
+    Incognito            X             As alias	    As alias         As alias                 As alias
+    PrivateBrowsing	   As alias          X            X                X                        X
+    Quiet                X               X            X                X                        X
+    StartURL             X               X            X                X                        X
+    WebDriverDirectory   X                            X                X                        X
+    BinaryPath           X                                                                      X
+    ProfileDirectoryPath X                                                                      X
+    DefaultDownloadPath  X                            X                                         X
+    Arguments            X                            X
 
 SeOpen **New Function**
   Takes -In (name of browser) and opens that browser and optional naviagates to destination in -URL

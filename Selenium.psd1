@@ -54,6 +54,7 @@ AliasesToExport      = @(
     'SeIE',
     'SeInternetExplorer' ,
     'CrEdge' ,
+    'LegacyEdge',
     'NewEdge',
     'MSEdge' ,
     'OldEdge',

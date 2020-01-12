@@ -1,4 +1,4 @@
-$Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static  |
+ $Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static  |
         Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 
 #region Set path to assemblies on Linux and MacOS and Grant Execution permissions on them
@@ -41,20 +41,26 @@ function Start-SeNewEdge {
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$HideVersionHint,
+        [parameter(ParameterSetName='min', Mandatory=$true)]
         [switch]$Minimized,
+        [parameter(ParameterSetName='max', Mandatory=$true)]
+        [switch]$Maximized,
+        [parameter(ParameterSetName='ful', Mandatory=$true)]
+        [switch]$FullScreen,
+        [parameter(ParameterSetName='hl',  Mandatory=$true)]
+        [switch]$Headless,
         $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe", #change after edge is released.
         $ProfileDirectoryPath,
         $DefaultDownloadPath,
         [switch]$AsDefaultDriver,
-        [switch]$Headless,
         [switch]$Quiet,
         [Alias('Incognito')]
         [switch]$PrivateBrowsing,
         [int]$ImplicitWait = 10,
-        $WebDriverDirectory
+        $WebDriverDirectory = $env:EdgeWebDriver
     )
     $OptionSettings =  @{ browserName=''}
-    #region check / set paths for browser and web driver
+    #region check / set paths for browser and web driver and edge options
     if(    $BinaryPath -and -not (Test-Path -Path $BinaryPath)) {
         throw "Could not find $BinaryPath"; return
     }
@@ -64,32 +70,20 @@ function Start-SeNewEdge {
     }
 
     #Were we given a driver location and is msedgedriver there ?
-    #If were weren't given a location
-    #  is it given by an environment variable, and is the driver THERE ?
+    #If were were given a location (which might be from an environment variable) is the driver THERE ?
     #  if not, were we given a path for the browser executable, and is the driver THERE ?
-    #  if not there either is there one in the assemblies sub dir ? And if not bail
+    #  and if not there either, is there one in the assemblies sub dir ? And if not bail
     if(     $WebDriverDirectory -and -not (Test-Path -Path (Join-Path -Path $WebDriverDirectory -ChildPath 'msedgedriver.exe' ))) {
         throw "Could not find msedgedriver.exe in $WebDriverDirectory"; return
-    }
-    if(-not $WebDriverDirectory -and $env:EdgeWebDriver -and (Test-Path            -Path $env:EdgeWebDriver -PathType Leaf)) {
-            $WebDriverDirectory = Split-path -Path $env:EdgeWebDriver -Parent
-    }
-    if(-not $WebDriverDirectory -and $env:EdgeWebDriver -and (Test-Path            -Path $env:EdgeWebDriver -PathType Container) -and
-                                                             (Test-Path (Join-Path -Path $env:EdgeWebDriver          -ChildPath 'msedgedriver.exe' ))) {
-            $WebDriverDirectory  =   $env:EdgeWebDriver
-    }
-    if(-not $WebDriverDirectory -and $env:EdgeWebDriver) {
-        Write-Warning "Could not find web driver at $env:EdgeWebDriver specified by EdgeWebDriver environment variable"
     }
     if(-not $WebDriverDirectory -and $binaryDir         -and (Test-Path (Join-Path -Path $binaryDir                  -ChildPath 'msedgedriver.exe' ))) {
             $WebDriverDirectory =    $binaryDir
     }
+    # No linux or mac driver to test for
     if(-not $WebDriverDirectory -and                         (Test-Path (Join-path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe' ))) {
             $WebDriverDirectory =  "$PSScriptRoot\Assemblies\"
     }
     if(-not $WebDriverDirectory)  {throw "Could not find msedgedriver.exe"; return}
-    #endregion
-
 
     $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
     $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
@@ -107,8 +101,11 @@ function Start-SeNewEdge {
         Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
         $Options.AddUserProfilePreference('download', @{'default_directory' = $DefaultDownloadPath; 'prompt_for_download' = $false; })
     }
+    #endregion
+
     $Driver = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeDriver  -ArgumentList $service, $options
-    #Check driver loaded. If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
+
+    #region post driver checks and option checks If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
     if(-not $Driver) {
             Write-Warning "Web driver was not created"; return
     }
@@ -132,6 +129,13 @@ function Start-SeNewEdge {
     if($Minimized){
         $Driver.Manage().Window.Minimize();
     }
+    if($Maximized){
+        $Driver.Manage().Window.Maximize()
+    }
+    if ($FullScreen) {
+        $Driver.Manage().Window.FullScreen()
+    }
+    #endregion
 
     if($AsDefaultDriver) {
         if($Global:SeDriver) {$Global:SeDriver.Dispose()}
@@ -142,7 +146,7 @@ function Start-SeNewEdge {
 
 function Start-SeChrome {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('Chrome')]
+    [Alias('SeChrome')]
     param(
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
@@ -155,16 +159,19 @@ function Start-SeChrome {
         [Parameter(DontShow)]
         [bool]$DisableBuiltInPDFViewer=$true,
         [switch]$EnablePDFViewer,
-        [switch]$Headless,
         [Alias('PrivateBrowsing')]
         [switch]$Incognito,
+        [parameter(ParameterSetName='hl',  Mandatory=$true)]
+        [switch]$Headless,
         [parameter(ParameterSetName='Min',Mandatory=$true)]
         [switch]$Maximized,
         [parameter(ParameterSetName='Max',Mandatory=$true)]
         [switch]$Minimized,
         [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
-        [System.IO.FileInfo]$ChromeBinaryPath,
+        [Alias('ChromeBinaryPath')]
+        $BinaryPath,
+        $WebDriverDirectory = $env:ChromeWebDriver,
         [switch]$Quiet,
         [switch]$AsDefaultDriver,
         [int]$ImplicitWait = 10
@@ -184,9 +191,9 @@ function Start-SeChrome {
             $Chrome_Options.AddArgument("user-data-dir=$ProfileDirectoryPath")
         }
 
-        if($ChromeBinaryPath){
-            Write-Verbose "Setting Chrome Binary directory: $ChromeBinaryPath"
-            $Chrome_Options.BinaryLocation ="$ChromeBinaryPath"
+        if($BinaryPath){
+            Write-Verbose "Setting Chrome Binary directory: $BinaryPath"
+            $Chrome_Options.BinaryLocation ="$BinaryPath"
         }
 
         if($DisableBuiltInPDFViewer -and -not $EnablePDFViewer){
@@ -214,21 +221,23 @@ function Start-SeChrome {
                 $Chrome_Options.AddArguments($Argument)
             }
         }
-        #endregion
+
         if(!$HideVersionHint){
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
 
-        if($env:ChromeWebDriver) {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($env:ChromeWebDriver)}
-        elseif($AssembliesPath)  {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($AssembliesPath)}
-        else                     {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService()}
-        if ($Quiet)              {$service.HideCommandPromptWindow = $true}
-        $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $service,$Chrome_Options
-        if(-not $Driver) {Write-Warning "Web driver was not created"; return}
+        if($WebDriverDirectory) {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory)}
+        elseif($AssembliesPath) {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($AssembliesPath)}
+        else                    {$service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService()}
+        if ($Quiet)             {$service.HideCommandPromptWindow = $true}
+        #endregion
 
+        $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $service,$Chrome_Options
+        if(-not $Driver)        {Write-Warning "Web driver was not created"; return}
+
+        #region post creation options
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
 
-        #region post start options
         if($Minimized){
             $Driver.Manage().Window.Minimize();
         }
@@ -252,29 +261,56 @@ function Start-SeChrome {
 }
 
 function Start-SeInternetExplorer {
-    [Alias('InternetExplorer','IE')]
+    [cmdletbinding(DefaultParameterSetName='Default')]
+    [Alias('SeInternetExplorer','SeIE')]
     param(
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [switch]$Quiet,
         [switch]$AsDefaultDriver,
+        [parameter(ParameterSetName='Max', Mandatory=$true)]
+        [switch]$Maximized,
+        [parameter(ParameterSetName='Min', Mandatory=$true)]
+        [switch]$Minimized,
+        [parameter(ParameterSetName='Min', Mandatory=$true)]
+        [switch]$FullScreen,
         [Parameter(DontShow)]
+        [parameter(ParameterSetName='HL',  Mandatory=$true)]
         [switch]$Headless,
-        [int]$ImplicitWait = 10
+        [Parameter(DontShow)]
+        [Alias('Incognito')]
+        [switch]$PrivateBrowsing,
+        [int]$ImplicitWait = 10,
+        $WebDriverDirectory = $env:IEWebDriver
     )
-    if($Headless) {Write-Warning 'Internet explorer does not support headless operation; the Headless switch is ignored'}
+    #region IE set-up options
+    if($Headless -or $PrivateBrowsing) {Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored'}
+
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
-    if($StartURL)        {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
-    if($env:IEWebDriver) {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($env:IEWebDriver)}
-    else                 {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService()}
-    if($Quiet)           {$Service.HideCommandPromptWindow = $true}
-    $Driver = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $service, $InternetExplorer_Options
 
+    if($StartURL)           {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
+    if($WebDriverDirectory) {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverDirectory)}
+    else                    {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService()}
+    if($Quiet)              {$Service.HideCommandPromptWindow = $true}
+    #endregion
+
+    $Driver = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerDriver" -ArgumentList $service, $InternetExplorer_Options
     if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
+    #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+    if($Minimized){
+        $Driver.Manage().Window.Minimize();
+    }
+    if($Maximized){
+        $Driver.Manage().Window.Maximize()
+    }
+    if ($FullScreen) {
+        $Driver.Manage().Window.FullScreen()
+    }
+    #endregion
 
     if($AsDefaultDriver) {
         if($Global:SeDriver) {$Global:SeDriver.Dispose()}
@@ -285,15 +321,17 @@ function Start-SeInternetExplorer {
 
 function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('MSEdge')]
+    [Alias('MSEdge','LegacyEdge')]
     param(
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
-        [parameter(ParameterSetName='Min',Mandatory=$true)]
+        [parameter(ParameterSetName='Min', Mandatory=$true)]
         [switch]$Maximized,
-        [parameter(ParameterSetName='Max',Mandatory=$true)]
+        [parameter(ParameterSetName='Max', Mandatory=$true)]
         [switch]$Minimized,
+        [parameter(ParameterSetName='Full',Mandatory=$true)]
+        [switch]$FullScreen,
         [Alias('Incognito')]
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
@@ -302,27 +340,31 @@ function Start-SeEdge {
         [switch]$Headless,
         [int]$ImplicitWait = 10
     )
+    #region Edge set-up options
     if($Headless) {Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored'}
     $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
     $options = New-Object -TypeName OpenQA.Selenium.Edge.EdgeOptions
     if($Quiet)           {$service.HideCommandPromptWindow = $true}
     if($PrivateBrowsing) {$options.UseInPrivateBrowsing    = $true}
     if($StartURL)        {$options.StartPage               = $StartURL}
+    #endregion
 
     try {
         $Driver = New-Object -TypeName "OpenQA.Selenium.Edge.EdgeDriver" -ArgumentList $service ,$options
     }
-    catch {$driverversion  = (Get-Item .\assemblies\MicrosoftWebDriver.exe ).VersionInfo.ProductVersion
-           $WindowsVersion = [System.Environment]::OSVersion.Version.ToString()
-           Write-Warning -Message "Edge driver is $driverversion. Windows is $WindowsVersion. If the driver is out-of-date, update it as a Windows feature,`r`nand then delete $PSScriptRoot\assemblies\MicrosoftWebDriver.exe"
-           throw $_ ; return
+    catch {
+        $driverversion  = (Get-Item .\assemblies\MicrosoftWebDriver.exe ).VersionInfo.ProductVersion
+        $WindowsVersion = [System.Environment]::OSVersion.Version.ToString()
+        Write-Warning -Message "Edge driver is $driverversion. Windows is $WindowsVersion. If the driver is out-of-date, update it as a Windows feature,`r`nand then delete $PSScriptRoot\assemblies\MicrosoftWebDriver.exe"
+        throw $_ ; return
     }
     if(-not $Driver) {Write-Warning "Web driver was not created"; return}
 
     #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
-    if($Minimized) {$Driver.Manage().Window.Minimize()    }
-    if($Maximized) {$Driver.Manage().Window.Maximize()    }
+    if($Minimized)  {$Driver.Manage().Window.Minimize()    }
+    if($Maximized)  {$Driver.Manage().Window.Maximize()    }
+    if($FullScreen) {$Driver.Manage().Window.FullScreen()}
     #endregion
 
     if($AsDefaultDriver) {
@@ -334,16 +376,17 @@ function Start-SeEdge {
 
 function Start-SeFirefox {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('Firefox')]
+    [Alias('SeFirefox')]
     param(
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
         [string]$StartURL,
         [array]$Arguments,
         [System.IO.FileInfo]$DefaultDownloadPath,
-        [switch]$Headless,
         [alias('Incognito')]
         [switch]$PrivateBrowsing,
+        [parameter(ParameterSetName='HL', Mandatory=$true)]
+        [switch]$Headless,
         [parameter(ParameterSetName='Min',Mandatory=$true)]
         [switch]$Maximized,
         [parameter(ParameterSetName='Max',Mandatory=$true)]
@@ -353,7 +396,8 @@ function Start-SeFirefox {
         [switch]$SuppressLogging,
         [switch]$Quiet,
         [switch]$AsDefaultDriver,
-        [int]$ImplicitWait = 10
+        [int]$ImplicitWait = 10,
+        $WebDriverDirectory = $env:GeckoWebDriver
     )
     process {
         #region firefox set-up options
@@ -383,21 +427,22 @@ function Start-SeFirefox {
             # Sets GeckoDriver log level to Fatal.
             $Firefox_Options.LogLevel = 6
         }
+
+        if($WebDriverDirectory) {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($WebDriverDirectory)}
+        elseif($AssembliesPath) {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath)}
+        else                    {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService()}
+        if($Quiet)              {$service.HideCommandPromptWindow = $true}
         #endregion
-        if($env:GeckoWebDriver)  {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($env:GeckoWebDriver)}
-        elseif($AssembliesPath)  {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath)}
-        else                     {$service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService()}
-        if($Quiet)               {$service.HideCommandPromptWindow = $true}
 
         $Driver = New-Object -TypeName "OpenQA.Selenium.Firefox.FirefoxDriver" -ArgumentList $service, $Firefox_Options
         if(-not $Driver)         {Write-Warning "Web driver was not created"; return}
 
         #region post creation options
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
-        if($Minimized)           {$Driver.Manage().Window.Minimize()    }
-        if($Maximized)           {$Driver.Manage().Window.Maximize()    }
-        if($Fullscreen)          {$Driver.Manage().Window.FullScreen()  }
-        if($StartURL)            {$Driver.Navigate().GoToUrl($StartURL) }
+        if($Minimized)          {$Driver.Manage().Window.Minimize()    }
+        if($Maximized)          {$Driver.Manage().Window.Maximize()    }
+        if($Fullscreen)         {$Driver.Manage().Window.FullScreen()  }
+        if($StartURL)           {$Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 
         if($AsDefaultDriver)   {
