@@ -150,7 +150,6 @@ Describe 'Start-SeChrome with Custom DriverPath' {
 
         It 'Start-SeChrome with multiple arguments should fail if custom DriverPath does not exist' {
         { 
-            $driverPath | Should Not BeNullOrEmpty
             Start-SeChrome -DriverPath $badDriverPath -Arguments @('Incognito','start-maximized') } | Should Throw
         }
     }
