@@ -1,4 +1,4 @@
-Changes from 2.3.1 made November/December 2019  JO'N
+Changes from 2.3.1 made November2019 - January 2020  JO'N
 
 DLL loading is now from the PSD1 file instead of the PSM1 file.
 Now use presence of $AssembliesPath to judge "IsMacOS" -or "IsLinux"
@@ -52,25 +52,29 @@ Stop-SeDriver
   Updated to handle the default drive being in $global:SeDriver.
 
 Start-SeNewEdge  **New Function** with alias, credge to support Chromium based edge.
-  Also added V79 webdriver. Specifying V80. V81 from an ENV variable, or via command line requires it to be in the same
-  directory as MSEdge.exe and -inPrivate, -headless, and -binaryLocation options don't work.
+  Also added V79 webdriver. Specifying V80. V81 from an ENV variable (EdgeWebDriver), or via command line requires
+  it to be in the same directory as MSEdge.exe and -inPrivate, -headless, and -binaryLocation options don't work.
 
-                    Start-SeChrome  Start-SeEdge Start-SeFirefox  Start-SeInternetExplorer Start-SeNewEdge
-    AsDefaultDriver	     X               X            X                X                        X
-    Fullscreen           X               X            X                X                        X
-    Headless             X               X            X                X                        X
-    ImplicitWait         X               X            X                X                        X
-    Maximized            X               X            X                X                        X
-    Minimized            X               X            X                X                        X
-    Incognito            X             As alias	    As alias         As alias                 As alias
-    PrivateBrowsing	   As alias          X            X                X                        X
-    Quiet                X               X            X                X                        X
-    StartURL             X               X            X                X                        X
-    WebDriverDirectory   X                            X                X                        X
-    BinaryPath           X                                                                      X
-    ProfileDirectoryPath X                                                                      X
-    DefaultDownloadPath  X                            X                                         X
-    Arguments            X                            X
+Start-SeRemote **New Function**
+  Connects to remote driver by URL and requested capablites tested with testingbot.com
+
+                        Start-SeChrome  Start-SeEdge Start-SeFirefox  Start-SeInternetExplorer  Start-SeNewEdge  Start-SeRemote
+    AsDefaultDriver	         X               X            X                X                         X                X
+    Fullscreen               X               X            X                X                         X
+    Headless                 X               X            X                X                         X
+    ImplicitWait             X               X            X                X                         X                X
+    Maximized                X               X            X                X                         X
+    Minimized                X               X            X                X                         X
+    Incognito                X             As alias	    As alias         As alias                  As alias
+    PrivateBrowsing	       As alias          X            X                X                         X
+    Quiet                    X               X            X                X                         X
+    StartURL                 X               X            X                X                         X                 X
+    WebDriverDirectory       X                            X                X                         X
+    or Env var         ChromeWebDriver       -       GeckoWebDriver      IEWebDriver             EdgeWebDriver
+    BinaryPath               X                                                                       X
+    ProfileDirectoryPath     X                                                                       X
+    DefaultDownloadPath      X                            X                                          X
+    Arguments                X                            X
 
 SeOpen **New Function**
   Takes -In (name of browser) and opens that browser and optional naviagates to destination in -URL
@@ -115,7 +119,9 @@ Clear-SeAlert **New Function** with aliases SeAccept, SeDissmiss
     If called using the aliases selects Accept or dismiss.
 
 SeType **New Function**
-  More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports clearing the text box and passthru, to allow element to be fetched and keys typed, and Pester to throw if element was not found.
+  More DSL friendly form of Send-SeKeys - takes piped element;  keys is first parameter and supports
+  clearing the text box, submit and passthru, to allow element to be fetched and keys typed, and then
+  Pester to throw if element was not found.
 
 Get-SeSelectionOption **New Function** alias SeSelection
   For setting and checking options in a dropdown lists.

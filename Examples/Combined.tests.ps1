@@ -121,21 +121,21 @@ Describe "PsGallery Test"  {
             }
             $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'
             It 'searched successfully                                                  ' {
-                SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 30
+                SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
                 #Two tests on the same element, second passes it through to click
                 SeShouldHave $linkpath -With href match selenium
-                SeShouldHave $linkpath -With Text like *selenium* -PassThru | SeClick
+                SeShouldHave $linkpath -With Text like *selenium* -PassThru | SeClick -SleepSeconds 5
             }
             It 'opened the search result page and found the expected content           ' {
                 #Just to show we can test for the presence of multiple links. Each one is re-tested ...
                 SeShouldHave '//*[@id="version-history"]/table/tbody[1]/tr[1]/ td[1]/a/b' ,
-                             '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a' -Timeout 30
+                             '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a' -Timeout 15
 
                 SeShouldHave '//*[@id="version-history"]/table/tbody[1]/tr[1]/ td[1]/a/b' -With text match "current"
 
                 #Can test with "Get-SeElement | where-object <<complex test>>" rather than "with <<feild>> <<operator>> <<value>>"
                 SeElement    '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a'  |
-                    Where-Object {($_.text -eq "Project Site") -and ($_.GetAttribute('href') -match "selenium") } |
+                    Where-Object {($_.text -like "*Project Site*") -and ($_.GetAttribute('href') -match "selenium") } |
                         SeClick -PassThru  | Should -Not -Benullorempty
             }
             It 'went to Github from the project link on the search result              ' {

@@ -49,7 +49,7 @@ function Start-SeNewEdge {
         [switch]$FullScreen,
         [parameter(ParameterSetName='hl',  Mandatory=$true)]
         [switch]$Headless,
-        $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe", #change after edge is released.
+        $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
         $ProfileDirectoryPath,
         $DefaultDownloadPath,
         [switch]$AsDefaultDriver,
@@ -61,12 +61,8 @@ function Start-SeNewEdge {
     )
     $OptionSettings =  @{ browserName=''}
     #region check / set paths for browser and web driver and edge options
-    if(    $BinaryPath -and -not (Test-Path -Path $BinaryPath)) {
+    if($PSBoundParameters['BinaryPath'] -and -not (Test-Path -Path $BinaryPath)) {
         throw "Could not find $BinaryPath"; return
-    }
-    elseif($BinaryPath) {
-        $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
-        $binaryDir = Split-Path -Path $BinaryPath -Parent
     }
 
     #Were we given a driver location and is msedgedriver there ?
@@ -76,15 +72,26 @@ function Start-SeNewEdge {
     if(     $WebDriverDirectory -and -not (Test-Path -Path (Join-Path -Path $WebDriverDirectory -ChildPath 'msedgedriver.exe' ))) {
         throw "Could not find msedgedriver.exe in $WebDriverDirectory"; return
     }
-    if(-not $WebDriverDirectory -and $binaryDir         -and (Test-Path (Join-Path -Path $binaryDir                  -ChildPath 'msedgedriver.exe' ))) {
+    elseif( $WebDriverDirectory                 -and (Test-Path (Join-Path -Path $WebDriverDirectory        -ChildPath 'msedge.exe' ))) {
+            Write-Verbose -Message "Using browser from $WebDriverDirectory"
+            $optionsettings['BinaryLocation']   =                Join-Path -Path $WebDriverDirectory        -ChildPath 'msedge.exe'
+    }
+    elseif( $BinaryPath) {
+            $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
+            $binaryDir = Split-Path -Path $BinaryPath -Parent
+            Write-Verbose -Message "Will request $($OptionSettings['BinaryLocation']) as the browser"
+    }
+    if(-not $WebDriverDirectory -and $binaryDir -and (Test-Path (Join-Path -Path $binaryDir                 -ChildPath 'msedgedriver.exe' ))) {
             $WebDriverDirectory =    $binaryDir
     }
-    # No linux or mac driver to test for
-    if(-not $WebDriverDirectory -and                         (Test-Path (Join-path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe' ))) {
-            $WebDriverDirectory =  "$PSScriptRoot\Assemblies\"
+    # No linux or mac driver to test for yet
+    if(-not $WebDriverDirectory -and                 (Test-Path (Join-path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe' ))) {
+            $WebDriverDirectory =   "$PSScriptRoot\Assemblies\"
+            Write-Verbose -Message "Using Web driver from the default location"
     }
     if(-not $WebDriverDirectory)  {throw "Could not find msedgedriver.exe"; return}
 
+    # The "credge" web driver will work with the edge selenium objects, but works better with the chrome ones.
     $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
     $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
     #The command line args may now be  --inprivate --headless   but msedge driver V81 does not pass them
@@ -112,14 +119,18 @@ function Start-SeNewEdge {
     else {
             $driverversion = $Driver.Capabilities.ToDictionary().msedge.msedgedriverVersion -replace '^([\d.]+).*$','$1'
             if (-not $driverversion) {$driverversion = $driver.Capabilities.ToDictionary().chrome.chromedriverVersion -replace '^([\d.]+).*$','$1'}
-            Write-Verbose "Web Driver version $driverversion"
-            Write-Verbose "Browser: $($Driver.Capabilities.ToDictionary().browserName) $($Driver.Capabilities.ToDictionary().browserVersion)"
-            $browserCmdline = (Get-CimInstance -Query "Select * from win32_process where parentprocessid = $($service.ProcessId) and name ='msedge.exe'" ).commandline
-            $options.arguments | Where-Object {$browserCmdline -notlike "*$_*"} | ForEach-Object {
-                Write-Warning "Argument $_ was not passed to the Browser. This is a known issue with some web driver versions"
-            }
+            Write-Verbose  "Web Driver version $driverversion"
+            Write-Verbose ("Browser: {0,9} {1}" -f $Driver.Capabilities.ToDictionary().browserName,
+                                                   $Driver.Capabilities.ToDictionary().browserVersion)
             if(!$HideVersionHint){
-                Write-Verbose "Download the right webdriver from 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'"
+                Write-Verbose "You can download the right webdriver from 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'"
+            }
+            $browserCmdline = (Get-CimInstance -Verbose:$false -Query (
+                "Select * From win32_process " +
+                "Where  parentprocessid = $($service.ProcessId) "+
+                "And    name = 'msedge.exe'") ).commandline
+            $options.arguments | Where-Object {$browserCmdline -notlike "*$_*"} | ForEach-Object {
+                Write-Warning "Argument $_ was not passed to the Browser. This is a known issue with some web driver versions."
             }
     }
 
@@ -321,7 +332,7 @@ function Start-SeInternetExplorer {
 
 function Start-SeEdge {
     [cmdletbinding(DefaultParameterSetName='default')]
-    [Alias('MSEdge','LegacyEdge')]
+    [Alias('MSEdge','LegacyEdge','Start-SeLegacyEdge')]
     param(
         [ValidateURIAttribute()]
         [Parameter(Position=0)]
@@ -452,6 +463,53 @@ function Start-SeFirefox {
         else {$Driver}
     }
 }
+
+function Start-SeRemote {
+    <#
+        .example
+        #you can a remote testing account with testing bot at https://testingbot.com/users/sign_up
+        #Set $key and $secret and then ...
+        #see also https://crossbrowsertesting.com/freetrial / https://help.crossbrowsertesting.com/selenium-testing/getting-started/c-sharp/
+        #and https://www.browserstack.com/automate/c-sharp
+
+        $RemoteDriverURL = [uri]"http://$key`:$secret@hub.testingbot.com/wd/hub"
+        #See https://testingbot.com/support/getting-started/csharp.html for values for different browsers/platforms
+        $caps = @{
+          platform     = 'HIGH-SIERRA'
+          version      = '11'
+          browserName  = 'safari'
+        }
+        Start-SeRemote -RemoteAddress $remoteDriverUrl -DesiredCapabilties $caps
+    #>
+        [cmdletbinding(DefaultParameterSetName='default')]
+        param(
+            [string]$RemoteAddress,
+            [hashtable]$DesiredCapabilities,
+            [ValidateURIAttribute()]
+            [Parameter(Position=0)]
+            [string]$StartURL,
+            [switch]$AsDefaultDriver,
+            [int]$ImplicitWait = 10
+        )
+
+        $desired = New-Object -TypeName OpenQA.Selenium.Remote.DesiredCapabilities
+        if (-not $DesiredCapabilities.Name) {
+            $desired.SetCapability('name', [datetime]::now.tostring("yyyyMMdd-hhmmss"))
+        }
+        foreach ($k in $DesiredCapabilities.keys) {$desired.SetCapability($k,$DesiredCapabilities[$k])}
+        $Driver = New-Object -TypeName OpenQA.Selenium.Remote.RemoteWebDriver -ArgumentList $RemoteAddress,$desired
+
+        if(-not $Driver) {Write-Warning "Web driver was not created"; return}
+
+        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+        if ($StartURL) {$Driver.Navigate().GotoUrl($StartURL)}
+
+        if($AsDefaultDriver) {
+            if($Global:SeDriver) {$Global:SeDriver.Dispose()}
+            $Global:SeDriver = $Driver
+        }
+        else {$Driver}
+    }
 
 function Stop-SeDriver {
     [alias('SeClose')]
@@ -982,6 +1040,7 @@ function SeType {
         [OpenQA.Selenium.IWebElement]$Element,
         [switch]$ClearFirst,
         $SleepSeconds = 0 ,
+        [switch]$Submit,
         [Alias('PT')]
         [switch]$PassThru
     )
@@ -991,10 +1050,13 @@ function SeType {
         }
     }
     process {
-        if ($ClearFirst) {$Element.Clear()}
-        $Element.SendKeys($Keys)
-        if($SleepSeconds)    { Start-Sleep -Seconds $SleepSeconds}
-        if ($PassThru) {$Element}
+        if($ClearFirst)   {$Element.Clear()}
+
+        $Element.SendKeys( $Keys)
+
+        if($Submit)       {$Element.Submit()}
+        if($SleepSeconds) {Start-Sleep -Seconds $SleepSeconds}
+        if($PassThru)     {$Element}
     }
 }
 
