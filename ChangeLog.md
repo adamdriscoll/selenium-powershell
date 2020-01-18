@@ -1,4 +1,8 @@
-Changes from 2.3.1 made November2019 - January 2020  JO'N
+# [Unreleased]
+
+## Added
+
+- Added DriverPath to Start-SeChrome for specifying a custom binary path
 
 DLL loading is now from the PSD1 file instead of the PSM1 file.
 Now use presence of $AssembliesPath to judge "IsMacOS" -or "IsLinux"
