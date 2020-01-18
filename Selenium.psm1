@@ -49,7 +49,10 @@ function Start-SeChrome {
         [switch]$Maximized,
         [switch]$Minimized,
         [switch]$Fullscreen,
-        [System.IO.FileInfo]$ChromeBinaryPath
+        [System.IO.FileInfo]$ChromeBinaryPath,
+
+        [ValidateScript({  if ($_) {Test-Path -Path $_ -PathType Container}  })]
+        [string]$DriverPath
     )
 
     BEGIN{
@@ -118,11 +121,14 @@ function Start-SeChrome {
             Write-Verbose "Download the right chromedriver from 'http://chromedriver.chromium.org/downloads'"
         }
 
-        if($IsLinux -or $IsMacOS){
+        if ($DriverPath){
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $DriverPath,$Chrome_Options
+        }
+        elseif($IsLinux -or $IsMacOS){
             $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $AssembliesPath,$Chrome_Options
         }
         else{
-            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options 
+            $Driver = New-Object -TypeName "OpenQA.Selenium.Chrome.ChromeDriver" -ArgumentList $Chrome_Options
         }
 
         if($Minimized -and $Driver){

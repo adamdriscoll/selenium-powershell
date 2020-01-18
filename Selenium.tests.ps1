@@ -113,6 +113,48 @@ Describe "Start-SeChrome with Options" {
     }
 }
 
+Describe 'Start-SeChrome with Custom DriverPath' {
+    BeforeEach {
+        # It is unknown which alternate drivers are present on CI agent, so use existing driver as a custom DriverPath for tests
+        if ($IsLinux) {
+            $driverPath = Join-Path $PSScriptRoot 'assemblies/macos'
+        }
+        elseif($IsMacOS) {
+            $driverPath = Join-Path $PSScriptRoot 'assemblies/linux'
+        }
+        else { #windows
+            $driverPath = Join-Path $PSScriptRoot 'assemblies'
+        }
+
+        $badDriverPath = Join-Path $PSScriptRoot 'bad-assembly-path'
+    }
+
+    Context 'DriverPath With no additional arguments' {
+        It 'Start-SeChrome from Custom DriverPath with no arguments' {
+            $Driver = Start-SeChrome -DriverPath $driverPath
+            $Driver | Should Not BeNullOrEmpty
+            Stop-SeDriver $Driver
+        }
+
+        It 'Start-SeChrome should fail if custom DriverPath does not exist' {
+            { Start-SeChrome -DriverPath $badDriverPath } | Should Throw
+        }
+    }
+
+    Context 'DriverPath With additional arguments' {
+        It 'Start-SeChrome from Custom DriverPath with Multiple arguments' {
+            $Driver = Start-SeChrome -DriverPath $driverPath -Arguments @('Incognito','start-maximized')
+            $Driver | Should Not BeNullOrEmpty
+            Stop-SeDriver $Driver
+        }
+
+        It 'Start-SeChrome with multiple arguments should fail if custom DriverPath does not exist' {
+        { 
+            Start-SeChrome -DriverPath $badDriverPath -Arguments @('Incognito','start-maximized') } | Should Throw
+        }
+    }
+}
+
 Describe "Start-SeFirefox"{
     Context "Should Start Firefox Driver" {
         $Driver = Start-SeFirefox 
