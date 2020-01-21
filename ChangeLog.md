@@ -2,14 +2,14 @@
 
 ## Added
 
-- Added DriverPath to Start-SeChrome for specifying a custom binary path
-
 DLL loading is now from the PSD1 file instead of the PSM1 file.
 Now use presence of $AssembliesPath to judge "IsMacOS" -or "IsLinux"
 
 Send-SeKeys
   -Element and -Keys parameters are both mandatory
   Selenium-keys are now cached in a script-scoped variable for performance. (Get-SEKeys can be dropped)
+  Added -PassThru
+
 
 Valdate-URL
    Function Renamed to validateUrl (private helper function does not need to use verb-noun naming and "validate" verb upsets script analyzer)
@@ -19,7 +19,7 @@ Valdate-URL
 Checks for valid webdriver also moved to a validation class.
 
 Get-SeCookie & Invoke-SeScreenshot
-  In line with other functions, -Driver prarameter is renamed -Target, with alias "Driver", and will come from $Global:SeDriver
+  In line with other functions, -Driver parameter is renamed -Target, with alias "Driver", and will come from $Global:SeDriver
   and throws an error if no driver is passed or found from Global var
 
 Start-SeFirefox & Start-SeChrome
@@ -105,6 +105,7 @@ Open-SeURL *New Function** with alias SeNavigate
   Driver is renamed target, with alias "Driver", and will come from $Global:SeDriver
   Throws an error if no driver passed or found from Global var
   Made interoperable with Enter-SEURL via aliases
+  Back, forward and refresh are available via switches
   Commented out Enter-SeURL and changed PSD1,
 
 Get-SeElement **New Function** with alias seElement
