@@ -4,6 +4,8 @@
 - Easily execute web-based tests
 - Works well with Pester
 
+[![Build Status](https://adamrdriscoll.visualstudio.com/Selenium/_apis/build/status/adamdriscoll.selenium-powershell?branchName=master)](https://adamrdriscoll.visualstudio.com/Selenium/_build/latest?definitionId=25&branchName=master)
+
 # Installation
 `Note: Firefox's Latest Gecko Driver on Windows requires Microsoft Visual Studio Redistributables for the binary to run get them `[Here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 
