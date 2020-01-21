@@ -8,7 +8,7 @@
 # Modified James O'Neill 30 Nov 2019
 
 @{
-ModuleVersion        = '2.3.1'
+ModuleVersion        = '3.0.0'
 GUID                 = 'a3bdb8c3-c150-48a8-b56d-cd4d43f46a26'
 Author               = 'Adam Driscoll'
 CompanyName          = 'Unknown'
