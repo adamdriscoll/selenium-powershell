@@ -1025,7 +1025,7 @@ function Switch-SeWindow {
 function Switch-SeFrame {
     [Alias('SeFrame')]
     param (
-        [Parameter(Mandatory = $true, ParameterSetName='Frame')]
+        [Parameter(Mandatory = $true, ParameterSetName='Frame', Position=0)]
         $Frame,
 
         [Parameter(Mandatory = $true, ParameterSetName='Parent')]
