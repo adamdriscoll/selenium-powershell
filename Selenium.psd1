@@ -33,6 +33,7 @@ FunctionsToExport    = @(
     'Set-SeCookie' ,
     'Get-SeElement',
     'Get-SeElementAttribute' ,
+    'Get-SeElementCssValue' ,
     'Get-SeSelectionOption',
     'Get-SeKeys' ,
     'Send-SeKeys' ,
@@ -71,9 +72,7 @@ FileList             = @('.\assemblies',
                          '.\Examples',
                          '.\ChangeLog.md',
                          '.\README.md',
-                         '.\additions.md',
                          '.\Selenium.psm1'
-                        ' .\SeleniumClasses.ps1'
                          '.\Selenium.tests.ps1'
                          '.\Selenium-Binary-Updater.ps1')
 
@@ -86,7 +85,7 @@ PrivateData          = @{
 
         # A URL to an icon representing this module.
         # IconUri = ''
-        Prerelease = 'beta1'
+        Prerelease = 'beta2'
     } # End of PSData hashtable
 
 } # End of PrivateData hashtable
