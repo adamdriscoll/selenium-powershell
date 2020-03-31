@@ -3,6 +3,7 @@
 ## Changed
 
 - Fixed issue with importing module in PSv5.1 - https://github.com/adamdriscoll/selenium-powershell/issues/69
+- Updated Chrome drivers
 
 # 3.0.0-beta2 - 1/29/2020
 
