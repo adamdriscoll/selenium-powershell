@@ -180,6 +180,7 @@ function Start-SeChrome {
         [switch]$Minimized,
         [parameter(ParameterSetName='Ful',Mandatory=$true)]
         [switch]$Fullscreen,
+		[switch]$DisableAutomationExtension,
         [Alias('ChromeBinaryPath')]
         $BinaryPath,
         $WebDriverDirectory = $env:ChromeWebDriver,
@@ -225,6 +226,11 @@ function Start-SeChrome {
 
         if($Fullscreen){
             $Chrome_Options.AddArguments('start-fullscreen')
+        }
+		
+		if($DisableAutomationExtension){
+            $Chrome_Options.AddAdditionalCapability('useAutomationExtension', $false)
+            $Chrome_Options.AddExcludedArgument('enable-automation')
         }
 
         if($Arguments){

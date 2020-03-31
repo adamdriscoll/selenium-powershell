@@ -1,5 +1,9 @@
 # Selenium PowerShell Module
 
+The Selenium PowerShell module allows you to automate browser interaction using the [Selenium API](https://selenium.dev/). You can navigate to pages, find elements, click buttons, enter text and even take screenshots. 
+
+# About
+
 - Wraps the C# WebDriver for Selenium
 - Easily execute web-based tests
 - Works well with Pester
