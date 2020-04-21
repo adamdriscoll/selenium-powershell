@@ -298,6 +298,7 @@ function Start-SeInternetExplorer {
         [Parameter(DontShow)]
         [Alias('Incognito')]
         [switch]$PrivateBrowsing,
+        [switch]$IgnoreProtectedModeSettings,
         [int]$ImplicitWait = 10,
         $WebDriverDirectory = $env:IEWebDriver
     )
@@ -306,6 +307,9 @@ function Start-SeInternetExplorer {
 
     $InternetExplorer_Options = New-Object -TypeName "OpenQA.Selenium.IE.InternetExplorerOptions"
     $InternetExplorer_Options.IgnoreZoomLevel = $true
+    if ($IgnoreProtectedModeSettings) {
+        $InternetExplorer_Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
+    }
 
     if($StartURL)           {$InternetExplorer_Options.InitialBrowserUrl = $StartURL }
     if($WebDriverDirectory) {$Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverDirectory)}
