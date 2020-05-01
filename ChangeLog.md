@@ -1,3 +1,9 @@
+# 3.1.0 - Unreleased
+
+## Added
+
+- Added -IgnoreProtectedModeSettings to Start-SeInternetExplorer - https://github.com/adamdriscoll/selenium-powershell/issues/79 - Thanks, @MysticRyuujin!
+
 # 3.0.0 - 3/31/2020
 
 ## Changed
