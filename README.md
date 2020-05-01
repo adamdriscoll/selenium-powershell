@@ -21,7 +21,7 @@ Install-Module Selenium
 OR
 
 ```
-Import-Module "{FullPath}\selenium-powershell\Selenium.psm1"
+Import-Module "{FullPath}\selenium-powershell\Selenium.psd1"
 ```
 
 # Usage
