@@ -782,7 +782,16 @@ function Invoke-SeClick {
     )
 
     if ($JavaScriptClick) {
-        $Driver.ExecuteScript("arguments[0].click()", $Element)
+    	if (-not $PSBoundParameters.ContainsKey("Driver")) {
+	    $Driver = $global:SeDriver
+	}
+
+	try {
+            $Driver.ExecuteScript("arguments[0].click()", $Element)
+	}
+	catch {
+	    $PSCmdlet.ThrowTerminatingError($_)
+	}
     }
     else {
         $Element.Click()
