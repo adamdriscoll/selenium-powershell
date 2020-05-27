@@ -772,20 +772,21 @@ function Get-SeElement {
 }
 
 function Invoke-SeClick {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'Default')]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true, ParameterSetName = 'JavaScript')]
         [OpenQA.Selenium.IWebElement]$Element,
-        [Parameter()]
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'JavaScript')]
         [Switch]$JavaScriptClick,
-        [Parameter()]
-        $Driver
+
+        [Parameter(ParameterSetName = 'JavaScript')]
+	[ValidateIsWebDriverAttribute()]
+        $Driver = $global:SeDriver
     )
 
     if ($JavaScriptClick) {
-    	if (-not $PSBoundParameters.ContainsKey("Driver")) {
-	    $Driver = $global:SeDriver
-	}
-
 	try {
             $Driver.ExecuteScript("arguments[0].click()", $Element)
 	}
