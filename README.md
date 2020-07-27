@@ -2,6 +2,10 @@
 
 The Selenium PowerShell module allows you to automate browser interaction using the [Selenium API](https://selenium.dev/). You can navigate to pages, find elements, click buttons, enter text and even take screenshots. 
 
+# Looking for Maintainers
+
+I haven't been able to able to keep up with the issues on this repo. If you are interested in becoming a maintainer, please let me know. - [Adam](https://github.com/adamdriscoll)
+
 # About
 
 - Wraps the C# WebDriver for Selenium
