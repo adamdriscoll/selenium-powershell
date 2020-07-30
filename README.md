@@ -1,8 +1,18 @@
 # Selenium PowerShell Module
 
+The Selenium PowerShell module allows you to automate browser interaction using the [Selenium API](https://selenium.dev/). You can navigate to pages, find elements, click buttons, enter text and even take screenshots. 
+
+# Looking for Maintainers
+
+I haven't been able to able to keep up with the issues on this repo. If you are interested in becoming a maintainer, please let me know. - [Adam](https://github.com/adamdriscoll)
+
+# About
+
 - Wraps the C# WebDriver for Selenium
 - Easily execute web-based tests
 - Works well with Pester
+
+[![Build Status](https://adamrdriscoll.visualstudio.com/Selenium/_apis/build/status/adamdriscoll.selenium-powershell?branchName=master)](https://adamrdriscoll.visualstudio.com/Selenium/_build/latest?definitionId=25&branchName=master)
 
 # Installation
 `Note: Firefox's Latest Gecko Driver on Windows requires Microsoft Visual Studio Redistributables for the binary to run get them `[Here](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
@@ -15,7 +25,7 @@ Install-Module Selenium
 OR
 
 ```
-Import-Module "{FullPath}\selenium-powershell\Selenium.psm1"
+Import-Module "{FullPath}\selenium-powershell\Selenium.psd1"
 ```
 
 # Usage
