@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -BinaryPath
-Sets the location of the Chrome browser's binary executable file
+Set the location of the Chrome browser's binary executable file
 
 ```yaml
 Type: Object

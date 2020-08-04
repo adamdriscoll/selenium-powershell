@@ -232,7 +232,7 @@ Accept wildcard characters: False
 ```
 
 ### -SuppressLogging
-Sets GeckoDriver log level to Fatal.
+Set GeckoDriver log level to Fatal.
 
 ```yaml
 Type: SwitchParameter
