@@ -1,11 +1,10 @@
 
-if ('ValidateURIAttribute' -as [type])
-{
+if ('ValidateURIAttribute' -as [type]) {
     class ValidateURIAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
         [void] Validate([object] $arguments , [System.Management.Automation.EngineIntrinsics]$EngineIntrinsics) {
             $Out = $null
-            if   ([uri]::TryCreate($arguments,[System.UriKind]::Absolute, [ref]$Out)) {return}
-            else {throw  [System.Management.Automation.ValidationMetadataException]::new('Incorrect StartURL please make sure the URL starts with http:// or https://')}
+            if ([uri]::TryCreate($arguments, [System.UriKind]::Absolute, [ref]$Out)) { return }
+            else { throw  [System.Management.Automation.ValidationMetadataException]::new('Incorrect StartURL please make sure the URL starts with http:// or https://') }
             return
         }
     }    
@@ -13,12 +12,11 @@ if ('ValidateURIAttribute' -as [type])
 }
 
 
-if ('ValidateIsWebDriverAttribute' -as [type])
-{
+if ('ValidateIsWebDriverAttribute' -as [type]) {
     class ValidateIsWebDriverAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
         [void] Validate([object] $arguments , [System.Management.Automation.EngineIntrinsics]$EngineIntrinsics) {
             if ($arguments -isnot [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-                    throw  [System.Management.Automation.ValidationMetadataException]::new('Target was not a valid web driver')
+                throw  [System.Management.Automation.ValidationMetadataException]::new('Target was not a valid web driver')
             }
             return
         }
@@ -26,19 +24,18 @@ if ('ValidateIsWebDriverAttribute' -as [type])
     class ValidateIsWebDriver : ValidateIsWebDriverAttribute {}
 }
 
-if ('ByTransformAttribute' -as [type])
-{
+if ('ByTransformAttribute' -as [type]) {
     #Allow BY to shorten cssSelector, ClassName, LinkText, and TagName
-    class ByTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute  {
+    class ByTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
         [object] Transform([System.Management.Automation.EngineIntrinsics]$EngineIntrinsics, [object] $InputData) {
             if ($inputData -match 'CssSelector|Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath') {
                 return $InputData
             }
             switch -regex ($InputData) {
-                "^css"    {return 'CssSelector'; break}
-                "^class"  {return 'ClassName'  ; break}
-                "^link"   {return 'LinkText'   ; break}
-                "^tag"    {return 'TagName'    ; break}
+                "^css" { return 'CssSelector'; break }
+                "^class" { return 'ClassName'  ; break }
+                "^link" { return 'LinkText'   ; break }
+                "^tag" { return 'TagName'    ; break }
             }
             return $InputData
         }
@@ -47,20 +44,19 @@ if ('ByTransformAttribute' -as [type])
     class ByTransform : ByTransformAttribute {}
 }
 
-if ('OperatorTransformAttribute' -as [type])
-{
+if ('OperatorTransformAttribute' -as [type]) {
     #Allow operator to use containing, matching, matches, equals etc.
-    class OperatorTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute  {
+    class OperatorTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
         [object] Transform([System.Management.Automation.EngineIntrinsics]$EngineIntrinsics, [object] $InputData) {
             if ($inputData -match '^(contains|like|notlike|match|notmatch|eq|ne|gt|lt)$#') {
                 return $InputData
             }
             switch -regex ($InputData) {
-                "^contain"    {return 'contains' ; break}
-                "^match"      {return 'match'    ; break}
-                "^n\w*match"  {return 'notmatch' ; break}
-                "^eq"         {return 'eq'       ; break}
-                "^n\w*eq"     {return 'ne'       ; break}
+                "^contain" { return 'contains' ; break }
+                "^match" { return 'match'    ; break }
+                "^n\w*match" { return 'notmatch' ; break }
+                "^eq" { return 'eq'       ; break }
+                "^n\w*eq" { return 'ne'       ; break }
             }
             return $InputData
         }
@@ -124,4 +120,4 @@ namespace SeleniumSelection {
         }
     }
 }
-"@ -ReferencedAssemblies $dll1Path,$dll2Path, mscorlib
+"@ -ReferencedAssemblies $dll1Path, $dll2Path, mscorlib
