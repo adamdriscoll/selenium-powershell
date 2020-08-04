@@ -120,3 +120,4 @@ Find-SeElement -Driver $d -Wait -Timeout 10 -Name q
 
 - [Adam Driscoll](https://github.com/adamdriscoll)
 - [Avri Chen-Roth](https://github.com/the-mentor)
+- [Francis Mercier](https://github.com/itfranck)
