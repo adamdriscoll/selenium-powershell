@@ -6,14 +6,14 @@ $ScriptFullPath, $ScriptRoot, $ScriptName, $ScriptNameShort = @('', '', '', '');
 $ProjectPath = Split-Path $ScriptRoot 
 
 # Load Debug version
-import-module "$ProjectPath\Selenium.psd1" -Force
+#import-module "$ProjectPath\Selenium.psd1" -Force
 
 #Load Compiled version
 import-module "$ProjectPath\output\selenium\Selenium.psd1" -Force
-
+Invoke-Pester -Script 'C:\Github\selenium-powershell\Examples\Combined.tests.ps1'
 
 # Build module
-invoke-build -File "$ProjectPath\Selenium.build.ps1"
+#invoke-build -File "$ProjectPath\Selenium.build.ps1"
 
 
 
