@@ -28,7 +28,7 @@ else { $checkPester | Out-Host }
 #Run the test and results export to an Excel file for current OS - Test picks up the selected browser from an environment variable.
 $RunParameters = @{
     XLFile = '{0}/results/Results-{1}.xlsx' -f $env:BUILD_ARTIFACTSTAGINGDIRECTORY, [environment]::OSVersion.Platform.ToString()
-    Script = Join-Path -Path (Join-Path $pwd 'Examples') -ChildPath 'Combined.tests.ps1'
+    Script = Join-Path -Path (Join-Path $pwd 'Output/Selenium/Examples') -ChildPath 'Combined.tests.ps1'
 }
 foreach ( $b   in $BrowserList) {
     $env:DefaultBrowser = $b
