@@ -64,7 +64,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
         Write-Verbose ($TestCaseSettings[$env:DefaultBrowser].DefaultOptions -eq $null) -Verbose
         Write-Verbose ($TestCaseSettings[$env:DefaultBrowser].DefaultOptions | Out-String ) -Verbose
-        Write-Verbose () -Verbose
+        
 
         Write-Verbose $env:SITE_URL -Verbose
         Write-Verbose ($BrowserOptHash -eq $null) -verbose
