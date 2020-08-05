@@ -67,6 +67,9 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
             Write-Warning '$BrwserOptHashtable was null. Empty option set will be passed instead.'
             $BrowserOptHash = @{} 
         }
+        else {
+            $BrowserOptHash | Out-String | Write-Verbose -Verbose
+        }
         $BrowserID = SeOpen -URL $env:SITE_URL -Options  $Global:BrowserOptHash 4>&1
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
@@ -256,8 +259,8 @@ if ($BrowserOptText) {
                 $Global:SeDriver                                               | Should      -BeNullOrEmpty
                 if ($DriverProcess.Id) {
                     (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
-                } }
-        }               if ($BrowserProcess.Id) {
+                } 
+                 if ($BrowserProcess.Id) {
                     (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
