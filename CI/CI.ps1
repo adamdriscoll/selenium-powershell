@@ -11,7 +11,7 @@ if ($Platform -like 'win*6') {
 }
 
 #Make sure we have the modules we need
-Import-Module .\Output\Selenium\Selenium.psd1 -Force -ErrorAction Stop
+Import-Module .\Selenium.psd1 -Force -ErrorAction Stop
 $checkImportExcel = Get-Module -ListAvailable ImportExcel
 if (-not ($checkImportExcel)) {
     Write-Verbose -Verbose 'Installing ImportExcel'

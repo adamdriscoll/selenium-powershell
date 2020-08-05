@@ -1,48 +1,48 @@
 # https://aka.ms/yaml
 
 trigger:
-    branches:
-      include:
-      - '*'
-      # - master
-      # - releases/*
-    paths:
-      exclude:
+  branches:
+    include:
+      - "*"
+    # - master
+    # - releases/*
+  paths:
+    exclude:
       - additions.md
       - ChangeLog.Txt
       - README.md
 
 jobs:
-  - job: 'Windows'
+  - job: "Windows"
     pool:
-      vmImage: 'windows-latest'
+      vmImage: "windows-latest"
     steps:
-    - powershell: './CI/CI.ps1 -browserlist Chrome,Firefox,IE'
-      displayName: 'Run Test on Windows PowerShell'
-    - pwsh: './CI/CI.ps1 -browserlist Chrome'
-      displayName: 'Run Test on PowerShell core on Windows'
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/results'
-        artifact: 'Windows Results'
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'NUnit'
-        testResultsFiles: '**/TestResults*.xml'
-        failTaskOnFailedTests: true
+      - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox,IE"
+        displayName: "Run Test on Windows PowerShell"
+      - pwsh: "./CI/CI.ps1 -browserlist Chrome"
+        displayName: "Run Test on PowerShell core on Windows"
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: "$(Build.ArtifactStagingDirectory)/results"
+          artifact: "Windows Results"
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: "NUnit"
+          testResultsFiles: "**/TestResults*.xml"
+          failTaskOnFailedTests: true
 
-  - job: 'Ubuntu'
+  - job: "Ubuntu"
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
-    - powershell: './CI/CI.ps1 -browserlist Chrome,Firefox'
-      displayName: 'Run Test on Linux'
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Build.ArtifactStagingDirectory)/results'
-        artifact: 'Linux Results'
-    - task: PublishTestResults@2
-      inputs:
-        testResultsFormat: 'NUnit'
-        testResultsFiles: '**/TestResults*.xml'
-        failTaskOnFailedTests: true
+      - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox"
+        displayName: "Run Test on Linux"
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: "$(Build.ArtifactStagingDirectory)/results"
+          artifact: "Linux Results"
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: "NUnit"
+          testResultsFiles: "**/TestResults*.xml"
+          failTaskOnFailedTests: true
