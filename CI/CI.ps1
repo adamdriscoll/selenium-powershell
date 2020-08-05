@@ -21,7 +21,7 @@ else { $checkImportExcel | Out-Host }
 $checkPester = Get-Module -ListAvailable Pester | Where-Object { $_.version.major -ge 4 -and $_.version.minor -ge 4 }
 if (-not $checkPester) {
     Write-Verbose -Verbose 'Installing Pester'
-    Install-Module Pester -RequiredVersion 4.10.1 -Force -SkipPublisherCheck
+    Install-Module Pester -Force -SkipPublisherCheck
 }
 else { $checkPester | Out-Host }
 
