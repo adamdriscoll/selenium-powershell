@@ -57,16 +57,12 @@ $ModaltestCases = @(
         modalXPath = '//*[@id="profile-modal-1"]/div/div'
     }
 )
-$Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
-$Global:BrowserOptText = Build-StringFromHash $BrowserOptHash
-
+$BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
+$BrowserOptText = Build-StringFromHash $BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $Global:SeDriver = $null
-        if ($BrowserOptHash -eq $null) { $BrowserOptHash = @{} }
         $BrowserID = SeOpen -URL $env:SITE_URL -Options  $BrowserOptHash -Verbose  4>&1
-        Write-Verbose "`$Global:SeDriver -eq `$null: $($Global:SeDriver -eq $null)"        
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($BrowserOptText)" {
