@@ -70,6 +70,12 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         else {
             $BrowserOptHash | Out-String | Write-Verbose -Verbose
         }
+
+        if (-not $env:DefaultBrowser) { 
+            $env:DefaultBrowser = 'Chrome' 
+            Write-Warning '$env:DefaultBrowser was not set. Setting to "Chrome"'
+        }
+
         $BrowserID = SeOpen -URL $env:SITE_URL -Options  $Global:BrowserOptHash 4>&1
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
@@ -260,7 +266,7 @@ if ($BrowserOptText) {
                 if ($DriverProcess.Id) {
                     (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
                 } 
-                 if ($BrowserProcess.Id) {
+                if ($BrowserProcess.Id) {
                     (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
