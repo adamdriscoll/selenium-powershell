@@ -59,6 +59,7 @@ $ModaltestCases = @(
 )
 $Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
 $Global:BrowserOptText = Build-StringFromHash $BrowserOptHash
+$Global:SeDriver = $null
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
