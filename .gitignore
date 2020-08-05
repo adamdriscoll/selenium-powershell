@@ -1,3 +1,5 @@
-.vscode/launch.json
+.vscode
 CI/LocalPostProcessing.ps1
-
+Scratchpad.ps1
+Output/testResults*.xml
+Output/stats.json
