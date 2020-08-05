@@ -63,8 +63,10 @@ $BrowserOptText = Build-StringFromHash $BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        
-        Write-Verbose ($Global:BrowserOptHash -eq $null) -Verbose
+        if ($BrowserOptHash -eq $null) { 
+            Write-Warning '$BrwserOptHashtable was null. Empty option set will be passed instead.'
+            $BrowserOptHash = @{} 
+        }
         $BrowserID = SeOpen -URL $env:SITE_URL -Options  $Global:BrowserOptHash 4>&1
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
@@ -254,8 +256,8 @@ if ($BrowserOptText) {
                 $Global:SeDriver                                               | Should      -BeNullOrEmpty
                 if ($DriverProcess.Id) {
                     (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
-                }
-                if ($BrowserProcess.Id) {
+                } }
+        }               if ($BrowserProcess.Id) {
                     (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
                 }
             }
