@@ -66,7 +66,7 @@ $BrowserOptText = Build-StringFromHash $BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $env:DefaultBrowser
+        $BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
         $BrowserID = SeOpen -URL $env:SITE_URL -Options  $BrowserOptHash 4>&1
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
