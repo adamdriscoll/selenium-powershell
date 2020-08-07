@@ -24,7 +24,10 @@
         'SeIE'     , 'SeInternetExplorer' ,
         'CrEdge'   , 'NewEdge',
         'MSEdge'   , 'LegacyEdge', 'Start-SeLegacyEdge',
-        'Enter-SeUrl' ,
+        'Enter-SeUrl' , 'Open-SeUrl', 'Set-SeLocation'
+        'Push-SeLocation',
+        'Pop-SeLocation',
+        'Get-SeLocation',
         'Find-SeElement',
         'SeAccept',
         'SeDismiss',

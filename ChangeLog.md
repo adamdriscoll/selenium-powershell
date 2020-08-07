@@ -6,6 +6,14 @@
 
 - Added Markdown documentation (See Help subfolder) for all the cmdlets (PlatyPS is used behind the scene to maintain it) 
 - Added MAML embedded help that can be accessed through `Get-Help`(eg: `Get-Help Start-SeChrome -Examples`)
+- Added Get-SeUrl / Pop-SeUrl / Push-SeUrl / Set-SeUrl (Thanks @vexx32)
+
+## Changed
+ - Converted monolythic module into a scaffolded module through a Plaster template. Module will now have a debug version and a compiled version that need to be built with Invoke-Build. See the Debug folder for additional informations on how to debug.
+
+ - Open-SeUrl removed in favor of Set-SeUrl
+ - Send-SeKeys won't return an exception if you send $null or empty strings.
+ - Stop-SeDriver won't throw exceptions anymore when celled multiple times on a driver already closed.
 
 # 3.0.0 - 3/31/2020
 
@@ -13,7 +21,6 @@
 
 - Fixed issue with importing module in PSv5.1 - https://github.com/adamdriscoll/selenium-powershell/issues/69
 - Updated Chrome drivers
-- Converted monolythic module into a scaffolded module through a Plaster template. Module will now have a debug version and a compiled version that need to be built with Invoke-Build. See the Debug folder for additional informations on how to debug.
 
 # 3.0.0-beta2 - 1/29/2020
 

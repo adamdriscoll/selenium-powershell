@@ -42,7 +42,8 @@ task Compile @compileParams {
         Remove-Item -Path $script:PsmPath -Recurse -Force
     }
     New-Item -Path $script:PsmPath -Force > $null
-
+    $currentFolder = Join-Path -Path $script:ModuleRoot -ChildPath 'Internal'
+    Get-Content -Path "$CurrentFolder\init.ps1" >> $script:PsmPath
     foreach ($folder in $script:ImportFolders) {
         $currentFolder = Join-Path -Path $script:ModuleRoot -ChildPath $folder
         Write-Verbose -Message "Checking folder [$currentFolder]"
@@ -50,6 +51,7 @@ task Compile @compileParams {
         if (Test-Path -Path $currentFolder) {
             $files = Get-ChildItem -Path $currentFolder -File -Filter '*.ps1'
             foreach ($file in $files) {
+                if ($file.Name -eq 'init.ps1' -and $folder -eq 'Internal') { continue }
                 Write-Verbose -Message "Adding $($file.FullName)"
                 Get-Content -Path $file.FullName >> $script:PsmPath
             }
