@@ -3,6 +3,7 @@ function Send-SeKeys {
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebElement]$Element,
         [Parameter(Mandatory = $true, Position = 1)]
+        [AllowEmptyString()]
         [string]$Keys,
         [Parameter()]
         [Alias('PT')]
