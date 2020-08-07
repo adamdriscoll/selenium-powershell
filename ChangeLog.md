@@ -13,6 +13,7 @@
 
  - Open-SeUrl removed in favor of Set-SeUrl
  - Send-SeKeys won't return an exception if you send $null or empty strings.
+ - Stop-SeDriver won't throw exceptions anymore when celled multiple times on a driver already closed.
 
 # 3.0.0 - 3/31/2020
 
