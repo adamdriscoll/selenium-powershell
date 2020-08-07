@@ -1,5 +1,9 @@
-﻿$Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
+﻿using namespace System.Collections.Generic
+
+$Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
     Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
+
+[Dictionary[object, Stack[string]]] $Script:SeLocationMap = [Dictionary[object, Stack[string]]]::new()
 
 #region Set path to assemblies on Linux and MacOS and Grant Execution permissions on them
 if ($IsLinux) {
@@ -190,18 +194,3 @@ function Find-SeElement {
     }
 }
 #>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
