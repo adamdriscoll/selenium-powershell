@@ -33,6 +33,9 @@ Return a list of the available special keys
 ### [Get-SeSelectionOption](Get-SeSelectionOption.md)
 Get Selected option from a Select control
 
+### [Get-SeUrl](Get-SeUrl.md)
+Retrieves the current URL of a target webdriver instance.
+
 ### [Get-SeWindow](Get-SeWindow.md)
 Gets the window handles of open browser windows
 
@@ -45,8 +48,12 @@ Take a screenshot of the current page
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
 
-### [Open-SeUrl](Open-SeUrl.md)
-Navigate to URL
+### [Pop-SeUrl](Pop-SeUrl.md)
+Navigate back to the most recently pushed URL in the location stack.
+
+### [Push-SeUrl](Push-SeUrl.md)
+Stores the current URL in the driver's location stack and optionally
+navigate to a new URL.
 
 ### [Remove-SeCookie](Remove-SeCookie.md)
 Delete the named cookie from the current domain
@@ -62,6 +69,9 @@ Simulates typing text into the element
 
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
+
+### [Set-SeUrl](Set-SeUrl.md)
+Navigates to the targeted URL with the selected or default driver.
 
 ### [Start-SeChrome](Start-SeChrome.md)
 Initializes a new instance of the **ChromeDriver** class. 
