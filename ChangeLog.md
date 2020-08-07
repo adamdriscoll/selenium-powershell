@@ -12,6 +12,7 @@
  - Converted monolythic module into a scaffolded module through a Plaster template. Module will now have a debug version and a compiled version that need to be built with Invoke-Build. See the Debug folder for additional informations on how to debug.
 
  - Open-SeUrl removed in favor of Set-SeUrl
+ - Send-SeKeys won't return an exception if you send $null or empty strings.
 
 # 3.0.0 - 3/31/2020
 
