@@ -1,28 +1,23 @@
-function Start-SeNewEdge {
-    [cmdletbinding(DefaultParameterSetName = 'default')]
-    [Alias('CrEdge', 'NewEdge')]
+function Start-SeEdgeDriver {
     param(
+        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
+        $Browser,
         [ValidateURIAttribute()]
-        [Parameter(Position = 0)]
+        [Parameter(Position = 1)]
         [string]$StartURL,
-        [switch]$HideVersionHint,
-        [parameter(ParameterSetName = 'Minimized', Mandatory = $true)]
-        [switch]$Minimized,
-        [parameter(ParameterSetName = 'Maximized', Mandatory = $true)]
-        [switch]$Maximized,
-        [parameter(ParameterSetName = 'Fullscreen', Mandatory = $true)]
-        [switch]$FullScreen,
-        [parameter(ParameterSetName = 'Headless', Mandatory = $true)]
-        [switch]$Headless,
-        $BinaryPath = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
-        $ProfileDirectoryPath,
-        $DefaultDownloadPath,
-        [switch]$AsDefaultDriver,
-        [switch]$Quiet,
-        [Alias('Incognito')]
+        [ValidateSet('Headless', 'Minimized', 'Maximized', 'Fullscreen')]
+        $State,
+        [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
+        [switch]$Quiet,
         [int]$ImplicitWait = 10,
-        $WebDriverDirectory = $env:EdgeWebDriver
+        $WebDriverPath,
+        $BinaryPath,
+        [OpenQA.Selenium.DriverOptions]$Options,
+        [String[]]$Switches,
+        [OpenQA.Selenium.LogLevel]$LogLevel
+
     )
     $OptionSettings = @{ browserName = '' }
     #region check / set paths for browser and web driver and edge options
@@ -30,43 +25,48 @@ function Start-SeNewEdge {
         throw "Could not find $BinaryPath"; return
     }
 
+    if ($PSBoundParameters.ContainsKey('LogLevel')) {
+        Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
+    }
+
     #Were we given a driver location and is msedgedriver there ?
     #If were were given a location (which might be from an environment variable) is the driver THERE ?
     # if not, were we given a path for the browser executable, and is the driver THERE ?
     # and if not there either, is there one in the assemblies sub dir ? And if not bail
-    if ($WebDriverDirectory -and -not (Test-Path -Path (Join-Path -Path $WebDriverDirectory -ChildPath 'msedgedriver.exe'))) {
-        throw "Could not find msedgedriver.exe in $WebDriverDirectory"; return
+    if ($WebDriverPath -and -not (Test-Path -Path (Join-Path -Path $WebDriverPath -ChildPath 'msedgedriver.exe'))) {
+        throw "Could not find msedgedriver.exe in $WebDriverPath"; return
     }
-    elseif ($WebDriverDirectory -and (Test-Path (Join-Path -Path $WebDriverDirectory -ChildPath 'msedge.exe'))) {
-        Write-Verbose -Message "Using browser from $WebDriverDirectory"
-        $optionsettings['BinaryLocation'] = Join-Path -Path $WebDriverDirectory -ChildPath 'msedge.exe'
+    elseif ($WebDriverPath -and (Test-Path (Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'))) {
+        Write-Verbose -Message "Using browser from $WebDriverPath"
+        $optionsettings['BinaryLocation'] = Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'
     }
     elseif ($BinaryPath) {
         $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
         $binaryDir = Split-Path -Path $BinaryPath -Parent
         Write-Verbose -Message "Will request $($OptionSettings['BinaryLocation']) as the browser"
     }
-    if (-not $WebDriverDirectory -and $binaryDir -and (Test-Path (Join-Path -Path $binaryDir -ChildPath 'msedgedriver.exe'))) {
-        $WebDriverDirectory = $binaryDir
+    if (-not $WebDriverPath -and $binaryDir -and (Test-Path (Join-Path -Path $binaryDir -ChildPath 'msedgedriver.exe'))) {
+        $WebDriverPath = $binaryDir
     }
     # No linux or mac driver to test for yet
-    if (-not $WebDriverDirectory -and (Test-Path (Join-Path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe'))) {
-        $WebDriverDirectory = "$PSScriptRoot\Assemblies\"
+    if (-not $WebDriverPath -and (Test-Path (Join-Path -Path "$PSScriptRoot\Assemblies\" -ChildPath 'msedgedriver.exe'))) {
+        $WebDriverPath = "$PSScriptRoot\Assemblies\"
         Write-Verbose -Message "Using Web driver from the default location"
     }
-    if (-not $WebDriverDirectory) { throw "Could not find msedgedriver.exe"; return }
+    if (-not $WebDriverPath) { throw "Could not find msedgedriver.exe"; return }
 
     # The "credge" web driver will work with the edge selenium objects, but works better with the chrome ones.
-    $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverDirectory, 'msedgedriver.exe')
+    $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverPath, 'msedgedriver.exe')
     $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
+    
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them
     if ($PrivateBrowsing) { $options.AddArguments('InPrivate') }
     if ($Headless) { $options.AddArguments('headless') }
     if ($Quiet) { $service.HideCommandPromptWindow = $true }
-    if ($ProfileDirectoryPath) {
-        $ProfileDirectoryPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfileDirectoryPath)
-        Write-Verbose "Setting Profile directory: $ProfileDirectoryPath"
-        $options.AddArgument("user-data-dir=$ProfileDirectoryPath")
+    if ($ProfilePath) {
+        $ProfilePath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfilePath)
+        Write-Verbose "Setting Profile directory: $ProfilePath"
+        $options.AddArgument("user-data-dir=$ProfilePath")
     }
     if ($DefaultDownloadPath) {
         $DefaultDownloadPath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($DefaultDownloadPath)
@@ -87,9 +87,7 @@ function Start-SeNewEdge {
         Write-Verbose "Web Driver version $driverversion"
         Write-Verbose ("Browser: {0,9} {1}" -f $Driver.Capabilities.ToDictionary().browserName,
             $Driver.Capabilities.ToDictionary().browserVersion)
-        if (!$HideVersionHint) {
-            Write-Verbose "You can download the right webdriver from 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/'"
-        }
+        
         $browserCmdline = (Get-CimInstance -Verbose:$false -Query (
                 "Select * From win32_process " +
                 "Where parentprocessid = $($service.ProcessId) " +

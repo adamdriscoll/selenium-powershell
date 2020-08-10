@@ -5,44 +5,33 @@ online version:
 schema: 2.0.0
 ---
 
-# Start-SeInternetExplorer
+# Start-SeDriver
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### Default (Default)
+### default (Default)
 ```
-Start-SeInternetExplorer [[-StartURL] <String>] [-Quiet] [-AsDefaultDriver] [-Headless] [-PrivateBrowsing]
- [-IgnoreProtectedModeSettings] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
+Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
+ [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Arguments <String[]>]
+ [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [<CommonParameters>]
 ```
 
-### Maximized
+### Default
 ```
-Start-SeInternetExplorer [[-StartURL] <String>] [-Quiet] [-AsDefaultDriver] [-Maximized] [-Headless]
- [-PrivateBrowsing] [-IgnoreProtectedModeSettings] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>]
+Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>]
+ [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
+ [-Switches <String[]>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru]
  [<CommonParameters>]
 ```
 
-### Minimized
+### DriverOptions
 ```
-Start-SeInternetExplorer [[-StartURL] <String>] [-Quiet] [-AsDefaultDriver] [-Minimized] [-Headless]
- [-PrivateBrowsing] [-IgnoreProtectedModeSettings] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>]
- [<CommonParameters>]
-```
-
-### Fullscreen
-```
-Start-SeInternetExplorer [[-StartURL] <String>] [-Quiet] [-AsDefaultDriver] [-FullScreen] [-Headless]
- [-PrivateBrowsing] [-IgnoreProtectedModeSettings] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>]
- [<CommonParameters>]
-```
-
-### Headless
-```
-Start-SeInternetExplorer [[-StartURL] <String>] [-Quiet] [-AsDefaultDriver] [-Headless] [-PrivateBrowsing]
- [-IgnoreProtectedModeSettings] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
+Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
+ [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Options <DriverOptions>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,11 +48,11 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -AsDefaultDriver
-{{ Fill AsDefaultDriver Description }}
+### -Arguments
+{{ Fill Arguments Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -74,27 +63,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -FullScreen
-Driver will open browser in a fullscreen state
+### -BinaryPath
+{{ Fill BinaryPath Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: Fullscreen
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Headless
-Start driver without any visual interface
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Default, Maximized, Minimized, Fullscreen
+Type: Object
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -104,23 +78,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Browser
+{{ Fill Browser Description }}
+
 ```yaml
-Type: SwitchParameter
-Parameter Sets: Headless
+Type: Object
+Parameter Sets: Default
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IgnoreProtectedModeSettings
-{{ Fill IgnoreProtectedModeSettings Description }}
+### -DefaultDownloadPath
+{{ Fill DefaultDownloadPath Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: FileInfo
 Parameter Sets: (All)
 Aliases:
 
@@ -132,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -ImplicitWait
-Control timeout duration (in seconds)
+{{ Fill ImplicitWait Description }}
 
 ```yaml
 Type: Int32
@@ -146,30 +123,46 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Maximized
-Driver will open browser in a maximized state
+### -LogLevel
+{{ Fill LogLevel Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: Maximized
+Type: LogLevel
+Parameter Sets: (All)
 Aliases:
+Accepted values: All, Debug, Info, Warning, Severe, Off
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Minimized
-Driver will open browser in a minimized state
+### -Options
+{{ Fill Options Description }}
+
+```yaml
+Type: DriverOptions
+Parameter Sets: DriverOptions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+{{ Fill PassThru Description }}
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Minimized
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -177,12 +170,27 @@ Accept wildcard characters: False
 ```
 
 ### -PrivateBrowsing
-Driver will open a private session
+{{ Fill PrivateBrowsing Description }}
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: Incognito
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProfilePath
+{{ Fill ProfilePath Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -192,7 +200,7 @@ Accept wildcard characters: False
 ```
 
 ### -Quiet
-Hide command prompt window
+{{ Fill Quiet Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -207,7 +215,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartURL
-Define Driver starting URL
+{{ Fill StartURL Description }}
 
 ```yaml
 Type: String
@@ -215,14 +223,44 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WebDriverDirectory
-{{ Fill WebDriverDirectory Description }}
+### -State
+{{ Fill State Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Switches
+{{ Fill Switches Description }}
+
+```yaml
+Type: String[]
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WebDriverPath
+{{ Fill WebDriverPath Description }}
 
 ```yaml
 Type: Object
@@ -245,7 +283,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### OpenQA.Selenium.IWebDriver
+
 ## NOTES
 
 ## RELATED LINKS

@@ -1,19 +1,4 @@
 function Start-SeRemote {
-    <#
-        .example
-        #you can a remote testing account with testing bot at https://testingbot.com/users/sign_up
-        #Set $key and $secret and then ...
-        #see also https://crossbrowsertesting.com/freetrial / https://help.crossbrowsertesting.com/selenium-testing/getting-started/c-sharp/
-        #and https://www.browserstack.com/automate/c-sharp
-        $RemoteDriverURL = [uri]"http://$key`:$secret@hub.testingbot.com/wd/hub"
-        #See https://testingbot.com/support/getting-started/csharp.html for values for different browsers/platforms
-        $caps = @{
-          platform     = 'HIGH-SIERRA'
-          version      = '11'
-          browserName  = 'safari'
-        }
-        Start-SeRemote -RemoteAddress $remoteDriverUrl -DesiredCapabilties $caps
-    #>
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param(
         [string]$RemoteAddress,
