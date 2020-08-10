@@ -1,28 +1,25 @@
-function Start-SeInternetExplorer {
-    [cmdletbinding(DefaultParameterSetName = 'Default')]
-    [Alias('SeInternetExplorer', 'SeIE')]
+function Start-SeInternetExplorerDriver {
     param(
+        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
+        $Browser,
         [ValidateURIAttribute()]
-        [Parameter(Position = 0)]
+        [Parameter(Position = 1)]
         [string]$StartURL,
-        [switch]$Quiet,
-        [switch]$AsDefaultDriver,
-        [parameter(ParameterSetName = 'Maximized', Mandatory = $true)]
-        [switch]$Maximized,
-        [parameter(ParameterSetName = 'Minimized', Mandatory = $true)]
-        [switch]$Minimized,
-        [parameter(ParameterSetName = 'Fullscreen', Mandatory = $true)]
-        [switch]$FullScreen,
-        [Parameter(DontShow)]
-        [parameter(ParameterSetName = 'Headless', Mandatory = $true)]
-        [switch]$Headless,
-        [Parameter(DontShow)]
-        [Alias('Incognito')]
+        [ValidateSet('Headless', 'Minimized', 'Maximized', 'Fullscreen')]
+        $State,
+        [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$IgnoreProtectedModeSettings,
+        [switch]$Quiet,
         [int]$ImplicitWait = 10,
-        $WebDriverDirectory = $env:IEWebDriver
+        $WebDriverPath,
+        $BinaryPath,
+        [OpenQA.Selenium.DriverOptions]$Options,
+        [String[]]$Switches,
+        [OpenQA.Selenium.LogLevel]$LogLevel
     )
+
+    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'
     #region IE set-up options
     if ($Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
@@ -33,13 +30,17 @@ function Start-SeInternetExplorer {
     }
 
     if ($StartURL) { $InternetExplorer_Options.InitialBrowserUrl = $StartURL }
-    if ($WebDriverDirectory) { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverDirectory) }
+    if ($WebDriverPath) { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverPath) }
     else { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService() }
     if ($Quiet) { $Service.HideCommandPromptWindow = $true }
     #endregion
 
     $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $InternetExplorer_Options)
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
+
+    if ($PSBoundParameters.ContainsKey('LogLevel')) {
+        Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
+    }
 
     #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)

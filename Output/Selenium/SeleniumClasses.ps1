@@ -121,3 +121,20 @@ namespace SeleniumSelection {
     }
 }
 "@ -ReferencedAssemblies $dll1Path, $dll2Path, mscorlib
+
+
+enum SeBrowsers {
+    Chrome
+    Edge 
+    Firefox
+    InternetExplorer
+    MSEdge
+}
+
+enum SeWindowState {
+    Headless
+    Minimized
+    Maximized
+    Fullscreen
+}
+

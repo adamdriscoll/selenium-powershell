@@ -1,27 +1,24 @@
-function Start-SeFirefox {
+function Start-SeFirefoxDriver {
     [cmdletbinding(DefaultParameterSetName = 'default')]
-    [Alias('SeFirefox')]
     param(
+        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
+        $Browser,
         [ValidateURIAttribute()]
-        [Parameter(Position = 0)]
+        [Parameter(Position = 1)]
         [string]$StartURL,
-        [array]$Arguments,
+        [ValidateSet('Headless', 'Minimized', 'Maximized', 'Fullscreen')]
+        $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
-        [alias('Incognito')]
         [switch]$PrivateBrowsing,
-        [parameter(ParameterSetName = 'Headless', Mandatory = $true)]
-        [switch]$Headless,
-        [parameter(ParameterSetName = 'Minimized', Mandatory = $true)]
-        [switch]$Maximized,
-        [parameter(ParameterSetName = 'Maximized', Mandatory = $true)]
-        [switch]$Minimized,
-        [parameter(ParameterSetName = 'Fullscreen', Mandatory = $true)]
-        [switch]$Fullscreen,
-        [switch]$SuppressLogging,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver,
         [int]$ImplicitWait = 10,
-        $WebDriverDirectory = $env:GeckoWebDriver
+        $WebDriverPath = $env:GeckoWebDriver,
+        $BinaryPath,
+        [OpenQA.Selenium.DriverOptions]$Options,
+        [String[]]$Switches,
+        [OpenQA.Selenium.LogLevel]$LogLevel
+        
     )
     process {
         #region firefox set-up options
@@ -41,18 +38,12 @@ function Start-SeFirefox {
             $Firefox_Options.SetPreference("browser.privatebrowsing.autostart", $true)
         }
 
-        if ($Arguments) {
-            foreach ($Argument in $Arguments) {
-                $Firefox_Options.AddArguments($Argument)
-            }
+        if ($null -ne $PSBoundParameters.ContainsKey('LogLevel')) {
+            Write-Verbose "Setting Firefox LogLevel to $LogLevel"
+            $Options.LogLevel = $LogLevel
         }
 
-        if ($SuppressLogging) {
-            # Sets GeckoDriver log level to Fatal.
-            $Firefox_Options.LogLevel = 6
-        }
-
-        if ($WebDriverDirectory) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($WebDriverDirectory) }
+        if ($WebDriverPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($WebDriverPath) }
         elseif ($AssembliesPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath) }
         else { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService() }
         if ($Quiet) { $service.HideCommandPromptWindow = $true }

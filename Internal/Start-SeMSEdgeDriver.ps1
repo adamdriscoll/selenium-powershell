@@ -1,23 +1,22 @@
-function Start-SeEdge {
-    [cmdletbinding(DefaultParameterSetName = 'default')]
-    [Alias('MSEdge', 'LegacyEdge', 'Start-SeLegacyEdge')]
+function Start-SeMSEdgeDriver {
     param(
+        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
+        $Browser,
         [ValidateURIAttribute()]
-        [Parameter(Position = 0)]
+        [Parameter(Position = 1)]
         [string]$StartURL,
-        [parameter(ParameterSetName = 'Minimized', Mandatory = $true)]
-        [switch]$Maximized,
-        [parameter(ParameterSetName = 'Maximized', Mandatory = $true)]
-        [switch]$Minimized,
-        [parameter(ParameterSetName = 'Fullscreen', Mandatory = $true)]
-        [switch]$FullScreen,
-        [Alias('Incognito')]
+        [ValidateSet('Headless', 'Minimized', 'Maximized', 'Fullscreen')]
+        $State,
+        [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
-        [switch]$AsDefaultDriver,
-        [Parameter(DontShow)]
-        [switch]$Headless,
-        [int]$ImplicitWait = 10
+        [int]$ImplicitWait = 10,
+        $WebDriverPath,
+        $BinaryPath,
+        [OpenQA.Selenium.DriverOptions]$Options,
+        [String[]]$Switches,
+        [OpenQA.Selenium.LogLevel]$LogLevel
     )
     #region Edge set-up options
     if ($Headless) { Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored' }
@@ -27,6 +26,10 @@ function Start-SeEdge {
     if ($PrivateBrowsing) { $options.UseInPrivateBrowsing = $true }
     if ($StartURL) { $options.StartPage = $StartURL }
     #endregion
+
+    if ($PSBoundParameters.ContainsKey('LogLevel')) {
+        Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
+    }
 
     try {
         $Driver = [OpenQA.Selenium.Edge.EdgeDriver]::new($service , $options)

@@ -5,7 +5,6 @@ function Send-SeKeys {
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
         [string]$Keys,
-        [Parameter()]
         [Alias('PT')]
         [switch]$PassThru
     )
@@ -15,3 +14,6 @@ function Send-SeKeys {
     $Element.SendKeys($Keys)
     if ($PassThru) { $Element }
 }
+
+
+$Textinfo

@@ -11,6 +11,9 @@ Locale: {{ Update Locale }}
 {{ Fill in the Description }}
 
 ## Selenium Cmdlets
+### [Add-SeDriverOptionsArgument](Add-SeDriverOptionsArgument.md)
+{{ Fill in the Synopsis }}
+
 ### [Clear-SeAlert](Clear-SeAlert.md)
 Accept and clear alert popup
 
@@ -45,6 +48,9 @@ Select an element then send a click action on it.
 ### [Invoke-SeScreenshot](Invoke-SeScreenshot.md)
 Take a screenshot of the current page
 
+### [New-SeDriverOptions](New-SeDriverOptions.md)
+{{ Fill in the Synopsis }}
+
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
 
@@ -73,23 +79,11 @@ Add a cookie to the current browsing context
 ### [Set-SeUrl](Set-SeUrl.md)
 Navigates to the targeted URL with the selected or default driver.
 
-### [Start-SeChrome](Start-SeChrome.md)
-Initializes a new instance of the **ChromeDriver** class. 
-
-### [Start-SeEdge](Start-SeEdge.md)
-Initializes a new instance of the EdgeDriver class
-
-### [Start-SeFirefox](Start-SeFirefox.md)
-Initializes a new instance of the **FirefoxDriver** class.
-
-### [Start-SeInternetExplorer](Start-SeInternetExplorer.md)
+### [Start-SeDriver](Start-SeDriver.md)
 {{ Fill in the Synopsis }}
 
-### [Start-SeNewEdge](Start-SeNewEdge.md)
-Initializes a new instance of the EdgeDriver class
-
-### [Start-SeNewEdge](Start-SeNewEdge.md)
-{{ Fill in the Synopsis }}
+### [Start-SeRemote](Start-SeRemote.md)
+Start a remote driver session.
 
 ### [Stop-SeDriver](Stop-SeDriver.md)
 Quits this driver, closing every associated window.
