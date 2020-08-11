@@ -133,6 +133,7 @@ enum SeBrowsers {
 
 enum SeWindowState {
     Headless
+    Default
     Minimized
     Maximized
     Fullscreen

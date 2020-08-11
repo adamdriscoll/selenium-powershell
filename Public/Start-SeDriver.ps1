@@ -13,7 +13,7 @@ function Start-SeDriver {
         [string]$StartURL,
         [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
-        $State,
+        $State = [SeWindowState]::Default,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
