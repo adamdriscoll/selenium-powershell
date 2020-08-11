@@ -14,7 +14,7 @@ Finds all IWebElements within the current context using the given mechanism
 ## SYNTAX
 
 ```
-Get-SeElement [-By <String>] [-Selection] <String> [[-Timeout] <Int32>] [[-Target] <Object>] [-Wait]
+Get-SeElement [-By <String>] [-Selection] <String> [[-Timeout] <Int32>] [[-Driver] <Object>] [-Wait]
  [<CommonParameters>]
 ```
 
@@ -48,33 +48,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Driver
+{{ Fill Driver Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases: Element
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Selection
 String Identifier of the object to find
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: CssSelector, Name, Id, ClassName, LinkText, PartialLinkText, TagName, XPath
+Aliases:
 
 Required: True
 Position: 1
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-Target webdriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Element, Driver
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

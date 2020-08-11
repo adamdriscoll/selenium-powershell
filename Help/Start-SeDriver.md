@@ -16,7 +16,7 @@ schema: 2.0.0
 ```
 Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
  [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Arguments <String[]>]
- [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [<CommonParameters>]
+ [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [-Name <Object>] [<CommonParameters>]
 ```
 
 ### Default
@@ -24,14 +24,15 @@ Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <F
 Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>]
  [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
  [-Switches <String[]>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru]
- [<CommonParameters>]
+ [-Name <Object>] [<CommonParameters>]
 ```
 
 ### DriverOptions
 ```
 Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
- [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Options <DriverOptions>]
- [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [<CommonParameters>]
+ [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] -Options <DriverOptions>
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-PassThru] [-Name <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -139,6 +140,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Name
+{{ Fill Name Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Options
 {{ Fill Options Description }}
 
@@ -147,7 +163,7 @@ Type: DriverOptions
 Parameter Sets: DriverOptions
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

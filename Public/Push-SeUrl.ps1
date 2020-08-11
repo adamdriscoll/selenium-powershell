@@ -38,9 +38,8 @@ function Push-SeUrl {
         # The webdriver instance that owns the url stack, and will navigate to
         # a provided new url (if any).
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Target = $Script:SeDriversCurrent
     )
 
     if (-not $Script:SeLocationMap.ContainsKey($Target)) {

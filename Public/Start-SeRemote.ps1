@@ -6,7 +6,6 @@ function Start-SeRemote {
         [ValidateURIAttribute()]
         [Parameter(Position = 0)]
         [string]$StartURL,
-        [switch]$AsDefaultDriver,
         [int]$ImplicitWait = 10
     )
 
@@ -22,9 +21,5 @@ function Start-SeRemote {
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
     if ($StartURL) { $Driver.Navigate().GotoUrl($StartURL) }
 
-    if ($AsDefaultDriver) {
-        if ($Global:SeDriver) { $Global:SeDriver.Dispose() }
-        $Global:SeDriver = $Driver
-    }
-    else { $Driver }
+    return $Driver
 }

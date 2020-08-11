@@ -8,9 +8,8 @@ function Set-SeCookie {
         $ExpiryDate,
 
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Target = $Script:SeDriversCurrent
     )
 
     <# Selenium Cookie Information

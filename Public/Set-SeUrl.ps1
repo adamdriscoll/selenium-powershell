@@ -58,7 +58,7 @@ function Set-SeUrl {
         [Parameter(ValueFromPipeline = $true)]
         [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Target = $Script:SeDriversCurrent
     )
 
     switch ($PSCmdlet.ParameterSetName) {

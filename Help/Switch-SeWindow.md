@@ -36,7 +36,7 @@ PS C:\> {{ Add example code here }}
 ```yaml
 Type: IWebDriver
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: 0

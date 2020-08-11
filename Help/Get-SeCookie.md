@@ -13,7 +13,7 @@ List all cookies
 ## SYNTAX
 
 ```
-Get-SeCookie [[-Target] <Object>] [<CommonParameters>]
+Get-SeCookie [[-Driver] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,13 +30,13 @@ List all cookies of the default webdriver
 
 ## PARAMETERS
 
-### -Target
-Target webdriver
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: 0

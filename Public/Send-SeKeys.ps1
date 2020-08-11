@@ -5,7 +5,6 @@ function Send-SeKeys {
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
         [string]$Keys,
-        [Alias('PT')]
         [switch]$PassThru
     )
     foreach ($Key in $Script:SeKeys.Name) {

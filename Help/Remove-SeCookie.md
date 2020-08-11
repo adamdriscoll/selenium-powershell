@@ -12,9 +12,9 @@ Delete the named cookie from the current domain
 
 ## SYNTAX
 
-### DeleteAllCookies
+### All
 ```
-Remove-SeCookie [-Target <IWebDriver>] [-DeleteAllCookies] [<CommonParameters>]
+Remove-SeCookie [-Target <IWebDriver>] [-All] [<CommonParameters>]
 ```
 
 ### NamedCookie
@@ -43,13 +43,13 @@ Remove all cookies from targeted Driver
 
 ## PARAMETERS
 
-### -DeleteAllCookies
-Remove all cookies from webdriver
+### -All
+{{ Fill All Description }}
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: DeleteAllCookies
-Aliases: Purge
+Parameter Sets: All
+Aliases:
 
 Required: True
 Position: Named
@@ -79,7 +79,7 @@ Target webdriver
 ```yaml
 Type: IWebDriver
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: Named

@@ -13,7 +13,7 @@ function New-SeScreenshot {
         [Parameter(ValueFromPipeline = $true)]
         [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver ,
+        $Target = $Script:SeDriversCurrent ,
 
         [Parameter(ParameterSetName = 'Base64', Mandatory = $true)]
         [Switch]$AsBase64EncodedString,

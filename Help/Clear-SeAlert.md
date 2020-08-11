@@ -73,7 +73,7 @@ Accept wildcard characters: False
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: PT
+Aliases:
 
 Required: False
 Position: Named
@@ -88,7 +88,7 @@ Target webdriver
 ```yaml
 Type: Object
 Parameter Sets: Driver
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: Named

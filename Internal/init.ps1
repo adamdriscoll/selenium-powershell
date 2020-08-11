@@ -45,6 +45,9 @@ $Script:SeDriversBrowserArguments = @{
     MsEdge           = @()
 }
 
+$Script:SeDrivers = [System.Collections.Generic.List[PSObject]]::new()
+$Script:SeDriversCurrent = $null
+
 
 $AdditionalOptionsSwitchesCompletion = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

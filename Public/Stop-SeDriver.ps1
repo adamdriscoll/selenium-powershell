@@ -1,14 +1,17 @@
 function Stop-SeDriver { 
-    [alias('SeClose')]
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
-        [ValidateNotNullOrEmpty()]
         [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver
+        $Target
     )
     $TextInfo = (Get-Culture).TextInfo
-    if (($null -ne $Target) -and ($Target -is [OpenQA.Selenium.IWebDriver])) {
+
+    if (! $PSBoundParameters.ContainsKey('Target')) {
+        $Target = $script:SeDriversCurrent
+    }
+
+
+    if ($null -ne $Target) {
         $BrowserName = $TextInfo.ToTitleCase($Target.Capabilities.browsername)
 
         if ($null -eq $Target.SessionId) {
@@ -16,12 +19,14 @@ function Stop-SeDriver {
             return $null
         }
 
-        Write-Verbose -Message "Closing $BrowserName..."
+        Write-Verbose -Message "Closing $BrowserName $($Target.SeFriendlyName )..."
+        [void]($script:SeDrivers.Remove($Target))
         $Target.Close()
         $Target.Dispose()    
         
+
         
-        if ($Target -eq $Global:SeDriver) { Remove-Variable -Name SeDriver -Scope global }
+       
     }
     else { Write-Warning 'A valid <IWebDriver> must be provided.' }
 }

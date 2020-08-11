@@ -243,7 +243,7 @@ Return IWebElement
 ```yaml
 Type: SwitchParameter
 Parameter Sets: byValue, byText, bypart, byIndex
-Aliases: PT
+Aliases:
 
 Required: False
 Position: Named
