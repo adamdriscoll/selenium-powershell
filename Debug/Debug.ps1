@@ -13,7 +13,7 @@ import-module "$ProjectPath\Selenium.psd1" -Force
 
 
 # Build module
-#invoke-build -File "$ProjectPath\Selenium.build.ps1"
+invoke-build -File "$ProjectPath\Selenium.build.ps1"
 
 #Tests
 #Invoke-Pester -Script 'C:\Github\selenium-powershell\Examples\Combined.tests.ps1'

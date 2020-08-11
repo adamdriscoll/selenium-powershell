@@ -1,5 +1,5 @@
+#TODO parameter set hell
 function Get-SeSelectionOption {
-    [Alias('SeSelection')]
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param (
 
@@ -48,7 +48,6 @@ function Get-SeSelectionOption {
         [Parameter(Mandatory = $false, ParameterSetName = 'byText')]
         [Parameter(Mandatory = $false, ParameterSetName = 'bypart')]
         [Parameter(Mandatory = $false, ParameterSetName = 'byIndex')]
-        [Alias('PT')]
         [switch]$PassThru
     )
     try {

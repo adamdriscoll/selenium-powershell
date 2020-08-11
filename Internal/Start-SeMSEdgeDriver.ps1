@@ -49,9 +49,5 @@ function Start-SeMSEdgeDriver {
     if ($FullScreen) { $Driver.Manage().Window.FullScreen() }
     #endregion
 
-    if ($AsDefaultDriver) {
-        if ($Global:SeDriver) { $Global:SeDriver.Dispose() }
-        $Global:SeDriver = $Driver
-    }
-    else { $Driver }
+    Return $Driver
 }

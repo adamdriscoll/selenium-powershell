@@ -1,19 +1,17 @@
 function Remove-SeCookie {
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
         [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver,
+        $Target = $Script:SeDriversCurrent,
  
-        [Parameter(Mandatory = $true, ParameterSetName = 'DeleteAllCookies')]
-        [Alias('Purge')]
-        [switch]$DeleteAllCookies,
+        [Parameter(Mandatory = $true, ParameterSetName = 'All')]
+        [switch]$All,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'NamedCookie')] 
         [string]$Name
     )
 
-    if ($DeleteAllCookies) {
+    if ($All) {
         $Target.Manage().Cookies.DeleteAllCookies()
     }
     else {

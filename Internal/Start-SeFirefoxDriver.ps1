@@ -38,7 +38,7 @@ function Start-SeFirefoxDriver {
             $Firefox_Options.SetPreference("browser.privatebrowsing.autostart", $true)
         }
 
-        if ($null -ne $PSBoundParameters.ContainsKey('LogLevel')) {
+        if ($PSBoundParameters.ContainsKey('LogLevel')) {
             Write-Verbose "Setting Firefox LogLevel to $LogLevel"
             $Options.LogLevel = $LogLevel
         }
@@ -60,10 +60,6 @@ function Start-SeFirefoxDriver {
         if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 
-        if ($AsDefaultDriver) {
-            if ($Global:SeDriver) { $Global:SeDriver.Dispose() }
-            $Global:SeDriver = $Driver
-        }
-        else { $Driver }
+        Return $Driver
     }
 }

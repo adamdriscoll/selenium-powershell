@@ -25,7 +25,7 @@ function Pop-SeUrl {
         [Parameter(ValueFromPipeline = $true)]
         [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Target = $Script:SeDriversCurrent
     )
     process {
         if ($Script:SeLocationMap[$Target].Count -gt 0) {

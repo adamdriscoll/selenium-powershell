@@ -68,7 +68,7 @@ Return `$Element`
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: PT
+Aliases:
 
 Required: False
 Position: Named

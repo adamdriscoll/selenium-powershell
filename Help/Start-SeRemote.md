@@ -14,7 +14,7 @@ Start a remote driver session.
 
 ```
 Start-SeRemote [-RemoteAddress <String>] [-DesiredCapabilities <Hashtable>] [[-StartURL] <String>]
- [-AsDefaultDriver] [-ImplicitWait <Int32>] [<CommonParameters>]
+ [-ImplicitWait <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,21 +41,6 @@ you can a remote testing account with testing bot at https://testingbot.com/user
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -AsDefaultDriver
-{{ Fill AsDefaultDriver Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -DesiredCapabilities
 {{ Fill DesiredCapabilities Description }}

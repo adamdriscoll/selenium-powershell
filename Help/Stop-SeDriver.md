@@ -44,7 +44,7 @@ Driver to dispose. When `-AsDefaultDriver` is used with the Start-XXDriver cmdle
 ```yaml
 Type: IWebDriver
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: 0

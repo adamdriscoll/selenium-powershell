@@ -1,9 +1,8 @@
 function Invoke-SeScreenshot {
     param(
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver,
+        $Target = $Script:SeDriversCurrent,
 
         [Parameter(Mandatory = $false)]
         [Switch]$AsBase64EncodedString

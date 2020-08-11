@@ -1,9 +1,8 @@
 function Switch-SeWindow {
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
         [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver,
+        $Target = $Script:SeDriversCurrent,
 
         [Parameter(Mandatory = $true)]$Window
     )

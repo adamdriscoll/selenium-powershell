@@ -55,9 +55,5 @@ function Start-SeInternetExplorerDriver {
     }
     #endregion
 
-    if ($AsDefaultDriver) {
-        if ($Global:SeDriver) { $Global:SeDriver.Dispose() }
-        $Global:SeDriver = $Driver
-    }
-    else { $Driver }
+    return $Driver
 }

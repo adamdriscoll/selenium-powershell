@@ -31,9 +31,8 @@ function Get-SeUrl {
         # The webdriver instance for which to retrieve the current URL or
         # internal URL stack.
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Target = $Script:SeDriversCurrent
     )
 
     if ($Stack) {

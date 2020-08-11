@@ -9,17 +9,17 @@ function Invoke-SeClick {
         [Switch]$JavaScriptClick,
 
         [Parameter(ParameterSetName = 'JavaScript')]
-	[ValidateIsWebDriverAttribute()]
-        $Driver = $global:SeDriver
+        [ValidateIsWebDriverAttribute()]
+        $Driver = $Script:SeDriversCurrent
     )
 
     if ($JavaScriptClick) {
-	try {
+        try {
             $Driver.ExecuteScript("arguments[0].click()", $Element)
-	}
-	catch {
-	    $PSCmdlet.ThrowTerminatingError($_)
-	}
+        }
+        catch {
+            $PSCmdlet.ThrowTerminatingError($_)
+        }
     }
     else {
         $Element.Click()

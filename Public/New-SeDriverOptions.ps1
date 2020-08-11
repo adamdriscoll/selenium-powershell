@@ -1,4 +1,5 @@
 function New-SeDriverOptions {
+    [cmdletbinding()]
     [OutputType(
         [OpenQA.Selenium.Chrome.ChromeOptions],
         [OpenQA.Selenium.Edge.EdgeOptions],

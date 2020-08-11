@@ -7,7 +7,6 @@ function SeType {
         [switch]$ClearFirst,
         $SleepSeconds = 0 ,
         [switch]$Submit,
-        [Alias('PT')]
         [switch]$PassThru
     )
     begin {

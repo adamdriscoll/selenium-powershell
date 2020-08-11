@@ -97,28 +97,28 @@ function SeShouldHave {
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
         if ($URL) {
             do {
-                $Success = applyTest -testitems $Global:SeDriver.Url -operator $Operator -value $Value
+                $Success = applyTest -testitems $Script:SeDriversCurrent.Url -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "PageURL was $($Global:SeDriver.Url). The comparison '-$operator $value' failed.")
+                throw (expandErr "PageURL was $($Script:SeDriversCurrent.Url). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Title) {
             do {
-                $Success = applyTest -testitems $Global:SeDriver.Title -operator $Operator -value $Value
+                $Success = applyTest -testitems $Script:SeDriversCurrent.Title -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "Page title was $($Global:SeDriver.Title). The comparison '-$operator $value' failed.")
+                throw (expandErr "Page title was $($Script:SeDriversCurrent.Title). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Alert -or $NoAlert) {
             do {
                 try {
-                    $a = $Global:SeDriver.SwitchTo().alert()
+                    $a = $Script:SeDriversCurrent.SwitchTo().alert()
                     $Success = $true
                 }
                 catch {

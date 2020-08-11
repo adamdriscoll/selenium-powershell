@@ -5,51 +5,64 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-SeScreenshot
+# Select-SeDriver
 
 ## SYNOPSIS
-Take a screenshot of the current page
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
+### ByName (Default)
 ```
-Invoke-SeScreenshot [[-Target] <Object>] [-AsBase64EncodedString] [<CommonParameters>]
+Select-SeDriver [-Name] <String> [<CommonParameters>]
+```
+
+### ByDriver
+```
+Select-SeDriver [-Driver] <IWebDriver> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Take a screenshot of the current page
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
+```
+
+{{ Add example description here }}
+
 ## PARAMETERS
 
-### -AsBase64EncodedString
-Return image as base64 string
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
+Type: IWebDriver
+Parameter Sets: ByDriver
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Target
-Target webdriver
+### -Name
+{{ Fill Name Description }}
 
 ```yaml
-Type: Object
-Parameter Sets: (All)
+Type: String
+Parameter Sets: ByName
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -58,7 +71,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.Object
+### None
 
 ## OUTPUTS
 

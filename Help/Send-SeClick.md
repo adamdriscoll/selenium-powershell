@@ -13,8 +13,8 @@ Send a click to the targeted element
 ## SYNTAX
 
 ```
-Send-SeClick [-Element] <IWebElement> [-JavaScriptClick] [-SleepSeconds <Object>] [-Driver <Object>]
- [-PassThru] [<CommonParameters>]
+Send-SeClick [-Element] <IWebElement> [-JavaScript] [-SleepSeconds <Object>] [-Driver <Object>] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,13 +61,13 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -JavaScriptClick
-Use Javascript to perform the click
+### -JavaScript
+{{ Fill JavaScript Description }}
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: JS
+Aliases:
 
 Required: False
 Position: Named
@@ -82,7 +82,7 @@ Return the **IWebElement**
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: PT
+Aliases:
 
 Required: False
 Position: Named

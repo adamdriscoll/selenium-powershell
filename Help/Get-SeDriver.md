@@ -5,30 +5,30 @@ online version:
 schema: 2.0.0
 ---
 
-# Switch-SeFrame
+# Get-SeDriver
 
 ## SYNOPSIS
-Instructs the driver to send future commands to a different frame
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### Frame
+### Current (Default)
 ```
-Switch-SeFrame [-Frame] <Object> [-Target <Object>] [<CommonParameters>]
-```
-
-### Parent
-```
-Switch-SeFrame [-Parent] [-Target <Object>] [<CommonParameters>]
+Get-SeDriver [-Current] [<CommonParameters>]
 ```
 
-### Root
+### ByName
 ```
-Switch-SeFrame [-Root] [-Target <Object>] [<CommonParameters>]
+Get-SeDriver [[-Name] <String>] [<CommonParameters>]
+```
+
+### ByBrowser
+```
+Get-SeDriver [-Browser <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Instructs the driver to send future commands to a different frame
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -41,63 +41,48 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Frame
-{{ Fill Frame Description }}
+### -Browser
+{{ Fill Browser Description }}
 
 ```yaml
 Type: Object
-Parameter Sets: Frame
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Parent
-{{ Fill Parent Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Parent
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Root
-{{ Fill Root Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Root
-Aliases: defaultContent
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-{{ Fill Target Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
+Parameter Sets: ByBrowser
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Current
+{{ Fill Current Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Current
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+{{ Fill Name Description }}
+
+```yaml
+Type: String
+Parameter Sets: ByName
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -106,7 +91,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.Object
+### None
 
 ## OUTPUTS
 

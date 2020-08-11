@@ -32,6 +32,6 @@ function SeOpen {
         'Edge$' { Start-SeNewEdge @StartParams; continue }
         '^I' { Start-SeInternetExplorer @StartParams; continue }
     }
-    Write-Verbose -Message "Opened $($Global:SeDriver.Capabilities.browsername) $($Global:SeDriver.Capabilities.ToDictionary().browserVersion)"
+    Write-Verbose -Message "Opened $($Script:SeDriversCurrent.Capabilities.browsername) $($Script:SeDriversCurrent.Capabilities.ToDictionary().browserVersion)"
     if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
 }
