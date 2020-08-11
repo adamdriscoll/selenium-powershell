@@ -5,7 +5,8 @@ function Start-SeChromeDriver {
         [ValidateURIAttribute()]
         [Parameter(Position = 1)]
         [string]$StartURL,
-        [ValidateSet('Headless', 'Minimized', 'Maximized', 'Fullscreen')]
+        [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
         $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
