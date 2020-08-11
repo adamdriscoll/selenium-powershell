@@ -28,6 +28,7 @@ function Start-SeDriver {
         $ProfilePath,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         [Switch]$PassThru,
+        [ValidateNotNullOrEmpty()]
         $Name 
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
@@ -84,7 +85,7 @@ function Start-SeDriver {
             'MSEdge' { $Driver = Start-SeMSEdgeDriver @PSBoundParameters; break }
         }
         if ($null -ne $Driver) {
-            if (! $PSBoundParameters.ContainsKey('Name')) { $FriendlyName = $Driver.SessionId } 
+            if ($null -eq $FriendlyName) { $FriendlyName = $Driver.SessionId } 
             Write-Verbose -Message "Opened $($Driver.Capabilities.browsername) $($Driver.Capabilities.ToDictionary().browserVersion)"
 
 
