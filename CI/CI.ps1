@@ -12,24 +12,24 @@ if ($Platform -like 'win*6') {
 
 #Make sure we have the modules we need
 Import-Module .\Output\Selenium\Selenium.psd1 -Force -ErrorAction Stop
-# $checkImportExcel = Get-Module -ListAvailable ImportExcel
-# if (-not ($checkImportExcel)) {
-#     Write-Verbose -Verbose 'Installing ImportExcel'
-#     Install-Module ImportExcel -Force -SkipPublisherCheck
-# }
-# else { $checkImportExcel | Out-Host }
-# $checkPester = Get-Module -ListAvailable Pester | Where-Object { $_.version.major -ge 4 -and $_.version.minor -ge 4 }
-# if (-not $checkPester) {
-#     Write-Verbose -Verbose 'Installing Pester'
-#     Install-Module Pester -Force -SkipPublisherCheck
-# }
-# else { $checkPester | Out-Host }
+$checkImportExcel = Get-Module -ListAvailable ImportExcel
+if (-not ($checkImportExcel)) {
+    Write-Verbose -Verbose 'Installing ImportExcel'
+    Install-Module ImportExcel -Force -SkipPublisherCheck
+}
+else { $checkImportExcel | Out-Host }
+$checkPester = Get-Module -ListAvailable Pester | Where-Object { $_.version.major -ge 4 -and $_.version.minor -ge 4 }
+if (-not $checkPester) {
+    Write-Verbose -Verbose 'Installing Pester'
+    Install-Module Pester -Force -SkipPublisherCheck
+}
+else { $checkPester | Out-Host }
 
 # #Run the test and results export to an Excel file for current OS - Test picks up the selected browser from an environment variable.
-# $RunParameters = @{
-#     XLFile = '{0}/results/Results-{1}.xlsx' -f $env:BUILD_ARTIFACTSTAGINGDIRECTORY, [environment]::OSVersion.Platform.ToString()
-#     Script = Join-Path -Path (Join-Path $pwd 'Examples') -ChildPath 'Combined.tests.ps1'
-# }
+$RunParameters = @{
+    XLFile = '{0}/results/Results-{1}.xlsx' -f $env:BUILD_ARTIFACTSTAGINGDIRECTORY, [environment]::OSVersion.Platform.ToString()
+    Script = Join-Path -Path (Join-Path $pwd 'Examples') -ChildPath 'Combined.tests.ps1'
+}
 # foreach ( $b   in $BrowserList) {
 #     $env:DefaultBrowser = $b
 #     $RunParameters['OutputFile'] = Join-Path $pwd "TestResults-$platform$b.xml"
