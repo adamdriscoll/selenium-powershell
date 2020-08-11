@@ -85,7 +85,7 @@ function Start-SeDriver {
         }
         if ($null -ne $Driver) {
             if (! $PSBoundParameters.ContainsKey('Name')) { $FriendlyName = $Driver.SessionId } 
-
+            Write-Verbose -Message "Opened $($Driver.Capabilities.browsername) $($Driver.Capabilities.ToDictionary().browserVersion)"
 
 
             $defaultDisplaySet = 'SeFriendlyName', 'SeBrowser', 'SeTitle', 'SeUrl'

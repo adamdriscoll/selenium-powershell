@@ -4,29 +4,39 @@ function Stop-SeDriver {
         [OpenQA.Selenium.IWebDriver]
         $Target
     )
-    $TextInfo = (Get-Culture).TextInfo
-
-    if (! $PSBoundParameters.ContainsKey('Target')) {
-        $Target = $script:SeDriversCurrent
+    Begin {
+        $ElementsToRemove = [System.Collections.Generic.List[PSObject]]::new()
+        $TextInfo = (Get-Culture).TextInfo 
     }
-
-
-    if ($null -ne $Target) {
-        $BrowserName = $TextInfo.ToTitleCase($Target.Capabilities.browsername)
-
-        if ($null -eq $Target.SessionId) {
-            Write-Warning "$BrowserName Driver already closed"
-            return $null
+    Process {
+        if (! $PSBoundParameters.ContainsKey('Target')) {
+            $Target = $script:SeDriversCurrent
         }
 
-        Write-Verbose -Message "Closing $BrowserName $($Target.SeFriendlyName )..."
-        [void]($script:SeDrivers.Remove($Target))
-        $Target.Close()
-        $Target.Dispose()    
-        
 
-        
+        if ($null -ne $Target) {
+            $BrowserName = $TextInfo.ToTitleCase($Target.Capabilities.browsername)
+
+            if ($null -eq $Target.SessionId) {
+                Write-Warning "$BrowserName Driver already closed"
+                return $null
+            }
+
+            Write-Verbose -Message "Closing $BrowserName $($Target.SeFriendlyName )..."
+            
+            $Target.Close()
+            $Target.Dispose()
+            $ElementsToRemove.Add($Target)    
+      
        
+        }
+        else { Write-Warning 'A valid <IWebDriver> must be provided.' }
     }
-    else { Write-Warning 'A valid <IWebDriver> must be provided.' }
+    End {
+        $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
+        
+    }
+    
+
+  
 }
