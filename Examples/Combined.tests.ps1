@@ -1,4 +1,6 @@
-#if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
+
+Get-SeDriver | Stop-SeDriver -WarningAction SilentlyContinue
+if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
 
 #SeOpen will use an environment variable DefaultBrowser if no browser is specified on the command line, so
 # we can run the script with different browsers by changing that and running invoke-pester again. If it wasn't set, set it now
@@ -29,7 +31,7 @@ $TestCaseSettings = @{
     'Firefox' = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
-            Headless        = & $IsAlwaysHeadless
+            State           = & $IsAlwaysHeadless
         }
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
@@ -69,11 +71,11 @@ $ModaltestCases = @(
 )
 $BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
 $BrowserOptText = Build-StringFromHash $BrowserOptHash
-Get-SeDriver | Stop-SeDriver
+
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Verbose  4>&1
+        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($BrowserOptText)" {
@@ -99,7 +101,7 @@ $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_ele
 #As before rely on environment variable to pick browser. Capture ID by requesting & redirecting verbose
 $BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
 $BrowserOptText = Build-StringFromHash $BrowserOptHash
-$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @BrowserOptHash -Verbose  4>&1
+$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
 $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
 Describe "PsGallery Test" {
     Context "in $BrowserID with settings ($BrowserOptText)" {
@@ -173,12 +175,12 @@ $BrowserOptText = Build-StringFromHash $BrowserOptHash
 if ($BrowserOptText) {
     $NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$env:DefaultBrowser].InPrivateLabel)
     $wv = $null
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop
     if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
 }
 else {
     $NoLabel = $true
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop
 
 }
 Describe "Alerts and Selection boxes tests" {
@@ -241,7 +243,7 @@ Describe "Alerts and Selection boxes tests" {
 $BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].HeadlessOptions
 $BrowserOptText = Build-StringFromHash $BrowserOptHash
 if ($BrowserOptText) {
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash 
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop
     
     Describe "'Headless' mode browser test" {
         Context "in $BrowserID with settings ($BrowserOptText)" {
@@ -255,8 +257,8 @@ if ($BrowserOptText) {
                 SeShouldHave -by Name q
                 SeShouldHave -by ClassName 'gLFyf'
                 SeShouldHave -By Name q -PassThru | Where Displayed -eq $true | 
-                Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
-                should -Not -BeNullOrEmpty
+                    Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
+                        should -Not -BeNullOrEmpty
 
                 SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
                     Send-SeClick -PassThru                 | should -Not -BeNullOrEmpty
