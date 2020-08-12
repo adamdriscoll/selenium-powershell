@@ -27,7 +27,6 @@ function Start-SeDriver {
         [String[]]$Arguments,
         $ProfilePath,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        [Switch]$PassThru,
         [ValidateNotNullOrEmpty()]
         $Name 
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
@@ -75,7 +74,7 @@ function Start-SeDriver {
        
 
         #Remove params exclusive to this cmdlet before going further.
-        $ParametersToRemove | ForEach-Object { if ($PSBoundParameters.ContainsKey("$_")) { $PSBoundParameters.Remove("$_") } }
+        $ParametersToRemove | ForEach-Object { if ($PSBoundParameters.ContainsKey("$_")) { [void]($PSBoundParameters.Remove("$_")) } }
 
         switch ($SelectedBrowser) {
             'Chrome' { $Driver = Start-SeChromeDriver @PSBoundParameters; break }
@@ -95,17 +94,15 @@ function Start-SeDriver {
 
             #Se prefix used to avoid clash with anything from Selenium in the future
             #SessionId scriptproperty validation to avoid perfomance cost of checking closed session.
-            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeFriendlyName' -Value $FriendlyName
-            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeBrowser' -Value $SelectedBrowser
+            $Headless = if ($state -eq [SeWindowState]::Headless) { " (headless)" } else { "" }
+            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeFriendlyName' -Value "$FriendlyName"
+            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
             Add-Member -InputObject $Driver -MemberType ScriptProperty -Name 'SeTitle' -Value { if ($null -ne $this.SessionId) { $this.Title } }
             Add-Member -InputObject $Driver -MemberType ScriptProperty -Name 'SeUrl' -Value { if ($null -ne $this.SessionId) { $this.Url } }
             $Script:SeDrivers.Add($Driver)
-            $Script:SeDriversCurrent = $Driver
+            Return Select-SeDriver -Name $FriendlyName
         }
 
-        if ($PassThru) {
-            return $Driver
-        }
     }
 }
 
