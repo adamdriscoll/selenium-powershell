@@ -5,40 +5,61 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeElement
+# Save-SeScreenshot
 
 ## SYNOPSIS
-	
-Finds all IWebElements within the current context using the given mechanism
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
+### Default
 ```
-Get-SeElement [-By <String>] [-Selection] <String> [[-Timeout] <Int32>] [[-Driver] <Object>] [-Wait]
+Save-SeScreenshot [-Driver <Object>] -Path <String> [-ImageFormat <ScreenshotImageFormat>] [<CommonParameters>]
+```
+
+### Screenshot
+```
+Save-SeScreenshot -Screenshot <Screenshot> -Path <String> [-ImageFormat <ScreenshotImageFormat>]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Finds all IWebElements within the current context using the given mechanism
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeElement -By Name -Selection 'username'
+PS C:\> {{ Add example code here }}
 ```
 
-Get the username field by name
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -By
-The locating mechanism to use
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: String
+Type: Object
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -ImageFormat
+{{ Fill ImageFormat Description }}
+
+```yaml
+Type: ScreenshotImageFormat
 Parameter Sets: (All)
 Aliases:
+Accepted values: Png, Jpeg, Gif, Tiff, Bmp
 
 Required: False
 Position: Named
@@ -47,23 +68,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Driver
-{{ Fill Driver Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Element
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Selection
-String Identifier of the object to find
+### -Path
+{{ Fill Path Description }}
 
 ```yaml
 Type: String
@@ -71,39 +77,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Timeout
-Timeout (in seconds)
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Wait
-Set Timeout to 30 seconds (Will not override Timeout value if already defined)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Screenshot
+{{ Fill Screenshot Description }}
+
+```yaml
+Type: Screenshot
+Parameter Sets: Screenshot
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -113,6 +104,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.Object
+
+### OpenQA.Selenium.Screenshot
 
 ## OUTPUTS
 

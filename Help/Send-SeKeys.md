@@ -13,7 +13,8 @@ Simulates typing text into the element
 ## SYNTAX
 
 ```
-Send-SeKeys [-Element] <IWebElement> [-Keys] <String> [-PassThru] [<CommonParameters>]
+Send-SeKeys [-Element] <IWebElement> [-Keys] <String> [-ClearFirst] [-SleepSeconds <Object>] [-Submit]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,6 +32,21 @@ PS C:\> SeType -Keys 'Powershell-Selenium{{Enter}}' -PassThru
 ype the defined text and a special key - Enter - defined in the special keys.
 
 ## PARAMETERS
+
+### -ClearFirst
+{{ Fill ClearFirst Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Element
 Specify the element where the keys will be typed to
@@ -64,6 +80,36 @@ Accept wildcard characters: False
 
 ### -PassThru
 Return `$Element`
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SleepSeconds
+{{ Fill SleepSeconds Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Submit
+{{ Fill Submit Description }}
 
 ```yaml
 Type: SwitchParameter
