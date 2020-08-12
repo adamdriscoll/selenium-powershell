@@ -20,6 +20,9 @@ Accept and clear alert popup
 ### [Get-SeCookie](Get-SeCookie.md)
 List all cookies
 
+### [Get-SeDriver](Get-SeDriver.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-SeElement](Get-SeElement.md)
 	
 Finds all IWebElements within the current context using the given mechanism
@@ -42,12 +45,6 @@ Retrieves the current URL of a target webdriver instance.
 ### [Get-SeWindow](Get-SeWindow.md)
 Gets the window handles of open browser windows
 
-### [Invoke-SeClick](Invoke-SeClick.md)
-Select an element then send a click action on it.
-
-### [Invoke-SeScreenshot](Invoke-SeScreenshot.md)
-Take a screenshot of the current page
-
 ### [New-SeDriverOptions](New-SeDriverOptions.md)
 {{ Fill in the Synopsis }}
 
@@ -64,8 +61,8 @@ navigate to a new URL.
 ### [Remove-SeCookie](Remove-SeCookie.md)
 Delete the named cookie from the current domain
 
-### [Save-SeScreenshot](Save-SeScreenshot.md)
-Take a screenshot of the current page
+### [Select-SeDriver](Select-SeDriver.md)
+{{ Fill in the Synopsis }}
 
 ### [Send-SeClick](Send-SeClick.md)
 Send a click to the targeted element
