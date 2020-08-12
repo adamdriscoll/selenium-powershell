@@ -20,7 +20,7 @@ function Get-SeDriver {
 
 
     if ($PSBoundParameters.ContainsKey('Browser')) { 
-        return $Script:SeDrivers.Where( { $_.SeBrowser -eq $Browser } )
+        return $Script:SeDrivers.Where( { $Browser -like "$($_.SeBrowser)*" } )
     }
     
     if ($PSBoundParameters.ContainsKey('Name')) { 

@@ -7,18 +7,25 @@ function Select-SeDriver {
         [String]$Name
     )
 
+    # Remove Selected visual indicator
+    if ($null -ne $Script:SeDriversCurrent) { 
+        $Script:SeDriversCurrent.SeBrowser = $Script:SeDriversCurrent.SeBrowser -replace ' \*$', ''
+    }
+
     switch ($PSCmdlet.ParameterSetName) {
         'ByDriver' { $Script:SeDriversCurrent = $Driver }
         'ByName' {
             $Driver = Get-SeDriver -Name $Name 
             if ($null -eq $Driver) {
-                Throw  "No corresponding driver was selected. (Name: $Name) " 
+                $PSCmdlet.ThrowTerminatingError("Driver with Name: $Name not found ")
             }
             else {
                 $Script:SeDriversCurrent = $Driver
             }
         }
     }
+
+    $Driver.SeBrowser = "$($Driver.SeBrowser) *"
 
     return $Driver
 }
