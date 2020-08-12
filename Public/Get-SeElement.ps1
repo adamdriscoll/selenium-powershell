@@ -25,7 +25,7 @@ function Get-SeElement {
 
         if ($TimeOut -and $Driver -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
             $TargetElement = [OpenQA.Selenium.By]::$By($Selection)
-            $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Target, (New-TimeSpan -Seconds $Timeout))
+            $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
             $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
             $WebDriverWait.Until($Condition)
         }

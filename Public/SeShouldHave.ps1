@@ -7,9 +7,9 @@ function SeShouldHave {
 
         [Parameter(ParameterSetName = 'DefaultPS', Mandatory = $false)]
         [Parameter(ParameterSetName = 'Element' , Mandatory = $false)]
-        [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
-        [ByTransformAttribute()]
-        [string]$By = 'XPath',
+        [ArgumentCompleter( { [Enum]::GetNames([SeBySelector]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelector]) })]
+        [string]$By = [SeBySelector]::XPath,
 
         [Parameter(ParameterSetName = 'Element' , Mandatory = $true , Position = 1)]
         [string]$With,
@@ -91,7 +91,7 @@ function SeShouldHave {
             $Operator = $matches[1]
         }
         $Success = $false
-        $foundElements = @()
+        $foundElements = [System.Collections.Generic.List[PSObject]]::new()
     }
     process {
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
@@ -149,7 +149,7 @@ function SeShouldHave {
                 if (-not $e) { throw (expandErr "Didn't find '$s' by $by") }
                 else {
                     Write-Verbose "Matched element(s) for $s"
-                    $foundElements += $e
+                    $foundElements.add($e)
                 }
             }
         }
