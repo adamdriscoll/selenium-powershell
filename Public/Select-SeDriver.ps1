@@ -14,6 +14,9 @@ function Select-SeDriver {
             if ($null -eq $Driver) {
                 Throw  "No corresponding driver was selected. (Name: $Name) " 
             }
+            else {
+                $Script:SeDriversCurrent = $Driver
+            }
         }
     }
 
