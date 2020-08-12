@@ -1,4 +1,4 @@
-
+$VerbosePreference = [System.Management.Automation.ActionPreference]::Continue
 Get-SeDriver | Stop-SeDriver -WarningAction SilentlyContinue
 if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
 
