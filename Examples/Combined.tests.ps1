@@ -71,7 +71,8 @@ $ModaltestCases = @(
 )
 $BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
 $BrowserOptText = Build-StringFromHash $BrowserOptHash
-
+Write-Verbose $env:DefaultBrowser -Verbose
+Write-Verbose $BrowserOptText -Verbose
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         write-verbose "Browser $env:DefaultBrowser" -Verbose
