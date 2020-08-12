@@ -30,7 +30,7 @@ if ('OperatorTransformAttribute' -as [type]) {
     #Allow operator to use containing, matching, matches, equals etc.
     class OperatorTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
         [object] Transform([System.Management.Automation.EngineIntrinsics]$EngineIntrinsics, [object] $InputData) {
-            if ($inputData -match '^(contains|like|notlike|match|notmatch|eq|ne|gt|lt)$#') {
+            if ($inputData -match '^(contains|like|notlike|match|notmatch|eq|ne|gt|lt)$') {
                 return $InputData
             }
             switch -regex ($InputData) {
@@ -39,6 +39,7 @@ if ('OperatorTransformAttribute' -as [type]) {
                 "^n\w*match" { return 'notmatch' ; break }
                 "^eq" { return 'eq'       ; break }
                 "^n\w*eq" { return 'ne'       ; break }
+                "^n\w*like" { return 'like'       ; break }
             }
             return $InputData
         }

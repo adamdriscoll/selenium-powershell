@@ -25,13 +25,13 @@ function SeOpen {
         $StartParams['StartUrl'] = $url
     }
 
-    switch -regex ($In) {
-        'Chrome' { Start-SeChrome @StartParams; continue }
-        'FireFox' { Start-SeFirefox @StartParams; continue }
-        'MSEdge' { Start-SeEdge @StartParams; continue }
-        'Edge$' { Start-SeNewEdge @StartParams; continue }
-        '^I' { Start-SeInternetExplorer @StartParams; continue }
-    }
+    # switch -regex ($In) {
+    #     'Chrome' { Start-SeChrome @StartParams; continue }
+    #     'FireFox' { Start-SeFirefox @StartParams; continue }
+    #     'MSEdge' { Start-SeEdge @StartParams; continue }
+    #     'Edge$' { Start-SeNewEdge @StartParams; continue }
+    #     '^I' { Start-SeInternetExplorer @StartParams; continue }
+    # }
     Write-Verbose -Message "Opened $($Script:SeDriversCurrent.Capabilities.browsername) $($Script:SeDriversCurrent.Capabilities.ToDictionary().browserVersion)"
     if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
 }
