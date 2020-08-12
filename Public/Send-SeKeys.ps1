@@ -5,14 +5,23 @@ function Send-SeKeys {
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
         [string]$Keys,
+        [switch]$ClearFirst,
+        $SleepSeconds = 0 ,
+        [switch]$Submit,
         [switch]$PassThru
     )
-    foreach ($Key in $Script:SeKeys.Name) {
-        $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
+    begin {
+        foreach ($Key in $Script:SeKeys.Name) {
+            $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
+        }
     }
-    $Element.SendKeys($Keys)
-    if ($PassThru) { $Element }
+    process {
+        if ($ClearFirst) { $Element.Clear() }
+
+        $Element.SendKeys($Keys)
+
+        if ($Submit) { $Element.Submit() }
+        if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
+        if ($PassThru) { $Element }
+    }
 }
-
-
-$Textinfo
