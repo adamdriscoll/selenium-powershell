@@ -247,6 +247,7 @@ if ($Global:BrowserOptText) {
     Describe "'Headless' mode browser test" {
         Context "in $BrowserID with settings ($Global:BrowserOptText)" {
             It 're-opened the Browser in "Headless" mode' {
+                Get-SeDriver | Out-String | Write-Verbose -Verbose
                 $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
                 $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
                 $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
