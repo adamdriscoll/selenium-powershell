@@ -19,13 +19,14 @@ if (-not ($checkImportExcel)) {
     Install-Module ImportExcel -Force -SkipPublisherCheck
 }
 else { $checkImportExcel | Out-Host }
-$PesterLock = @{MinimumVersion = 4.10.0.0 ; MaximumVersion = 4.99.0.0 }
+$PesterLock = @{MinimumVersion = '4.10.0.0' ; MaximumVersion = '4.99.0.0' }
 $checkPester = Get-Module -ListAvailable Pester | Where-Object { $_.version.major -ge 4 -and $_.version.minor -ge 4 }
 if (-not $checkPester) {
     Write-Verbose -Verbose 'Installing Pester'
     Install-Module Pester -Force -SkipPublisherCheck  @PesterLock
 }
 else { $checkPester | Out-Host }
+
 Import-Module Pester @pesterlock
 Import-Module ImportExcel 
 
