@@ -1,4 +1,6 @@
-#if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
+#$VerbosePreference = [System.Management.Automation.ActionPreference]::Continue
+Get-SeDriver | Stop-SeDriver -WarningAction SilentlyContinue -erroraction SilentlyContinue
+if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
 
 #SeOpen will use an environment variable DefaultBrowser if no browser is specified on the command line, so
 # we can run the script with different browsers by changing that and running invoke-pester again. If it wasn't set, set it now
@@ -29,7 +31,7 @@ $TestCaseSettings = @{
     'Firefox' = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
-            Headless        = & $IsAlwaysHeadless
+            State           = & $IsAlwaysHeadless
         }
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
@@ -67,16 +69,15 @@ $ModaltestCases = @(
         modalXPath = '//*[@id="profile-modal-1"]/div/div'
     }
 )
-$BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
-$BrowserOptText = Build-StringFromHash $BrowserOptHash
-Get-SeDriver | Stop-SeDriver
+$Global:BrowserOptHash = $TestCaseSettings."$env:DefaultBrowser".DefaultOptions
+$Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Verbose  4>&1
+        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
-    Context "in $BrowserID with settings ($BrowserOptText)" {
+    Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         It "produced the right modal dialog for the <name>" -TestCases $ModaltestCases {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
@@ -97,12 +98,12 @@ $AlertTestPage = 'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
 $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select'
 
 #As before rely on environment variable to pick browser. Capture ID by requesting & redirecting verbose
-$BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
-$BrowserOptText = Build-StringFromHash $BrowserOptHash
-$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @BrowserOptHash -Verbose  4>&1
+$Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
+$Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
 $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
 Describe "PsGallery Test" {
-    Context "in $BrowserID with settings ($BrowserOptText)" {
+    Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         It 'opened the browser, saving the webdriver in a global variable          ' {
             Get-SeDriver -Current                                          | Should -Not -BeNullOrEmpty
             Get-SeDriver -Current                                          | Should -BeOfType [OpenQA.Selenium.Remote.RemoteWebDriver]
@@ -168,21 +169,21 @@ Describe "PsGallery Test" {
     }
 }
 
-$BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].PrivateOptions
-$BrowserOptText = Build-StringFromHash $BrowserOptHash
-if ($BrowserOptText) {
+$Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].PrivateOptions
+$Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+if ($Global:BrowserOptText) {
     $NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$env:DefaultBrowser].InPrivateLabel)
     $wv = $null
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop
     if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
 }
 else {
     $NoLabel = $true
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop
 
 }
 Describe "Alerts and Selection boxes tests" {
-    Context "in $BrowserID with settings ($BrowserOptText)" {
+    Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         It 're-opended the browser and validated "InPrivate" mode by window title  ' {
             $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
             $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
@@ -238,13 +239,13 @@ Describe "Alerts and Selection boxes tests" {
     }
 }
 
-$BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].HeadlessOptions
-$BrowserOptText = Build-StringFromHash $BrowserOptHash
-if ($BrowserOptText) {
-    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash 
+$Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].HeadlessOptions
+$Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+if ($Global:BrowserOptText) {
+    Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop
     
     Describe "'Headless' mode browser test" {
-        Context "in $BrowserID with settings ($BrowserOptText)" {
+        Context "in $BrowserID with settings ($Global:BrowserOptText)" {
             It 're-opened the Browser in "Headless" mode                               ' {
                 $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
                 $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
@@ -255,8 +256,8 @@ if ($BrowserOptText) {
                 SeShouldHave -by Name q
                 SeShouldHave -by ClassName 'gLFyf'
                 SeShouldHave -By Name q -PassThru | Where Displayed -eq $true | 
-                Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
-                should -Not -BeNullOrEmpty
+                    Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
+                        should -Not -BeNullOrEmpty
 
                 SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
                     Send-SeClick -PassThru                 | should -Not -BeNullOrEmpty
@@ -274,3 +275,4 @@ if ($BrowserOptText) {
         }
     }
 }
+Get-SeDriver | Stop-SeDriver

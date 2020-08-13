@@ -1727,100 +1727,6 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Invoke-SeScreenshot</command:name>
-      <command:verb>Invoke</command:verb>
-      <command:noun>SeScreenshot</command:noun>
-      <maml:description>
-        <maml:para>Take a screenshot of the current page</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Take a screenshot of the current page</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Invoke-SeScreenshot</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
-          <maml:name>Target</maml:name>
-          <maml:Description>
-            <maml:para>Target webdriver</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>AsBase64EncodedString</maml:name>
-          <maml:Description>
-            <maml:para>Return image as base64 string</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>AsBase64EncodedString</maml:name>
-        <maml:Description>
-          <maml:para>Return image as base64 string</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
-        <maml:name>Target</maml:name>
-        <maml:Description>
-          <maml:para>Target webdriver</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples />
-    <command:relatedLinks />
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
       <command:name>New-SeDriverOptions</command:name>
       <command:verb>New</command:verb>
       <command:noun>SeDriverOptions</command:noun>
@@ -3866,9 +3772,16 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <maml:Description>
             <maml:para>{{ Fill State Description }}</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Headless</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Default</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Minimized</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Maximized</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Fullscreen</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SeWindowState</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>SeWindowState</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4043,9 +3956,16 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <maml:Description>
             <maml:para>{{ Fill State Description }}</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Headless</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Default</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Minimized</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Maximized</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Fullscreen</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SeWindowState</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>SeWindowState</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4214,9 +4134,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <maml:Description>
           <maml:para>{{ Fill State Description }}</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">SeWindowState</command:parameterValue>
         <dev:type>
-          <maml:name>Object</maml:name>
+          <maml:name>SeWindowState</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>

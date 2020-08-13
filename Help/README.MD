@@ -61,6 +61,9 @@ navigate to a new URL.
 ### [Remove-SeCookie](Remove-SeCookie.md)
 Delete the named cookie from the current domain
 
+### [Save-SeScreenshot](Save-SeScreenshot.md)
+{{ Fill in the Synopsis }}
+
 ### [Select-SeDriver](Select-SeDriver.md)
 {{ Fill in the Synopsis }}
 

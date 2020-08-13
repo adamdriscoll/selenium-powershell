@@ -11,12 +11,16 @@ import-module "$ProjectPath\Selenium.psd1" -Force
 #Load Compiled version
 #import-module "$ProjectPath\output\selenium\Selenium.psd1" -Force
 
+# CI tests
+. $ProjectPath\CI\CI.ps1 -browserlist Chrome, Firefox
 
 # Build module
+Import-Module pester -RequiredVersion 4.10.1
 invoke-build -File "$ProjectPath\Selenium.build.ps1"
 
 #Tests
 #Invoke-Pester -Script 'C:\Github\selenium-powershell\Examples\Combined.tests.ps1'
+
 
 
 
