@@ -22,7 +22,6 @@ function Start-SeFirefoxDriver {
         
     )
     process {
-        Write-Verbose ($PSBoundParameters | Out-String) -Verbose
         #region firefox set-up options
         $Firefox_Options = [OpenQA.Selenium.Firefox.FirefoxOptions]::new()
 
@@ -48,6 +47,7 @@ function Start-SeFirefoxDriver {
         if ($WebDriverPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($WebDriverPath) }
         elseif ($AssembliesPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath) }
         else { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService() }
+        $service.Host = '::1'
         if ($Quiet) { $service.HideCommandPromptWindow = $true }
         #endregion
 
