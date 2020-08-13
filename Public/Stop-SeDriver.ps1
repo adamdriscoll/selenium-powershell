@@ -34,7 +34,7 @@ function Stop-SeDriver {
     }
     End {
         $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
-        
+        $script:SeDriversCurrent = $null
     }
     
 
