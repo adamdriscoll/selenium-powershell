@@ -1,5 +1,5 @@
-$VerbosePreference = [System.Management.Automation.ActionPreference]::Continue
-Get-SeDriver | Stop-SeDriver -WarningAction SilentlyContinue
+#$VerbosePreference = [System.Management.Automation.ActionPreference]::Continue
+Get-SeDriver | Stop-SeDriver -WarningAction SilentlyContinue -erroraction SilentlyContinue
 if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous session first'; return }
 
 #SeOpen will use an environment variable DefaultBrowser if no browser is specified on the command line, so
