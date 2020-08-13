@@ -9,7 +9,7 @@ function Start-SeFirefoxDriver {
         [string]$StartURL,
         [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
-        $State,
+        [SeWindowState]$State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [switch]$Quiet,
@@ -25,7 +25,7 @@ function Start-SeFirefoxDriver {
         #region firefox set-up options
         $Firefox_Options = [OpenQA.Selenium.Firefox.FirefoxOptions]::new()
 
-        if ($Headless) {
+        if ($State -eq [SeWindowState]::Headless) {
             $Firefox_Options.AddArguments('-headless')
         }
 
@@ -55,9 +55,14 @@ function Start-SeFirefoxDriver {
 
         #region post creation options
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
-        if ($Minimized) { $Driver.Manage().Window.Minimize() }
-        if ($Maximized) { $Driver.Manage().Window.Maximize() }
-        if ($Fullscreen) { $Driver.Manage().Window.FullScreen() }
+
+        # [SeWindowState]
+        switch ($State) {
+            { [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); break }
+            { [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() ; break }
+            { [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() ; break }
+        }
+        
         if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 
