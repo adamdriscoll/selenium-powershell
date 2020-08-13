@@ -24,6 +24,11 @@ if (-not $checkPester) {
     Install-Module Pester -Force -SkipPublisherCheck
 }
 else { $checkPester | Out-Host }
+Import-Module Pester -MinimumVersion 4.10.0.0 -MaximumVersion 4.99.0.0
+Import-Module ImportExcel 
+
+Write-verbose -Verbose "Pester $((Get-Module -Name Pester).Version.ToString()) loaded"
+Write-verbose -Verbose "ImportExcel $((Get-Module -Name ImportExcel).Version.ToString()) loaded"
 
 # #Run the test and results export to an Excel file for current OS - Test picks up the selected browser from an environment variable.
 $RunParameters = @{
