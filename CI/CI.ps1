@@ -11,6 +11,7 @@ if ($Platform -like 'win*6') {
 }
 
 #Make sure we have the modules we need
+
 Import-Module .\Output\Selenium\Selenium.psd1 -Force -ErrorAction Stop
 $checkImportExcel = Get-Module -ListAvailable ImportExcel
 if (-not ($checkImportExcel)) {
@@ -18,13 +19,14 @@ if (-not ($checkImportExcel)) {
     Install-Module ImportExcel -Force -SkipPublisherCheck
 }
 else { $checkImportExcel | Out-Host }
+$PesterLock = @{MinimumVersion = 4.10.0.0 ; MaximumVersion = 4.99.0.0 }
 $checkPester = Get-Module -ListAvailable Pester | Where-Object { $_.version.major -ge 4 -and $_.version.minor -ge 4 }
 if (-not $checkPester) {
     Write-Verbose -Verbose 'Installing Pester'
-    Install-Module Pester -Force -SkipPublisherCheck
+    Install-Module Pester -Force -SkipPublisherCheck  @PesterLock
 }
 else { $checkPester | Out-Host }
-Import-Module Pester -MinimumVersion 4.10.0.0 -MaximumVersion 4.99.0.0
+Import-Module Pester @pesterlock
 Import-Module ImportExcel 
 
 Write-verbose -Verbose "Pester $((Get-Module -Name Pester).Version.ToString()) loaded"
