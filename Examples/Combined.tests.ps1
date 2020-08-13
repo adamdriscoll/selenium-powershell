@@ -74,7 +74,7 @@ $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
+        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
@@ -100,7 +100,7 @@ $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_ele
 #As before rely on environment variable to pick browser. Capture ID by requesting & redirecting verbose
 $Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
 $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
+$BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL  $PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
 $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
 Describe "PsGallery Test" {
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
@@ -275,3 +275,4 @@ if ($Global:BrowserOptText) {
         }
     }
 }
+Get-SeDriver | Stop-SeDriver
