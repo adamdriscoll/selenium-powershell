@@ -17,10 +17,10 @@ jobs:
     pool:
       vmImage: "windows-latest"
     steps:
-      # - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox,InternetExplorer"
-      #   displayName: "Run Test on Windows PowerShell"
-      - pwsh: "./CI/CI.ps1 -browserlist Firefox,Chrome"
-        displayName: "Run Test on PowerShell core on Windows"
+      - powershell: "./CI/CI.ps1 -browserlist Firefox"
+        displayName: "Run Test on Windows PowerShell"
+      # - pwsh: "./CI/CI.ps1 -browserlist Chrome"
+      #   displayName: "Run Test on PowerShell core on Windows"
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: "$(Build.ArtifactStagingDirectory)/results"
