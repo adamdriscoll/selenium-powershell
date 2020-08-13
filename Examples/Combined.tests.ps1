@@ -69,7 +69,7 @@ $ModaltestCases = @(
         modalXPath = '//*[@id="profile-modal-1"]/div/div'
     }
 )
-$Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
+$Global:BrowserOptHash = $TestCaseSettings."$env:DefaultBrowser".DefaultOptions
 $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
