@@ -17,7 +17,7 @@ jobs:
     pool:
       vmImage: "windows-latest"
     steps:
-      - powershell: "./CI/CI.ps1 -browserlist Firefox"
+      - powershell: "./CI/CI.ps1 -browserlist Firefox,Chrome,InternetExplorer"
         displayName: "Run Test on Windows PowerShell"
       # - pwsh: "./CI/CI.ps1 -browserlist Chrome"
       #   displayName: "Run Test on PowerShell core on Windows"
