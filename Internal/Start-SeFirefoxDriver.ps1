@@ -22,6 +22,7 @@ function Start-SeFirefoxDriver {
         
     )
     process {
+        Write-Verbose ($PSBoundParameters | Out-String) -Verbose
         #region firefox set-up options
         $Firefox_Options = [OpenQA.Selenium.Firefox.FirefoxOptions]::new()
 
