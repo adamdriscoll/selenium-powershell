@@ -14,24 +14,25 @@ schema: 2.0.0
 
 ### default (Default)
 ```
-Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
- [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Arguments <String[]>]
- [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
+ [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ### Default
 ```
-Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>]
- [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
- [-Switches <String[]>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>]
- [<CommonParameters>]
+Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState>]
+ [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>]
+ [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>] [-Arguments <String[]>]
+ [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ### DriverOptions
 ```
-Start-SeDriver [[-StartURL] <String>] [-State <Object>] [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing]
- [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>] -Options <DriverOptions>
- [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
+ [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
+ -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>]
+ [-Name <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -233,9 +234,10 @@ Accept wildcard characters: False
 {{ Fill State Description }}
 
 ```yaml
-Type: Object
+Type: SeWindowState
 Parameter Sets: (All)
 Aliases:
+Accepted values: Headless, Default, Minimized, Maximized, Fullscreen
 
 Required: False
 Position: Named
