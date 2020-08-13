@@ -12,7 +12,7 @@ $IsAlwaysHeadless = { if ($AlwaysHeadless) { return 'Headless' }; 'Default' }
 #For each browser we will test in, specify the options for headless, inprivate & window title label for in-private
 $AlwaysHeadless = $env:AlwaysHeadless -eq $true
 $TestCaseSettings = @{
-    'NewEdge' = @{ 
+    'NewEdge'          = @{ 
         DefaultOptions = @{State = & $IsAlwaysHeadless }
         PrivateOptions = @{
             PrivateBrowsing = $true
@@ -20,7 +20,7 @@ $TestCaseSettings = @{
         }
         #     InPrivateLabel  = 'InPrivate'
     } # broken after build 79 of web driver#>
-    'Chrome'  = @{ 
+    'Chrome'           = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
             State           = & $IsAlwaysHeadless
@@ -28,7 +28,7 @@ $TestCaseSettings = @{
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
     }
-    'Firefox' = @{ 
+    'Firefox'          = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
             State           = & $IsAlwaysHeadless
@@ -36,11 +36,11 @@ $TestCaseSettings = @{
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
     }
-    'MSEdge'  = @{ 
+    'MSEdge'           = @{ 
         DefaultOptions = @{State = & $IsAlwaysHeadless }
         PrivateOptions = @{PrivateBrowsing = $true }
     }
-    'IE'      = @{ 
+    'InternetExplorer' = @{ 
         DefaultOptions = @{ImplicitWait = 30 }
         PrivateOptions = @{ImplicitWait = 30 }
     }
