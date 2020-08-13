@@ -58,9 +58,9 @@ function Start-SeFirefoxDriver {
 
         # [SeWindowState]
         switch ($State) {
-            { [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); break }
-            { [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() ; break }
-            { [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() ; break }
+            { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); break }
+            { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() ; break }
+            { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() ; break }
         }
         
         if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
