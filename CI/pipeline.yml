@@ -17,8 +17,8 @@ jobs:
     pool:
       vmImage: "windows-latest"
     steps:
-      - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox,InternetExplorer"
-        displayName: "Run Test on Windows PowerShell"
+      # - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox,InternetExplorer"
+      #   displayName: "Run Test on Windows PowerShell"
       - pwsh: "./CI/CI.ps1 -browserlist Chrome"
         displayName: "Run Test on PowerShell core on Windows"
       - task: PublishPipelineArtifact@1
@@ -30,18 +30,18 @@ jobs:
           testResultsFormat: "NUnit"
           testResultsFiles: "**/TestResults*.xml"
           failTaskOnFailedTests: true
-  - job: "Ubuntu"
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox"
-        displayName: "Run Test on Linux"
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: "$(Build.ArtifactStagingDirectory)/results"
-          artifact: "Linux Results"
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: "NUnit"
-          testResultsFiles: "**/TestResults*.xml"
-          failTaskOnFailedTests: true
+  # - job: "Ubuntu"
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox"
+  #       displayName: "Run Test on Linux"
+  #     - task: PublishPipelineArtifact@1
+  #       inputs:
+  #         targetPath: "$(Build.ArtifactStagingDirectory)/results"
+  #         artifact: "Linux Results"
+  #     - task: PublishTestResults@2
+  #       inputs:
+  #         testResultsFormat: "NUnit"
+  #         testResultsFiles: "**/TestResults*.xml"
+  #         failTaskOnFailedTests: true
