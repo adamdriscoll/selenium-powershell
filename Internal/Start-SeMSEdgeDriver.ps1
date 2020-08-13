@@ -20,7 +20,7 @@ function Start-SeMSEdgeDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel
     )
     #region Edge set-up options
-    if ($Headless) { Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored' }
+    if ($state -eq [SeWindowState]::Headless) { Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored' }
     $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
     $options = [OpenQA.Selenium.Edge.EdgeOptions]::new()
     if ($Quiet) { $service.HideCommandPromptWindow = $true }
@@ -45,9 +45,13 @@ function Start-SeMSEdgeDriver {
 
     #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
-    if ($Minimized) { $Driver.Manage().Window.Minimize() }
-    if ($Maximized) { $Driver.Manage().Window.Maximize() }
-    if ($FullScreen) { $Driver.Manage().Window.FullScreen() }
+
+    switch ($State) {
+        { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize() }
+        { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() }
+        { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() }
+    }
+
     #endregion
 
     Return $Driver

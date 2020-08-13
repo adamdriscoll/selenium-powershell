@@ -62,7 +62,7 @@ function Start-SeEdgeDriver {
     
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them
     if ($PrivateBrowsing) { $options.AddArguments('InPrivate') }
-    if ($Headless) { $options.AddArguments('headless') }
+    if ($State -eq [SeWindowState]::Headless) { $options.AddArguments('headless') }
     if ($Quiet) { $service.HideCommandPromptWindow = $true }
     if ($ProfilePath) {
         $ProfilePath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfilePath)
@@ -101,15 +101,14 @@ function Start-SeEdgeDriver {
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
     if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
 
-    if ($Minimized) {
-        $Driver.Manage().Window.Minimize();
+
+    switch ($State) {
+        { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); }
+        { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() }
+        { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() }
     }
-    if ($Maximized) {
-        $Driver.Manage().Window.Maximize()
-    }
-    if ($FullScreen) {
-        $Driver.Manage().Window.FullScreen()
-    }
+
+ 
     #endregion
 
     return  $Driver

@@ -66,10 +66,10 @@ function Start-SeChromeDriver {
        
 
         switch ($State) {
-            Headless { $Options.AddArguments('headless') }
-            #  Minimized {}  # No switches... Managed after launch
-            Maximized { $Options.AddArguments('start-maximized') }
-            Fullscreen { $Options.AddArguments('start-fullscreen') }
+            { $_ -eq [SeWindowState]::Headless } { $Options.AddArguments('headless') }
+            #  { $_ -eq [SeWindowState]::Minimized } {}  # No switches... Managed after launch
+            { $_ -eq [SeWindowState]::Maximized } { $Options.AddArguments('start-maximized') }
+            { $_ -eq [SeWindowState]::Fullscreen } { $Options.AddArguments('start-fullscreen') }
         }
       
         if ($PrivateBrowsing) {

@@ -22,7 +22,7 @@ function Start-SeInternetExplorerDriver {
 
     $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'
     #region IE set-up options
-    if ($Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
+    if ($state -eq [SeWindowState]::Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
     $InternetExplorer_Options = [OpenQA.Selenium.IE.InternetExplorerOptions]::new()
     $InternetExplorer_Options.IgnoreZoomLevel = $true
@@ -45,15 +45,14 @@ function Start-SeInternetExplorerDriver {
 
     #region post creation options
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
-    if ($Minimized) {
-        $Driver.Manage().Window.Minimize();
+
+    
+    switch ($State) {
+        { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); }
+        { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() }
+        { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() }
     }
-    if ($Maximized) {
-        $Driver.Manage().Window.Maximize()
-    }
-    if ($FullScreen) {
-        $Driver.Manage().Window.FullScreen()
-    }
+
     #endregion
 
     return $Driver
