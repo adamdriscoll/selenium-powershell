@@ -77,7 +77,7 @@ stages:
             inputs:
               artifactName: "checkout"
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
-            displayName: "Run Test on Linux"
+            displayName: "Run Chrome Test on Linux"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)/results"
@@ -100,7 +100,7 @@ stages:
             inputs:
               artifactName: "checkout"
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
-            displayName: "Run Test on Linux"
+            displayName: "Run Firefox Test on Linux"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)/results"
@@ -123,7 +123,7 @@ stages:
             inputs:
               artifactName: "checkout"
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
-            displayName: "Run Test on Linux"
+            displayName: "Run Chrome Test on Windows"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)/results"
@@ -146,7 +146,7 @@ stages:
             inputs:
               artifactName: "checkout"
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
-            displayName: "Run Test on Linux"
+            displayName: "Run Firefox Test on Windows"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)/results"
@@ -169,11 +169,57 @@ stages:
             inputs:
               artifactName: "checkout"
           - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist InternetExplorer"
-            displayName: "Run Test on Linux"
+            displayName: "Run Internet Explorer Test on Windows (PS)"
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Build.ArtifactStagingDirectory)/results"
               artifact: "windows_ps_internetexplorer_Results"
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: "NUnit"
+              testResultsFiles: "**/TestResults*.xml"
+              failTaskOnFailedTests: true
+      - job: "Windows_PS_Chrome"
+        displayName: "Powershell - Chrome (Windows)"
+        pool:
+          vmImage: "windows-latest"
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: "dependencies_powershell"
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: "checkout"
+          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
+            displayName: "Run Chrome Test on Windows (PS)"
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/results"
+              artifact: "windows_ps_chrome_Results"
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: "NUnit"
+              testResultsFiles: "**/TestResults*.xml"
+              failTaskOnFailedTests: true
+      - job: "Windows_PS_firefox"
+        displayName: "Powershell - Firefox (Windows)"
+        pool:
+          vmImage: "windows-latest"
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: "dependencies_powershell"
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: "checkout"
+          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
+            displayName: "Run Firefox Test on Windows (PS)"
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Build.ArtifactStagingDirectory)/results"
+              artifact: "windows_ps_firefox_Results"
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: "NUnit"
