@@ -24,7 +24,7 @@ parameters:
 
 jobs:
   - job: "${{ parameters.OS }}_${{ parameters.Browser }}_${{ parameters.Stack }}"
-    displayName: "${{ parameters.Stack }} - ${{ parameters.Browser }} (${{ parameters.OS }})"
+    displayName: "${{ parameters.Browser }} - ${{ parameters.OS }} (${{ parameters.Stack }})"
     pool:
       vmImage: "${{ parameters.OS }}-latest"
     steps:
