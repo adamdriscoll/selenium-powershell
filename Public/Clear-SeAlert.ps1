@@ -2,7 +2,6 @@ function Clear-SeAlert {
     param (
         [parameter(ParameterSetName = 'Alert', Position = 0, ValueFromPipeline = $true)]
         $Alert,
-        [parameter(ParameterSetName = 'Driver')]
         [ValidateIsWebDriverAttribute()]
         $Driver = $Script:SeDriversCurrent,
         [ValidateSet('Accept', 'Dismiss')]

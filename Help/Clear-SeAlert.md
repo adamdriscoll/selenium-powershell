@@ -12,14 +12,8 @@ Accept and clear alert popup
 
 ## SYNTAX
 
-### Alert
 ```
-Clear-SeAlert [[-Alert] <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
-```
-
-### Driver
-```
-Clear-SeAlert [-Driver <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
+Clear-SeAlert [[-Alert] <Object>] [-Driver <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,7 +51,7 @@ Specify alert window. Seems to be ignored in favor of Target / Default Target.
 
 ```yaml
 Type: Object
-Parameter Sets: Alert
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -72,7 +66,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Object
-Parameter Sets: Driver
+Parameter Sets: (All)
 Aliases:
 
 Required: False
