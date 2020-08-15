@@ -37,10 +37,10 @@ jobs:
           artifactName: "checkout"
       - ${{ if eq(parameters.Stack, 'Powershell') }}:
           - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
-            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }}"
+            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }} (ps)"
       - ${{ if eq(parameters.Stack, 'pwsh') }}:
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
-            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }}"
+            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }} (pwsh)"
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: "$(Build.ArtifactStagingDirectory)/results"
