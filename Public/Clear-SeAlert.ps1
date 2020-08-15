@@ -9,12 +9,12 @@ function Clear-SeAlert {
         $Action = 'Dismiss',
         [switch]$PassThru
     )
-    if ($Target) {
+    if ($Driver) {
         try { 
             $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds 10))
             $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
             $WebDriverWait.Until($Condition)
-            $Alert = $Target.SwitchTo().alert() 
+            $Alert = $Driver.SwitchTo().alert() 
         }
         catch { Write-Warning 'No alert was displayed'; return }
     }
