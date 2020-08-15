@@ -40,7 +40,7 @@ jobs:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: "$(Build.ArtifactStagingDirectory)/results"
-          artifact: "${{ parameters.OS }} - ${{ parameters.Browser }} Results"
+          artifact: "${{ parameters.OS }} - ${{ parameters.Browser }} - $ {{ parameters.Stack }} Results"
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: "NUnit"
