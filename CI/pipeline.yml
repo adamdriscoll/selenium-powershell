@@ -93,13 +93,13 @@ stages:
           Browser: InternetExplorer
           OS: windows
           Stack: powershell
-      - template: RunTest.yml
-        parameters:
-          Browser: Edge
-          OS: windows
-          Stack: powershell
-      - template: RunTest.yml
-        parameters:
-          Browser: MSEdge
-          OS: windows
-          Stack: powershell
+      # - template: RunTest.yml
+      #   parameters:
+      #     Browser: Edge
+      #     OS: windows
+      #     Stack: powershell
+      # - template: RunTest.yml
+      #   parameters:
+      #     Browser: MSEdge
+      #     OS: windows
+      #     Stack: powershell
