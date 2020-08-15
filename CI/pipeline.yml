@@ -22,7 +22,11 @@ stages:
           vmImage: "windows-latest"
         steps:
           - checkout: none
-          - powershell: . ./SaveDependencies.ps1
+          - powershell: |
+              New-Item -ItemType Directory -Path './Modules'
+              $Params = @{Path = './Modules';Repository = 'PSGallery'}
+              Save-Module -Name Pester -RequiredVersion 4.10.1 @Params
+              Save-Module -Name ImportExcel -RequiredVersion 7.1.1 @Params
             displayName: "Upload Powershell dependencies to pipeline"
           - task: CopyFiles@2
             inputs:
@@ -38,7 +42,12 @@ stages:
           vmImage: "ubuntu-latest"
         steps:
           - checkout: none
-          - pwsh: . ./SaveDependencies.ps1
+          - pwsh: |
+              New-Item -ItemType Directory -Path './Modules'
+              $Params = @{Path = './Modules';Repository = 'PSGallery'}
+              Save-Module -Name Pester -RequiredVersion 4.10.1 @Params
+              Save-Module -Name ImportExcel -RequiredVersion 7.1.1 @Params
+            displayName: "Upload pwsh dependencies to pipeline"
           - task: CopyFiles@2
             inputs:
               SourceFolder: $(Build.SourcesDirectory)
