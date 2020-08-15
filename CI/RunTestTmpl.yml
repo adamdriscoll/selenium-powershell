@@ -1,0 +1,48 @@
+# https://aka.ms/yaml
+
+parameters:
+    - name: Browser
+      type: string
+      values:
+          - Chrome
+          - Edge
+          - Firefox
+          - InternetExplorer
+          - MSEdge
+    - name: OS
+      type: string
+      default: ubuntu
+      values:
+          - ubuntu
+          - windows
+    - name: Stack
+      type: string
+      default: pwsh
+      values:
+          - powershell
+          - pwsh
+
+jobs:
+    - job: "RunTest"
+      displayName: "${{ Stack }} - ${{ Browser }} (${{ OS }})"
+      pool:
+          vmImage: "${{ OS }}-latest"
+      steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+                artifactName: "dependencies_${{ Stack }}"
+          - task: DownloadPipelineArtifact@2
+            inputs:
+                artifactName: "checkout"
+          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
+            displayName: "Run ${{ Browser }} Test on ${{ OS }}"
+          - task: PublishPipelineArtifact@1
+            inputs:
+                targetPath: "$(Build.ArtifactStagingDirectory)/results"
+                artifact: "${{ OS }} - ${{ Browser }} Results"
+          - task: PublishTestResults@2
+            inputs:
+                testResultsFormat: "NUnit"
+                testResultsFiles: "**/TestResults*.xml"
+                failTaskOnFailedTests: true

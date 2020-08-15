@@ -1,7 +1,9 @@
 param (
-    [String]$ModulePath = $PSScriptRoot,
+    [String]$ModulePath,
     [string[]]$BrowserList = @('Chrome', 'Firefox')
 )
+
+if ([String]::IsNullOrEmpty($ModulePath)) { $ModulePath = $pwd.path.Replace('\', '/') }
 
 Write-Host "ModulePath: $ModulePath" 
 Write-Host "BrowserList: $($BrowserList -join ',')" 
@@ -34,8 +36,17 @@ Import-Module $ModulePath/Output/Selenium/Selenium.psd1 -Force -ErrorAction Stop
 
 #Import-Module Pester -RequiredVersion 4.10.1
 #Import-Module ImportExcel -RequiredVersion 7.1.1
-Import-Module "$ModulePath/Modules/Pester/4.10.1/Pester.psd1"
-Import-Module "$ModulePath/Modules/ImportExcel/7.1.1/ImportExcel.psd1"
+
+if (Test-path "$ModulePath/Modules") {
+    Import-Module "$ModulePath/Modules/Pester/4.10.1/Pester.psd1"
+    Import-Module "$ModulePath/Modules/ImportExcel/7.1.1/ImportExcel.psd1"
+}
+else {
+    Import-Module -Name Pester -RequiredVersion 4.10.1
+    Import-Module -Name ImportExcel -RequiredVersion 7.1.1
+}
+
+
 Write-verbose -Verbose "Pester $((Get-Module -Name Pester).Version.ToString()) loaded"
 Write-verbose -Verbose "ImportExcel $((Get-Module -Name ImportExcel).Version.ToString()) loaded"
 
