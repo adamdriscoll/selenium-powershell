@@ -4,15 +4,21 @@ function Clear-SeAlert {
         $Alert,
         [parameter(ParameterSetName = 'Driver')]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent,
+        $Driver = $Script:SeDriversCurrent,
         [ValidateSet('Accept', 'Dismiss')]
         $Action = 'Dismiss',
         [switch]$PassThru
     )
     if ($Target) {
-        try { $Alert = $Target.SwitchTo().alert() }
+        try { 
+            $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds 10))
+            $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
+            $WebDriverWait.Until($Condition)
+            $Alert = $Target.SwitchTo().alert() 
+        }
         catch { Write-Warning 'No alert was displayed'; return }
     }
     if ($Alert) { $alert.$action() }
     if ($PassThru) { $Alert }
 }
+
