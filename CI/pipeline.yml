@@ -12,36 +12,94 @@ trigger:
       - ChangeLog.Txt
       - README.md
 
-jobs:
-  - job: "Windows"
-    pool:
-      vmImage: "windows-latest"
-    steps:
-      - powershell: "./CI/CI.ps1 -browserlist Firefox,Chrome,InternetExplorer"
-        displayName: "Run Test on Windows PowerShell"
-      - pwsh: "./CI/CI.ps1 -browserlist Chrome"
-        displayName: "Run Test on PowerShell core on Windows"
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: "$(Build.ArtifactStagingDirectory)/results"
-          artifact: "Windows Results"
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: "NUnit"
-          testResultsFiles: "**/TestResults*.xml"
-          failTaskOnFailedTests: true
-  - job: "Ubuntu"
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - powershell: "./CI/CI.ps1 -browserlist Chrome,Firefox"
-        displayName: "Run Test on Linux"
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: "$(Build.ArtifactStagingDirectory)/results"
-          artifact: "Linux Results"
-      - task: PublishTestResults@2
-        inputs:
-          testResultsFormat: "NUnit"
-          testResultsFiles: "**/TestResults*.xml"
-          failTaskOnFailedTests: true
+stages:
+  - stage: Checkout
+    displayName: "Checkout and dependencies"
+    jobs:
+      - job: "Savedependencies"
+        displayName: "Save dependencies"
+        pool:
+          vmImage: "windows-latest"
+        steps:
+          - checkout: none
+          - powershell: "New-Item -ItemType Directory -Path './Modules';Save-Module -Name Pester -RequiredVersion 4.10.1 -Path './Modules'; Save-Module -Name ImportExcel -RequiredVersion 7.1.1 -Path './Modules'"
+            displayName: "Upload Powershell dependencies to pipeline"
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: $(Build.SourcesDirectory)
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+          - task: PublishPipelineArtifact@1
+            inputs:
+              TargetPath: $(Build.ArtifactStagingDirectory)
+              artifact: dependencies_powershell
+      - job: "SaveCoreDependencies"
+        displayName: "Save core dependencies"
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - checkout: none
+          - pwsh: "New-Item -ItemType Directory -Path './Modules';Save-Module -Name Pester -RequiredVersion 4.10.1 -Path './Modules'; Save-Module -Name ImportExcel -Path './Modules'"
+            displayName: "Upload pwsh dependencies to pipeline"
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: $(Build.SourcesDirectory)
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+          - task: PublishPipelineArtifact@1
+            inputs:
+              TargetPath: $(Build.ArtifactStagingDirectory)
+              artifact: dependencies_pwsh
+      - job: "Checkout"
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - checkout: self
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: $(Build.SourcesDirectory)
+              TargetFolder: $(Build.ArtifactStagingDirectory)
+          - task: PublishPipelineArtifact@1
+            inputs:
+              TargetPath: $(Build.ArtifactStagingDirectory)
+              artifact: checkout
+
+  - stage: Tests
+    jobs:
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+          OS: windows
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+          OS: windows
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+          OS: windows
+          Stack: powershell
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+          OS: windows
+          Stack: powershell
+      - template: RunTest.yml
+        parameters:
+          Browser: InternetExplorer
+          OS: windows
+          Stack: powershell
+      # - template: RunTest.yml
+      #   parameters:
+      #     Browser: Edge
+      #     OS: windows
+      #     Stack: powershell
+      # - template: RunTest.yml
+      #   parameters:
+      #     Browser: MSEdge
+      #     OS: windows
+      #     Stack: powershell
