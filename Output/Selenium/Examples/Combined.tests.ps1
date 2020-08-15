@@ -12,7 +12,7 @@ $IsAlwaysHeadless = { if ($AlwaysHeadless) { return 'Headless' }; 'Default' }
 #For each browser we will test in, specify the options for headless, inprivate & window title label for in-private
 $AlwaysHeadless = $env:AlwaysHeadless -eq $true
 $TestCaseSettings = @{
-    'NewEdge' = @{ 
+    'NewEdge'          = @{ 
         DefaultOptions = @{State = & $IsAlwaysHeadless }
         PrivateOptions = @{
             PrivateBrowsing = $true
@@ -20,7 +20,7 @@ $TestCaseSettings = @{
         }
         #     InPrivateLabel  = 'InPrivate'
     } # broken after build 79 of web driver#>
-    'Chrome'  = @{ 
+    'Chrome'           = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
             State           = & $IsAlwaysHeadless
@@ -28,7 +28,7 @@ $TestCaseSettings = @{
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
     }
-    'Firefox' = @{ 
+    'Firefox'          = @{ 
         PrivateOptions  = @{
             PrivateBrowsing = $true
             State           = & $IsAlwaysHeadless
@@ -36,11 +36,11 @@ $TestCaseSettings = @{
         DefaultOptions  = @{State = & $IsAlwaysHeadless }
         HeadlessOptions = @{State = 'Headless' }
     }
-    'MSEdge'  = @{ 
+    'MSEdge'           = @{ 
         DefaultOptions = @{State = & $IsAlwaysHeadless }
         PrivateOptions = @{PrivateBrowsing = $true }
     }
-    'IE'      = @{ 
+    'InternetExplorer' = @{ 
         DefaultOptions = @{ImplicitWait = 30 }
         PrivateOptions = @{ImplicitWait = 30 }
     }
@@ -247,11 +247,9 @@ if ($Global:BrowserOptText) {
     Describe "'Headless' mode browser test" {
         Context "in $BrowserID with settings ($Global:BrowserOptText)" {
             It 're-opened the Browser in "Headless" mode' {
-                Write-Verbose "pid $pid" -Verbose
-                Write-Verbose (Get-Process *driver | Out-String) -Verbose
                 $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
                 $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
-                $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -BeNullOrEmpty
+                $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
             }
             it 'did a google Search                                                    ' {
                 Set-SeUrl 'https://www.google.com/ncr'

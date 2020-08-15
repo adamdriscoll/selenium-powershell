@@ -19,7 +19,7 @@ Clear-SeAlert [[-Alert] <Object>] [-Action <Object>] [-PassThru] [<CommonParamet
 
 ### Driver
 ```
-Clear-SeAlert [-Target <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
+Clear-SeAlert [-Driver <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,12 +67,12 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -PassThru
-{{ Fill PassThru Description }}
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
+Type: Object
+Parameter Sets: Driver
 Aliases:
 
 Required: False
@@ -82,12 +82,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Target
-Target webdriver
+### -PassThru
+{{ Fill PassThru Description }}
 
 ```yaml
-Type: Object
-Parameter Sets: Driver
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
