@@ -275,4 +275,4 @@ if ($Global:BrowserOptText) {
         }
     }
 }
-Get-SeDriver | Stop-SeDriver
+Get-SeDriver | Stop-SeDriver -wa 0 -ea 0 #Close any drivers 
