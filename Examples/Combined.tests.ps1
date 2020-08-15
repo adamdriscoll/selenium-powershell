@@ -200,7 +200,7 @@ Describe "Alerts and Selection boxes tests" {
         It 'saw and dismissed an alert                                             ' {
             #Checking the text of the alert is optional. Dissmiss can pass the alert result through
             $Alert = SeShouldHave -Alert match "box" -PassThru   
-            Start-Sleep -Seconds 1
+            Start-Sleep -Seconds 5
             Clear-SeAlert -Alert $Alert -Action Dismiss -PassThru | Should -Not -BeNullOrEmpty
         }
         It 'reselected the parent frame                                            ' {
