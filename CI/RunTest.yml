@@ -35,7 +35,7 @@ jobs:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifactName: "checkout"
-      - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
+      - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
         displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }}"
       - task: PublishPipelineArtifact@1
         inputs:

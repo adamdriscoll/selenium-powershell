@@ -64,164 +64,32 @@ stages:
 
   - stage: Tests
     jobs:
-      - job: "ubuntu_chrome"
-        displayName: "Pwsh - Chrome (Ubuntu)"
-        pool:
-          vmImage: "ubuntu-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_pwsh"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
-            displayName: "Run Chrome Test on Linux"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "ubuntu_chrome_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "ubuntu_Firefox"
-        displayName: "Pwsh - Firefox (Ubuntu)"
-        pool:
-          vmImage: "ubuntu-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_pwsh"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
-            displayName: "Run Firefox Test on Linux"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "ubuntu_firefox_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "Windows_chrome"
-        displayName: "Pwsh - Chrome (Windows)"
-        pool:
-          vmImage: "windows-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_pwsh"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
-            displayName: "Run Chrome Test on Windows"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "windows_chrome_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "Windows_Firefox"
-        displayName: "Pwsh - Firefox (Windows)"
-        pool:
-          vmImage: "windows-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_pwsh"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
-            displayName: "Run Firefox Test on Windows"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "windows_firefox_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "Windows_PS_InternetExplorer"
-        displayName: "Powershell - Internet Explorer (Windows)"
-        pool:
-          vmImage: "windows-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_powershell"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist InternetExplorer"
-            displayName: "Run Internet Explorer Test on Windows (PS)"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "windows_ps_internetexplorer_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "Windows_PS_Chrome"
-        displayName: "Powershell - Chrome (Windows)"
-        pool:
-          vmImage: "windows-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_powershell"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Chrome"
-            displayName: "Run Chrome Test on Windows (PS)"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "windows_ps_chrome_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
-      - job: "Windows_PS_firefox"
-        displayName: "Powershell - Firefox (Windows)"
-        pool:
-          vmImage: "windows-latest"
-        steps:
-          - checkout: none
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "dependencies_powershell"
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: "checkout"
-          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist Firefox"
-            displayName: "Run Firefox Test on Windows (PS)"
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: "$(Build.ArtifactStagingDirectory)/results"
-              artifact: "windows_ps_firefox_Results"
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "NUnit"
-              testResultsFiles: "**/TestResults*.xml"
-              failTaskOnFailedTests: true
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+          OS: windows
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+          OS: windows
+      - template: RunTest.yml
+        parameters:
+          Browser: Chrome
+          OS: windows
+          Stack: powershell
+      - template: RunTest.yml
+        parameters:
+          Browser: Firefox
+          OS: windows
+          Stack: powershell
+      - template: RunTest.yml
+        parameters:
+          Browser: InternetExplorer
+          OS: windows
+          Stack: powershell
