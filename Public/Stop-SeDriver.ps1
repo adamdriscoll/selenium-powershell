@@ -2,31 +2,31 @@ function Stop-SeDriver {
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebDriver]
-        $Target
+        $Driver
     )
     Begin {
         $ElementsToRemove = [System.Collections.Generic.List[PSObject]]::new()
         $TextInfo = (Get-Culture).TextInfo 
     }
     Process {
-        if (! $PSBoundParameters.ContainsKey('Target')) {
-            $Target = $script:SeDriversCurrent
+        if (! $PSBoundParameters.ContainsKey('Driver')) {
+            $Driver = $script:SeDriversCurrent
         }
 
 
-        if ($null -ne $Target) {
-            $BrowserName = $TextInfo.ToTitleCase($Target.Capabilities.browsername)
+        if ($null -ne $Driver) {
+            $BrowserName = $TextInfo.ToTitleCase($Driver.Capabilities.browsername)
 
-            if ($null -eq $Target.SessionId) {
+            if ($null -eq $Driver.SessionId) {
                 Write-Warning "$BrowserName Driver already closed"
                 return $null
             }
 
-            Write-Verbose -Message "Closing $BrowserName $($Target.SeFriendlyName )..."
+            Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
             
-            $Target.Close()
-            $Target.Dispose()
-            $ElementsToRemove.Add($Target)    
+            $Driver.Close()
+            $Driver.Dispose()
+            $ElementsToRemove.Add($Driver)    
       
        
         }
