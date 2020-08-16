@@ -13,10 +13,10 @@ function Switch-SeFrame {
 
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
  
-    if ($frame) { [void]$Target.SwitchTo().Frame($Frame) }
-    elseif ($Parent) { [void]$Target.SwitchTo().ParentFrame() }
-    elseif ($Root) { [void]$Target.SwitchTo().defaultContent() }
+    if ($frame) { [void]$Driver.SwitchTo().Frame($Frame) }
+    elseif ($Parent) { [void]$Driver.SwitchTo().ParentFrame() }
+    elseif ($Root) { [void]$Driver.SwitchTo().defaultContent() }
 }

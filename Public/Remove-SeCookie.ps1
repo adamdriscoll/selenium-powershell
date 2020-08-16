@@ -2,7 +2,7 @@ function Remove-SeCookie {
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebDriver]
-        $Target = $Script:SeDriversCurrent,
+        $Driver = $Script:SeDriversCurrent,
  
         [Parameter(Mandatory = $true, ParameterSetName = 'All')]
         [switch]$All,
@@ -12,9 +12,9 @@ function Remove-SeCookie {
     )
 
     if ($All) {
-        $Target.Manage().Cookies.DeleteAllCookies()
+        $Driver.Manage().Cookies.DeleteAllCookies()
     }
     else {
-        $Target.Manage().Cookies.DeleteCookieNamed($Name)
+        $Driver.Manage().Cookies.DeleteCookieNamed($Name)
     }
 }

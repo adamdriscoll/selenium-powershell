@@ -23,13 +23,12 @@ function Pop-SeUrl {
     [Alias('Pop-SeLocation')]
     param(
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
     process {
-        if ($Script:SeLocationMap[$Target].Count -gt 0) {
-            Set-SeUrl -Url $Script:SeLocationMap[$Target].Pop() -Target $Target
+        if ($Script:SeLocationMap[$Driver].Count -gt 0) {
+            Set-SeUrl -Url $Script:SeLocationMap[$Driver].Pop() -Driver $Driver
         }
     }
 }

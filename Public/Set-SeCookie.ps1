@@ -9,7 +9,7 @@ function Set-SeCookie {
 
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
 
     <# Selenium Cookie Information
@@ -40,7 +40,7 @@ function Set-SeCookie {
             $cookie = [OpenQA.Selenium.Cookie]::new($Name, $Value, $Path, $ExpiryDate)
         }
         Elseif ($Name -and $Value -and $Path -and $Domain -and (!$ExpiryDate -or $ExpiryDate)) {
-            if ($Target.Url -match $Domain) {
+            if ($Driver.Url -match $Domain) {
                 $cookie = [OpenQA.Selenium.Cookie]::new($Name, $Value, $Domain, $Path, $ExpiryDate)
             }
             else {
@@ -59,6 +59,6 @@ function Set-SeCookie {
             Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date."
         }
 
-        $Target.Manage().Cookies.AddCookie($cookie)
+        $Driver.Manage().Cookies.AddCookie($cookie)
     }
 }

@@ -39,18 +39,18 @@ function Push-SeUrl {
         # a provided new url (if any).
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
 
-    if (-not $Script:SeLocationMap.ContainsKey($Target)) {
-        $script:SeLocationMap[$Target] = [System.Collections.Generic.Stack[string]]@()
+    if (-not $Script:SeLocationMap.ContainsKey($Driver)) {
+        $script:SeLocationMap[$Driver] = [System.Collections.Generic.Stack[string]]@()
     }
 
     # Push the current location to the stack
-    $script:SeLocationMap[$Target].Push($Target.Url)
+    $script:SeLocationMap[$Driver].Push($Driver.Url)
 
     if ($Url) {
         # Change the driver current URL to provided URL
-        Set-SeUrl -Url $Url -Target $Target
+        Set-SeUrl -Url $Url -Driver $Driver
     }
 }
