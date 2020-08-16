@@ -32,15 +32,15 @@ function Get-SeUrl {
         # internal URL stack.
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
 
     if ($Stack) {
-        if ($Script:SeLocationMap[$Target].Count -gt 0) {
-            $Script:SeLocationMap[$Target].ToArray()
+        if ($Script:SeLocationMap[$Driver].Count -gt 0) {
+            $Script:SeLocationMap[$Driver].ToArray()
         }
     }
     else {
-        $Target.Url
+        $Driver.Url
     }
 }

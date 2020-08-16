@@ -58,14 +58,14 @@ function Set-SeUrl {
         [Parameter(ValueFromPipeline = $true)]
         [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
-        $Target = $Script:SeDriversCurrent
+        $Driver = $Script:SeDriversCurrent
     )
 
     switch ($PSCmdlet.ParameterSetName) {
-        'url' { $Target.Navigate().GoToUrl($Url); break }
-        'back' { $Target.Navigate().Back(); break }
-        'forward' { $Target.Navigate().Forward(); break }
-        'refresh' { $Target.Navigate().Refresh(); break }
+        'url' { $Driver.Navigate().GoToUrl($Url); break }
+        'back' { $Driver.Navigate().Back(); break }
+        'forward' { $Driver.Navigate().Forward(); break }
+        'refresh' { $Driver.Navigate().Refresh(); break }
 
         default { throw 'Unexpected ParameterSet' }
     }
