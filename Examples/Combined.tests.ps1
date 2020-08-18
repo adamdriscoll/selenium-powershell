@@ -6,7 +6,7 @@ if ($null -ne (Get-SeDriver)) { Write-Warning -Message 'Close any previous sessi
 # we can run the script with different browsers by changing that and running invoke-pester again. If it wasn't set, set it now
 if (-not $env:DefaultBrowser) { $env:DefaultBrowser = 'Chrome' }
 
-$IsAlwaysHeadless = { if ($AlwaysHeadless) { return 'Headless' }; 'Default' }
+$IsAlwaysHeadless = { if ($AlwaysHeadless) { return 'Headless' }; 'Maximized' }
 
 
 #For each browser we will test in, specify the options for headless, inprivate & window title label for in-private
