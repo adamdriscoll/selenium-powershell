@@ -30,7 +30,7 @@ function Stop-SeDriver {
       
        
         }
-        else { Write-Warning 'A valid <IWebDriver> must be provided.' }
+        
     }
     End {
         $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
