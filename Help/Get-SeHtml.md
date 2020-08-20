@@ -5,43 +5,58 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeWindow
+# Get-SeHtml
 
 ## SYNOPSIS
-Gets the window handles of open browser windows
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Get-SeWindow [[-Driver] <IWebDriver>] [<CommonParameters>]
+Get-SeHtml [[-Element] <IWebElement>] [-Inner] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Gets the window handles of open browser windows
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeWindow
+PS C:\> {{ Add example code here }}
 ```
 
-Gets the window handles of open browser windows.
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -Driver
-{{ Fill Driver Description }}
+### -Element
+{{ Fill Element Description }}
 
 ```yaml
-Type: IWebDriver
+Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 0
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Inner
+{{ Fill Inner Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -50,7 +65,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### OpenQA.Selenium.IWebDriver
+### None
 
 ## OUTPUTS
 

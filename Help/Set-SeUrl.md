@@ -5,148 +5,112 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-SeUrl
+# Set-SeCookie
 
 ## SYNOPSIS
-Navigates to the targeted URL with the selected or default driver.
+Add a cookie to the current browsing context
 
 ## SYNTAX
 
-### default (Default)
 ```
-Set-SeUrl [-Target <Object>] [<CommonParameters>]
-```
-
-### url
-```
-Set-SeUrl [-Url] <String> [-Target <Object>] [<CommonParameters>]
-```
-
-### back
-```
-Set-SeUrl [-Back] [-Target <Object>] [<CommonParameters>]
-```
-
-### forward
-```
-Set-SeUrl [-Forward] [-Target <Object>] [<CommonParameters>]
-```
-
-### refresh
-```
-Set-SeUrl [-Refresh] [-Target <Object>] [<CommonParameters>]
+Set-SeCookie [[-Name] <String>] [[-Value] <String>] [[-Path] <String>] [[-Domain] <String>]
+ [[-ExpiryDate] <Object>] [[-Driver] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Used for webdriver navigation commands, either to specific target URLs or
-for history (Back/Forward) navigation or refreshing the current page.
+Add a cookie to the current browsing context
 
 ## EXAMPLES
 
-### EXAMPLE 1
-```
-Set-SeUrl 'https://www.google.com/'
-```
-
-Directs the default driver to navigate to www.google.com.
-
-### EXAMPLE 2
-```
-Set-SeUrl -Refresh
-```
-
-Reloads the current page for the default driver.
-
-### EXAMPLE 3
-```
-Set-SeUrl -Target $Driver -Back
-```
-
-Directs the targeted webdriver instance to navigate Back in its history.
-
-### EXAMPLE 4
-```
-Set-SeUrl -Forward
-```
-
-Directs the default webdriver to navigate Forward in its history.
-
 ## PARAMETERS
 
-### -Url
-The target URL for the webdriver to navigate to.
+### -Domain
+The domain of the cookie
 
 ```yaml
 Type: String
-Parameter Sets: url
+Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Back
-Trigger the Back history navigation action in the webdriver.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: back
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Forward
-Trigger the Forward history navigation action in the webdriver.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: forward
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Refresh
-Refresh the current page in the webdriver.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: refresh
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-The target webdriver to manage navigation for.
-Will utilise the
-default driver if left unset.
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
-Position: Named
-Default value: $Global:SeDriver
+Position: 5
+Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -ExpiryDate
+The expiration date of the cookie
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+The name of the cookie
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Path
+The path of the cookie
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Value
+The value of the cookie
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -155,13 +119,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.Object
+
 ## OUTPUTS
 
+### System.Object
 ## NOTES
-The Back/Forward/Refresh logic is handled by the webdriver itself.
-If you
-need a more granular approach to handling which locations are saved or
-retrieved, use Push-SeUrl or Pop-SeUrl to utilise a separately managed
-location stack.
 
 ## RELATED LINKS

@@ -13,7 +13,7 @@ Instructs the driver to send future commands to a different window
 ## SYNTAX
 
 ```
-Switch-SeWindow [[-Target] <IWebDriver>] [-Window] <Object> [<CommonParameters>]
+Switch-SeWindow [[-Driver] <IWebDriver>] [-Window] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,8 +30,8 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Target
-{{ Fill Target Description }}
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
 Type: IWebDriver

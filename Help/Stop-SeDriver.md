@@ -13,7 +13,7 @@ Quits this driver, closing every associated window.
 ## SYNTAX
 
 ```
-Stop-SeDriver [[-Target] <IWebDriver>] [<CommonParameters>]
+Stop-SeDriver [[-Driver] <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,8 +38,8 @@ Stop the default driver, which was defined using the `-AsDefaultDriver` switch.
 
 ## PARAMETERS
 
-### -Target
-Driver to dispose. When `-AsDefaultDriver` is used with the Start-XXDriver cmdlet, this parameter can be omitted. 
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
 Type: IWebDriver

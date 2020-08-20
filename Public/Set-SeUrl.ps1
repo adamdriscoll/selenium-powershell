@@ -56,7 +56,6 @@ function Set-SeUrl {
         # The target webdriver to manage navigation for. Will utilise the
         # default driver if left unset.
         [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
         [ValidateIsWebDriverAttribute()]
         $Driver = $Script:SeDriversCurrent
     )
