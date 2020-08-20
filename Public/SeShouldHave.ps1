@@ -168,7 +168,7 @@ function SeShouldHave {
                     'Y' { $testItem = $e.Location.Y }
                     'Width' { $testItem = $e.Size.Width }
                     'Height' { $testItem = $e.Size.Height }
-                    'Choice' { $testItem = (Get-SeSelectionOption -Element $e -ListOptionText) }
+                    'Choice' { $testItem = (Get-SeSelectValue -Element $e -All) }
                     default { $testItem = $e.GetAttribute($with) }
                 }
                 if (-not $testItem -and ($Value -ne '' -and $foundElements.count -eq 1)) {
