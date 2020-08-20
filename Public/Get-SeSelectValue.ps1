@@ -14,7 +14,7 @@ function Get-SeSelectValue {
         if ($PSBoundParameters.ContainsKey('IsMultiSelect')) { $IsMultiSelect.Value = $IsMultiSelectResult }
 
         if ($All) {
-            return  [SeleniumSelection.Option]::GetOptions($Element) 
+            return  ([SeleniumSelection.Option]::GetOptions($Element)).Text
         }
         elseif ($IsMultiSelectResult) {
             return [SeleniumSelection.Option]::GetAllSelectedOptions($Element).text

@@ -26,7 +26,7 @@ function Set-SeSelectValue {
 
                 if ($HaveWildcards) {
                     $ValuesToSelect = Get-SeSelectValue -Element $Element  -All
-                    $ValuesToSelect = $ValuesToSelect.Text | Where-Object { $_ -like $Value }
+                    $ValuesToSelect = $ValuesToSelect | Where-Object { $_ -like $Value }
                     if (! $IsMultiSelect) { $ValuesToSelect = $ValuesToSelect | Select -first 1 }
                     Foreach ($v in $ValuesToSelect) {
                         [SeleniumSelection.Option]::SelectByText($Element, $v, $false)     
