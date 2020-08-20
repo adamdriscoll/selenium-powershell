@@ -5,30 +5,19 @@ online version:
 schema: 2.0.0
 ---
 
-# Switch-SeFrame
+# Get-SeSelectValue
 
 ## SYNOPSIS
-Instructs the driver to send future commands to a different frame
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### Frame
 ```
-Switch-SeFrame [-Frame] <Object> [-Driver <Object>] [<CommonParameters>]
-```
-
-### Parent
-```
-Switch-SeFrame [-Parent] [-Driver <Object>] [<CommonParameters>]
-```
-
-### Root
-```
-Switch-SeFrame [-Root] [-Driver <Object>] [<CommonParameters>]
+Get-SeSelectValue [-Element] <IWebElement> [-IsMultiSelect <PSReference>] [-All] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Instructs the driver to send future commands to a different frame
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
@@ -41,60 +30,45 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Driver
-{{ Fill Driver Description }}
+### -All
+{{ Fill All Description }}
 
 ```yaml
-Type: Object
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+{{ Fill Element Description }}
+
+```yaml
+Type: IWebElement
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -Frame
-{{ Fill Frame Description }}
+### -IsMultiSelect
+{{ Fill IsMultiSelect Description }}
 
 ```yaml
-Type: Object
-Parameter Sets: Frame
+Type: PSReference
+Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Parent
-{{ Fill Parent Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Parent
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Root
-{{ Fill Root Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Root
-Aliases: defaultContent
-
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -106,7 +80,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.Object
+### OpenQA.Selenium.IWebElement
 
 ## OUTPUTS
 

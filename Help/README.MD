@@ -17,6 +17,9 @@ Locale: {{ Update Locale }}
 ### [Clear-SeAlert](Clear-SeAlert.md)
 Accept and clear alert popup
 
+### [Clear-SeSelectValue](Clear-SeSelectValue.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-SeCookie](Get-SeCookie.md)
 List all cookies
 
@@ -33,11 +36,14 @@ Finds all IWebElements within the current context using the given mechanism
 ### [Get-SeElementCssValue](Get-SeElementCssValue.md)
 Get CSS value for the specified name of targeted element.
 
+### [Get-SeHtml](Get-SeHtml.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-SeKeys](Get-SeKeys.md)
 Return a list of the available special keys
 
-### [Get-SeSelectionOption](Get-SeSelectionOption.md)
-Get Selected option from a Select control
+### [Get-SeSelectValue](Get-SeSelectValue.md)
+{{ Fill in the Synopsis }}
 
 ### [Get-SeUrl](Get-SeUrl.md)
 Retrieves the current URL of a target webdriver instance.
@@ -76,8 +82,11 @@ Simulates typing text into the element
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
-### [Set-SeUrl](Set-SeUrl.md)
-Navigates to the targeted URL with the selected or default driver.
+### [Set-SeSelectValue](Set-SeSelectValue.md)
+{{ Fill in the Synopsis }}
+
+### [Set-SeCookie](Set-SeCookie.md)
+Add a cookie to the current browsing context
 
 ### [Start-SeDriver](Start-SeDriver.md)
 {{ Fill in the Synopsis }}

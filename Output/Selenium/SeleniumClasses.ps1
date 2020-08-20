@@ -133,3 +133,8 @@ enum SeBySelector {
     XPath
 }
 
+enum SeBySelect {
+    Index
+    Text
+    Value    
+}

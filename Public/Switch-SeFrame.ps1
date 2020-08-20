@@ -15,7 +15,7 @@ function Switch-SeFrame {
         [ValidateIsWebDriverAttribute()]
         $Driver = $Script:SeDriversCurrent
     )
- 
+ #TODO Frame validation... Do not try to switch if element does not exist ?
     if ($frame) { [void]$Driver.SwitchTo().Frame($Frame) }
     elseif ($Parent) { [void]$Driver.SwitchTo().ParentFrame() }
     elseif ($Root) { [void]$Driver.SwitchTo().defaultContent() }

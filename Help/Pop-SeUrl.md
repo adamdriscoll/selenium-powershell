@@ -13,7 +13,7 @@ Navigate back to the most recently pushed URL in the location stack.
 ## SYNTAX
 
 ```
-Pop-SeUrl [[-Target] <Object>] [<CommonParameters>]
+Pop-SeUrl [[-Driver] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,17 +31,17 @@ Retrieves the most recently pushed URL and navigates back to that URL.
 
 ## PARAMETERS
 
-### -Target
-{{ Fill Target Description }}
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: 1
-Default value: $Global:SeDriver
+Default value: $Script:SeDriversCurrent
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
