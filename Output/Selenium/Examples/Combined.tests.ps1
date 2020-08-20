@@ -216,10 +216,10 @@ Describe "Alerts and Selection boxes tests" {
         It 'made selections from the "cars" selection box                          ' {
             $e = SeElement -by Name "cars"
             #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
-            { $e | Set-SeSelectValue -By Value  "Audi" }                              | Should      -Throw
-            { $e | Set-SeSelectValue -By Value "audi" }                              | Should -not -throw
-            $e | Set-SeSelectValue -By Index "2"; Get-SeSelectValue                    | Should      -Be 'Fiat'
-            $e | Set-SeSelectValue -By Text  "Sa*"
+            { $e | Set-SeSelectValue -By Value -value  "Audi" }                             | Should      -Throw
+            { $e | Set-SeSelectValue -By Value -value "audi" }                              | Should -not -throw
+            $e | Set-SeSelectValue -By Index -value "2"; Get-SeSelectValue -Element $e      | Should      -Be 'Fiat'
+            $e | Set-SeSelectValue -By Text  -value "Sa*"
         }
         It 'submitted the form and got the expected response                       ' {
             Get-SeElement '/html/body/form/input' | Send-SeClick -SleepSeconds 5
