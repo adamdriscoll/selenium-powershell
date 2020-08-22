@@ -611,9 +611,9 @@
       <command:syntaxItem>
         <maml:name>Get-SeElement</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>Selection</maml:name>
+          <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>String Identifier of the object to find</maml:para>
+            <maml:para>{{ Fill Value Description }}</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -634,7 +634,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="Element">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -651,6 +651,31 @@
           <maml:Description>
             <maml:para>The locating mechanism to use</maml:para>
           </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">ClassName</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CssSelector</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Id</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">LinkText</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">PartialLinkText</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Name</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">TagName</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">XPath</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SeBySelector</command:parameterValue>
+          <dev:type>
+            <maml:name>SeBySelector</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-SeElement</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Value</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Value Description }}</maml:para>
+          </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -658,16 +683,39 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Wait</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
+          <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>Set Timeout to 30 seconds (Will not override Timeout value if already defined)</maml:para>
+            <maml:para>{{ Fill Element Description }}</maml:para>
           </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
-            <maml:name>SwitchParameter</maml:name>
+            <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>By</maml:name>
+          <maml:Description>
+            <maml:para>The locating mechanism to use</maml:para>
+          </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">ClassName</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CssSelector</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Id</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">LinkText</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">PartialLinkText</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Name</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">TagName</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">XPath</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SeBySelector</command:parameterValue>
+          <dev:type>
+            <maml:name>SeBySelector</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -677,14 +725,14 @@
         <maml:Description>
           <maml:para>The locating mechanism to use</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">SeBySelector</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>SeBySelector</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="Element">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -696,14 +744,14 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>Selection</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
+        <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>String Identifier of the object to find</maml:para>
+          <maml:para>{{ Fill Element Description }}</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
+          <maml:name>Object</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -720,17 +768,17 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Wait</maml:name>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>Set Timeout to 30 seconds (Will not override Timeout value if already defined)</maml:para>
+          <maml:para>{{ Fill Value Description }}</maml:para>
         </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
-          <maml:name>SwitchParameter</maml:name>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>

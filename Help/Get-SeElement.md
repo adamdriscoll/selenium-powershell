@@ -13,9 +13,15 @@ Finds all IWebElements within the current context using the given mechanism
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Get-SeElement [-By <String>] [-Selection] <String> [[-Timeout] <Int32>] [[-Driver] <Object>] [-Wait]
+Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <Object>]
  [<CommonParameters>]
+```
+
+### ByElement
+```
+Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Element] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,9 +42,10 @@ Get the username field by name
 The locating mechanism to use
 
 ```yaml
-Type: String
+Type: SeBySelector
 Parameter Sets: (All)
 Aliases:
+Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
 
 Required: False
 Position: Named
@@ -52,8 +59,8 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
-Aliases: Element
+Parameter Sets: Default
+Aliases:
 
 Required: False
 Position: 3
@@ -62,18 +69,18 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -Selection
-String Identifier of the object to find
+### -Element
+{{ Fill Element Description }}
 
 ```yaml
-Type: String
-Parameter Sets: (All)
+Type: Object
+Parameter Sets: ByElement
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: 3
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -82,7 +89,7 @@ Timeout (in seconds)
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -92,16 +99,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Wait
-Set Timeout to 30 seconds (Will not override Timeout value if already defined)
+### -Value
+{{ Fill Value Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
