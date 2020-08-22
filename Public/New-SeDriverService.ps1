@@ -33,7 +33,6 @@ function New-SeDriverService {
         Firefox { 
             if ($ServicePath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($ServicePath) }
             else { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService() }
-            $service.Host = '::1'
         }
         InternetExplorer { 
             if ($WebDriverPath) { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverPath) }
@@ -45,7 +44,7 @@ function New-SeDriverService {
         }
     }
 
-
+    $service.Host = '::1'
     if ($Quiet) { $Service.HideCommandPromptWindow = $true }
 
     return $service
