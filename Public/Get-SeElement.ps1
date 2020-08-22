@@ -1,39 +1,41 @@
 function Get-SeElement {
+    [Cmdletbinding(DefaultParameterSetName = 'Default')]
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
         [ArgumentCompleter( { [Enum]::GetNames([SeBySelector]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelector]) })]
-        [string]$By = [SeBySelector]::XPath,
+        [SeBySelector]$By = [SeBySelector]::XPath,
         [Parameter(Position = 1, Mandatory = $true)]
-        [string]$Selection,
+        [string]$Value,
         #Specifies a time out
-        [Parameter(Position = 2)]
+        [Parameter(Position = 2, ParameterSetName = 'Default')]
         [Int]$Timeout = 0,
         #The driver or Element where the search should be performed.
-        #TODO Alias 
-        [Parameter(Position = 3, ValueFromPipeline = $true)]
-        [Alias('Element')]
+        [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         $Driver = $Script:SeDriversCurrent,
-
-        [parameter(DontShow)]
-        [Switch]$Wait
-
+        [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'ByElement')]
+        $Element
     )
     process {
-        ##TODO Maybe the implicit timeout should be used here ?
-        if ($wait -and $Timeout -eq 0) { $Timeout = 30 }
-
-        if ($TimeOut -and $Driver -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-            $TargetElement = [OpenQA.Selenium.By]::$By($Selection)
-            $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
-            $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-            $WebDriverWait.Until($Condition)
+      
+        
+        
+        switch ($PSCmdlet.ParameterSetName) {
+            'Default' { 
+                if ($Timeout) {
+                    $TargetElement = [OpenQA.Selenium.By]::$By($Value)
+                    $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
+                    $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
+                    $WebDriverWait.Until($Condition)
+                }
+                $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | Format-SeElement
+            }
+            'ByElement' {
+                Write-Warning "Timeout does not apply when searching an Element" 
+                $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | Format-SeElement
+            }
         }
-        elseif ($Driver -is [OpenQA.Selenium.Remote.RemoteWebElement] -or
-            $Driver -is [OpenQA.Selenium.Remote.RemoteWebDriver]) {
-            if ($Timeout) { Write-Warning "Timeout does not apply when searching an Element" }
-            $Driver.FindElements([OpenQA.Selenium.By]::$By($Selection))
-        }
-        else { throw "No valid target was provided." }
     }
 }
+
+
