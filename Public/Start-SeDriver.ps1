@@ -20,6 +20,8 @@ function Start-SeDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
+        [Parameter(ParameterSetName = 'DriverOptions', Mandatory = $false)]
+        [OpenQA.Selenium.DriverService]$Service,
         [Parameter(ParameterSetName = 'DriverOptions', Mandatory = $true)]
         [OpenQA.Selenium.DriverOptions]$Options,
         [Parameter(ParameterSetName = 'Default')]
@@ -41,6 +43,15 @@ function Start-SeDriver {
                 $PSBoundParameters.Add('Options', (New-SeDriverOptions -Browser $Browser)) 
             }
             'DriverOptions' {
+                if ($PSBoundParameters.ContainsKey('Service')) {
+                    $MyService = $PSBoundParameters.Item('Service')
+                    foreach ($Key in $MyService.SeParams.Keys) {
+                        if (! $PSBoundParameters.ContainsKey($Key)) {
+                            $PSBoundParameters.Add($Key, $MyService.SeParams.Item($Key))
+                        }
+                    }
+                }
+
                 $Options = $PSBoundParameters.Item('Options') 
                 $SelectedBrowser = $Options.SeParams.Browser
 

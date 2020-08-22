@@ -14,6 +14,7 @@ function Start-SeChromeDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath = $env:ChromeWebDriver,
         $BinaryPath,
+        [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel
@@ -79,23 +80,15 @@ function Start-SeChromeDriver {
         
 
        
-        #$AssembliesPath defined in init.ps1
+        if (-not $PSBoundParameters.ContainsKey('Service')) {
+            $ServiceParams = @{}
+            if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
+            if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
+            $service = New-SeDriverService -Browser Chrome @ServiceParams
+        }
         
-        if ($WebDriverPath) { 
-            $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverPath) 
-        }
-        elseif ($AssembliesPath) { 
-            $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($AssembliesPath) 
-        }
-        else { 
-            $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService() 
-        }
-       
-        if ($Quiet) { 
-            $service.HideCommandPromptWindow = $true 
-        }
-        #endregion
 
+        
         $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 

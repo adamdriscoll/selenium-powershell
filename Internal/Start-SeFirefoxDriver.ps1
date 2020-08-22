@@ -16,6 +16,7 @@ function Start-SeFirefoxDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath = $env:GeckoWebDriver,
         $BinaryPath,
+        [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel
@@ -44,12 +45,13 @@ function Start-SeFirefoxDriver {
             $Options.LogLevel = $LogLevel
         }
 
-        if ($WebDriverPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($WebDriverPath) }
-        elseif ($AssembliesPath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($AssembliesPath) }
-        else { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService() }
-        $service.Host = '::1'
-        if ($Quiet) { $service.HideCommandPromptWindow = $true }
-        #endregion
+        if (-not $PSBoundParameters.ContainsKey('Service')) {
+            $ServiceParams = @{}
+            if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
+            if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
+            $service = New-SeDriverService -Browser Firefox @ServiceParams
+        }
+
 
         $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Firefox_Options)
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
