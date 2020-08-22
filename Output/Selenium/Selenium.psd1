@@ -8,7 +8,7 @@
 # Modified James O'Neill 30 Nov 2019
 
 @{
-    ModuleVersion        = '3.0.1'
+    ModuleVersion        = '4.0.0'
     GUID                 = 'a3bdb8c3-c150-48a8-b56d-cd4d43f46a26'
     Author               = 'Adam Driscoll'
     CompanyName          = 'Unknown'
@@ -18,26 +18,7 @@
     RootModule           = 'Selenium.psm1'
     RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
     FunctionsToExport = @('Add-SeDriverOptionsArgument', 'Clear-SeAlert', 'Clear-SeSelectValue', 'Get-SeCookie', 'Get-SeDriver', 'Get-SeElement', 'Get-SeElementAttribute', 'Get-SeElementCssValue', 'Get-SeHtml', 'Get-SeKeys', 'Get-SeSelectValue', 'Get-SeUrl', 'Get-SeWindow', 'New-SeDriverOptions', 'New-SeScreenshot', 'Pop-SeUrl', 'Push-SeUrl', 'Remove-SeCookie', 'Save-SeScreenshot', 'Select-SeDriver', 'Send-SeClick', 'Send-SeKeys', 'SeShouldHave', 'Set-SeCookie', 'Set-SeSelectValue', 'Set-SeUrl', 'Start-SeDriver', 'Start-SeRemote', 'Stop-SeDriver', 'Switch-SeFrame', 'Switch-SeWindow')
-    AliasesToExport      = @(
-        'SeChrome' ,
-        'SeFirefox',
-        'SeIE'     , 'SeInternetExplorer' ,
-        'CrEdge'   , 'NewEdge',
-        'MSEdge'   , 'LegacyEdge', 'Start-SeLegacyEdge',
-        'Enter-SeUrl' , 'Open-SeUrl', 'Set-SeLocation'
-        'Push-SeLocation',
-        'Pop-SeLocation',
-        'Get-SeLocation',
-        'Find-SeElement',
-        'SeAccept',
-        'SeDismiss',
-        'SeClick',
-        'SeClose',
-        'SeElement',
-        'SeFrame',
-        'SeNavigate',
-        'SeScreenshot',
-        'SeSelection')
+    AliasesToExport      = @()
     CmdletsToExport      = @()
     VariablesToExport    = @()
     DscResourcesToExport = @()

@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Root
-Aliases: defaultContent
+Aliases:
 
 Required: True
 Position: Named

@@ -4378,7 +4378,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="defaultContent">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Root</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Root Description }}</maml:para>
@@ -4428,7 +4428,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="defaultContent">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Root</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Root Description }}</maml:para>

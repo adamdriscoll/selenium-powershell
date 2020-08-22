@@ -140,7 +140,7 @@ function SeShouldHave {
         }
         else {
             foreach ($s in $Selection) {
-                $GSEParams = @{By = $By; Selection = $s }
+                $GSEParams = @{By = $By; Value = $s }
                 if ($Timeout) { $GSEParams['Timeout'] = $Timeout }
                 try { $e = Get-SeElement @GSEParams }
                 catch { throw (expandErr $_.Exception.Message) }

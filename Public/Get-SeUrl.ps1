@@ -20,7 +20,6 @@ function Get-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    [Alias('Get-SeLocation')]
     param(
         # Optionally retrieve the stored URL stack for the target or default
         # webdriver instance.
