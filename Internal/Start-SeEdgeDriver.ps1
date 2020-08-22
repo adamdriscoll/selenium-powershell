@@ -15,6 +15,7 @@ function Start-SeEdgeDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
+        [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel
@@ -56,8 +57,14 @@ function Start-SeEdgeDriver {
     }
     if (-not $WebDriverPath) { throw "Could not find msedgedriver.exe"; return }
 
-    # The "credge" web driver will work with the edge selenium objects, but works better with the chrome ones.
-    $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverPath, 'msedgedriver.exe')
+    
+    if (-not $PSBoundParameters.ContainsKey('Service')) {
+        $ServiceParams = @{}
+        if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
+        if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
+        $service = New-SeDriverService -Browser Edge @ServiceParams
+    }
+    
     $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
     
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them

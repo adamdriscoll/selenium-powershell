@@ -15,15 +15,23 @@ function Start-SeMSEdgeDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
+        [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel
     )
     #region Edge set-up options
     if ($state -eq [SeWindowState]::Headless) { Write-Warning 'Pre-Chromium Edge does not support headless operation; the Headless switch is ignored' }
-    $service = [OpenQA.Selenium.Edge.EdgeDriverService]::CreateDefaultService()
+    
+    if (-not $PSBoundParameters.ContainsKey('Service')) {
+        $ServiceParams = @{}
+        #if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
+        if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
+        $service = New-SeDriverService -Browser MSEdge @ServiceParams
+    }
+    
     $options = [OpenQA.Selenium.Edge.EdgeOptions]::new()
-    if ($Quiet) { $service.HideCommandPromptWindow = $true }
+
     if ($PrivateBrowsing) { $options.UseInPrivateBrowsing = $true }
     if ($StartURL) { $options.StartPage = $StartURL }
     #endregion

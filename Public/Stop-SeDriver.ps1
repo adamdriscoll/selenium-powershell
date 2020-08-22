@@ -19,14 +19,18 @@ function Stop-SeDriver {
 
             if ($null -eq $Driver.SessionId) {
                 Write-Warning "$BrowserName Driver already closed"
-                return $null
+                if ($ElementsToRemove.contains($Driver)) { $ElementsToRemove.Add($Driver) }
+                
+            }
+            else {
+                Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
+            
+                $Driver.Close()
+                $Driver.Dispose()
+                $ElementsToRemove.Add($Driver)    
             }
 
-            Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
             
-            $Driver.Close()
-            $Driver.Dispose()
-            $ElementsToRemove.Add($Driver)    
       
        
         }

@@ -31,8 +31,8 @@ Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState
 ```
 Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
  [-PrivateBrowsing] [-Quiet] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
- -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>]
- [-Name <Object>] [<CommonParameters>]
+ [-Service <DriverService>] -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>]
+ [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -206,6 +206,21 @@ Accept wildcard characters: False
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Service
+{{ Fill Service Description }}
+
+```yaml
+Type: DriverService
+Parameter Sets: DriverOptions
 Aliases:
 
 Required: False

@@ -15,6 +15,7 @@ function Start-SeInternetExplorerDriver {
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
+        [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel
@@ -31,9 +32,14 @@ function Start-SeInternetExplorerDriver {
     }
 
     if ($StartURL) { $InternetExplorer_Options.InitialBrowserUrl = $StartURL }
-    if ($WebDriverPath) { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService($WebDriverPath) }
-    else { $Service = [OpenQA.Selenium.IE.InternetExplorerDriverService]::CreateDefaultService() }
-    if ($Quiet) { $Service.HideCommandPromptWindow = $true }
+    
+    if (-not $PSBoundParameters.ContainsKey('Service')) {
+        $ServiceParams = @{}
+        if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
+        if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
+        $service = New-SeDriverService -Browser InternetExplorer @ServiceParams
+    }
+    
     #endregion
 
     $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $InternetExplorer_Options)

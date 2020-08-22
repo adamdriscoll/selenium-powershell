@@ -17,7 +17,7 @@
     ScriptsToProcess     = @('SeleniumClasses.ps1')
     RootModule           = 'Selenium.psm1'
     RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
-    FunctionsToExport = @('Add-SeDriverOptionsArgument', 'Clear-SeAlert', 'Clear-SeSelectValue', 'Get-SeCookie', 'Get-SeDriver', 'Get-SeElement', 'Get-SeElementAttribute', 'Get-SeElementCssValue', 'Get-SeHtml', 'Get-SeKeys', 'Get-SeSelectValue', 'Get-SeUrl', 'Get-SeWindow', 'New-SeDriverOptions', 'New-SeScreenshot', 'Pop-SeUrl', 'Push-SeUrl', 'Remove-SeCookie', 'Save-SeScreenshot', 'Select-SeDriver', 'Send-SeClick', 'Send-SeKeys', 'SeShouldHave', 'Set-SeCookie', 'Set-SeSelectValue', 'Set-SeUrl', 'Start-SeDriver', 'Start-SeRemote', 'Stop-SeDriver', 'Switch-SeFrame', 'Switch-SeWindow')
+    FunctionsToExport = @('Add-SeDriverOptionsArgument', 'Clear-SeAlert', 'Clear-SeSelectValue', 'Get-SeCookie', 'Get-SeDriver', 'Get-SeElement', 'Get-SeElementAttribute', 'Get-SeElementCssValue', 'Get-SeHtml', 'Get-SeKeys', 'Get-SeSelectValue', 'Get-SeUrl', 'Get-SeWindow', 'New-SeDriverOptions', 'New-SeDriverService', 'New-SeScreenshot', 'Pop-SeUrl', 'Push-SeUrl', 'Remove-SeCookie', 'Save-SeScreenshot', 'Select-SeDriver', 'Send-SeClick', 'Send-SeKeys', 'SeShouldHave', 'Set-SeCookie', 'Set-SeSelectValue', 'Set-SeUrl', 'Start-SeDriver', 'Start-SeRemote', 'Stop-SeDriver', 'Switch-SeFrame', 'Switch-SeWindow')
     AliasesToExport      = @()
     CmdletsToExport      = @()
     VariablesToExport    = @()
