@@ -54,6 +54,9 @@ Gets the window handles of open browser windows
 ### [New-SeDriverOptions](New-SeDriverOptions.md)
 {{ Fill in the Synopsis }}
 
+### [New-SeDriverService](New-SeDriverService.md)
+{{ Fill in the Synopsis }}
+
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
 
