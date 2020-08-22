@@ -1,4 +1,3 @@
-#TODO parameter set hell
 function Get-SeSelectValue {
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param (

@@ -34,7 +34,6 @@ function Set-SeUrl {
     location stack.
     #>
     [CmdletBinding(DefaultParameterSetName = 'default')]
-    [Alias('SeNavigate', 'Enter-SeUrl', 'Set-SeLocation', 'Open-SeUrl')]
     param(
         # The target URL for the webdriver to navigate to.
         [Parameter(Mandatory = $true, position = 0, ParameterSetName = 'url')]

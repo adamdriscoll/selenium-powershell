@@ -133,7 +133,7 @@ Describe "PsGallery Test" {
         It 'found the search box on the home page by Tagname and typed in it       ' {
             #get element, pipe as input element for Typing, pass the element through
             #so pester catches 'null or empty' if it was not found
-            Get-SeElement -By TagName -Selection 'input' |
+            Get-SeElement -By TagName -Value 'input' |
                 Send-SeKeys -ClearFirst -Keys "selenium{{Enter}}" -PassThru -SleepSeconds 2    | Should -Not -BeNullorEmpty
         }
         $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'

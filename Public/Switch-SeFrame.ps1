@@ -7,15 +7,13 @@ function Switch-SeFrame {
         [switch]$Parent,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Root')]
-        #TODO Which one make more sense
-        [Alias('defaultContent')]
         [switch]$Root,
-
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
         $Driver = $Script:SeDriversCurrent
     )
- #TODO Frame validation... Do not try to switch if element does not exist ?
+    #TODO Frame validation... Do not try to switch if element does not exist ?
+    #TODO Review ... Maybe Parent / Root should be a unique parameter : -Level Parent/Root )
     if ($frame) { [void]$Driver.SwitchTo().Frame($Frame) }
     elseif ($Parent) { [void]$Driver.SwitchTo().ParentFrame() }
     elseif ($Root) { [void]$Driver.SwitchTo().defaultContent() }

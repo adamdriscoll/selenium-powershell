@@ -1,8 +1,5 @@
-#TODO parameter set hell
 function Set-SeSelectValue {
     param (
-        #TODO PartialText / FullText should just be test and use wildcard to determine what to do 
-        # (with use of $MyInvocation to allow actual * escaping (`* )
         [ArgumentCompleter( { [Enum]::GetNames([SeBySelect]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelect]) })]
         [SeBySelect]$By = [SeBySelect]::Text,

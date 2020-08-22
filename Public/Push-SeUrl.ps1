@@ -27,7 +27,6 @@ function Push-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    [Alias('Push-SeLocation')]
     param(
         # The new URL to navigate to after storing the current location.
         [Parameter(Position = 0, ParameterSetName = 'url')]
