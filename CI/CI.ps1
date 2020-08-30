@@ -1,24 +1,29 @@
 param (
     [String]$ModulePath,
-    [string[]]$BrowserList = @('Chrome', 'Firefox')
+    [string[]]$BrowserList = @('Chrome', 'Firefox'),
+    [Switch]$UseDebugVersion
 )
 
 if ([String]::IsNullOrEmpty($ModulePath)) { $ModulePath = $pwd.path.Replace('\', '/') }
 
 Write-Host "ModulePath: $ModulePath" 
 Write-Host "BrowserList: $($BrowserList -join ',')" 
-
+$Env:BrowserList = $BrowserList
 #Get the OS/PS version info for later. On Linux run headless On windows and PS 6 (but not 7)  add WindowsPowershell to the module path.
 $Platform = ([environment]::OSVersion.Platform).ToString() + ' PS' + $PSVersionTable.PSVersion.Major
-if ($Platform -notlike 'win*') { $env:AlwaysHeadless = $true }
+if ($Platform -notlike 'win*') { $env:HeadlessOnly = $true }
 if ($Platform -like 'win*6') {
     $env:PSModulePath -split ';' | Where-Object { $_ -match "\w:\\Prog.*PowerShell\\modules" } | ForEach-Object {
         $env:PSModulePath = ($_ -replace "PowerShell", "WindowsPowerShell") + ";" + $env:PSModulePath
     }
 }
 
+
+
 #Make sure we have the modules we need
-Import-Module $ModulePath/Output/Selenium/Selenium.psd1 -Force -ErrorAction Stop
+$ModulePathSuffix = 'Output/Selenium/'
+if ($UseDebugVersion) { $ModulePathSuffix = ''; Write-Host 'Debug version will be used' -ForegroundColor Yellow }
+Import-Module "$ModulePath/$($ModulePathSuffix)Selenium.psd1" -Force -ErrorAction Stop
 
 # $checkImportExcel = Get-Module -ListAvailable ImportExcel
 # if (-not ($checkImportExcel)) {
@@ -38,11 +43,11 @@ Import-Module $ModulePath/Output/Selenium/Selenium.psd1 -Force -ErrorAction Stop
 #Import-Module ImportExcel -RequiredVersion 7.1.1
 
 if (Test-path "$ModulePath/Modules") {
-    Import-Module "$ModulePath/Modules/Pester/4.10.1/Pester.psd1"
+    Import-Module "$ModulePath/Modules/Pester/5.0.3/Pester.psd1"
     Import-Module "$ModulePath/Modules/ImportExcel/7.1.1/ImportExcel.psd1"
 }
 else {
-    Import-Module -Name Pester -RequiredVersion 4.10.1
+    Import-Module -Name Pester -RequiredVersion 5.0.3
     Import-Module -Name ImportExcel -RequiredVersion 7.1.1
 }
 
@@ -53,7 +58,7 @@ Write-verbose -Verbose "ImportExcel $((Get-Module -Name ImportExcel).Version.ToS
 # #Run the test and results export to an Excel file for current OS - Test picks up the selected browser from an environment variable.
 $RunParameters = @{
     XLFile = '{0}/results/Results-{1}.xlsx' -f $env:BUILD_ARTIFACTSTAGINGDIRECTORY, [environment]::OSVersion.Platform.ToString()
-    Script = "$ModulePath/Examples/Combined.tests.ps1"
+    Path   = "$ModulePath/Examples/Combined.tests.ps1"
 }
 foreach ( $b   in $BrowserList) {
     $env:DefaultBrowser = $b
