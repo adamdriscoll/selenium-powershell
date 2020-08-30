@@ -52,13 +52,13 @@ if (-not $UseExisting) {
 #   throw "Could not output file $($InvokePesterParams['OutputFile'])"; return
 # }
 
-$resultXML = ([xml](Get-Content 'testresults.xml')).'test-results'
-  # $startDate = [datetime]$resultXML.date
-  # $startTime = $resultXML.time
-  # $machine = $resultXML.environment.'machine-name'
-  #$user       = $resultXML.environment.'user-domain' + '\' + $resultXML.environment.user
-  # $os = $resultXML.environment.platform -replace '\|.*$', " $($resultXML.environment.'os-version')"
-  <#hierarchy goes
+$resultXML = ([xml](Get-Content -Path (Join-Path $PSScriptRoot 'testresults.xml'))).'test-results'
+ $startDate = [datetime]$resultXML.date
+ $startTime = $resultXML.time
+ $machine = $resultXML.environment.'machine-name'
+$user       = $resultXML.environment.'user-domain' + '\' + $resultXML.environment.user
+ $os = $resultXML.environment.platform -replace '\|.*$', " $($resultXML.environment.'os-version')"
+<#hierarchy goes
     root, [date], start [time], [Name] (always "Pester"), test results broken down as [total],[errors],[failures],[not-run] etc.
       Environment (user & machine info)
       Culture-Info (current, and currentUi culture)
@@ -76,37 +76,19 @@ $resultXML = ([xml](Get-Content 'testresults.xml')).'test-results'
                           Results
                              Test-case  [description] - name as rendered for display with <vars> filled in
 #>
-  $testResults = foreach ($test in $resultXML.'test-suite'.results.'test-suite') {
-    $testPs1File = $test.name
-    #Test if there are context blocks in the hierarchy OR if we go straight from Describe to test-case
-    if ($test.results.'test-suite'.results.'test-suite' -ne $null) {
-      foreach ($suite in $test.results.'test-suite') {
-        $Describe = $suite.description
-        foreach ($subsuite in $suite.results.'test-suite') {
-          $Context = $subsuite.description
-          if ($subsuite.results.'test-suite'.results.'test-case') {
-            $testCases = $subsuite.results.'test-suite'.results.'test-case'
-          }
-          else { $testCases = $subsuite.results.'test-case' }
-          $testCases | ForEach-Object {
-            New-Object -TypeName psobject -Property ([ordered]@{
-                Machine = $machine    ; OS = $os
-                Date = $startDate  ; Time = $startTime
-                Executed = $(if ($_.executed -eq 'True') { 1 })
-                Success = $(if ($_.success -eq 'True') { 1 })
-                Duration = $_.time
-                File = $testPs1File; Group = $Describe
-                SubGroup = $Context    ; Name = ($_.Description -replace '\s{2,}', ' ')
-                Result = $_.result   ; FullDesc = '=Group&" "&SubGroup&" "&Name'
-              })
-          }
+$testResults = foreach ($test in $resultXML.'test-suite'.results.'test-suite') {
+  $testPs1File = $test.name
+  #Test if there are context blocks in the hierarchy OR if we go straight from Describe to test-case
+  if ($test.results.'test-suite'.results.'test-suite' -ne $null) {
+    foreach ($suite in $test.results.'test-suite') {
+      $Describe = $suite.description
+      foreach ($subsuite in $suite.results.'test-suite') {
+        $Context = $subsuite.description
+        if ($subsuite.results.'test-suite'.results.'test-case') {
+          $testCases = $subsuite.results.'test-suite'.results.'test-case'
         }
-      }
-    }
-    else {
-      $test.results.'test-suite' | ForEach-Object {
-        $Describe = $_.description
-        $_.results.'test-case' | ForEach-Object {
+        else { $testCases = $subsuite.results.'test-case' }
+        $testCases | ForEach-Object {
           New-Object -TypeName psobject -Property ([ordered]@{
               Machine = $machine    ; OS = $os
               Date = $startDate  ; Time = $startTime
@@ -114,31 +96,49 @@ $resultXML = ([xml](Get-Content 'testresults.xml')).'test-results'
               Success = $(if ($_.success -eq 'True') { 1 })
               Duration = $_.time
               File = $testPs1File; Group = $Describe
-              SubGroup = $null       ; Name = ($_.Description -replace '\s{2,}', ' ')
-              Result = $_.result   ; FullDesc = '=Group&" "&Test'
+              SubGroup = $Context    ; Name = ($_.Description -replace '\s{2,}', ' ')
+              Result = $_.result   ; FullDesc = '=Group&" "&SubGroup&" "&Name'
             })
         }
       }
     }
   }
-  if (-not $testResults) { Write-Warning 'No Results found' ; return }
-  $clearSheet = -not $Append
-  $excel = $testResults | Export-Excel  -Path $xlFile -WorkSheetname $WorkSheetName -ClearSheet:$clearSheet -Append:$append -PassThru  -BoldTopRow -FreezeTopRow -AutoSize -AutoFilter -AutoNameRange
-  $ws = $excel.Workbook.Worksheets[$WorkSheetName]
-  <#  Worksheet should look like ..
+  else {
+    $test.results.'test-suite' | ForEach-Object {
+      $Describe = $_.description
+      $_.results.'test-case' | ForEach-Object {
+        New-Object -TypeName psobject -Property ([ordered]@{
+            Machine = $machine    ; OS = $os
+            Date = $startDate  ; Time = $startTime
+            Executed = $(if ($_.executed -eq 'True') { 1 })
+            Success = $(if ($_.success -eq 'True') { 1 })
+            Duration = $_.time
+            File = $testPs1File; Group = $Describe
+            SubGroup = $null       ; Name = ($_.Description -replace '\s{2,}', ' ')
+            Result = $_.result   ; FullDesc = '=Group&" "&Test'
+          })
+      }
+    }
+  }
+}
+if (-not $testResults) { Write-Warning 'No Results found' ; return }
+$clearSheet = -not $Append
+$excel = $testResults | Export-Excel  -Path $xlFile -WorkSheetname $WorkSheetName -ClearSheet:$clearSheet -Append:$append -PassThru  -BoldTopRow -FreezeTopRow -AutoSize -AutoFilter -AutoNameRange
+$ws = $excel.Workbook.Worksheets[$WorkSheetName]
+<#  Worksheet should look like ..
   |A        |B             |C      D      |E        |F       |G          |H       |I        |J        |K    |L       |M
  1|Machine  |OS            |Date   Time   |Executed |Success |Duration   |File    |Group    |SubGroup |Name |Result  |FullDescription
  2|Flatfish |Name_Version  |[run started] |Boolean  |Boolean |In seconds |xx.ps1  |Describe |Context  |It   |Success |Desc_Context_It
 #>
 
-  #Display Date as a date, not a date time
-  Set-Column -Worksheet $ws -Column 3 -NumberFormat 'Short Date' # -AutoSize
+#Display Date as a date, not a date time
+Set-Column -Worksheet $ws -Column 3 -NumberFormat 'Short Date' # -AutoSize
 
-  #Hide columns E to J (Executed, Success, Duration, File, Group and Subgroup)
-  (5..10)   | ForEach-Object { Set-ExcelColumn -Worksheet $ws -Column $_ -Hide }
+#Hide columns E to J (Executed, Success, Duration, File, Group and Subgroup)
+(5..10)   | ForEach-Object { Set-ExcelColumn -Worksheet $ws -Column $_ -Hide }
 
-  #Use conditional formatting to make Failures red, and Successes green (skipped remains black ) ... and save
-  $endRow = $ws.Dimension.End.Row
-  Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endrow" -RuleType ContainsText -ConditionValue "Failure" -BackgroundPattern None -ForegroundColor Red   -Bold
-  Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endRow" -RuleType ContainsText -ConditionValue "Success" -BackgroundPattern None -ForeGroundColor Green
-  Close-ExcelPackage -ExcelPackage $excel  -Show:$show
+#Use conditional formatting to make Failures red, and Successes green (skipped remains black ) ... and save
+$endRow = $ws.Dimension.End.Row
+Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endrow" -RuleType ContainsText -ConditionValue "Failure" -BackgroundPattern None -ForegroundColor Red   -Bold
+Add-ConditionalFormatting -WorkSheet $ws -range "L2:L$endRow" -RuleType ContainsText -ConditionValue "Success" -BackgroundPattern None -ForeGroundColor Green
+Close-ExcelPackage -ExcelPackage $excel  -Show:$show
