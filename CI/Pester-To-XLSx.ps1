@@ -40,11 +40,11 @@ $InvokePesterParams = $PSBoundParameters
 if ($InvokePesterParams['XLFile']) { $InvokePesterParams.Remove('XLFile') }
 else { $XLFile = $InvokePesterParams['OutputFile'] -replace '.xml$', '.xlsx' }
 if (-not $UseExisting) {
-  $InvokePesterParams.Remove('Append')
-  $InvokePesterParams.Remove('UseExisting')
-  $InvokePesterParams.Remove('Show')
-  $InvokePesterParams.Remove('WorkSheetName')
-  $InvokePesterParams.Remove('OutputFile')
+  $InvokePesterParams.Remove('Append') | Out-Null
+  $InvokePesterParams.Remove('UseExisting') | Out-Null
+  $InvokePesterParams.Remove('Show') | Out-Null
+  $InvokePesterParams.Remove('WorkSheetName') | Out-Null
+  $InvokePesterParams.Remove('OutputFile') | Out-Null
   Invoke-Pester @InvokePesterParams -CI
 }
 
