@@ -7,9 +7,6 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         $Global:BrowserOptHash = $Global:TestCaseSettings."$Env:DefaultBrowser".DefaultOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 
-
-
-        Write-Verbose 'SSSSSSSSSSSSSSSSSSSSSSSSSSSS' -Verbose
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
         $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
