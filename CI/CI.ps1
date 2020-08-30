@@ -8,7 +8,7 @@ if ([String]::IsNullOrEmpty($ModulePath)) { $ModulePath = $pwd.path.Replace('\',
 
 Write-Host "ModulePath: $ModulePath" 
 Write-Host "BrowserList: $($BrowserList -join ',')" 
-$Env:BrowserList = $BrowserList
+$Global:BrowserList = $BrowserList
 #Get the OS/PS version info for later. On Linux run headless On windows and PS 6 (but not 7)  add WindowsPowershell to the module path.
 $Platform = ([environment]::OSVersion.Platform).ToString() + ' PS' + $PSVersionTable.PSVersion.Major
 if ($Platform -notlike 'win*') { $env:HeadlessOnly = $true }
@@ -61,7 +61,7 @@ $RunParameters = @{
     Path   = "$ModulePath/Examples/Combined.tests.ps1"
 }
 foreach ( $b   in $BrowserList) {
-    $env:DefaultBrowser = $b
+    $Global:DefaultBrowser = $b
     $RunParameters['OutputFile'] = Join-Path $pwd "TestResults-$platform$b.xml"
     $RunParameters['WorkSheetName'] = "$B $Platform"
     $RunParameters | Out-Host
