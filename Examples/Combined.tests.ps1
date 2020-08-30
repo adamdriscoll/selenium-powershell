@@ -1,18 +1,19 @@
-. $PSScriptRoot/_TestDependencies.ps1 
+. "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
-        . $PSScriptRoot/_TestDependencies.ps1 
+        . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
+        Import-Module "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
         
         $Global:TestCaseSettings = Get-TestCasesSettings 
-        $Global:BrowserOptHash = $Global:TestCaseSettings."$Env:DefaultBrowser".DefaultOptions
+        $Global:BrowserOptHash = $Global:TestCaseSettings."$Global:DefaultBrowser".DefaultOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-
+        $Global:ModalTestCases = Get-ModalTestCases
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
+        $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
-        It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
+        It "produced the right modal dialog for the <name>" -TestCases $Global:ModalTestCases {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
             SeElement      $linkXPath | Send-SeClick  -JavaScript -SleepSeconds 1
@@ -30,13 +31,13 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
 # $Global:PSGalleryPage = 'https://www.powershellgallery.com/'
 # $AlertTestPage = 'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
 # $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select'
-# $Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].DefaultOptions
+# $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
 # $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 # #As before rely on environment variable to pick browser. Capture ID by requesting & redirecting verbose
 # Describe "PsGallery Test" {
 #     BeforeAll {
       
-#         $BrowserID = Start-SeDriver -Browser $env:DefaultBrowser -StartURL $Global:PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
+#         $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $Global:PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop
 #         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
 #     }
 #     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
@@ -104,21 +105,21 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
 #         }
 #     }
 # }
-# $Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].PrivateOptions
+# $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].PrivateOptions
 # $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 # Describe "Alerts and Selection boxes tests" {
 #     BeforeAll {
         
        
 #         if ($Global:BrowserOptText) {
-#             $Global:NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$env:DefaultBrowser].InPrivateLabel)
+#             $Global:NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
 #             $wv = $null
-#             Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop
+#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop
 #             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
 #         }
 #         else {
 #             $Global:NoLabel = $true
-#             Start-SeDriver -Browser $env:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop
+#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop
 
 #         }
 #     }
@@ -126,7 +127,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
 #         It 're-opended the browser and validated "InPrivate" mode by window title  ' {
 #             $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
 #             $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
-#             $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$env:DefaultBrowser].InPrivateLabel
+#             $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
 #         } -Skip:$Global:NoLabel
 #         It 'opened the right page                                                  ' {
 #             SeShouldHave -URL -eq $alertTestPage
@@ -178,14 +179,14 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
 #     }
 # }
 
-# $Global:BrowserOptHash = $TestCaseSettings[$env:DefaultBrowser].HeadlessOptions
+# $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
 # $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 # if ($Global:BrowserOptText) {
 
     
 #     Describe "'Headless' mode browser test" {
 #         BeforeAll {
-#             Start-SeDriver -Browser $env:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop
+#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop
 #         }
 #         Context "in $BrowserID with settings ($Global:BrowserOptText)" {
 #             It 're-opened the Browser in "Headless" mode' {
