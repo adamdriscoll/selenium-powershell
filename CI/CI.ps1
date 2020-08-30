@@ -11,7 +11,7 @@ Write-Host "BrowserList: $($BrowserList -join ',')"
 $Global:BrowserList = $BrowserList
 #Get the OS/PS version info for later. On Linux run headless On windows and PS 6 (but not 7)  add WindowsPowershell to the module path.
 $Platform = ([environment]::OSVersion.Platform).ToString() + ' PS' + $PSVersionTable.PSVersion.Major
-if ($Platform -notlike 'win*') { $env:HeadlessOnly = $true }
+if ($Platform -notlike 'win*') { $Global:HeadlessOnly = $true }
 if ($Platform -like 'win*6') {
     $env:PSModulePath -split ';' | Where-Object { $_ -match "\w:\\Prog.*PowerShell\\modules" } | ForEach-Object {
         $env:PSModulePath = ($_ -replace "PowerShell", "WindowsPowerShell") + ";" + $env:PSModulePath
