@@ -54,6 +54,9 @@ if (-not $UseExisting) {
 # }
 Write-Host "ModulePath", $env:ModulePath -Separator ': '
 Write-Host "Exists", (Test-Path -Path $env:ModulePath) -Separator ': '
+Write-Host "Exists", (Test-Path -Path (Join-Path $env:ModulePath 'testresults.xml')) -Separator ': '
+Write-Host "Exists", (Test-Path -Path (Join-Path $env:ModulePath 'CI/testresults.xml')) -Separator ': '
+Get-ChildItem $env:ModulePath | Out-String | Write-Host 
 $resultXML = ([xml](Get-Content -Path (Join-Path $env:ModulePath 'testresults.xml'))).'test-results'
 $startDate = [datetime]$resultXML.date
 $startTime = $resultXML.time
