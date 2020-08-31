@@ -38,7 +38,7 @@ Describe "PsGallery Test" {
         $Global:TestCaseSettings = Get-TestCasesSettings 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-        try {  Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $Global:PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop }catch {}
+        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $Global:PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop }catch {}
         $BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
@@ -121,7 +121,7 @@ Describe "Alerts and Selection boxes tests" {
         if ($Global:BrowserOptText) {
             $Global:NoLabel = [string]::IsNullOrEmpty($Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
             $wv = $null
-            try {  Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
         }
         else {
@@ -194,11 +194,8 @@ Describe "'Headless' mode browser test" {
 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
         $Global:BrowserOptText = Build-StringFromHash  $Global:BrowserOptHash
-        Write-Verbose '---' -Verbose
-        Write-Verbose ($Global:BrowserOptText -eq $null) -Verbose
-        Write-Verbose '---' -Verbose
         $Global:SkipTests = $true
-        if ([String]::IsNullOrEmpty($Global:BrowserOptText)) {
+        if (![String]::IsNullOrEmpty($Global:BrowserOptText)) {
             $Global:SkipTests = $false
             try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
         } 
