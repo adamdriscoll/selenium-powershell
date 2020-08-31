@@ -9,10 +9,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 
         Write-Verbose '-----' -Verbose
-        Write-Host -Object "TestCaseSettings", "$($Global:TestCaseSettings -ne $null)" -Separator ''.PadRight(20, ' ')
-        Write-Host -Object "BrowserOptHash", "$($Global:BrowserOptHash -ne $null)" -Separator ''.PadRight(20, ' ')
-        Write-Host -Object "BrowserOptText", "$($Global:BrowserOptText -ne $null)" -Separator ''.PadRight(20, ' ')
-
+       
         Write-Verbose '-----' -Verbose
 
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
