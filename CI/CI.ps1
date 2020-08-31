@@ -5,7 +5,7 @@ param (
 )
 
 if ([String]::IsNullOrEmpty($ModulePath)) { $ModulePath = $pwd.path.Replace('\', '/') }
-
+$env:ModulePath = $ModulePath
 Write-Host "ModulePath: $ModulePath" 
 Write-Host "BrowserList: $($BrowserList -join ',')" 
 $Global:BrowserList = $BrowserList
