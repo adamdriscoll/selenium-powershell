@@ -45,6 +45,7 @@ if (-not $UseExisting) {
   $InvokePesterParams.Remove('Show') | Out-Null
   $InvokePesterParams.Remove('WorkSheetName') | Out-Null
   $InvokePesterParams.Remove('OutputFile') | Out-Null
+  Set-Location $env:ModulePath
   Invoke-Pester @InvokePesterParams -CI -Output Detailed
 }
 
