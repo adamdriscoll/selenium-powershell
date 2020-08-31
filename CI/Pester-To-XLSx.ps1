@@ -52,7 +52,8 @@ if (-not $UseExisting) {
 # if (-not (Test-Path -Path $InvokePesterParams['OutputFile'])) {
 #   throw "Could not output file $($InvokePesterParams['OutputFile'])"; return
 # }
-
+Write-Host "ModulePath", $env:ModulePath -Separator ': '
+Write-Host "Exists", (Test-Path -Path $env:ModulePath) -Separator ': '
 $resultXML = ([xml](Get-Content -Path (Join-Path $env:ModulePath 'testresults.xml'))).'test-results'
 $startDate = [datetime]$resultXML.date
 $startTime = $resultXML.time
