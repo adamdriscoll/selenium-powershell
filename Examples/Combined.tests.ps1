@@ -193,9 +193,9 @@ Describe "'Headless' mode browser test" {
 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-        $SkipTests = $true
+        $Global:SkipTests = $true
         if ($Global:BrowserOptText -ne $null) {
-            $SkipTests = $false
+            $Global:SkipTests = $false
             try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
         } 
         
@@ -227,6 +227,6 @@ Describe "'Headless' mode browser test" {
                 (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
             }
         }
-    } -Skip:$SkipTests
+    } -Skip:$Global:SkipTests
     AfterAll { Stop-SeDriver }
 }
