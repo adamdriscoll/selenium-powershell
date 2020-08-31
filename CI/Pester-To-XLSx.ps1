@@ -52,14 +52,8 @@ if (-not $UseExisting) {
 # if (-not (Test-Path -Path $InvokePesterParams['OutputFile'])) {
 #   throw "Could not output file $($InvokePesterParams['OutputFile'])"; return
 # }
-Write-Host "ModulePath", $env:ModulePath -Separator ': '
-Write-Host "Exists", (Test-Path -Path $env:ModulePath) -Separator ': '
-Write-Host "Exists", (Test-Path -Path (Join-Path $env:ModulePath 'testresults.xml')) -Separator ': '
-Write-Host "Exists", (Test-Path -Path (Join-Path $env:ModulePath 'CI/testresults.xml')) -Separator ': '
-Get-ChildItem $env:ModulePath | Out-String | Write-Host 
-Write-Host '-----------------'
-Get-ChildItem (Join-path $env:ModulePath "TestResults") | Out-String | Write-Host 
-$resultXML = ([xml](Get-Content -Path (Join-Path $env:ModulePath 'testresults.xml'))).'test-results'
+
+$resultXML = ([xml](Get-Content -Path (Join-Path $env:ModulePath 'testResults.xml'))).'test-results'
 $startDate = [datetime]$resultXML.date
 $startTime = $resultXML.time
 $machine = $resultXML.environment.'machine-name'
