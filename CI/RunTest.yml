@@ -43,12 +43,12 @@ jobs:
           - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
             displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }} (pwsh)"
       - task: PublishPipelineArtifact@1
-        condition: succeededOrFailed
+        condition: succeededOrFailed()
         inputs:
           targetPath: "$(Build.ArtifactStagingDirectory)/results"
           artifact: "${{ parameters.OS }} - ${{ parameters.Browser }} - ${{ parameters.Stack }} Results"
       - task: PublishTestResults@2
-        condition: succeededOrFailed
+        condition: succeededOrFailed()
         inputs:
           testResultsFormat: "NUnit"
           testResultsFiles: "$(Pipeline.Workspace)/testResults.xml"
