@@ -27,13 +27,13 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
 
 #URLs we will visit in the remaining tests
 
-#$AlertTestPage = 'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
-#$SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select'
+#
+
 
 #As before rely on environment variable to pick browser. Capture ID by requesting & redirecting verbose
 Describe "PsGallery Test" {
     BeforeAll {
-         . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
+        . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
         $Global:PSGalleryPage = 'https://www.powershellgallery.com/'
         $Global:TestCaseSettings = Get-TestCasesSettings 
         $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
@@ -107,122 +107,121 @@ Describe "PsGallery Test" {
     }
     AfterAll { Stop-SeDriver }
 }
-# $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].PrivateOptions
-# $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-# Describe "Alerts and Selection boxes tests" {
-#     BeforeAll {
-        
-       
-#         if ($Global:BrowserOptText) {
-#             $Global:NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
-#             $wv = $null
-#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop
-#             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
-#         }
-#         else {
-#             $Global:NoLabel = $true
-#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop
-
-#         }
-#     }
-#     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
-#         It 're-opended the browser and validated "InPrivate" mode by window title  ' {
-#             $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
-#             $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
-#             $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
-#         } -Skip:$Global:NoLabel
-#         It 'opened the right page                                                  ' {
-#             SeShouldHave -URL -eq $alertTestPage
-#         }
-#         It 'found and clicked a button in frame 1                                  ' {
-#             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
-#             Switch-SeFrame  'iframeResult'
-#             Get-SeElement "/html/body/button"  | Send-SeClick  -PassThru   | Should -Not -BeNullOrEmpty
-#         }
-#         It 'saw and dismissed an alert                                             ' {
-#             #Checking the text of the alert is optional. Dissmiss can pass the alert result through
-#             $Alert = SeShouldHave -Alert match "box" -PassThru   
-#             Start-Sleep -Seconds 5
-#             Clear-SeAlert -Alert $Alert -Action Dismiss -PassThru | Should -Not -BeNullOrEmpty
-#         }
-#         It 'reselected the parent frame                                            ' {
-#             Switch-SeFrame -Parent
-#             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
-#         }
-#         It 'navigated to a new page, and found the "cars" selection box in frame 1 ' {
-#             Set-SeUrl  $SelectTestPage
-#             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
-#             Switch-SeFrame 'iframeResult'
-#             SeShouldHave -By Name "cars" -With choice contains "volvo"
-#         }
-#         It 'made selections from the "cars" selection box                          ' {
-#             $e = SeElement -by Name "cars"
-#             #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
-#             { $e | Set-SeSelectValue -By Value -value  "Audi" }                             | Should      -Throw
-#             { $e | Set-SeSelectValue -By Value -value "audi" }                              | Should -not -throw
-#             $e | Set-SeSelectValue -By Index -value "2"; Get-SeSelectValue -Element $e      | Should      -Be 'Fiat'
-#             $e | Set-SeSelectValue -By Text  -value "Sa*"
-#         }
-#         It 'submitted the form and got the expected response                       ' {
-#             Get-SeElement '/html/body/form/input' | Send-SeClick -SleepSeconds 5
-#             Switch-SeFrame -Parent
-#             Switch-SeFrame 'iframeResult'
-#             SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
-#         }
-#         It 'closed the in-private browser instance                                 ' {
-#             Stop-SeDriver
-#             if ($DriverProcess.Id) {
-#                 (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
-#             }
-#             if ($BrowserProcess.Id) {
-#                 (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
-#             }
-#         }
-#     }
-# }
-
-# $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
-# $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-# if ($Global:BrowserOptText) {
-
-    
-#     Describe "'Headless' mode browser test" {
-#         BeforeAll {
-#             Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop
-#         }
-#         Context "in $BrowserID with settings ($Global:BrowserOptText)" {
-#             It 're-opened the Browser in "Headless" mode' {
-#                 $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
-#                 $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
-#                 $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
-#             }
-#             it 'did a google Search                                                    ' {
-#                 Set-SeUrl 'https://www.google.com/ncr'
-#                 SeShouldHave -by Name q
-#                 SeShouldHave -by ClassName 'gLFyf'
-#                 SeShouldHave -By Name q -PassThru | Where Displayed -eq $true | 
-#                     Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
-#                         should -Not -BeNullOrEmpty
-
-#                 SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
-#                     Send-SeClick -PassThru                 | should -Not -BeNullOrEmpty
-#             }
-#             It 'closed the browser a third time                                        ' {
-#                 Stop-SeDriver
-#                 Get-SeDriver -Current                                          | Should      -BeNullOrEmpty
-#                 if ($DriverProcess.Id) {
-#                     (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
-#                 }
-#                 if ($BrowserProcess.Id) {
-#                     (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
-#                 }
-#             }
-#         }
-#     }
-# }
-# Get-SeDriver | Stop-SeDriver -wa 0 -ea 0 #Close any drivers 
 
 
+Describe "Alerts and Selection boxes tests" {
+    BeforeAll {
+        . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
+        $AlertTestPage = 'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
+        $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select'
+        $Global:TestCaseSettings = Get-TestCasesSettings 
+        $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].PrivateOptions
+        $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 
+        if ($Global:BrowserOptText) {
+            $Global:NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
+            $wv = $null
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
+            if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
+        }
+        else {
+            $Global:NoLabel = $true
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop } catch {}
 
+        }
+    }
+    Context "in $BrowserID with settings ($Global:BrowserOptText)" {
+        It 're-opended the browser and validated "InPrivate" mode by window title  ' {
+            $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
+            $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
+            $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
+        } -Skip:$Global:NoLabel
+        It 'opened the right page                                                  ' {
+            SeShouldHave -URL -eq $alertTestPage
+        }
+        It 'triggered and dismissed an alert                                             ' {
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
+            Switch-SeFrame  'iframeResult'
+            Get-SeElement "/html/body/button"  | Send-SeClick  -PassThru   | Should -Not -BeNullOrEmpty
+            #Checking the text of the alert is optional. Dissmiss can pass the alert result through
+            $Alert = SeShouldHave -Alert match "box" -PassThru   
+            Start-Sleep -Seconds 5
+            Clear-SeAlert -Alert $Alert -Action Dismiss -PassThru | Should -Not -BeNullOrEmpty
+        }
+        It 'reselected the parent frame                                            ' {
+            Switch-SeFrame -Parent
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
+        }
+        It 'navigated to a new page, and found the "cars" selection box in frame 1 ' {
+            Set-SeUrl  $SelectTestPage
+            SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
+            Switch-SeFrame 'iframeResult'
+            SeShouldHave -By Name "cars" -With choice contains "volvo"
+        }
+        It 'made selections from the "cars" selection box                          ' {
+            $e = SeElement -by Name "cars"
+            #Values are lower case Text has inital caps comparisons are case sensitve. Index is 0-based
+            { $e | Set-SeSelectValue -By Value -value  "Audi" }                             | Should      -Throw
+            { $e | Set-SeSelectValue -By Value -value "audi" }                              | Should -not -throw
+            $e | Set-SeSelectValue -By Index -value "2"; Get-SeSelectValue -Element $e      | Should      -Be 'Fiat'
+            $e | Set-SeSelectValue -By Text  -value "Sa*"
+        }
+        It 'submitted the form and got the expected response                       ' {
+            Get-SeElement '/html/body/form/input' | Send-SeClick -SleepSeconds 5
+            Switch-SeFrame -Parent
+            Switch-SeFrame 'iframeResult'
+            SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
+        }
+        It 'closed the in-private browser instance                                 ' {
+            Stop-SeDriver
+            if ($DriverProcess.Id) {
+                (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
+            }
+            if ($BrowserProcess.Id) {
+                (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
+            }
+        }
+    }
+    AfterAll { Stop-SeDriver }
+}
 
+  
+Describe "'Headless' mode browser test" {
+    BeforeAll {
+        . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
+        $Global:TestCaseSettings = Get-TestCasesSettings 
+
+        $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
+        $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
+    }
+    Context "in $BrowserID with settings ($Global:BrowserOptText)" {
+        It 're-opened the Browser in "Headless" mode' {
+            $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
+            $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
+            $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
+        }
+        it 'did a google Search                                                    ' {
+            Set-SeUrl 'https://www.google.com/ncr'
+            SeShouldHave -by Name q
+            SeShouldHave -by ClassName 'gLFyf'
+            SeShouldHave -By Name q -PassThru | Where Displayed -eq $true | 
+                Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
+                    should -Not -BeNullOrEmpty
+
+            SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
+                Send-SeClick -PassThru                 | should -Not -BeNullOrEmpty
+        }
+        It 'closed the browser a third time                                        ' {
+            Stop-SeDriver
+            Get-SeDriver -Current                                          | Should      -BeNullOrEmpty
+            if ($DriverProcess.Id) {
+                (Get-Process -id $DriverProcess.id ).HasExited             | Should      -Be $true
+            }
+            if ($BrowserProcess.Id) {
+                (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
+            }
+        }
+    }
+    AfterAll { Stop-SeDriver }
+}
