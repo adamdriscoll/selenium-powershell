@@ -12,7 +12,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         $Global:BrowserOptHash = $Global:TestCaseSettings."$Global:DefaultBrowser".DefaultOptions
         $Env:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop } catch {}
+        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop } catch { throw $_ }
         $Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
         Write-Verbose '---' -Verbose
         Write-Verbose $Env:BrowserID -Verbose
