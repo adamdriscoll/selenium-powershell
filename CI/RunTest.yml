@@ -49,5 +49,5 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: "NUnit"
-          testResultsFiles: "**/testResults.xml"
+          testResultsFiles: "$(Pipeline.Workspace)/testResults.xml"
           failTaskOnFailedTests: true
