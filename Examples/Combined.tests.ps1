@@ -14,7 +14,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         Write-Verbose $Env:BrowserOptText -Verbose
         Write-Verbose '---' -Verbose
     }
-    Context "in $Env:BrowserID with settings ($Env:BrowserOptText)" {
+    Context "in $($Env:BrowserID) with settings ($Env:BrowserOptText)" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
