@@ -194,8 +194,11 @@ Describe "'Headless' mode browser test" {
 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
         $Global:BrowserOptText = Build-StringFromHash  $Global:BrowserOptHash
+        Write-Verbose '---' -Verbose
+        Write-Verbose ($Global:BrowserOptText -eq $null) -Verbose
+        Write-Verbose '---' -Verbose
         $Global:SkipTests = $true
-        if ($Global:BrowserOptText -ne $null) {
+        if (![String]::IsNullOrEmpty($Global:BrowserOptText)) {
             $Global:SkipTests = $false
             try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
         } 
