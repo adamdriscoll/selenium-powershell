@@ -49,5 +49,5 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: "NUnit"
-          testResultsFiles: "**/TestResults.xml"
+          testResultsFiles: "**/testResults.xml"
           failTaskOnFailedTests: true
