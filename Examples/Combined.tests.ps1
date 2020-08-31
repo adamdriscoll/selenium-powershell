@@ -3,6 +3,7 @@
 $Global:TestCaseSettings = Get-TestCasesSettings 
 $Global:BrowserOptHash = $Global:TestCaseSettings."$Global:DefaultBrowser".DefaultOptions
 $Env:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+$Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
 Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     BeforeAll {
         . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
