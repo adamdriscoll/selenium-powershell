@@ -36,7 +36,7 @@ Describe "PsGallery Test" {
         . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
         $Global:PSGalleryPage = 'https://www.powershellgallery.com/'
         $Global:TestCaseSettings = Get-TestCasesSettings 
-        $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
+        $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
         try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $Global:PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop }catch {}
         $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
@@ -115,7 +115,7 @@ Describe "Alerts and Selection boxes tests" {
         $AlertTestPage = 'https://www.w3schools.com/js/tryit.asp?filename=tryjs_alert'
         $SelectTestPage = 'https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_select'
         $Global:TestCaseSettings = Get-TestCasesSettings 
-        $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].PrivateOptions
+        $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].PrivateOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 
         if ($Global:BrowserOptText) {
@@ -134,7 +134,7 @@ Describe "Alerts and Selection boxes tests" {
         It 're-opended the browser and validated "InPrivate" mode by window title  ' {
             $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
             $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
-            $BrowserProcess.MainWindowTitle                                | Should match $TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
+            $BrowserProcess.MainWindowTitle                                | Should match $Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
         } -Skip:$Global:NoLabel
         It 'opened the right page                                                  ' {
             SeShouldHave -URL -eq $alertTestPage
@@ -191,7 +191,7 @@ Describe "'Headless' mode browser test" {
         . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
         $Global:TestCaseSettings = Get-TestCasesSettings 
 
-        $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
+        $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
         $SkipTests = $true
         if ($Global:BrowserOptText -ne $null) {
