@@ -193,7 +193,12 @@ Describe "'Headless' mode browser test" {
 
         $Global:BrowserOptHash = $TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
+        $SkipTests = $true
+        if ($Global:BrowserOptText -ne $null) {
+            $SkipTests = $false
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
+        } 
+        
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         It 're-opened the Browser in "Headless" mode' {
@@ -222,6 +227,6 @@ Describe "'Headless' mode browser test" {
                 (Get-Process -id $BrowserProcess.id).HasExited             | Should      -Be $true
             }
         }
-    }
+    } -Skip:$SkipTests
     AfterAll { Stop-SeDriver }
 }
