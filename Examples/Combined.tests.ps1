@@ -11,6 +11,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         $Global:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
         Write-Verbose '---' -Verbose
         Write-Verbose $Global:BrowserID -Verbose
+        Write-Verbose $Global:BrowserOptText -Verbose
         Write-Verbose '---' -Verbose
     }
     Context "in $Global:BrowserID with settings ($Global:BrowserOptText)" {
