@@ -121,14 +121,15 @@ Describe "Alerts and Selection boxes tests" {
         if ($Global:BrowserOptText) {
             $Global:NoLabel = [string]::IsNullOrEmpty($Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
             $wv = $null
-            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
+            try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
         }
         else {
             $Global:NoLabel = $true
-            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop } catch {}
+            try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop } catch {}
 
         }
+        $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         # It 're-opended the browser and validated "InPrivate" mode by window title  ' {
@@ -192,13 +193,13 @@ Describe "'Headless' mode browser test" {
         $Global:TestCaseSettings = Get-TestCasesSettings 
 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
-        $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
+        $Global:BrowserOptText = Build-StringFromHash  $Global:BrowserOptHash
         $Global:SkipTests = $true
         if ($Global:BrowserOptText -ne $null) {
             $Global:SkipTests = $false
-            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
+            try { $BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
         } 
-        
+        $BrowserID = ($BrowserID.Message -replace '^Opened ', '') + ' on ' + [System.Environment]::OSVersion.Platform
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
         It 're-opened the Browser in "Headless" mode' {
