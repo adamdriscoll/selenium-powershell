@@ -119,7 +119,7 @@ Describe "Alerts and Selection boxes tests" {
         $Global:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
 
         if ($Global:BrowserOptText) {
-            $Global:NoLabel = [string]::IsNullOrEmpty($TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
+            $Global:NoLabel = [string]::IsNullOrEmpty($Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
             $wv = $null
             try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
