@@ -45,19 +45,19 @@ if (-not $UseExisting) {
   $InvokePesterParams.Remove('Show') | Out-Null
   $InvokePesterParams.Remove('WorkSheetName') | Out-Null
   $InvokePesterParams.Remove('OutputFile') | Out-Null
-  Invoke-Pester @InvokePesterParams -CI
+  Invoke-Pester @InvokePesterParams -CI -Output Detailed
 }
 
 # if (-not (Test-Path -Path $InvokePesterParams['OutputFile'])) {
 #   throw "Could not output file $($InvokePesterParams['OutputFile'])"; return
 # }
 
-$resultXML = ([xml](Get-Content -Path (Join-Path $PSScriptRoot 'testresults.xml'))).'test-results'
- $startDate = [datetime]$resultXML.date
- $startTime = $resultXML.time
- $machine = $resultXML.environment.'machine-name'
-$user       = $resultXML.environment.'user-domain' + '\' + $resultXML.environment.user
- $os = $resultXML.environment.platform -replace '\|.*$', " $($resultXML.environment.'os-version')"
+$resultXML = ([xml](Get-Content -Path (Join-Path $env:ModulePath 'testresults.xml'))).'test-results'
+$startDate = [datetime]$resultXML.date
+$startTime = $resultXML.time
+$machine = $resultXML.environment.'machine-name'
+$user = $resultXML.environment.'user-domain' + '\' + $resultXML.environment.user
+$os = $resultXML.environment.platform -replace '\|.*$', " $($resultXML.environment.'os-version')"
 <#hierarchy goes
     root, [date], start [time], [Name] (always "Pester"), test results broken down as [total],[errors],[failures],[not-run] etc.
       Environment (user & machine info)
