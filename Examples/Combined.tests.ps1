@@ -9,6 +9,9 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
         try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop } catch {}
         $Global:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
+        Write-Verbose '---' -Verbose
+        Write-Verbose $Global:BrowserID -Verbose
+        Write-Verbose '---' -Verbose
     }
     Context "in $Global:BrowserID with settings ($Global:BrowserOptText)" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
