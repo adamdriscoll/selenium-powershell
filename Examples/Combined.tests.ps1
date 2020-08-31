@@ -131,11 +131,11 @@ Describe "Alerts and Selection boxes tests" {
         }
     }
     Context "in $BrowserID with settings ($Global:BrowserOptText)" {
-        It 're-opended the browser and validated "InPrivate" mode by window title  ' {
-            $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
-            $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
-            $BrowserProcess.MainWindowTitle                                | Should match $Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
-        } -Skip:$Global:NoLabel
+        # It 're-opended the browser and validated "InPrivate" mode by window title  ' {
+        #     $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
+        #     $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne "conhost" }
+        #     $BrowserProcess.MainWindowTitle                                | Should match $Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel
+        # } -Skip:$Global:NoLabel
         It 'opened the right page                                                  ' {
             SeShouldHave -URL -eq $alertTestPage
         }
