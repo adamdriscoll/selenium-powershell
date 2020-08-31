@@ -47,6 +47,7 @@ if (-not $UseExisting) {
   $InvokePesterParams.Remove('OutputFile') | Out-Null
   Set-Location $env:ModulePath
   Invoke-Pester @InvokePesterParams -CI -Output Detailed
+  Get-ChildItem './testResults.xml'
 }
 
 # if (-not (Test-Path -Path $InvokePesterParams['OutputFile'])) {
