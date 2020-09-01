@@ -193,6 +193,10 @@ Describe "Alerts and Selection boxes tests" {
 }
 
   
+$Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].HeadlessOptions
+$Env:BrowserOptText = Build-StringFromHash  $Global:BrowserOptHash
+$Global:SkipTests = [String]::IsNullOrEmpty($Env:BrowserOptText)
+
 Describe "'Headless' mode browser test" {
     BeforeAll {
         . "$(Join-Path -Path $PSScriptRoot -ChildPath '_TestDependencies.ps1' )"
