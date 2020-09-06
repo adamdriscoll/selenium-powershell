@@ -14,8 +14,16 @@ function Get-SeElement {
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         $Driver = $Script:SeDriversCurrent,
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'ByElement')]
-        $Element
+        $Element,
+        [Switch]$All
     )
+    Begin {
+        $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
+        
+        Filter DisplayedFilter([Switch]$All) {
+            if ($All) { $_ } else { if ($_.Displayed) { $_ } } 
+        }
+    }
     process {
       
         
@@ -26,16 +34,16 @@ function Get-SeElement {
                     $TargetElement = [OpenQA.Selenium.By]::$By($Value)
                     $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
                     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-                    $WebDriverWait.Until($Condition)  
+                    $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
                 }
                 else {
-                    $Driver.FindElements([OpenQA.Selenium.By]::$By($Value))
+                    $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
                 }
                 
             }
             'ByElement' {
                 Write-Warning "Timeout does not apply when searching an Element" 
-                $Element.FindElements([OpenQA.Selenium.By]::$By($Value))
+                $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
             }
         }
     }

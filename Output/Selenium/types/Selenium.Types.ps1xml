@@ -2,22 +2,16 @@
     <Type>
         <Name>OpenQA.Selenium.Remote.RemoteWebElement</Name>
         <Members>
-            <ScriptProperty>
-                <Name>Tagname Enabled Displayed</Name>
-                <GetScriptBlock>
-                            "$($this.TagName.PadRight(7,' ')) $($this.Enabled.ToString().PadRight(7,' ')) $($this.Displayed)"
-                </GetScriptBlock>
-            </ScriptProperty>
             <MemberSet>
                 <Name>PSStandardMembers</Name>
                 <Members>
                     <PropertySet>
                         <Name>DefaultDisplayPropertySet</Name>
                         <ReferencedProperties>
-                            <Name>Tagname Enabled Displayed</Name>
+                            <Name>Tagname</Name>
+                            <Name>Enabled</Name>
+                            <Name>Displayed</Name>
                             <Name>Text</Name>
-                            <Name>Location</Name>
-                            <Name>Size</Name>
                         </ReferencedProperties>
                     </PropertySet>
                 </Members>
