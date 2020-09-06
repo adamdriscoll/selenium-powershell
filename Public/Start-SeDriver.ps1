@@ -98,18 +98,15 @@ function Start-SeDriver {
             if ($null -eq $FriendlyName) { $FriendlyName = $Driver.SessionId } 
             Write-Verbose -Message "Opened $($Driver.Capabilities.browsername) $($Driver.Capabilities.ToDictionary().browserVersion)"
 
-
-            $defaultDisplaySet = 'SeFriendlyName', 'SeBrowser', 'SeTitle', 'SeUrl'
-            $defaultDisplayPropertySet = New-Object System.Management.Automation.PSPropertySet('DefaultDisplayPropertySet', [string[]]$defaultDisplaySet)
-            $Driver | Add-Member MemberSet PSStandardMembers ([System.Management.Automation.PSMemberInfo[]]@($defaultDisplayPropertySet))
-
             #Se prefix used to avoid clash with anything from Selenium in the future
             #SessionId scriptproperty validation to avoid perfomance cost of checking closed session.
             $Headless = if ($state -eq [SeWindowState]::Headless) { " (headless)" } else { "" }
-            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeFriendlyName' -Value "$FriendlyName"
-            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
-            Add-Member -InputObject $Driver -MemberType ScriptProperty -Name 'SeTitle' -Value { if ($null -ne $this.SessionId) { $this.Title } }
-            Add-Member -InputObject $Driver -MemberType ScriptProperty -Name 'SeUrl' -Value { if ($null -ne $this.SessionId) { $this.Url } }
+            $mp = @{InputObject = $Driver ;MemberType = 'NoteProperty'}
+            Add-Member @mp -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
+            Add-Member @mp -Name 'SeFriendlyName' -Value "$FriendlyName"  
+          
+
+
             $Script:SeDrivers.Add($Driver)
             Return Select-SeDriver -Name $FriendlyName
         }

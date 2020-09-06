@@ -68,8 +68,8 @@
     # Modules that must be imported into the global environment prior to importing this module
     # RequiredModules = @()
 
-    # Type files (.ps1xml) to be loaded when importing this module
-    # TypesToProcess = @()
+    #Type files (.ps1xml) to be loaded when importing this module
+    TypesToProcess       = @('.\Types\Selenium.Types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
     # FormatsToProcess = @()
