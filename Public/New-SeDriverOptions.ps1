@@ -19,7 +19,6 @@ function New-SeDriverOptions {
         $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$Quiet,
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,

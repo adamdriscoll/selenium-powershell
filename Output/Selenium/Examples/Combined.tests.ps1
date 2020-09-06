@@ -12,7 +12,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         $Global:BrowserOptHash = $Global:TestCaseSettings."$Global:DefaultBrowser".DefaultOptions
         $Env:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
         #Relying on environment variable to pick the browser. Capture ID for use in logs by requesting verbose and redirecting it.
-        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop } catch { throw $_ }
+        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @Global:BrowserOptHash -Verbose  4>&1  -ErrorAction Stop } catch { throw $_ }
         $Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
    
     }
@@ -44,7 +44,7 @@ Describe "PsGallery Test" {
         $Global:TestCaseSettings = Get-TestCasesSettings 
         $Global:BrowserOptHash = $Global:TestCaseSettings[$Global:DefaultBrowser].DefaultOptions
         $Env:BrowserOptText = Build-StringFromHash $Global:BrowserOptHash
-        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1 -Quiet -ErrorAction Stop }catch {}
+        try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $PSGalleryPage @Global:BrowserOptHash -Verbose  4>&1  -ErrorAction Stop }catch {}
         $Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
     }
     Context "in $Env:BrowserID with settings ($Env:BrowserOptText)" {
@@ -127,12 +127,12 @@ Describe "Alerts and Selection boxes tests" {
         if ($Env:BrowserOptText) {
             $Global:NoLabel = [string]::IsNullOrEmpty($Global:TestCaseSettings[$Global:DefaultBrowser].InPrivateLabel)
             $wv = $null
-            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv -Quiet -ErrorAction Stop }catch {}
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage  @BrowserOptHash -WarningVariable wv  -ErrorAction Stop }catch {}
             if ($wv) { Write-Output "##vso[task.logissue type=warning]$wv" }
         }
         else {
             $Global:NoLabel = $true
-            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage   -Quiet -ErrorAction Stop } catch {}
+            try { Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $alertTestPage    -ErrorAction Stop } catch {}
 
         }
         $Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
@@ -207,7 +207,7 @@ Describe "'Headless' mode browser test" {
         $Global:SkipTests = $true
         if (![String]::IsNullOrEmpty($Env:BrowserOptText)) {
             $Global:SkipTests = $false
-            try { $Env:BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash -Quiet -ErrorAction Stop }catch {}
+            try { $Env:BrowserID = Start-SeDriver -Browser $Global:DefaultBrowser -StartURL $env:SITE_URL  @BrowserOptHash  -ErrorAction Stop }catch {}
         } 
         $Env:BrowserID = "$Global:DefaultBrowser on $([System.Environment]::OSVersion.Platform)"
     }
