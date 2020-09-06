@@ -1,0 +1,61 @@
+﻿<Types>
+    <Type>
+        <Name>OpenQA.Selenium.Remote.RemoteWebElement</Name>
+        <Members>
+            <ScriptProperty>
+                <Name>Tagname Enabled Displayed</Name>
+                <GetScriptBlock>
+                            "$($this.TagName.PadRight(7,' ')) $($this.Enabled.ToString().PadRight(7,' ')) $($this.Displayed)"
+                </GetScriptBlock>
+            </ScriptProperty>
+            <MemberSet>
+                <Name>PSStandardMembers</Name>
+                <Members>
+                    <PropertySet>
+                        <Name>DefaultDisplayPropertySet</Name>
+                        <ReferencedProperties>
+                            <Name>Tagname Enabled Displayed</Name>
+                            <Name>Text</Name>
+                            <Name>Location</Name>
+                            <Name>Size</Name>
+                        </ReferencedProperties>
+                    </PropertySet>
+                </Members>
+            </MemberSet>
+        </Members>
+    </Type>
+    <Type>
+        <Name>OpenQA.Selenium.Remote.RemoteWebDriver</Name>
+        <Members>
+            <!-- <Name>SeFriendlyName</Name> -->
+            <!-- <Name>SeBrowser</Name> -->
+            <ScriptProperty>
+                <Name>SeTitle</Name>
+                <GetScriptBlock>
+                            if ($null -ne $this.SessionId) { $this.Title }
+                </GetScriptBlock>
+            </ScriptProperty>
+            <ScriptProperty>
+                <Name>SeUrl</Name>
+                <GetScriptBlock>
+                            if ($null -ne $this.SessionId) { $this.Url } 
+                </GetScriptBlock>
+            </ScriptProperty>
+            <MemberSet>
+                <Name>PSStandardMembers</Name>
+                <Members>
+                    <PropertySet>
+                        <Name>DefaultDisplayPropertySet</Name>
+                        <ReferencedProperties>
+                            <Name>SeFriendlyName</Name>
+                            <Name>SeBrowser</Name>
+                            <Name>SeTitle</Name>
+                            <Name>SeUrl</Name>
+                        </ReferencedProperties>
+                    </PropertySet>
+                </Members>
+            </MemberSet>
+        </Members>
+    </Type>
+
+</Types>
