@@ -11,7 +11,6 @@ function Start-SeEdgeDriver {
         $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$Quiet,
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
@@ -61,7 +60,6 @@ function Start-SeEdgeDriver {
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
         if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
-        if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
         $service = New-SeDriverService -Browser Edge @ServiceParams
     }
     
@@ -70,7 +68,6 @@ function Start-SeEdgeDriver {
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them
     if ($PrivateBrowsing) { $options.AddArguments('InPrivate') }
     if ($State -eq [SeWindowState]::Headless) { $options.AddArguments('headless') }
-    if ($Quiet) { $service.HideCommandPromptWindow = $true }
     if ($ProfilePath) {
         $ProfilePath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($ProfilePath)
         Write-Verbose "Setting Profile directory: $ProfilePath"

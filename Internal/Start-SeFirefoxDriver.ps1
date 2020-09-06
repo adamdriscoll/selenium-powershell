@@ -12,7 +12,6 @@ function Start-SeFirefoxDriver {
         [SeWindowState]$State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$Quiet,
         [int]$ImplicitWait = 10,
         $WebDriverPath = $env:GeckoWebDriver,
         $BinaryPath,
@@ -48,7 +47,6 @@ function Start-SeFirefoxDriver {
         if (-not $PSBoundParameters.ContainsKey('Service')) {
             $ServiceParams = @{}
             if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
-            if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
             $service = New-SeDriverService -Browser Firefox @ServiceParams
         }
 

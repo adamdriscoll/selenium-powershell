@@ -15,7 +15,7 @@ import-module "$ProjectPath\Selenium.psd1" -Force
 . $ProjectPath\CI\CI.ps1 -browserlist Chrome, Firefox
 
 # Build module
-Import-Module pester -RequiredVersion 4.10.1
+Get-Module pester | Remove-Module; Import-Module pester -RequiredVersion 4.10.1
 invoke-build -File "$ProjectPath\Selenium.build.ps1"
 
 
@@ -24,6 +24,7 @@ Update-MarkdownHelpModule -Path "$ProjectPath\Help" -ModulePagePath "$ProjectPat
 
 #Tests
 #Invoke-Pester -Script 'C:\Github\selenium-powershell\Examples\Combined.tests.ps1'
+
 
 
 

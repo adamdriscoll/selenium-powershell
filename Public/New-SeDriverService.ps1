@@ -11,7 +11,6 @@ function New-SeDriverService {
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
         [Parameter(ParameterSetName = 'Default')]
         $Browser,
-        [switch]$Quiet,
         $WebDriverPath
     )
 
@@ -45,8 +44,8 @@ function New-SeDriverService {
         }
     }
 
-
-    if ($Quiet) { $Service.HideCommandPromptWindow = $true }
+    #Set to $true by default; removing it will cause problems in jobs and create a second source of Verbose in the console.
+    $Service.HideCommandPromptWindow = $true 
 
     return $service
 }

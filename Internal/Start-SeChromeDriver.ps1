@@ -10,7 +10,6 @@ function Start-SeChromeDriver {
         $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$Quiet,
         [int]$ImplicitWait = 10,
         $WebDriverPath = $env:ChromeWebDriver,
         $BinaryPath,
@@ -83,7 +82,6 @@ function Start-SeChromeDriver {
         if (-not $PSBoundParameters.ContainsKey('Service')) {
             $ServiceParams = @{}
             if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
-            if ($Quiet) { $ServiceParams.Add('Quiet', $Quiet) }
             $service = New-SeDriverService -Browser Chrome @ServiceParams
         }
         

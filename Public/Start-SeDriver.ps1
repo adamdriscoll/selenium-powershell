@@ -16,7 +16,6 @@ function Start-SeDriver {
         [SeWindowState] $State = [SeWindowState]::Default,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [switch]$Quiet,
         [int]$ImplicitWait = 10,
         $WebDriverPath,
         $BinaryPath,
@@ -101,7 +100,7 @@ function Start-SeDriver {
             #Se prefix used to avoid clash with anything from Selenium in the future
             #SessionId scriptproperty validation to avoid perfomance cost of checking closed session.
             $Headless = if ($state -eq [SeWindowState]::Headless) { " (headless)" } else { "" }
-            $mp = @{InputObject = $Driver ;MemberType = 'NoteProperty'}
+            $mp = @{InputObject = $Driver ; MemberType = 'NoteProperty' }
             Add-Member @mp -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
             Add-Member @mp -Name 'SeFriendlyName' -Value "$FriendlyName"  
           
