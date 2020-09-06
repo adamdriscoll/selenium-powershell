@@ -15,13 +15,13 @@ Finds all IWebElements within the current context using the given mechanism
 
 ### Default (Default)
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <Object>]
+Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <Object>] [-All]
  [<CommonParameters>]
 ```
 
 ### ByElement
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Element] <Object>] [<CommonParameters>]
+Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Element] <Object>] [-All] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,6 +37,21 @@ PS C:\> Get-SeElement -By Name -Selection 'username'
 Get the username field by name
 
 ## PARAMETERS
+
+### -All
+{{ Fill All Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -By
 The locating mechanism to use
