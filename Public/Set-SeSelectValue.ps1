@@ -8,7 +8,7 @@ function Set-SeSelectValue {
         [Object]$value
     )
     try {
-
+        if ( (_IsSet-SeElement -Driver $Driver -Element ([ref]$Element)) -eq $false) { Write-Error -Message "An element must be set"; return }
         $IsMultiSelect = [SeleniumSelection.Option]::IsMultiSelect($Element)
 
         if (-not $IsMultiSelect -and $Value.Count -gt 1) {

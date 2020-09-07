@@ -14,9 +14,9 @@ function Get-SeElement {
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         [OpenQA.Selenium.IWebDriver]
         $Driver = $Script:SeDriversCurrent,
-        [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'ByElement')]
+        [Parameter(Position = 3, ValueFromPipeline = $true,Mandatory=$true, ParameterSetName = 'ByElement')]
         [OpenQA.Selenium.IWebElement]
-        $Element = $Driver.SeSelectedElements,
+        $Element,
         [Switch]$All
     )
     Begin {
