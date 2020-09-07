@@ -76,6 +76,9 @@ Delete the named cookie from the current domain
 ### [Select-SeDriver](Select-SeDriver.md)
 {{ Fill in the Synopsis }}
 
+### [Select-SeElement](Select-SeElement.md)
+{{ Fill in the Synopsis }}
+
 ### [Send-SeClick](Send-SeClick.md)
 Send a click to the targeted element
 
@@ -105,4 +108,7 @@ Instructs the driver to send future commands to a different frame
 
 ### [Switch-SeWindow](Switch-SeWindow.md)
 Instructs the driver to send future commands to a different window
+
+### [Wait-SeDriver](Wait-SeDriver.md)
+{{ Fill in the Synopsis }}
 
