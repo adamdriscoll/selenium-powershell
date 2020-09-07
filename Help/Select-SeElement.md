@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeSelectValue
+# Select-SeElement
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SeSelectValue [[-Element] <IWebElement>] [-IsMultiSelect <PSReference>] [-All] [<CommonParameters>]
+Select-SeElement [[-Driver] <Object>] [-Element] <IWebElement> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,16 +30,16 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -All
-{{ Fill All Description }}
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -53,25 +53,10 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -IsMultiSelect
-{{ Fill IsMultiSelect Description }}
-
-```yaml
-Type: PSReference
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

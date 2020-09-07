@@ -3,8 +3,8 @@ function Set-SeSelectValue {
         [ArgumentCompleter( { [Enum]::GetNames([SeBySelect]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelect]) })]
         [SeBySelect]$By = [SeBySelect]::Text,
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 1)]
-        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter( ValueFromPipeline = $true, Position = 1)]
+        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
         [Object]$value
     )
     try {

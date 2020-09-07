@@ -13,7 +13,7 @@ Simulates typing text into the element
 ## SYNTAX
 
 ```
-Send-SeKeys [-Element] <IWebElement> [-Keys] <String> [-ClearFirst] [-SleepSeconds <Object>] [-Submit]
+Send-SeKeys [[-Element] <IWebElement>] [-Keys] <String> [-ClearFirst] [-SleepSeconds <Object>] [-Submit]
  [-PassThru] [<CommonParameters>]
 ```
 
@@ -56,7 +56,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)

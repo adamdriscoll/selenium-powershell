@@ -1,8 +1,8 @@
 function Get-SeSelectValue {
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param (
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 1)]
-        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter( ValueFromPipeline = $true, Position = 1)]
+        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
         [ref]$IsMultiSelect,
         [Switch]$All
     )

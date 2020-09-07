@@ -13,7 +13,7 @@ Send a click to the targeted element
 ## SYNTAX
 
 ```
-Send-SeClick [-Element] <IWebElement> [-JavaScript] [-SleepSeconds <Object>] [-Driver <Object>] [-PassThru]
+Send-SeClick [[-Element] <IWebElement>] [-JavaScript] [-SleepSeconds <Object>] [-Driver <Object>] [-PassThru]
  [<CommonParameters>]
 ```
 
@@ -54,7 +54,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)

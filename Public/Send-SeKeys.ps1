@@ -1,7 +1,7 @@
 function Send-SeKeys {
     param(
-        [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter( Position = 0, ValueFromPipeline = $true)]
+        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
         [string]$Keys,
