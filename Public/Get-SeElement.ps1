@@ -12,8 +12,10 @@ function Get-SeElement {
         [Int]$Timeout = 0,
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
+        [OpenQA.Selenium.IWebDriver]
         $Driver = $Script:SeDriversCurrent,
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'ByElement')]
+        [OpenQA.Selenium.IWebElement]
         $Element = $Driver.SeSelectedElements,
         [Switch]$All
     )

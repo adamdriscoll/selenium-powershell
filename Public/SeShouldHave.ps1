@@ -142,7 +142,7 @@ function SeShouldHave {
             foreach ($s in $Selection) {
                 $GSEParams = @{By = $By; Value = $s }
                 if ($Timeout) { $GSEParams['Timeout'] = $Timeout }
-                try { $e = Get-SeElement @GSEParams }
+                try { $e = Get-SeElement @GSEParams -All }
                 catch { throw (expandErr $_.Exception.Message) }
 
                 #throw if we didn't get the element; if were only asked to check it was there, return gracefully
