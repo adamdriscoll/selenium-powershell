@@ -8,6 +8,7 @@ function Send-SeClick {
         [switch]$PassThru
     )
     Process {
+        if ( (_IsSet-SeElement -Driver $Driver -Element ([ref]$Element)) -eq $false) { Write-Error -Message "An element must be set"; return }
         if ($JavaScriptClick) {
             try {
                 $Driver.ExecuteScript("arguments[0].click()", $Element)

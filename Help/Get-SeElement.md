@@ -21,7 +21,7 @@ Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Dri
 
 ### ByElement
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Element] <IWebElement>] [-All] [<CommonParameters>]
+Get-SeElement [-By <SeBySelector>] [-Value] <String> [-Element] <IWebElement> [-All] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -92,7 +92,7 @@ Type: IWebElement
 Parameter Sets: ByElement
 Aliases:
 
-Required: False
+Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByValue)

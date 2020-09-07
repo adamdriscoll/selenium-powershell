@@ -11,6 +11,7 @@ function Send-SeKeys {
         [switch]$PassThru
     )
     begin {
+        if ( (_IsSet-SeElement -Driver $Driver -Element ([ref]$Element)) -eq $false) { Write-Error -Message "An element must be set"; return }
         foreach ($Key in $Script:SeKeys.Name) {
             $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
         }

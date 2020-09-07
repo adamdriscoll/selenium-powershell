@@ -13,7 +13,7 @@ Get CSS value for the specified name of targeted element.
 ## SYNTAX
 
 ```
-Get-SeElementCssValue [-Element] <IWebElement> [-Name] <String> [<CommonParameters>]
+Get-SeElementCssValue [[-Element] <IWebElement>] [-Name] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,7 +36,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
