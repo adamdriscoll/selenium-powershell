@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeSelectValue
+# Wait-SeDriver
 
 ## SYNOPSIS
 {{ Fill in the Synopsis }}
@@ -13,7 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SeSelectValue [[-Element] <IWebElement>] [-IsMultiSelect <PSReference>] [-All] [<CommonParameters>]
+Wait-SeDriver [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,13 +31,14 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -All
-{{ Fill All Description }}
+### -By
+{{ Fill By Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: SeBySelector
 Parameter Sets: (All)
 Aliases:
+Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
 
 Required: False
 Position: Named
@@ -45,31 +47,46 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Element
-{{ Fill Element Description }}
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: IWebElement
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 3
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -IsMultiSelect
-{{ Fill IsMultiSelect Description }}
+### -Timeout
+{{ Fill Timeout Description }}
 
 ```yaml
-Type: PSReference
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Value
+{{ Fill Value Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -80,7 +97,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### OpenQA.Selenium.IWebElement
+### System.Object
 
 ## OUTPUTS
 

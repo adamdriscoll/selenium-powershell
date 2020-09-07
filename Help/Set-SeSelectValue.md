@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Set-SeSelectValue [-By <SeBySelect>] [-Element] <IWebElement> [-value <Object>] [<CommonParameters>]
+Set-SeSelectValue [-By <SeBySelect>] [[-Element] <IWebElement>] [-value <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +54,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)

@@ -1,4 +1,4 @@
-function Get-SeElement {
+function Wait-SeDriver {
     [Cmdletbinding(DefaultParameterSetName = 'Default')]
     param(
         #Specifies whether the selction text is to select by name, ID, Xpath etc
@@ -12,21 +12,20 @@ function Get-SeElement {
         [Int]$Timeout = 0,
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
-        $Driver = $Script:SeDriversCurrent,
-        [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'ByElement')]
-        $Element = $Driver.SeSelectedElements,
-        [Switch]$All
+        $Driver = $Script:SeDriversCurrent
+
     )
-    Begin {
-        $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
-        
-        Filter DisplayedFilter([Switch]$All) {
-            if ($All) { $_ } else { if ($_.Displayed) { $_ } } 
-        }
-    }
     process {
-      
-        
+        $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
+        $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
+        $WebDriverWait.Until($Condition)
+        $Alert = $Driver.SwitchTo().alert() 
+
+
+        $ECM = [OpenQA.Selenium.Support.UI.ExpectedConditions] | Get-Member -Static
+        $ByElements, $Remaining = $ECM.where( { $_.Definition -like '*OpenQA.Selenium.By*' }, 'split')
+            
+        [OpenQA.Selenium.Support.UI.ExpectedConditions]::equ
         
         switch ($PSCmdlet.ParameterSetName) {
             'Default' { 
@@ -34,21 +33,20 @@ function Get-SeElement {
                     $TargetElement = [OpenQA.Selenium.By]::$By($Value)
                     $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
                     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-                    $Driver.SeSelectedElements = $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
+                    $WebDriverWait.Until($Condition) 
                 }
                 else {
-                    $Driver.SeSelectedElements = $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
+                    $Driver.FindElements([OpenQA.Selenium.By]::$By($Value))
                 }
-                return $Driver.SeSelectedElements
                 
             }
             'ByElement' {
                 Write-Warning "Timeout does not apply when searching an Element" 
-                $Driver.SeSelectedElements = $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
-                return $Driver.SeSelectedElements 
+                $Element.FindElements([OpenQA.Selenium.By]::$By($Value))
             }
         }
     }
 }
+
 
 

@@ -1,7 +1,7 @@
 function Send-SeClick {
     param(
-        [Parameter(Mandatory = $true, ValueFromPipeline = $true, Position = 0)]
-        [OpenQA.Selenium.IWebElement]$Element,
+        [Parameter( ValueFromPipeline = $true, Position = 0)]
+        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
         [Switch]$JavaScript,
         $SleepSeconds = 0 ,
         $Driver = $script:SeDriversCurrent,

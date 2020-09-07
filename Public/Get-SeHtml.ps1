@@ -1,6 +1,6 @@
 function Get-SeHtml {
     param(
-        [OpenQA.Selenium.IWebElement]$Element,
+        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
         [switch]$Inner
         
     )
