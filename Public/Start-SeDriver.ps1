@@ -39,7 +39,9 @@ function Start-SeDriver {
         $SelectedBrowser = $Browser
         switch ($PSCmdlet.ParameterSetName) {
             'Default' { 
-                $PSBoundParameters.Add('Options', (New-SeDriverOptions -Browser $Browser)) 
+                $Options = New-SeDriverOptions -Browser $Browser
+                $PSBoundParameters.Add('Options', $Options) 
+
             }
             'DriverOptions' {
                 if ($PSBoundParameters.ContainsKey('Service')) {
