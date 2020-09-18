@@ -27,6 +27,7 @@ function Get-SeElement {
         Filter DisplayedFilter([Switch]$All) {
             if ($All) { $_ } else { if ($_.Displayed) { $_ } } 
         }
+        $Output = $null
     }
     process {
       
@@ -38,15 +39,15 @@ function Get-SeElement {
                     $TargetElement = [OpenQA.Selenium.By]::$By($Value)
                     $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
                     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-                    $Driver.SeSelectedElements = $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
+                    $Output = $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
                 }
                 else {
-                    $Driver.SeSelectedElements = $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
+                    $Output = $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
                 }
             }
             'ByElement' {
                 Write-Warning "Timeout does not apply when searching an Element" 
-                $Driver.SeSelectedElements = $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
+                $Output = $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
             }
         }
         
@@ -56,7 +57,7 @@ function Get-SeElement {
             $GetAllAttributes = $Attributes.Count -eq 1 -and $Attributes[0] -eq '*'
             
             if ($GetAllAttributes) {
-                Foreach ($Item in $Driver.SeSelectedElements) {
+                Foreach ($Item in $Output) {
                     $AllAttributes = $Driver.ExecuteScript('var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;', $Item)
                     $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
 
@@ -68,7 +69,7 @@ function Get-SeElement {
                 }
             }
             else {
-                foreach ($Item in $Driver.SeSelectedElements) {
+                foreach ($Item in $Output) {
                     $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
                  
                     foreach ($att in $Attributes) {
@@ -91,7 +92,7 @@ function Get-SeElement {
         }
 
 
-        return $Driver.SeSelectedElements 
+        return $Output
     }
 }
 

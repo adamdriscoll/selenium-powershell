@@ -1,7 +1,7 @@
 function Send-SeKeys {
     param(
-        [Parameter( Position = 0, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
+        [Parameter( Position = 0, ValueFromPipeline = $true, Mandatory = $true)]
+        [OpenQA.Selenium.IWebElement]$Element ,
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
         [string]$Keys,
@@ -11,7 +11,6 @@ function Send-SeKeys {
         [switch]$PassThru
     )
     begin {
-        if ( (_IsSet-SeElement -Driver $Driver -Element ([ref]$Element)) -eq $false) { Write-Error -Message "An element must be set"; return }
         foreach ($Key in $Script:SeKeys.Name) {
             $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
         }
