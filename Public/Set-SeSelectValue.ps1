@@ -3,12 +3,11 @@ function Set-SeSelectValue {
         [ArgumentCompleter( { [Enum]::GetNames([SeBySelect]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelect]) })]
         [SeBySelect]$By = [SeBySelect]::Text,
-        [Parameter( ValueFromPipeline = $true, Position = 1)]
-        [OpenQA.Selenium.IWebElement]$Element = $Driver.SeSelectedElements,
+        [Parameter( ValueFromPipeline = $true, Position = 1, Mandatory = $true)]
+        [OpenQA.Selenium.IWebElement]$Element,
         [Object]$value
     )
     try {
-        if ( (_IsSet-SeElement -Driver $Driver -Element ([ref]$Element)) -eq $false) { Write-Error -Message "An element must be set"; return }
         $IsMultiSelect = [SeleniumSelection.Option]::IsMultiSelect($Element)
 
         if (-not $IsMultiSelect -and $Value.Count -gt 1) {
