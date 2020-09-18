@@ -14,10 +14,12 @@ function Get-SeElement {
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         [OpenQA.Selenium.IWebDriver]
         $Driver = $Script:SeDriversCurrent,
-        [Parameter(Position = 3, ValueFromPipeline = $true,Mandatory=$true, ParameterSetName = 'ByElement')]
+        [Parameter(Position = 3, ValueFromPipeline = $true, Mandatory = $true, ParameterSetName = 'ByElement')]
         [OpenQA.Selenium.IWebElement]
         $Element,
-        [Switch]$All
+        [Switch]$All,
+        [ValidateNotNullOrEmpty()]
+        [String[]]$Attributes
     )
     Begin {
         $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
@@ -41,15 +43,55 @@ function Get-SeElement {
                 else {
                     $Driver.SeSelectedElements = $Driver.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
                 }
-                return $Driver.SeSelectedElements
-                
             }
             'ByElement' {
                 Write-Warning "Timeout does not apply when searching an Element" 
                 $Driver.SeSelectedElements = $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
-                return $Driver.SeSelectedElements 
             }
         }
+        
+ 
+
+        if ($PSBoundParameters.ContainsKey('Attributes')) {
+            $GetAllAttributes = $Attributes.Count -eq 1 -and $Attributes[0] -eq '*'
+            
+            if ($GetAllAttributes) {
+                Foreach ($Item in $Driver.SeSelectedElements) {
+                    $AllAttributes = $Driver.ExecuteScript('var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;', $Item)
+                    $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
+
+                    Foreach ($AttKey in $AllAttributes.Keys) {
+                        $AttArray.Add($AttKey, $AllAttributes[$AttKey])
+                    }
+
+                    Add-Member -InputObject $Item -Name 'Attributes' -Value $AttArray -MemberType NoteProperty
+                }
+            }
+            else {
+                foreach ($Item in $Driver.SeSelectedElements) {
+                    $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
+                 
+                    foreach ($att in $Attributes) {
+                        $Value = $Item.GetAttribute($att)
+                        if ($Value -ne "") {
+                            $AttArray.Add($att, $Item.GetAttribute($att))
+                        }
+                
+                    }
+                    Add-Member -InputObject $Item -Name 'Attributes' -Value $AttArray -MemberType NoteProperty
+                }
+
+                  
+                    
+
+
+                
+            }
+              
+        }
+
+
+        return $Driver.SeSelectedElements 
     }
 }
 
