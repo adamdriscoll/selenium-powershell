@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Wait-SeDriver [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <Object>]
+Wait-SeDriver [-Condition] <Object> [-Value] <Object> [[-Timeout] <Int32>] [[-Driver] <Object>]
  [<CommonParameters>]
 ```
 
@@ -31,17 +31,16 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -By
-{{ Fill By Description }}
+### -Condition
+{{ Fill Condition Description }}
 
 ```yaml
-Type: SeBySelector
+Type: Object
 Parameter Sets: (All)
 Aliases:
-Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
 
-Required: False
-Position: Named
+Required: True
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -81,7 +80,7 @@ Accept wildcard characters: False
 {{ Fill Value Description }}
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 

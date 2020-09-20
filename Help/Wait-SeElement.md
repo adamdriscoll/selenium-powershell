@@ -5,78 +5,77 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeElement
+# Wait-SeElement
 
 ## SYNOPSIS
-	
-Finds all IWebElements within the current context using the given mechanism
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
-### Default (Default)
+### Element (Default)
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <IWebDriver>] [-All]
- [-Attributes <String[]>] [<CommonParameters>]
+Wait-SeElement -Element <IWebElement> [-Condition <Object>] [-ConditionValue <Object>] [-Timeout <Int32>]
+ [-Driver <Object>] [<CommonParameters>]
 ```
 
-### ByElement
+### Locator
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [-Element] <IWebElement> [-All] [-Attributes <String[]>]
- [<CommonParameters>]
+Wait-SeElement [-By] <SeBySelector> [-Value] <String> [-Condition <Object>] [-ConditionValue <Object>]
+ [-Timeout <Int32>] [-Driver <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Finds all IWebElements within the current context using the given mechanism
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeElement -By Name -Selection 'username'
+PS C:\> {{ Add example code here }}
 ```
 
-Get the username field by name
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -All
-{{ Fill All Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Attributes
-{{ Fill Attributes Description }}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -By
-The locating mechanism to use
+{{ Fill By Description }}
 
 ```yaml
 Type: SeBySelector
-Parameter Sets: (All)
+Parameter Sets: Locator
 Aliases:
 Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Condition
+{{ Fill Condition Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ConditionValue
+{{ Fill ConditionValue Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
@@ -89,12 +88,12 @@ Accept wildcard characters: False
 {{ Fill Driver Description }}
 
 ```yaml
-Type: IWebDriver
-Parameter Sets: Default
+Type: Object
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
@@ -105,26 +104,26 @@ Accept wildcard characters: False
 
 ```yaml
 Type: IWebElement
-Parameter Sets: ByElement
+Parameter Sets: Element
 Aliases:
 
 Required: True
-Position: 3
+Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Timeout
-Timeout (in seconds)
+{{ Fill Timeout Description }}
 
 ```yaml
 Type: Int32
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -135,7 +134,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Locator
 Aliases:
 
 Required: True

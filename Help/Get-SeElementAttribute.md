@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SeElementAttribute [[-Element] <IWebElement>] [-Attribute] <String> [<CommonParameters>]
+Get-SeElementAttribute [-Element] <IWebElement> [-Attribute] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +54,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)

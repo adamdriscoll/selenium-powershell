@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SeHtml [[-Element] <IWebElement>] [-Inner] [<CommonParameters>]
+Get-SeHtml [-Element] <IWebElement> [-Inner] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,10 +38,10 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
