@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Clear-SeSelectValue [[-Element] <IWebElement>] [<CommonParameters>]
+Clear-SeSelectValue [-Element] <IWebElement> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,7 +38,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False

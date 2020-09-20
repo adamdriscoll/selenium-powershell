@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SeSelectValue [[-Element] <IWebElement>] [-IsMultiSelect <PSReference>] [-All] [<CommonParameters>]
+Get-SeSelectValue [-Element] <IWebElement> [-IsMultiSelect <PSReference>] [-All] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,7 +53,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)
