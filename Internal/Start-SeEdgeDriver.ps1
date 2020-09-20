@@ -12,6 +12,8 @@ function Start-SeEdgeDriver {
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [int]$ImplicitWait = 10,
+        [System.Drawing.Size]$Size,
+        [System.Drawing.Point]$Position,
         $WebDriverPath,
         $BinaryPath,
         [OpenQA.Selenium.DriverService]$service,
@@ -101,6 +103,9 @@ function Start-SeEdgeDriver {
             Write-Warning "Argument $_ was not passed to the Browser. This is a known issue with some web driver versions."
         }
     }
+
+    if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
+    if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
 
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
     if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }

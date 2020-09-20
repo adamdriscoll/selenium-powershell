@@ -38,7 +38,7 @@ $Script:SeDriversAdditionalBrowserSwitches = @{
 
 # List of suggested command line arguments for each browser
 $Script:SeDriversBrowserArguments = @{
-    Chrome           = @()
+    Chrome           = @("user-agent=Android")
     Edge             = @()
     Firefox          = @()
     InternetExplorer = @()
@@ -70,7 +70,8 @@ $SeDriversBrowserArgumentsCompletion = {
         $Browser = $fakeBoundParameters.Item('Browser')
         
         $Output = $Script:SeDriversBrowserArguments."$Browser"
-        $Output | % { [System.Management.Automation.CompletionResult]::new($_) }
+        $ptext = [System.Management.Automation.CompletionResultType]::Text
+        $Output | % { [System.Management.Automation.CompletionResult]::new("'$_'", $_, $ptext, $_) }
         
         
     }
