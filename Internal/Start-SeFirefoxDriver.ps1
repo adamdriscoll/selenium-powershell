@@ -13,6 +13,8 @@ function Start-SeFirefoxDriver {
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [int]$ImplicitWait = 10,
+        [System.Drawing.Size]$Size,
+        [System.Drawing.Point]$Position,
         $WebDriverPath = $env:GeckoWebDriver,
         $BinaryPath,
         [OpenQA.Selenium.DriverService]$service,
@@ -56,6 +58,9 @@ function Start-SeFirefoxDriver {
 
         #region post creation options
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+
+        if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
+        if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
 
         # [SeWindowState]
         switch ($State) {

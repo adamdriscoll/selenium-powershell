@@ -11,6 +11,8 @@ function Start-SeChromeDriver {
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [int]$ImplicitWait = 10,
+        [System.Drawing.Size]$Size,
+        [System.Drawing.Point]$Position,
         $WebDriverPath = $env:ChromeWebDriver,
         $BinaryPath,
         [OpenQA.Selenium.DriverService]$service,
@@ -91,6 +93,8 @@ function Start-SeChromeDriver {
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 
         #region post creation options
+        if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
+        if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
 
         if ($State -eq 'Minimized') {

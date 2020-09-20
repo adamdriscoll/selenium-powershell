@@ -17,6 +17,8 @@ function Start-SeDriver {
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
         [int]$ImplicitWait = 10,
+        [System.Drawing.Size][SizeTransformAttribute()]$Size,
+        [System.Drawing.Point][PointTransformAttribute()]$Position,
         $WebDriverPath,
         $BinaryPath,
         [Parameter(ParameterSetName = 'DriverOptions', Mandatory = $false)]

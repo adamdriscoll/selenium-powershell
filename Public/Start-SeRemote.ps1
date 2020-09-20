@@ -6,7 +6,9 @@ function Start-SeRemote {
         [ValidateURIAttribute()]
         [Parameter(Position = 0)]
         [string]$StartURL,
-        [int]$ImplicitWait = 10
+        [int]$ImplicitWait = 10,
+        [System.Drawing.Size][SizeTransformAttribute()]$Size,
+        [System.Drawing.Point][PointTransformAttribute()]$Position
     )
 
     $desired = [OpenQA.Selenium.Remote.DesiredCapabilities]::new()
@@ -18,6 +20,8 @@ function Start-SeRemote {
 
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 
+    if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
+    if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
     if ($StartURL) { $Driver.Navigate().GotoUrl($StartURL) }
 

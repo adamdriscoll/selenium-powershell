@@ -21,9 +21,7 @@ function SeShouldHave {
         [Parameter(ParameterSetName = 'Title' , Mandatory = $true)]
         [switch]$Title,
         [Parameter(ParameterSetName = 'URL' , Mandatory = $true)]
-        [Alias('URI')]
         [switch]$URL,
-
         [Parameter(ParameterSetName = 'Element' , Mandatory = $false, Position = 3)]
         [Parameter(ParameterSetName = 'Alert' , Mandatory = $false, Position = 3)]
         [Parameter(ParameterSetName = 'Title' , Mandatory = $false, Position = 3)]
@@ -43,7 +41,6 @@ function SeShouldHave {
         [Parameter(ParameterSetName = 'DefaultPS')]
         [Parameter(ParameterSetName = 'Element')]
         [Parameter(ParameterSetName = 'Alert')]
-        [Alias('PT')]
         [switch]$PassThru,
 
         [Int]$Timeout = 0
