@@ -68,14 +68,9 @@ $SeDriversBrowserArgumentsCompletion = {
 
     if ($fakeBoundParameters.ContainsKey('Browser')) {
         $Browser = $fakeBoundParameters.Item('Browser')
-        Write-Verbose $wordToComplete -Verbose
         $Output = $Script:SeDriversBrowserArguments."$Browser" | Where { $_ -like "*$wordToComplete*" }
-        Write-Verbose $Output.count -Verbose
-        Write-Verbose $Browser -Verbose
         $ptext = [System.Management.Automation.CompletionResultType]::ParameterValue
         $Output | % { [System.Management.Automation.CompletionResult]::new("'$_'", $_, $ptext, $_) }
-        
-        
     }
 }
 
