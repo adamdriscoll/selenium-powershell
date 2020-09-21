@@ -14,7 +14,7 @@ Start a remote driver session.
 
 ```
 Start-SeRemote [-RemoteAddress <String>] [-DesiredCapabilities <Hashtable>] [[-StartURL] <String>]
- [-ImplicitWait <Int32>] [<CommonParameters>]
+ [-ImplicitWait <Int32>] [-Size <Size>] [-Position <Point>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,11 +72,41 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Position
+{{ Fill Position Description }}
+
+```yaml
+Type: Point
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RemoteAddress
 {{ Fill RemoteAddress Description }}
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+{{ Fill Size Description }}
+
+```yaml
+Type: Size
 Parameter Sets: (All)
 Aliases:
 

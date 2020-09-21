@@ -1648,6 +1648,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Position</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Position Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+          <dev:type>
+            <maml:name>Point</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
             <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
@@ -1666,6 +1678,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
             <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Size</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Size Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+          <dev:type>
+            <maml:name>Size</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -1782,6 +1806,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Position</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Position Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+        <dev:type>
+          <maml:name>Point</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PrivateBrowsing</maml:name>
         <maml:Description>
           <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
@@ -1801,6 +1837,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
           <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Size</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Size Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+        <dev:type>
+          <maml:name>Size</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -3859,6 +3907,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Position</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Position Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+          <dev:type>
+            <maml:name>Point</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
             <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
@@ -3877,6 +3937,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
             <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Size</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Size Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+          <dev:type>
+            <maml:name>Size</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4032,6 +4104,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Position</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Position Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+          <dev:type>
+            <maml:name>Point</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
             <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
@@ -4062,6 +4146,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <command:parameterValue required="true" variableLength="false">DriverService</command:parameterValue>
           <dev:type>
             <maml:name>DriverService</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Size</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Size Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+          <dev:type>
+            <maml:name>Size</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4197,6 +4293,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Position</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Position Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+        <dev:type>
+          <maml:name>Point</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PrivateBrowsing</maml:name>
         <maml:Description>
           <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
@@ -4228,6 +4336,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameterValue required="true" variableLength="false">DriverService</command:parameterValue>
         <dev:type>
           <maml:name>DriverService</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Size</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Size Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+        <dev:type>
+          <maml:name>Size</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -4369,6 +4489,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Position</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Position Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+          <dev:type>
+            <maml:name>Point</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>RemoteAddress</maml:name>
           <maml:Description>
             <maml:para>{{ Fill RemoteAddress Description }}</maml:para>
@@ -4376,6 +4508,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Size</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Size Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+          <dev:type>
+            <maml:name>Size</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4408,6 +4552,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Position</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Position Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
+        <dev:type>
+          <maml:name>Point</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>RemoteAddress</maml:name>
         <maml:Description>
           <maml:para>{{ Fill RemoteAddress Description }}</maml:para>
@@ -4415,6 +4571,18 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Size</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Size Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
+        <dev:type>
+          <maml:name>Size</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>

@@ -1,6 +1,7 @@
 function Send-SeKeys {
     param(
         [Parameter( Position = 0, ValueFromPipeline = $true, Mandatory = $true)]
+        [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element ,
         [Parameter(Mandatory = $true, Position = 1)]
         [AllowEmptyString()]
