@@ -15,24 +15,25 @@ schema: 2.0.0
 ### default (Default)
 ```
 Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
- [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+ [-PrivateBrowsing] [-ImplicitWait <Int32>] [-Size <Size>] [-Position <Point>] [-WebDriverPath <Object>]
+ [-BinaryPath <Object>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>]
+ [<CommonParameters>]
 ```
 
 ### Default
 ```
 Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState>]
- [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverPath <Object>]
- [-BinaryPath <Object>] [-Switches <String[]>] [-Arguments <String[]>] [-ProfilePath <Object>]
- [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+ [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Int32>] [-Size <Size>]
+ [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ### DriverOptions
 ```
 Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverPath <Object>] [-BinaryPath <Object>]
- [-Service <DriverService>] -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>]
- [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+ [-PrivateBrowsing] [-ImplicitWait <Int32>] [-Size <Size>] [-Position <Point>] [-WebDriverPath <Object>]
+ [-BinaryPath <Object>] [-Service <DriverService>] -Options <DriverOptions> [-Arguments <String[]>]
+ [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -170,6 +171,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Position
+{{ Fill Position Description }}
+
+```yaml
+Type: Point
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -PrivateBrowsing
 {{ Fill PrivateBrowsing Description }}
 
@@ -206,6 +222,21 @@ Accept wildcard characters: False
 ```yaml
 Type: DriverService
 Parameter Sets: DriverOptions
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+{{ Fill Size Description }}
+
+```yaml
+Type: Size
+Parameter Sets: (All)
 Aliases:
 
 Required: False

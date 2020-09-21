@@ -14,9 +14,9 @@ schema: 2.0.0
 
 ```
 New-SeDriverOptions [-Browser <Object>] [[-StartURL] <String>] [-State <Object>]
- [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverPath <Object>]
- [-BinaryPath <Object>] [-Switches <String[]>] [-Arguments <String[]>] [-ProfilePath <Object>]
- [-LogLevel <LogLevel>] [<CommonParameters>]
+ [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Int32>] [-Size <Size>]
+ [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -124,6 +124,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Position
+{{ Fill Position Description }}
+
+```yaml
+Type: Point
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -PrivateBrowsing
 {{ Fill PrivateBrowsing Description }}
 
@@ -144,6 +159,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+{{ Fill Size Description }}
+
+```yaml
+Type: Size
 Parameter Sets: (All)
 Aliases:
 

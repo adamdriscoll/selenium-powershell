@@ -109,3 +109,6 @@ Instructs the driver to send future commands to a different window
 ### [Wait-SeDriver](Wait-SeDriver.md)
 {{ Fill in the Synopsis }}
 
+### [Wait-SeElement](Wait-SeElement.md)
+{{ Fill in the Synopsis }}
+
