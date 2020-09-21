@@ -23,8 +23,11 @@ function Pop-SeUrl {
     param(
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Driver = $Script:SeDriversCurrent
+        $Driver 
     )
+    begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    }
     process {
         if ($Script:SeLocationMap[$Driver].Count -gt 0) {
             Set-SeUrl -Url $Script:SeLocationMap[$Driver].Pop() -Driver $Driver

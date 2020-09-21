@@ -13,7 +13,7 @@ function Get-SeElement {
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         [OpenQA.Selenium.IWebDriver]
-        $Driver = $Script:SeDriversCurrent,
+        $Driver,
         [Parameter(Position = 3, ValueFromPipeline = $true, Mandatory = $true, ParameterSetName = 'ByElement')]
         [OpenQA.Selenium.IWebElement]
         $Element,
@@ -22,6 +22,7 @@ function Get-SeElement {
         [String[]]$Attributes
     )
     Begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
         $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
         
         Filter DisplayedFilter([Switch]$All) {

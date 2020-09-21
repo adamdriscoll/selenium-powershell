@@ -15,9 +15,12 @@ function Wait-SeDriver {
         [Int]$Timeout = 3,
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true)]
-        $Driver = $Script:SeDriversCurrent
+        $Driver
         
     )
+    Begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    }
     process {
      
         $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))

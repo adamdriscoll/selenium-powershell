@@ -3,7 +3,7 @@ function Clear-SeAlert {
         [parameter(ParameterSetName = 'Alert', Position = 0, ValueFromPipeline = $true)]
         $Alert,
         [ValidateIsWebDriverAttribute()]
-        $Driver = $Script:SeDriversCurrent,
+        $Driver,
         [ValidateSet('Accept', 'Dismiss')]
         $Action = 'Dismiss',
         [switch]$PassThru

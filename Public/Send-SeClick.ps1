@@ -4,9 +4,12 @@ function Send-SeClick {
         [OpenQA.Selenium.IWebElement]$Element,
         [Switch]$JavaScript,
         $SleepSeconds = 0 ,
-        $Driver = $script:SeDriversCurrent,
+        $Driver ,
         [switch]$PassThru
     )
+    begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    }
     Process {
         if ($JavaScriptClick) {
             try {

@@ -38,9 +38,9 @@ function Push-SeUrl {
         # a provided new url (if any).
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Driver = $Script:SeDriversCurrent
+        $Driver 
     )
-
+    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     if (-not $Script:SeLocationMap.ContainsKey($Driver)) {
         $script:SeLocationMap[$Driver] = [System.Collections.Generic.Stack[string]]@()
     }
