@@ -9,21 +9,10 @@ function Set-SeCookie {
 
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Driver = $Script:SeDriversCurrent
+        $Driver 
     )
-
-    <# Selenium Cookie Information
-    Cookie(String, String)
-    Initializes a new instance of the Cookie class with a specific name and value.
-    Cookie(String, String, String)
-    Initializes a new instance of the Cookie class with a specific name, value, and path.
-    Cookie(String, String, String, Nullable<DateTime>)
-    Initializes a new instance of the Cookie class with a specific name, value, path and expiration date.
-    Cookie(String, String, String, String, Nullable<DateTime>)
-    Initializes a new instance of the Cookie class with a specific name, value, domain, path and expiration date.
-    #>
-    
     begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
         if ($null -ne $ExpiryDate -and $ExpiryDate.GetType().Name -ne 'DateTime') {
             throw '$ExpiryDate can only be $null or TypeName: System.DateTime'
         }

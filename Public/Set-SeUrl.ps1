@@ -53,7 +53,7 @@ function Set-SeUrl {
         [switch]$Refresh,
         
         [Parameter(ParameterSetName = 'back')]
-        [Parameter(ParameterSetName = 'forward',Position=1)]
+        [Parameter(ParameterSetName = 'forward', Position = 1)]
         [ValidateScript( { $_ -ge 1 })] 
         [Int]$Depth = 1,
 
@@ -61,9 +61,9 @@ function Set-SeUrl {
         # default driver if left unset.
         [Parameter(ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
-        $Driver = $Script:SeDriversCurrent
+        $Driver 
     )
-
+    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     for ($i = 0; $i -lt $Depth; $i++) {
         switch ($PSCmdlet.ParameterSetName) {
             'url' { $Driver.Navigate().GoToUrl($Url); break }
