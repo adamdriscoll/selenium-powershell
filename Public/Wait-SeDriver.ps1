@@ -36,9 +36,3 @@ function Wait-SeDriver {
         }
     }
 }
-
-
-
-
-
-Register-ArgumentCompleter -CommandName Command-Name -ParameterName Name -ScriptBlock $MyArgumentCompletion
