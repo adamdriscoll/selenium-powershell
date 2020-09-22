@@ -77,7 +77,13 @@ function Start-SeChromeDriver {
         if ($PrivateBrowsing) {
             $Options.AddArguments('Incognito')
         }
-		
+        #  $Location = @('--window-position=1921,0', '--window-size=1919,1080')
+        if ($PSBoundParameters.ContainsKey('Size')) { 
+            $Options.AddArguments("--window-size=$($Size.Width),$($Size.Height)")
+        }
+        if ($PSBoundParameters.ContainsKey('Position')) {
+            $Options.AddArguments("--window-position=$($Position.X),$($Position.Y)")
+        }
         
 
        
@@ -93,8 +99,6 @@ function Start-SeChromeDriver {
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 
         #region post creation options
-        if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
-        if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
 
         if ($State -eq 'Minimized') {
