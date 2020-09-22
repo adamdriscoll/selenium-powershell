@@ -38,7 +38,7 @@ $Script:SeDriversAdditionalBrowserSwitches = @{
 
 # List of suggested command line arguments for each browser
 $Script:SeDriversBrowserArguments = @{
-    Chrome           = @("--user-agent=Android", '--window-position=0,0', '--window-size=1920,1080')
+    Chrome           = @("--user-agent=Android")
     Edge             = @()
     Firefox          = @()
     InternetExplorer = @()
