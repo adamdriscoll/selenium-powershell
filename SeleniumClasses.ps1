@@ -2,7 +2,7 @@ using namespace system.Collections
 using namespace System.Collections.Generic
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
+Add-Type -Assembly System.Drawing
 if ('ValidateURIAttribute' -as [type]) {
     class ValidateURIAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
         [void] Validate([object] $arguments , [System.Management.Automation.EngineIntrinsics]$EngineIntrinsics) {
