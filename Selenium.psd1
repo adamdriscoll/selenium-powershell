@@ -16,7 +16,7 @@
     Description          = 'Web automation using the Selenium Web Driver'
     ScriptsToProcess     = @('SeleniumClasses.ps1')
     RootModule           = 'Selenium.psm1'
-    RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
+    RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll', 'System.Drawing')
     FunctionsToExport    = '*'
     AliasesToExport      = @()
     CmdletsToExport      = @()
