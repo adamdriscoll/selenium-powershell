@@ -1,14 +1,17 @@
 function Wait-SeDriver {
-    [Cmdletbinding()]
+    [Cmdletbinding(DefaultParameterSetName = 'Condition')]
     param(
         [ArgumentCompleter([SeDriverConditionsCompleter])]
         [ValidateScript( { Get-SeDriverConditionsValidation -Condition $_ })]
-        [Parameter(Mandatory = $true, Position = 0)]
+        [Parameter(Mandatory = $true, Position = 0, ParameterSetName = 'Condition')]
         $Condition,
-        [Parameter(Mandatory = $true, Position = 1)]
+        [Parameter(Mandatory = $true, Position = 1, ParameterSetName = 'Condition')]
         [ValidateScript( { Get-SeDriverConditionsValueValidation -Condition $Condition -Value $_ })]
         [ValidateNotNull()]
         $Value,
+        [Parameter(Mandatory = $true, Position = 4, ParameterSetName = 'Script')]
+        [ValidateNotNull()]
+        [System.Func[OpenQA.Selenium.IWebDriver, Bool]]$Script,
 
         #Specifies a time out
         [Parameter(Position = 2)]
@@ -16,16 +19,20 @@ function Wait-SeDriver {
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true)]
         $Driver
-        
+
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     }
     process {
-     
+
         $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
-        $SeCondition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::$Condition($Value)
-        
+        if ($PSBoundParameters.ContainsKey('Condition')) {
+            $SeCondition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::$Condition($Value)
+        }
+        else {
+            $SeCondition = $Script
+        }
         try {
             [void]($WebDriverWait.Until($SeCondition))
             return $true
