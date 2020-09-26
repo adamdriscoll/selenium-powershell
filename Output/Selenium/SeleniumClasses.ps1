@@ -150,6 +150,7 @@ enum SeBySelect {
 #region SeDriverConditions
 $Script:SeDriverConditions = @(
     [PSCustomObject]@{Text = 'AlertState'; ValueType = [bool]; Tooltip = "A value indicating whether or not an alert should be displayed in order to meet this condition." }
+    [PSCustomObject]@{Text = 'ScriptBlock'; ValueType = [ScriptBlock]; Tooltip = "A scriptblock to be evaluated." }
     [PSCustomObject]@{Text = 'TitleContains'; ValueType = [String]; Tooltip = "An expectation for checking that the title of a page contains a case-sensitive substring." }
     [PSCustomObject]@{Text = 'TitleIs'; ValueType = [String]; Tooltip = "An expectation for checking the title of a page." }
     [PSCustomObject]@{Text = 'UrlContains'; ValueType = [String]; Tooltip = "An expectation for the URL of the current page to be a specific URL." }
@@ -402,74 +403,74 @@ function Get-SeMouseActionValueValidation {
     }
     elseif ($ConditionValue -isnot $ConditionValueType) {
         if ($ConditionValueType.FullName -eq 'System.Drawing.Point' -and $ConditionValue -is [String] -and ($ConditionValue -split '[,x]').Count -eq 2) { return $True }
-            Throw "The condition $Condition accept only value of type $ConditionValueType. The value provided was of type $($ConditionValue.GetType())"
-        }
-        else {
-            return $true      
-        }
+        Throw "The condition $Condition accept only value of type $ConditionValueType. The value provided was of type $($ConditionValue.GetType())"
+    }
+    else {
+        return $true      
+    }
     
-    }
+}
 
-    #endregion
-
-
-    # #Release
+#endregion
 
 
-    #region SizePoint Transformation
-    class SizeTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
-        # Implement the Transform() method
-        [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
-            <#
+# #Release
+
+
+#region SizePoint Transformation
+class SizeTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
+    # Implement the Transform() method
+    [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
+        <#
             The parameter value(s) are passed in here as $inputData. We aren't accepting array input
             for our function, but it's good to make these fairly versatile where possible, so that
             you can reuse them easily!
         #>
-            $outputData = switch ($inputData) {
-                { $_ -is [SizeTransformAttribute] } { $_ }
-                { $_ -is [int] } { [System.Drawing.Size]::new($_, $_) }
-                { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
-                    $sp = $_ -split '[,x]'
-                    [System.Drawing.Size]::new($sp[0], $sp[1]) 
-                }
-                default {
-                    # If we hit something we can't convert, throw an exception
-                    throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
-                        "Could not convert input '$_' to a valid Size object."
-                    )
-                }
+        $outputData = switch ($inputData) {
+            { $_ -is [SizeTransformAttribute] } { $_ }
+            { $_ -is [int] } { [System.Drawing.Size]::new($_, $_) }
+            { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
+                $sp = $_ -split '[,x]'
+                [System.Drawing.Size]::new($sp[0], $sp[1]) 
             }
-
-            return $OutputData
+            default {
+                # If we hit something we can't convert, throw an exception
+                throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
+                    "Could not convert input '$_' to a valid Size object."
+                )
+            }
         }
 
+        return $OutputData
     }
 
-    class PointTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
-        # Implement the Transform() method
-        [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
-            <#
+}
+
+class PointTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
+    # Implement the Transform() method
+    [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
+        <#
             The parameter value(s) are passed in here as $inputData. We aren't accepting array input
             for our function, but it's good to make these fairly versatile where possible, so that
             you can reuse them easily!
         #>
-            $outputData = switch ($inputData) {
-                { $_ -is [PointTransformAttribute] } { $_ }
-                { $_ -is [int] } { [System.Drawing.Point]::new($_, $_) }
-                { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
-                    $sp = $_ -split '[,x]'
-                    [System.Drawing.Point]::new($sp[0], $sp[1]) 
-                }
-                default {
-                    # If we hit something we can't convert, throw an exception
-                    throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
-                        "Could not convert input '$_' to a valid Point object."
-                    )
-                }
+        $outputData = switch ($inputData) {
+            { $_ -is [PointTransformAttribute] } { $_ }
+            { $_ -is [int] } { [System.Drawing.Point]::new($_, $_) }
+            { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
+                $sp = $_ -split '[,x]'
+                [System.Drawing.Point]::new($sp[0], $sp[1]) 
             }
-
-            return $OutputData
+            default {
+                # If we hit something we can't convert, throw an exception
+                throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
+                    "Could not convert input '$_' to a valid Point object."
+                )
+            }
         }
 
-    }    
-    #endregion
+        return $OutputData
+    }
+
+}    
+#endregion
