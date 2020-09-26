@@ -1,6 +1,7 @@
-function Send-SeKeys {
+function Invoke-SeKeys {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
-        [Parameter( Position = 0, ValueFromPipeline = $true, Mandatory = $true)]
+        [Parameter( Position = 0, ValueFromPipeline = $true)]
         [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element ,
         [Parameter(Mandatory = $true, Position = 1)]
@@ -17,12 +18,20 @@ function Send-SeKeys {
         }
     }
     process {
-        if ($ClearFirst) { $Element.Clear() }
 
-        $Element.SendKeys($Keys)
-
-        if ($Submit) { $Element.Submit() }
+        if ($PSBoundParameters.ContainsKey('Element')) {
+            if ($ClearFirst) { $Element.Clear() }
+            $Element.SendKeys($Keys)
+            if ($Submit) { $Element.Submit() }
+        }
+        else {
+            $Action = [OpenQA.Selenium.Interactions.Actions]::new($Driver)
+            $Action.SendKeys($Keys)
+        }
+       
         if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
         if ($PassThru) { $Element }
     }
 }
+# #KeyDown
+# #KeyUp
