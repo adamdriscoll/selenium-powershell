@@ -20,8 +20,8 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
-            SeElement      $linkXPath | Send-SeClick  -JavaScript -SleepSeconds 1
-            SeShouldHave   $modalXPath -With displayed eq $true -PassThru | SeElement -By ClassName 'close' | Send-SeClick -JavaScript -SleepSeconds 1
+            SeElement      $linkXPath | Invoke-SeClick  -JavaScript -SleepSeconds 1
+            SeShouldHave   $modalXPath -With displayed eq $true -PassThru | SeElement -By ClassName 'close' | Invoke-SeClick -JavaScript -SleepSeconds 1
             SeShouldHave  'body'       -By   TagName
             SeShouldHave   $modalXPath -With displayed eq $false
         }
@@ -78,14 +78,14 @@ Describe "PsGallery Test" {
             #get element, pipe as input element for Typing, pass the element through
             #so pester catches 'null or empty' if it was not found
             Get-SeElement -By TagName -Value 'input' |
-                Send-SeKeys -ClearFirst -Keys "selenium{{Enter}}" -PassThru -SleepSeconds 2    | Should -Not -BeNullorEmpty
+                Invoke-SeKeys -ClearFirst -Keys "selenium{{Enter}}" -PassThru -SleepSeconds 2    | Should -Not -BeNullorEmpty
         }
         It 'searched successfully                                                  ' {
             $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'
             SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
             #Two tests on the same element, second passes it through to click
             SeShouldHave $linkpath -With href match selenium
-            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Send-SeClick -SleepSeconds 5
+            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -SleepSeconds 5
         }
         It 'opened the search result page and found the expected content           ' {
             #Just to show we can test for the presence of multiple links. Each one is re-tested ...
@@ -97,7 +97,7 @@ Describe "PsGallery Test" {
             #Can test with "Get-SeElement | where-object <<complex test>>" rather than "with <<feild>> <<operator>> <<value>>"
             SeElement    '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a'  |
                 Where-Object { ($_.text -like "*Project Site*") -and ($_.GetAttribute('href') -match "selenium") } |
-                    Send-SeClick -PassThru  | Should -Not -Benullorempty
+                    Invoke-SeClick -PassThru  | Should -Not -Benullorempty
         }
         It 'went to Github from the project link on the search result              ' {
             SeShouldHave -URL  match 'github' -Timeout 30
@@ -149,7 +149,7 @@ Describe "Alerts and Selection boxes tests" {
         It 'triggered and dismissed an alert                                             ' {
             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
             Switch-SeFrame  'iframeResult'
-            Get-SeElement "/html/body/button"  | Send-SeClick  -PassThru   | Should -Not -BeNullOrEmpty
+            Get-SeElement "/html/body/button"  | Invoke-SeClick  -PassThru   | Should -Not -BeNullOrEmpty
             #Checking the text of the alert is optional. Dissmiss can pass the alert result through
             $Alert = SeShouldHave -Alert match "box" -PassThru   
             Start-Sleep -Seconds 5
@@ -174,7 +174,7 @@ Describe "Alerts and Selection boxes tests" {
             $e | Set-SeSelectValue -By Text  -value "Sa*"
         }
         It 'submitted the form and got the expected response                       ' {
-            Get-SeElement '/html/body/form/input' | Send-SeClick -SleepSeconds 5
+            Get-SeElement '/html/body/form/input' | Invoke-SeClick -SleepSeconds 5
             Switch-SeFrame -Parent
             Switch-SeFrame 'iframeResult'
             SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
@@ -222,11 +222,11 @@ Describe "'Headless' mode browser test" {
             SeShouldHave -by Name q
             SeShouldHave -by ClassName 'gLFyf'
             SeShouldHave -By Name q -PassThru | Where Displayed -eq $true | 
-                Select-Object -First 1 | Send-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
+                Select-Object -First 1 | Invoke-SeKeys -Keys 'Powershell-Selenium{{Enter}}' -PassThru  | 
                     should -Not -BeNullOrEmpty
 
             SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
-                Send-SeClick -PassThru                 | should -Not -BeNullOrEmpty
+                Invoke-SeClick -PassThru                 | should -Not -BeNullOrEmpty
         }
         It 'closed the browser a third time                                        ' {
             Stop-SeDriver
