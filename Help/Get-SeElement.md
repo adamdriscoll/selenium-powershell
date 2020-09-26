@@ -15,14 +15,14 @@ Finds all IWebElements within the current context using the given mechanism
 
 ### Default (Default)
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [[-Timeout] <Int32>] [[-Driver] <IWebDriver>] [-All]
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Int32>] [[-Driver] <IWebDriver>] [-All]
  [-Attributes <String[]>] [<CommonParameters>]
 ```
 
 ### ByElement
 ```
-Get-SeElement [-By <SeBySelector>] [-Value] <String> [-Element] <IWebElement> [-All] [-Attributes <String[]>]
- [<CommonParameters>]
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [-Element] <IWebElement> [-All]
+ [-Attributes <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -73,7 +73,7 @@ Accept wildcard characters: False
 The locating mechanism to use
 
 ```yaml
-Type: SeBySelector
+Type: SeBySelector[]
 Parameter Sets: (All)
 Aliases:
 Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
@@ -134,7 +134,7 @@ Accept wildcard characters: False
 {{ Fill Value Description }}
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
