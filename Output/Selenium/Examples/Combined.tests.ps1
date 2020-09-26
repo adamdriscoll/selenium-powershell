@@ -20,8 +20,8 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
-            SeElement      $linkXPath | Invoke-SeClick  -JavaScript -SleepSeconds 1
-            SeShouldHave   $modalXPath -With displayed eq $true -PassThru | SeElement -By ClassName 'close' | Invoke-SeClick -JavaScript -SleepSeconds 1
+            SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -SleepSeconds 1
+            SeShouldHave   $modalXPath -With displayed eq $true -PassThru | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -SleepSeconds 1
             SeShouldHave  'body'       -By   TagName
             SeShouldHave   $modalXPath -With displayed eq $false
         }
