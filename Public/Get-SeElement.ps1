@@ -39,7 +39,7 @@ function Get-SeElement {
                 if ($Timeout) {
                     $TargetElement = [OpenQA.Selenium.By]::$By($Value)
                     $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
-                    $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
+                    $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::PresenceOfAllElementsLocatedBy($TargetElement)
                     $Output = $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
                 }
                 else {
@@ -47,7 +47,7 @@ function Get-SeElement {
                 }
             }
             'ByElement' {
-                Write-Warning "Timeout does not apply when searching an Element" 
+                Write-Verbose "Searching an Element - Timeout ignored" 
                 $Output = $Element.FindElements([OpenQA.Selenium.By]::$By($Value)) | DisplayedFilter -All:$ShowAll
             }
         }
