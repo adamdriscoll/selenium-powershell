@@ -76,12 +76,6 @@ Delete the named cookie from the current domain
 ### [Select-SeDriver](Select-SeDriver.md)
 {{ Fill in the Synopsis }}
 
-### [Send-SeClick](Send-SeClick.md)
-Send a click to the targeted element
-
-### [Send-SeKeys](Send-SeKeys.md)
-Simulates typing text into the element
-
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
