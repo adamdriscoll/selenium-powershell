@@ -291,61 +291,185 @@ Function Get-SeElementsConditionsValidation {
 #endregion
 
 
-
-#region SizePoint Transformation
-class SizeTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
-    # Implement the Transform() method
-    [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
-        <#
-            The parameter value(s) are passed in here as $inputData. We aren't accepting array input
-            for our function, but it's good to make these fairly versatile where possible, so that
-            you can reuse them easily!
-        #>
-        $outputData = switch ($inputData) {
-            { $_ -is [SizeTransformAttribute] } { $_ }
-            { $_ -is [int] } { [System.Drawing.Size]::new($_, $_) }
-            { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
-                $sp = $_ -split '[,x]'
-                [System.Drawing.Size]::new($sp[0], $sp[1]) 
-            }
-            default {
-                # If we hit something we can't convert, throw an exception
-                throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
-                    "Could not convert input '$_' to a valid Size object."
-                )
-            }
-        }
-
-        return $OutputData
+#region SeActions
+Function New-Condition {
+    Param([Parameter(Mandatory = $true)]$Text, [Type]$ValueType, $Tooltip, [Switch]$OptionalValue, $ElementRequired = $true )
+    return [PSCustomObject]@{
+        Text            = $Text
+        ValueType       = $ValueType
+        Tooltip         = $Tooltip
+        ElementRequired = $ElementRequired
     }
-
 }
 
-class PointTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
-    # Implement the Transform() method
-    [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
-        <#
+$Script:SeMouseAction = @(
+    New-Condition -Text 'DragAndDrop' -ValueType ([OpenQA.Selenium.IWebElement]) -Tooltip 'Performs a drag-and-drop operation from one element to another.'
+    New-Condition -Text 'DragAndDropToOffset'  -ValueType ([System.Drawing.Point]) -Tooltip 'Performs a drag-and-drop operation on one element to a specified offset.'
+    New-Condition -Text 'MoveByOffset' -ValueType ([System.Drawing.Point]) -ElementRequired $null -Tooltip 'Moves the mouse to the specified offset of the last known mouse coordinates.'
+    New-Condition -Text 'MoveToElement'  -ValueType ([System.Drawing.Point]) -OptionalValue -Tooltip 'Moves the mouse to the specified element with offset of the top-left corner of the specified element.'
+    New-Condition -Text 'Release' -ValueType $null -Tooltip 'Releases the mouse button at the last known mouse coordinates or specified element.'
+)
+
+
+$Script:SeMouseClickAction = @(
+    New-Condition -Text 'Click'         -Tooltip 'Clicks the mouse on the specified element.'
+    New-Condition -Text 'Click_JS' -ElementRequired $true -Tooltip 'Clicks the mouse on the specified element using Javascript.'
+    New-Condition -Text 'ClickAndHold'  -Tooltip 'Clicks and holds the mouse button down on the specified element.'
+    New-Condition -Text 'ContextClick'  -Tooltip 'Right-clicks the mouse on the specified element.'
+    New-Condition -Text 'DoubleClick'   -Tooltip 'Double-clicks the mouse on the specified element.'
+    New-Condition -Text 'Release'       -Tooltip 'Releases the mouse button at the last known mouse coordinates or specified element.'
+)
+
+Function Get-SeMouseClickActionValidation($Action) {
+    return $Action -in $Script:SeMouseClickAction.Text
+}
+
+class SeMouseClickActionCompleter : IArgumentCompleter {
+    [IEnumerable[CompletionResult]] CompleteArgument(
+        [string]      $CommandName ,
+        [string]      $ParameterName,
+        [string]      $WordToComplete,
+        [CommandAst]  $CommandAst,
+        [IDictionary] $FakeBoundParameters
+    ) { 
+        $wildcard = ("*" + $wordToComplete + "*")
+        $CompletionResults = [List[CompletionResult]]::new()
+        $pvalue = [System.Management.Automation.CompletionResultType]::ParameterValue
+        
+        
+        $Script:SeMouseClickAction.where( { $_.Text -like $wildcard }) |
+            ForEach-Object { 
+                $Valuetype = $_.ValueType
+                if ($null -eq $ValueType) { $Valuetype = 'None' }
+                $CompletionResults.Add(([System.Management.Automation.CompletionResult]::new($_.Text, $_.Text, $pvalue, $_.Tooltip) ) ) 
+            }
+        return $CompletionResults
+    }
+}
+
+
+class SeMouseActionCompleter : IArgumentCompleter {
+    [IEnumerable[CompletionResult]] CompleteArgument(
+        [string]      $CommandName ,
+        [string]      $ParameterName,
+        [string]      $WordToComplete,
+        [CommandAst]  $CommandAst,
+        [IDictionary] $FakeBoundParameters
+    ) { 
+        $wildcard = ("*" + $wordToComplete + "*")
+        $CompletionResults = [List[CompletionResult]]::new()
+       
+        $pvalue = [System.Management.Automation.CompletionResultType]::ParameterValue
+
+        $Script:SeMouseAction.where( { $_.Text -like $wildcard }) |
+            ForEach-Object { 
+                $Valuetype = $_.ValueType
+                if ($null -eq $ValueType) { $Valuetype = 'None' }
+                $ElementRequired = 'N/A'
+                switch ($_.ElementRequired) {
+                    $true { $ElementRequired = 'Required' }
+                    $false { $ElementRequired = 'Optional' }
+                }
+
+
+                $CompletionResults.Add(([System.Management.Automation.CompletionResult]::new($_.Text, $_.Text, $pvalue, "Element: $ElementRequired`nValue: $ValueType`n$($_.Tooltip)") ) ) 
+            }
+        return $CompletionResults
+    }
+}
+
+
+
+function Get-SeMouseActionValidation {
+    Param(
+        $Action 
+    )
+    
+    return $Action -in $Script:SeMouseAction.Text
+    
+}
+
+function Get-SeMouseActionValueValidation {
+    [CmdletBinding()]
+    Param(
+        $Action,
+        $ConditionValue
+    )
+    
+    $ConditionValueType = $Script:SeMouseAction.Where( { $_.Text -eq $Action }, 'first')[0].ValueType
+    if ($null -eq $ConditionValueType) {
+        Throw "The condition $Condition do not accept value"
+    }
+    elseif ($ConditionValue -isnot $ConditionValueType) {
+        if ($ConditionValueType.FullName -eq 'System.Drawing.Point' -and $ConditionValue -is [String] -and ($ConditionValue -split '[,x]').Count -eq 2) { return $True }
+            Throw "The condition $Condition accept only value of type $ConditionValueType. The value provided was of type $($ConditionValue.GetType())"
+        }
+        else {
+            return $true      
+        }
+    
+    }
+
+    #endregion
+
+
+    # #Release
+
+
+    #region SizePoint Transformation
+    class SizeTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
+        # Implement the Transform() method
+        [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
+            <#
             The parameter value(s) are passed in here as $inputData. We aren't accepting array input
             for our function, but it's good to make these fairly versatile where possible, so that
             you can reuse them easily!
         #>
-        $outputData = switch ($inputData) {
-            { $_ -is [PointTransformAttribute] } { $_ }
-            { $_ -is [int] } { [System.Drawing.Point]::new($_, $_) }
-            { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
-                $sp = $_ -split '[,x]'
-                [System.Drawing.Point]::new($sp[0], $sp[1]) 
+            $outputData = switch ($inputData) {
+                { $_ -is [SizeTransformAttribute] } { $_ }
+                { $_ -is [int] } { [System.Drawing.Size]::new($_, $_) }
+                { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
+                    $sp = $_ -split '[,x]'
+                    [System.Drawing.Size]::new($sp[0], $sp[1]) 
+                }
+                default {
+                    # If we hit something we can't convert, throw an exception
+                    throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
+                        "Could not convert input '$_' to a valid Size object."
+                    )
+                }
             }
-            default {
-                # If we hit something we can't convert, throw an exception
-                throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
-                    "Could not convert input '$_' to a valid Point object."
-                )
-            }
+
+            return $OutputData
         }
 
-        return $OutputData
     }
 
-}    
-#endregion
+    class PointTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
+        # Implement the Transform() method
+        [object] Transform([System.Management.Automation.EngineIntrinsics]$engineIntrinsics, [object] $inputData) {
+            <#
+            The parameter value(s) are passed in here as $inputData. We aren't accepting array input
+            for our function, but it's good to make these fairly versatile where possible, so that
+            you can reuse them easily!
+        #>
+            $outputData = switch ($inputData) {
+                { $_ -is [PointTransformAttribute] } { $_ }
+                { $_ -is [int] } { [System.Drawing.Point]::new($_, $_) }
+                { $_ -is [string] -and (($_ -split '[,x]').count -eq 2) } { 
+                    $sp = $_ -split '[,x]'
+                    [System.Drawing.Point]::new($sp[0], $sp[1]) 
+                }
+                default {
+                    # If we hit something we can't convert, throw an exception
+                    throw [System.Management.Automation.ArgumentTransformationMetadataException]::new(
+                        "Could not convert input '$_' to a valid Point object."
+                    )
+                }
+            }
+
+            return $OutputData
+        }
+
+    }    
+    #endregion
