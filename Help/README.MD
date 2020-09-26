@@ -51,6 +51,18 @@ Retrieves the current URL of a target webdriver instance.
 ### [Get-SeWindow](Get-SeWindow.md)
 Gets the window handles of open browser windows
 
+### [Invoke-SeClick](Invoke-SeClick.md)
+{{ Fill in the Synopsis }}
+
+### [Invoke-SeKeyAction](Invoke-SeKeyAction.md)
+{{ Fill in the Synopsis }}
+
+### [Invoke-SeKeys](Invoke-SeKeys.md)
+{{ Fill in the Synopsis }}
+
+### [Invoke-SeMouseAction](Invoke-SeMouseAction.md)
+{{ Fill in the Synopsis }}
+
 ### [New-SeDriverOptions](New-SeDriverOptions.md)
 {{ Fill in the Synopsis }}
 
