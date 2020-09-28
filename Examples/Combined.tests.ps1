@@ -21,7 +21,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
             SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -SleepSeconds 1
-            SeShouldHave   $modalXPath -With displayed eq $true -PassThru | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -SleepSeconds 1
+            SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -SleepSeconds 1
             SeShouldHave  'body'       -By   TagName
             SeShouldHave   $modalXPath -With displayed eq $false
         }
