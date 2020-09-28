@@ -13,7 +13,7 @@ function Invoke-SeClick {
 
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
-        $HasElement = $PSBoundParameters.ContainsKey('Element')
+        $HasElement = $PSBoundParameters.ContainsKey('Element') -or $PSCmdlet.MyInvocation.ExpectingInput
         if ($Action -eq 'Click_JS' -and -not $HasElement) {
             Write-Error 'Click_JS can only be performed if an $Element is specified'
             return $null
