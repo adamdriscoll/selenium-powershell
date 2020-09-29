@@ -40,5 +40,6 @@ function Invoke-SeClick {
         }
 
         if ($PassThru) { if ($HasElement) { return $Element } else { return $Driver } }
+        if ($SleepSeconds -gt 0) { Start-Sleep -Seconds $SleepSeconds }
     }
 }
