@@ -1,5 +1,14 @@
 ﻿using namespace System.Collections.Generic
 
+Function New-Condition {
+    Param([Parameter(Mandatory = $true)]$Text, [Type]$ValueType, $Tooltip, [Switch]$OptionalValue, $ElementRequired = $true )
+    return [PSCustomObject]@{
+        Text            = $Text
+        ValueType       = $ValueType
+        Tooltip         = $Tooltip
+        ElementRequired = $ElementRequired
+    }
+}
 
 $Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
     Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }

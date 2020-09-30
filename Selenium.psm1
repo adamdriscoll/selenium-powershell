@@ -1,9 +1,8 @@
-$functionFolders = @('Public', 'Internal', 'Classes')
+$functionFolders = @('Classes', 'Public', 'Internal')
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Internal/init.ps1')
 ForEach ($folder in $functionFolders) {
     $folderPath = Join-Path -Path $PSScriptRoot -ChildPath $folder
-    if ($folder -eq 'Internal') {
-        . $folderPath\init.ps1;
-    }
+    
     If (Test-Path -Path $folderPath) {
         
         Write-Verbose -Message "Importing from $folder"
