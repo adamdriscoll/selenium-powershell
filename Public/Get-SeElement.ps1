@@ -105,8 +105,14 @@ function Get-SeElement {
             }
               
         }
-
-        return $Output
+        if ($null -eq $Output) {
+            $Message = "no such element: Unable to locate element by: $($By -join ',') with value $($Value -join ',')"
+            Write-Error -Exception ([System.InvalidOperationException]::new($Message))
+            return
+        }
+        else {
+            return $Output
+        }
     }
     End {
         if ($null -ne $ResetImplicitTimeout) {
