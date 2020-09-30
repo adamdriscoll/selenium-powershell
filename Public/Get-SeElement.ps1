@@ -105,8 +105,10 @@ function Get-SeElement {
             }
               
         }
-
-        return $Output
+        
+        #Issue #135 - Explicit $null so it get picked up by downstream cmdlets
+        if ($null -eq $Output) { return $null } else { return $Output }
+        
     }
     End {
         if ($null -ne $ResetImplicitTimeout) {
