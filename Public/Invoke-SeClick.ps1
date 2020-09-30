@@ -5,6 +5,7 @@ function Invoke-SeClick {
         [ValidateScript( { Get-SeMouseClickActionValidation -Action $_ })]
         $Action = 'Click',
         [Parameter( ValueFromPipeline = $true, Position = 1)]
+        [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element,
         $SleepSeconds = 0 ,
         $Driver ,
