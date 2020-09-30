@@ -8,14 +8,7 @@ $Script:SeMouseAction = @(
 )
 
 
-$Script:SeMouseClickAction = @(
-    New-Condition -Text 'Click'         -Tooltip 'Clicks the mouse on the specified element.'
-    New-Condition -Text 'Click_JS' -ElementRequired $true -Tooltip 'Clicks the mouse on the specified element using Javascript.'
-    New-Condition -Text 'ClickAndHold'  -Tooltip 'Clicks and holds the mouse button down on the specified element.'
-    New-Condition -Text 'ContextClick'  -Tooltip 'Right-clicks the mouse on the specified element.'
-    New-Condition -Text 'DoubleClick'   -Tooltip 'Double-clicks the mouse on the specified element.'
-    New-Condition -Text 'Release'       -Tooltip 'Releases the mouse button at the last known mouse coordinates or specified element.'
-)
+
 
 Function Get-SeMouseClickActionValidation($Action) {
     return $Action -in $Script:SeMouseClickAction.Text
