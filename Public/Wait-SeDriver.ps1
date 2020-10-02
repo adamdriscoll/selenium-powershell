@@ -10,7 +10,7 @@ function Wait-SeDriver {
         $Value,
         #Specifies a time out
         [Parameter(Position = 2)]
-        [Int]$Timeout = 3,
+        [Double]$Timeout = 3,
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true)]
         $Driver
@@ -26,7 +26,7 @@ function Wait-SeDriver {
         else {
             $SeCondition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::$Condition($Value)
         }
-        $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
+        $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, ([timespan]::FromMilliseconds($Timeout * 1000)))
               
         try {
             [void]($WebDriverWait.Until($SeCondition))

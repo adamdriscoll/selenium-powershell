@@ -9,7 +9,7 @@ function Get-SeElement {
         [string[]]$Value,
         #Specifies a time out
         [Parameter(Position = 2, ParameterSetName = 'Default')]
-        [Int]$Timeout = 0,
+        [Double]$Timeout = 0,
         #The driver or Element where the search should be performed.
         [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
         [OpenQA.Selenium.IWebDriver]
@@ -62,7 +62,7 @@ function Get-SeElement {
         switch ($PSCmdlet.ParameterSetName) {
             'Default' { 
                 if ($Timeout) {
-                    $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
+                    $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, ([timespan]::FromMilliseconds($Timeout * 1000)))
                     $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::PresenceOfAllElementsLocatedBy($ByCondition)
                     $Output = $WebDriverWait.Until($Condition) | DisplayedFilter -All:$ShowAll
                 }

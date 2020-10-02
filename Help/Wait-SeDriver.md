@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Wait-SeDriver -Condition <Object> [-Value <Object>] [[-Timeout] <Int32>] [[-Driver] <Object>]
+Wait-SeDriver -Condition <Object> [-Value <Object>] [[-Timeout] <Double>] [[-Driver] <Object>]
  [<CommonParameters>]
 ```
 
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 {{ Fill Timeout Description }}
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: (All)
 Aliases:
 

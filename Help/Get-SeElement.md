@@ -15,7 +15,7 @@ Finds all IWebElements within the current context using the given mechanism
 
 ### Default (Default)
 ```
-Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Int32>] [[-Driver] <IWebDriver>] [-All]
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Double>] [[-Driver] <IWebDriver>] [-All]
  [-Attributes <String[]>] [-Single] [<CommonParameters>]
 ```
 
@@ -134,7 +134,7 @@ Accept wildcard characters: False
 Timeout (in seconds)
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: Default
 Aliases:
 
