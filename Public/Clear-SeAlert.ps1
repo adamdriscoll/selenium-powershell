@@ -8,16 +8,30 @@ function Clear-SeAlert {
         $Action = 'Dismiss',
         [switch]$PassThru
     )
-    if ($Driver) {
-        try { 
-            $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds 10))
-            $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
-            $WebDriverWait.Until($Condition)
-            $Alert = $Driver.SwitchTo().alert() 
-        }
-        catch { Write-Warning 'No alert was displayed'; return }
+    Begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $ImpTimeout = 0
     }
-    if ($Alert) { $alert.$action() }
-    if ($PassThru) { $Alert }
+    Process {
+        if ($Driver) {
+            try { 
+                $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver
+                $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds 10))
+                $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
+                $WebDriverWait.Until($Condition)
+                $Alert = $Driver.SwitchTo().alert() 
+            }
+            catch { 
+                Write-Warning 'No alert was displayed'
+                return 
+            }
+            Finally {
+                Enable-SeDriverImplicitTimeout -Driver $Driver -Timeout $ImpTimeout
+            }
+        }
+        if ($Alert) { $alert.$action() }
+        if ($PassThru) { $Alert }
+    }
+    End {}
 }
 
