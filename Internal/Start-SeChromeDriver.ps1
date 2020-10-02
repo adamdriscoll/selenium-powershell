@@ -1,16 +1,11 @@
 function Start-SeChromeDriver {
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param(
-      
-        [ValidateURIAttribute()]
-        [Parameter(Position = 1)]
         [string]$StartURL,
-        [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
-        [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
-        $State,
+        [SeWindowState]$State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait,
         [System.Drawing.Size]$Size,
         [System.Drawing.Point]$Position,
         $WebDriverPath = $env:ChromeWebDriver,
@@ -99,7 +94,7 @@ function Start-SeChromeDriver {
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 
         #region post creation options
-        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 
         if ($State -eq 'Minimized') {
             $Driver.Manage().Window.Minimize();

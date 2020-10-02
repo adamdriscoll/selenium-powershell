@@ -1,17 +1,12 @@
 function Start-SeMSEdgeDriver {
     param(
-        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
-        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
-        $Browser,
         [ValidateURIAttribute()]
         [Parameter(Position = 1)]
         [string]$StartURL,
-        [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
-        [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
-        $State,
+        [SeWindowState]$State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait,
         [System.Drawing.Size]$Size,
         [System.Drawing.Point]$Position,
         $WebDriverPath,
@@ -54,7 +49,7 @@ function Start-SeMSEdgeDriver {
     #region post creation options
     if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
     if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
-    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 
     switch ($State) {
         { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize() }
