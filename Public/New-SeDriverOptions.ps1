@@ -19,7 +19,7 @@ function New-SeDriverOptions {
         $State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait = 0.3,
         [System.Drawing.Size][SizeTransformAttribute()]$Size,
         [System.Drawing.Point][PointTransformAttribute()]$Position,
         $WebDriverPath,

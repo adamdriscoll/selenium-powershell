@@ -6,7 +6,7 @@ function Start-SeRemote {
         [ValidateURIAttribute()]
         [Parameter(Position = 0)]
         [string]$StartURL,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait = 0.3,
         [System.Drawing.Size][SizeTransformAttribute()]$Size,
         [System.Drawing.Point][PointTransformAttribute()]$Position
     )
@@ -22,7 +22,7 @@ function Start-SeRemote {
 
     if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
     if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
-    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+    $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
     if ($StartURL) { $Driver.Navigate().GotoUrl($StartURL) }
 
     return $Driver

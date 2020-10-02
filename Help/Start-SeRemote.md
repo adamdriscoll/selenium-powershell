@@ -14,7 +14,7 @@ Start a remote driver session.
 
 ```
 Start-SeRemote [-RemoteAddress <String>] [-DesiredCapabilities <Hashtable>] [[-StartURL] <String>]
- [-ImplicitWait <Int32>] [-Size <Size>] [-Position <Point>] [<CommonParameters>]
+ [-ImplicitWait <Double>] [-Size <Size>] [-Position <Point>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 {{ Fill ImplicitWait Description }}
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: (All)
 Aliases:
 

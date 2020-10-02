@@ -1,18 +1,11 @@
 function Start-SeFirefoxDriver {
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param(
-        [ArgumentCompleter( { [Enum]::GetNames([SeBrowsers]) })]
-        [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
-        $Browser,
-        [ValidateURIAttribute()]
-        [Parameter(Position = 1)]
         [string]$StartURL,
-        [ArgumentCompleter( { [Enum]::GetNames([SeWindowState]) })]
-        [ValidateScript( { $_ -in [Enum]::GetNames([SeWindowState]) })]
         [SeWindowState]$State,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait,
         [System.Drawing.Size]$Size,
         [System.Drawing.Point]$Position,
         $WebDriverPath = $env:GeckoWebDriver,
@@ -57,7 +50,7 @@ function Start-SeFirefoxDriver {
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
 
         #region post creation options
-        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromSeconds($ImplicitWait)
+        $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 
         if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
         if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
