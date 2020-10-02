@@ -26,8 +26,7 @@ function Get-SeElement {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
         $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
         if ($By.Count -ne $Value.Count) {
-            Write-Error "The number of `$By $($By.Count) element must match the number of `$value $($value.Count) provided"
-            return 
+            Throw [System.InvalidOperationException]::new("An equal number of `$By element ($($By.Count)) and `$Value ($($Value.Count)) must be provided.")
         }
         Filter DisplayedFilter([Switch]$All) {
             if ($All) { $_ } else { if ($_.Displayed) { $_ } } 
