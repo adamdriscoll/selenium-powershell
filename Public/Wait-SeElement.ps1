@@ -27,10 +27,9 @@ function Wait-SeElement {
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
-    }
-    process {
-        $ExpectedValueType = Get-SeElementsConditionsValueType -text $Condition
+        $ImpTimeout = -1 
 
+        $ExpectedValueType = Get-SeElementsConditionsValueType -text $Condition
         #Manage ConditionValue not provided when expected
         if (! $PSBoundParameters.ContainsKey('ConditionValue')) {
             if ($null -ne $ExpectedValueType) {
@@ -38,10 +37,13 @@ function Wait-SeElement {
                 return $null
             }
         }
+    }
+    process {
+        $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver
 
         $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, ([timespan]::FromMilliseconds($Timeout * 1000)))
-        #
         $NoExtraArg = $null -eq $ExpectedValueType
+        
         if ($PSBoundParameters.ContainsKey('Element')) {
             if ($NoExtraArg) {
                 $SeCondition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::$Condition($Element)
@@ -59,10 +61,6 @@ function Wait-SeElement {
             }
         }
 
-        
-     
-
-
         try {
             [void]($WebDriverWait.Until($SeCondition))
             return $true
@@ -71,9 +69,9 @@ function Wait-SeElement {
             Write-Error $_
             return $false
         }
-         
-                
-        
+        Finally {
+            Enable-SeDriverImplicitTimeout -Driver $Driver -Timeout $ImpTimeout
+        }
     }
 }
 
