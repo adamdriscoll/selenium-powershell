@@ -54,6 +54,9 @@ Gets the window handles of open browser windows
 ### [Invoke-SeClick](Invoke-SeClick.md)
 {{ Fill in the Synopsis }}
 
+### [Invoke-SeJavascript](Invoke-SeJavascript.md)
+{{ Fill in the Synopsis }}
+
 ### [Invoke-SeKeyAction](Invoke-SeKeyAction.md)
 {{ Fill in the Synopsis }}
 

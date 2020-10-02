@@ -19,7 +19,7 @@ function Wait-SeElement {
         
      
         #Specifies a time out
-        [Int]$Timeout = 3,
+        [Double]$Timeout = 3,
         #The driver or Element where the search should be performed.
         [Parameter( ValueFromPipeline = $true)]
         $Driver
@@ -39,7 +39,7 @@ function Wait-SeElement {
             }
         }
 
-        $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds $Timeout))
+        $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, ([timespan]::FromMilliseconds($Timeout * 1000)))
         #
         $NoExtraArg = $null -eq $ExpectedValueType
         if ($PSBoundParameters.ContainsKey('Element')) {

@@ -43,10 +43,10 @@ function SeShouldHave {
         [Parameter(ParameterSetName = 'Alert')]
         [switch]$PassThru,
 
-        [Int]$Timeout = 0
+        [Double]$Timeout = 0
     )
     begin {
-        $endTime = [datetime]::now.AddSeconds($Timeout)
+        $endTime = [datetime]::now.AddMilliseconds($Timeout * 1000)
         $lineText = $MyInvocation.Line.TrimEnd("$([System.Environment]::NewLine)")
         $lineNo = $MyInvocation.ScriptLineNumber
         $file = $MyInvocation.ScriptName

@@ -14,14 +14,14 @@ schema: 2.0.0
 
 ### Element (Default)
 ```
-Wait-SeElement -Element <IWebElement> [-Condition <Object>] [-ConditionValue <Object>] [-Timeout <Int32>]
+Wait-SeElement -Element <IWebElement> [-Condition <Object>] [-ConditionValue <Object>] [-Timeout <Double>]
  [-Driver <Object>] [<CommonParameters>]
 ```
 
 ### Locator
 ```
 Wait-SeElement [-By] <SeBySelector> [-Value] <String> [-Condition <Object>] [-ConditionValue <Object>]
- [-Timeout <Int32>] [-Driver <Object>] [<CommonParameters>]
+ [-Timeout <Double>] [-Driver <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -118,7 +118,7 @@ Accept wildcard characters: False
 {{ Fill Timeout Description }}
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: (All)
 Aliases:
 
