@@ -35,13 +35,13 @@ function Get-SeElement {
     
         $ResetImplicitTimeout = $null
         $ByCondition = $null
+
         if ($by.Count -gt 1) {
-            $Args = for ($i = 0; $i -lt $by.Count; $i++) {
+            $ByChainedArgs = for ($i = 0; $i -lt $by.Count; $i++) {
                 $cby = $by[$i]
                 [OpenQA.Selenium.By]::$cby($value[$i])
             }
-
-            $ByCondition = [OpenQA.Selenium.Support.PageObjects.ByChained]::new($Args)
+            $ByCondition = [OpenQA.Selenium.Support.PageObjects.ByChained]::new($ByChainedArgs)
         }
         else {
             $ByCondition = [OpenQA.Selenium.By]::$By($Value)
@@ -50,6 +50,10 @@ function Get-SeElement {
         if ($By.Count -gt 1 -or $PSBoundParameters.ContainsKey('Timeout')) {
             $ResetImplicitTimeout = $Driver.Manage().Timeouts().ImplicitWait
             $Driver.Manage().Timeouts().ImplicitWait = 0
+        }
+        #Id Should always be considered as Single
+        if ($By.Contains('Id') -and !$PSBoundParameters.ContainsKey('Single')) {
+            $PSBoundParameters.Add('Single', $true)     
         }
     } 
     process {
