@@ -14,7 +14,7 @@ schema: 2.0.0
 
 ```
 New-SeDriverOptions [-Browser <Object>] [[-StartURL] <String>] [-State <Object>]
- [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Int32>] [-Size <Size>]
+ [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
  [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [<CommonParameters>]
 ```
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 {{ Fill ImplicitWait Description }}
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: (All)
 Aliases:
 

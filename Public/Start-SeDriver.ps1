@@ -16,7 +16,7 @@ function Start-SeDriver {
         [SeWindowState] $State = [SeWindowState]::Default,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [int]$ImplicitWait = 10,
+        [Double]$ImplicitWait = 0.3,
         [System.Drawing.Size][SizeTransformAttribute()]$Size,
         [System.Drawing.Point][PointTransformAttribute()]$Position,
         $WebDriverPath,
@@ -35,6 +35,13 @@ function Start-SeDriver {
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     process {
+        #Params with default value that need to be pased down to Start-SeXXDriver
+        $OptionalParams = @('ImplicitWait', 'State')
+        Foreach ($key in $OptionalParams) {
+            if (!$PSBoundParameters.ContainsKey($Key)) {
+                $PSBoundParameters.Add($key, (Get-Variable -Name $key -ValueOnly))
+            }
+        }
         # Exclusive parameters to Start-SeDriver we don't want to pass down to anything else.
         # Still available through the variable directly within this cmdlet
         $ParametersToRemove = @('Arguments', 'Browser', 'Name', 'PassThru')
