@@ -19,7 +19,8 @@ function Get-SeElement {
         $Element,
         [Switch]$All,
         [ValidateNotNullOrEmpty()]
-        [String[]]$Attributes
+        [String[]]$Attributes,
+        [Switch]$Single
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
@@ -107,6 +108,11 @@ function Get-SeElement {
         if ($null -eq $Output) {
             $Message = "no such element: Unable to locate element by: $($By -join ',') with value $($Value -join ',')"
             Write-Error -Exception ([System.Management.Automation.ItemNotFoundException]::new($Message))
+            return
+        }
+        elseif ($PSBoundParameters.ContainsKey('Single') -and $Single -eq $true -and $Output.count -gt 1) {
+            $Message = "A single element was expected bu $($Output.count) elements were found using the locator  $($By -join ',') with value $($Value -join ',')."
+            Write-Error -Exception ([System.InvalidOperationException]::new($Message))
             return
         }
         else {
