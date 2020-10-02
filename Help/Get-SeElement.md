@@ -16,13 +16,13 @@ Finds all IWebElements within the current context using the given mechanism
 ### Default (Default)
 ```
 Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Int32>] [[-Driver] <IWebDriver>] [-All]
- [-Attributes <String[]>] [<CommonParameters>]
+ [-Attributes <String[]>] [-Single] [<CommonParameters>]
 ```
 
 ### ByElement
 ```
 Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [-Element] <IWebElement> [-All]
- [-Attributes <String[]>] [<CommonParameters>]
+ [-Attributes <String[]>] [-Single] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -112,6 +112,21 @@ Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Single
+{{ Fill Single Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
