@@ -18,16 +18,18 @@ function Wait-SeDriver {
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $ImpTimeout = -1
     }
     process {
+        $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver 
         if ($Condition -eq 'ScriptBlock') {
-            $SeCondition =  [System.Func[OpenQA.Selenium.IWebDriver, Bool]]$Value
+            $SeCondition = [System.Func[OpenQA.Selenium.IWebDriver, Bool]]$Value
         }
         else {
             $SeCondition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::$Condition($Value)
         }
         $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, ([timespan]::FromMilliseconds($Timeout * 1000)))
-              
+            
         try {
             [void]($WebDriverWait.Until($SeCondition))
             return $true
@@ -35,6 +37,9 @@ function Wait-SeDriver {
         catch {
             Write-Error $_
             return $false
+        }
+        Finally {
+            Enable-SeDriverImplicitTimeout -Driver $Driver -Timeout $ImpTimeout
         }
     }
 }

@@ -32,8 +32,6 @@ function Get-SeElement {
             if ($All) { $_ } else { if ($_.Displayed) { $_ } } 
         }
         $Output = $null
-    
-        $ResetImplicitTimeout = $null
         $ByCondition = $null
 
         if ($by.Count -gt 1) {
@@ -47,9 +45,9 @@ function Get-SeElement {
             $ByCondition = [OpenQA.Selenium.By]::$By($Value)
         }
         
+        $ImpTimeout = -1 
         if ($By.Count -gt 1 -or $PSBoundParameters.ContainsKey('Timeout')) {
-            $ResetImplicitTimeout = $Driver.Manage().Timeouts().ImplicitWait
-            $Driver.Manage().Timeouts().ImplicitWait = 0
+            $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver 
         }
         #Id Should always be considered as Single
         if ($By.Contains('Id') -and !$PSBoundParameters.ContainsKey('Single')) {
@@ -124,9 +122,7 @@ function Get-SeElement {
         }
     }
     End {
-        if ($null -ne $ResetImplicitTimeout) {
-            $Driver.Manage().Timeouts().ImplicitWait = $ResetImplicitTimeout
-        }
+        if ($ImpTimeout -ne -1) { Enable-SeDriverImplicitTimeout -Driver $Driver -Timeout $ImpTimeout }
         
     }
 }
