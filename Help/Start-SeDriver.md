@@ -20,20 +20,21 @@ Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownload
  [<CommonParameters>]
 ```
 
+### DriverOptions
+```
+Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState>]
+ [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
+ [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Service <DriverService>]
+ -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>]
+ [-Name <Object>] [<CommonParameters>]
+```
+
 ### Default
 ```
 Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState>]
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
  [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
-```
-
-### DriverOptions
-```
-Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
- [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>] [-Position <Point>] [-WebDriverPath <Object>]
- [-BinaryPath <Object>] [-Service <DriverService>] -Options <DriverOptions> [-Arguments <String[]>]
- [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,7 +86,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Object
-Parameter Sets: Default
+Parameter Sets: DriverOptions, Default
 Aliases:
 
 Required: False
