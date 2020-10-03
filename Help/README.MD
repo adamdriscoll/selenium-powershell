@@ -94,6 +94,9 @@ Delete the named cookie from the current domain
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
+### [Set-SeDriverTimeout](Set-SeDriverTimeout.md)
+{{ Fill in the Synopsis }}
+
 ### [Set-SeSelectValue](Set-SeSelectValue.md)
 {{ Fill in the Synopsis }}
 

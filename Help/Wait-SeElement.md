@@ -20,7 +20,7 @@ Wait-SeElement -Element <IWebElement> [-Condition <Object>] [-ConditionValue <Ob
 
 ### Locator
 ```
-Wait-SeElement [-By] <SeBySelector> [-Value] <String> [-Condition <Object>] [-ConditionValue <Object>]
+Wait-SeElement [[-By] <SeBySelector>] [-Value] <String> [-Condition <Object>] [-ConditionValue <Object>]
  [-Timeout <Double>] [-Driver <Object>] [<CommonParameters>]
 ```
 
@@ -47,7 +47,7 @@ Parameter Sets: Locator
 Aliases:
 Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: False

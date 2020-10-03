@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Wait-SeDriver -Condition <Object> [-Value <Object>] [[-Timeout] <Double>] [[-Driver] <Object>]
+Wait-SeDriver [-Condition] <Object> [-Value] <Object> [[-Timeout] <Double>] [[-Driver] <Object>]
  [<CommonParameters>]
 ```
 
@@ -40,7 +40,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -84,8 +84,8 @@ Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
