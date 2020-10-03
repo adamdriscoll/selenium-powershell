@@ -1543,7 +1543,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
             <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Stack</maml:name>
@@ -1581,7 +1581,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <maml:name>Object</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -3189,7 +3189,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
             <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -3204,7 +3204,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <maml:name>Object</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -3263,7 +3263,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
             <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -3290,7 +3290,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <maml:name>Object</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>$Script:SeDriversCurrent</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
