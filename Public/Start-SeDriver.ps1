@@ -8,6 +8,7 @@ function Start-SeDriver {
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBrowsers]) })]
         [Parameter(ParameterSetName = 'Default')]
         $Browser,
+        [StringUrlTransformAttribute()]
         [ValidateURIAttribute()]
         [Parameter(Position = 1)]
         [string]$StartURL,
