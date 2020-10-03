@@ -17,7 +17,7 @@ schema: 2.0.0
 Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
  [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>] [-Position <Point>] [-WebDriverPath <Object>]
  [-BinaryPath <Object>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>]
- [<CommonParameters>]
+ [-UserAgent <String>] [<CommonParameters>]
 ```
 
 ### DriverOptions
@@ -26,7 +26,7 @@ Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Service <DriverService>]
  -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>]
- [-Name <Object>] [<CommonParameters>]
+ [-Name <Object>] [-UserAgent <String>] [<CommonParameters>]
 ```
 
 ### Default
@@ -34,7 +34,8 @@ Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState
 Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState>]
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
- [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [<CommonParameters>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [-UserAgent <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -284,6 +285,21 @@ Accept wildcard characters: False
 ```yaml
 Type: String[]
 Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserAgent
+{{ Fill UserAgent Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: False

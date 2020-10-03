@@ -16,7 +16,8 @@ schema: 2.0.0
 New-SeDriverOptions [-Browser <Object>] [[-StartURL] <String>] [-State <Object>]
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
- [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [<CommonParameters>]
+ [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-UserAgent <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -219,6 +220,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserAgent
+{{ Fill UserAgent Description }}
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
