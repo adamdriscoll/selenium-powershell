@@ -37,7 +37,7 @@ function Start-SeDriver {
         [SeDriverUserAgentTransformAttribute()]
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
-        $UserAgent
+        [String]$UserAgent
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     Begin {
