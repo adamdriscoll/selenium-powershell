@@ -11,9 +11,6 @@ Locale: {{ Update Locale }}
 {{ Fill in the Description }}
 
 ## Selenium Cmdlets
-### [Add-SeDriverOptionsArgument](Add-SeDriverOptionsArgument.md)
-{{ Fill in the Synopsis }}
-
 ### [Clear-SeAlert](Clear-SeAlert.md)
 Accept and clear alert popup
 
