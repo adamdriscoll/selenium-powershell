@@ -33,9 +33,16 @@ function Start-SeDriver {
         $ProfilePath,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         [ValidateNotNullOrEmpty()]
-        $Name 
+        $Name,
+        [SeDriverUserAgentTransformAttribute()]
+        [ValidateNotNull()]
+        [ArgumentCompleter( [SeDriverUserAgentCompleter])]
+        [String]$UserAgent
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
+    Begin {
+        if ($PSBoundParameters.ContainsKey('UserAgent')) { Test-SeDriverUserAgent -Browser $Browser -ErrorAction Stop }
+    }
     process {
         #Params with default value that need to be pased down to Start-SeXXDriver
         $OptionalParams = @('ImplicitWait', 'State')
