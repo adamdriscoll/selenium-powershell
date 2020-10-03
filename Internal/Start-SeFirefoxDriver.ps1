@@ -13,7 +13,8 @@ function Start-SeFirefoxDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [String]$UserAgent
         
     )
     process {
@@ -28,6 +29,11 @@ function Start-SeFirefoxDriver {
             Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
             $Firefox_Options.setPreference("browser.download.folderList", 2);
             $Firefox_Options.SetPreference("browser.download.dir", "$DefaultDownloadPath");
+        }
+
+        if ($UserAgent) {
+            Write-Verbose "Setting User Agent: $UserAgent"
+            $Firefox_Options.SetPreference("general.useragent.override", $UserAgent)
         }
 
         if ($PrivateBrowsing) {
