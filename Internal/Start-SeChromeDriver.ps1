@@ -13,7 +13,8 @@ function Start-SeChromeDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        $UserAgent
         
 
 
@@ -44,6 +45,11 @@ function Start-SeChromeDriver {
         if ($DefaultDownloadPath) {
             Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
             $Options.AddUserProfilePreference('download', @{'default_directory' = $($DefaultDownloadPath.FullName); 'prompt_for_download' = $false; })
+        }
+
+        if ($UserAgent) {
+            Write-Verbose "Setting User Agent: $UserAgent"
+            $Options.AddArgument("--user-agent=$UserAgent")
         }
 
         if ($ProfilePath) {
