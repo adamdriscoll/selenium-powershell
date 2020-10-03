@@ -83,6 +83,7 @@ task CopyAdditionalFiles {
 
     & $CopyFolder 'assemblies'
     & $CopyFolder 'types'
+    & $CopyFolder 'formats'
     & $CopyFolder 'Examples'
 
     & $CopyFile 'SeleniumClasses.ps1'

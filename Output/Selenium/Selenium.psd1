@@ -17,7 +17,7 @@
     ScriptsToProcess     = @('SeleniumClasses.ps1')
     RootModule           = 'Selenium.psm1'
     RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll', 'System.Drawing')
-    FunctionsToExport = @('Add-SeDriverOptionsArgument', 'Clear-SeAlert', 'Clear-SeSelectValue', 'Get-SeCookie', 'Get-SeDriver', 'Get-SeElement', 'Get-SeElementAttribute', 'Get-SeElementCssValue', 'Get-SeHtml', 'Get-SeKeys', 'Get-SeSelectValue', 'Get-SeUrl', 'Get-SeWindow', 'Invoke-SeClick', 'Invoke-SeJavascript', 'Invoke-SeKeyAction', 'Invoke-SeKeys', 'Invoke-seMouseAction', 'New-SeDriverOptions', 'New-SeDriverService', 'New-SeScreenshot', 'Pop-SeUrl', 'Push-SeUrl', 'Remove-SeCookie', 'Save-SeScreenshot', 'Select-SeDriver', 'SeShouldHave', 'Set-SeCookie', 'Set-SeDriverTimeout', 'Set-SeSelectValue', 'Set-SeUrl', 'Start-SeDriver', 'Start-SeRemote', 'Stop-SeDriver', 'Switch-SeFrame', 'Switch-SeWindow', 'Wait-SeDriver', 'Wait-SeElement')
+    FunctionsToExport = @('Add-SeDriverOptionsArgument', 'Clear-SeAlert', 'Clear-SeSelectValue', 'Get-SeCookie', 'Get-SeDriver', 'Get-SeDriverTimeout', 'Get-SeElement', 'Get-SeElementAttribute', 'Get-SeElementCssValue', 'Get-SeHtml', 'Get-SeKeys', 'Get-SeSelectValue', 'Get-SeUrl', 'Get-SeWindow', 'Invoke-SeClick', 'Invoke-SeJavascript', 'Invoke-SeKeyAction', 'Invoke-SeKeys', 'Invoke-seMouseAction', 'New-SeDriverOptions', 'New-SeDriverService', 'New-SeScreenshot', 'Pop-SeUrl', 'Push-SeUrl', 'Remove-SeCookie', 'Save-SeScreenshot', 'Select-SeDriver', 'SeShouldHave', 'Set-SeCookie', 'Set-SeDriverTimeout', 'Set-SeSelectValue', 'Set-SeUrl', 'Start-SeDriver', 'Start-SeRemote', 'Stop-SeDriver', 'Switch-SeFrame', 'Switch-SeWindow', 'Wait-SeDriver', 'Wait-SeElement')
     AliasesToExport      = @()
     CmdletsToExport      = @()
     VariablesToExport    = @()
@@ -69,10 +69,10 @@
     # RequiredModules = @()
 
     #Type files (.ps1xml) to be loaded when importing this module
-    TypesToProcess       = @('types/Selenium.Types.ps1xml')
+    TypesToProcess       = @('types/Selenium.types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+    FormatsToProcess     = @('formats/Selenium.format.ps1xml')
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     # NestedModules = @()
