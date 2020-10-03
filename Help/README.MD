@@ -26,6 +26,9 @@ List all cookies
 ### [Get-SeDriver](Get-SeDriver.md)
 {{ Fill in the Synopsis }}
 
+### [Get-SeDriverTimeout](Get-SeDriverTimeout.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-SeElement](Get-SeElement.md)
 	
 Finds all IWebElements within the current context using the given mechanism
