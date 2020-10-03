@@ -28,8 +28,13 @@ function New-SeDriverOptions {
         [String[]]$Switches,
         [String[]]$Arguments,
         $ProfilePath,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [SeDriverUserAgentTransformAttribute()]
+        [ValidateNotNull()]
+        [ArgumentCompleter( [SeDriverUserAgentCompleter])]
+        [String]$UserAgent
     )
+    if ($PSBoundParameters.ContainsKey('UserAgent')) { Test-SeDriverUserAgent -Browser $Browser -ErrorAction Stop }
     #  [Enum]::GetNames([sebrowsers])
     $output = $null
     switch ($Browser) {
