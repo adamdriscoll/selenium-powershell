@@ -3,13 +3,14 @@
     param (
         $Driver,
         [ArgumentCompleter([SeMouseActionCompleter])]
-        [ValidateScript( { Get-SeMouseActionValidation -Action $_ })]
+        [ValidateScript( { $_ -in $Script:SeMouseAction.Text })]
         $Action,
-        [ValidateScript( { Get-SeMouseActionValueValidation -Action $Action -ConditionValue $_ })]
         $Value
     )
-    
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    Test-SeMouseActionValueValidation -Action $Action -ConditionValue $Value -ErrorAction Stop
+
+
     $Value2 = $null
     if ($Action -in @('DragAndDropToOffset', 'MoveByOffset', 'MoveToElement') -and $Value -is [String]) {
         $Value2 = $Value -split '[,x]'

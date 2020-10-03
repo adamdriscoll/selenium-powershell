@@ -1,4 +1,4 @@
-﻿function Get-SeMouseActionValueValidation {
+﻿function Test-SeMouseActionValueValidation {
     [CmdletBinding()]
     Param(
         $Action,
