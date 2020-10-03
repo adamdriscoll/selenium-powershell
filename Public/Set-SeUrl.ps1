@@ -37,6 +37,7 @@ function Set-SeUrl {
     param(
         # The target URL for the webdriver to navigate to.
         [Parameter(Mandatory = $true, position = 0, ParameterSetName = 'url')]
+        [StringUrlTransformAttribute()]
         [ValidateURIAttribute()]
         [string]$Url,
 
