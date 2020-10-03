@@ -66,7 +66,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: $Script:SeDriversCurrent
+Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
