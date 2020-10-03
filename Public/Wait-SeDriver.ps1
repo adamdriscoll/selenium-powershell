@@ -2,10 +2,10 @@ function Wait-SeDriver {
     [Cmdletbinding()]
     param(
         [ArgumentCompleter([SeDriverConditionsCompleter])]
-        [ValidateScript( { Get-SeDriverConditionsValidation -Condition $_ })]
-        [Parameter(Mandatory = $true)]
+        [ValidateScript( { $_ -in $Script:SeDriverConditions.Text })]
+        [Parameter(Position = 0, Mandatory = $true)]
         $Condition,
-        [ValidateScript( { Get-SeDriverConditionsValueValidation -Condition $Condition -Value $_ })]
+        [Parameter(Position = 1, Mandatory = $true)]
         [ValidateNotNull()]
         $Value,
         #Specifies a time out
@@ -19,6 +19,7 @@ function Wait-SeDriver {
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
         $ImpTimeout = -1
+        Test-SeDriverConditionsValueValidation -Condition $Condition -Value $Value -Erroraction Stop
     }
     process {
         $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver 

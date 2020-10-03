@@ -1,4 +1,4 @@
-﻿function Get-SeDriverConditionsValueValidation {
+﻿function Test-SeDriverConditionsValueValidation {
     [CmdletBinding()]
     param (
         $Condition, $Value

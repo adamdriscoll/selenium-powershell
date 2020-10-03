@@ -2,7 +2,7 @@ function Invoke-SeClick {
     param(
         [parameter(Position = 0, HelpMessage = 'test')]
         [ArgumentCompleter([SeMouseClickActionCompleter])]
-        [ValidateScript( { Get-SeMouseClickActionValidation -Action $_ })]
+        [ValidateScript( { $_ -in $Script:SeMouseClickAction.Text })]
         $Action = 'Click',
         [Parameter( ValueFromPipeline = $true, Position = 1)]
         [ValidateNotNull()]
