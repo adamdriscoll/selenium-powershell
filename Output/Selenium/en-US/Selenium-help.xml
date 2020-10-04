@@ -6,27 +6,15 @@
       <command:verb>Clear</command:verb>
       <command:noun>SeAlert</command:noun>
       <maml:description>
-        <maml:para>Accept and clear alert popup</maml:para>
+        <maml:para>Clear alert popup by dismissing or accepting it.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Accept and clear alert popup</maml:para>
+      <maml:para>Clear alert popup by dismissing or accepting it.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Clear-SeAlert</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
-          <maml:name>Alert</maml:name>
-          <maml:Description>
-            <maml:para>Specify alert window. Seems to be ignored in favor of Target / Default Target.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Action</maml:name>
           <maml:Description>
@@ -36,6 +24,18 @@
             <command:parameterValue required="false" command:variableLength="false">Accept</command:parameterValue>
             <command:parameterValue required="false" command:variableLength="false">Dismiss</command:parameterValue>
           </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+          <maml:name>Alert</maml:name>
+          <maml:Description>
+            <maml:para>Specify alert window. Seems to be ignored in favor of Target / Default Target.</maml:para>
+          </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
             <maml:name>Object</maml:name>
@@ -81,7 +81,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Alert</maml:name>
         <maml:Description>
           <maml:para>Specify alert window. Seems to be ignored in favor of Target / Default Target.</maml:para>
@@ -146,9 +146,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Clear-SeAlert -Action Dismiss</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Dismiss an alert on the currently selected driver.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -160,11 +160,11 @@
       <command:verb>Clear</command:verb>
       <command:noun>SeSelectValue</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Clear all selected entries of a SELECT element.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Clear all selected entries of a SELECT element.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -172,7 +172,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -187,7 +187,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -225,9 +225,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Clear-SeSelectValue -Element $Select</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Clear the selected value from the specified SELECT element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -318,11 +318,11 @@
       <command:verb>Get</command:verb>
       <command:noun>SeDriver</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get the list of all active drivers.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get the list of all active drivers or drivers matching the specified criterias.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -330,7 +330,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Browser</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Browser Description }}</maml:para>
+            <maml:para>Filter the list of returned drivers by their Browser type (enum: [SeBrowsers])</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -345,7 +345,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Current</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Current Description }}</maml:para>
+            <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -359,7 +359,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Name Description }}</maml:para>
+            <maml:para>Filter driver returned by its name (SeFriendlyName).</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -374,7 +374,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Browser</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Browser Description }}</maml:para>
+          <maml:para>Filter the list of returned drivers by their Browser type (enum: [SeBrowsers])</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -386,7 +386,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Current</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Current Description }}</maml:para>
+          <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -398,7 +398,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Name Description }}</maml:para>
+          <maml:para>Filter driver returned by its name (SeFriendlyName).</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -436,9 +436,30 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Get-SeDriver</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Return the list of all active drivers.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeDriver -Current</dev:code>
+        <dev:remarks>
+          <maml:para>Return the currently selected browser.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeDriver -Browser Chrome</dev:code>
+        <dev:remarks>
+          <maml:para>Returh the list of all active "Chrome" browsers.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeDriver -Name '70c91e0f112dcdbd22b84dd567560b8d'</dev:code>
+        <dev:remarks>
+          <maml:para>Return the driver with the specified name.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -450,11 +471,11 @@
       <command:verb>Get</command:verb>
       <command:noun>SeDriverTimeout</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get the specified driver timeout value.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get the specified driver timeout value.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -544,9 +565,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Get-SeDriverTimeout</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Return the currently selected driver implicit wait timeout.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeDriverTimeout -TimeoutType PageLoad -Driver $Driver</dev:code>
+        <dev:remarks>
+          <maml:para>Return the specified driver PageLoad timeout.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -562,7 +590,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Finds all IWebElements within the current context using the given mechanism</maml:para>
+      <maml:para>Finds all IWebElements within the current context using the given mechanism.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -570,7 +598,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Value Description }}</maml:para>
+            <maml:para>Locator Value corresponding to the `$By` selector. There should be an equal number of values than `$By` selector provided.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -606,7 +634,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>All</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill All Description }}</maml:para>
+            <maml:para>Return matching hidden items in addition to displayed ones.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -617,7 +645,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Attributes</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Attributes Description }}</maml:para>
+            <maml:para>Append a list of Attributes (case sensitive) to each element returned. Attributes will be available through a dictionary property of the same name. Is the wildcard `*` character is used, all attributes will be queried and appended.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -629,7 +657,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>By</maml:name>
           <maml:Description>
-            <maml:para>The locating mechanism to use</maml:para>
+            <maml:para>The locating mechanism to use. It is possible to use multiple locator, in which case they will be processed sequentially.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">ClassName</command:parameterValue>
@@ -651,7 +679,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Single</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Single Description }}</maml:para>
+            <maml:para>Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -665,7 +693,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Value Description }}</maml:para>
+            <maml:para>Locator Value corresponding to the `$By` selector. There should be an equal number of values than `$By` selector provided.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -689,7 +717,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>All</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill All Description }}</maml:para>
+            <maml:para>Return matching hidden items in addition to displayed ones.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -700,7 +728,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Attributes</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Attributes Description }}</maml:para>
+            <maml:para>Append a list of Attributes (case sensitive) to each element returned. Attributes will be available through a dictionary property of the same name. Is the wildcard `*` character is used, all attributes will be queried and appended.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -712,7 +740,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>By</maml:name>
           <maml:Description>
-            <maml:para>The locating mechanism to use</maml:para>
+            <maml:para>The locating mechanism to use. It is possible to use multiple locator, in which case they will be processed sequentially.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">ClassName</command:parameterValue>
@@ -734,7 +762,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Single</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Single Description }}</maml:para>
+            <maml:para>Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -748,7 +776,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>All</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill All Description }}</maml:para>
+          <maml:para>Return matching hidden items in addition to displayed ones.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -760,7 +788,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Attributes</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Attributes Description }}</maml:para>
+          <maml:para>Append a list of Attributes (case sensitive) to each element returned. Attributes will be available through a dictionary property of the same name. Is the wildcard `*` character is used, all attributes will be queried and appended.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -772,7 +800,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>By</maml:name>
         <maml:Description>
-          <maml:para>The locating mechanism to use</maml:para>
+          <maml:para>The locating mechanism to use. It is possible to use multiple locator, in which case they will be processed sequentially.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">SeBySelector[]</command:parameterValue>
         <dev:type>
@@ -808,7 +836,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Single</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Single Description }}</maml:para>
+          <maml:para>Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -832,7 +860,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Value Description }}</maml:para>
+          <maml:para>Locator Value corresponding to the `$By` selector. There should be an equal number of values than `$By` selector provided.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -870,9 +898,40 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-SeElement -By Name -Selection 'username'</dev:code>
+        <dev:code>PS C:\&gt; Get-SeElement -By XPath '//*[@id="home_text3"]/div[2]' -Value '//*[@id="home_text3"]/div[2]'
+#Same but positionally bound
+PS C:\&gt; Get-SeElement '//*[@id="home_text3"]/div[2]'</dev:code>
         <dev:remarks>
-          <maml:para>Get the username field by name</maml:para>
+          <maml:para>Get the elements matching the specified XPath selector.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeElement -By Name -Value 'username' -Single</dev:code>
+        <dev:remarks>
+          <maml:para>Get the username field by name with the expectation only one element is to be returned.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeElement -By Name -Value 'username' -Single</dev:code>
+        <dev:remarks>
+          <maml:para>Get the username field by name with the expectation only one element is to be returned.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeElement -By ClassName -Value homeitem -All -Attributes name, id -Timeout 2.5
+#To return all attributes instead: -Attributes *</dev:code>
+        <dev:remarks>
+          <maml:para>Get the elements by classname. Include hidden items `-All` and append an `Attributes` NoteProperty to all the result containing the value for the name and id attribute. The call will also fail if no results are found after 2.5 seconds.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 5 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeElement -By ClassName,PartialLinkText -Value 'homeitem','The'</dev:code>
+        <dev:remarks>
+          <maml:para>Get the elements that match the selectors in a sequential manner. This call will return all links that contains the defined text (The) within elements that have a classname of "homeitem".</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -884,11 +943,11 @@
       <command:verb>Get</command:verb>
       <command:noun>SeElementAttribute</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get the specified attribute from the specified element.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get the specified attribute from the specified element.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -908,7 +967,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Attribute</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Attribute Description }}</maml:para>
+            <maml:para></maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -923,7 +982,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Attribute</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Attribute Description }}</maml:para>
+          <maml:para></maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1079,7 +1138,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-SeElementCssValue -Element $Element -Name 'padding'</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Get padding css value for the targeted element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1091,16 +1150,16 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Get</command:verb>
       <command:noun>SeHtml</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get outer html of the specified element or driver.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get outer html of the specified element or driver. Driver is used by default if no element is specified.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SeHtml</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Element Description }}</maml:para>
@@ -1112,10 +1171,22 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Driver Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebDriver</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Inner</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Inner Description }}</maml:para>
+            <maml:para>Return inner html instead.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1126,7 +1197,19 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Driver</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Driver Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebDriver</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Element Description }}</maml:para>
@@ -1141,7 +1224,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Inner</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Inner Description }}</maml:para>
+          <maml:para>Return inner html instead.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1179,9 +1262,17 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Element = Get-SeElement -By ClassName -Value 'homeitem'
+PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Get inner html for all specified elements.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-SeHtml</dev:code>
+        <dev:remarks>
+          <maml:para>Get html of the current page. Equivalent to $Driver.PageSource</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1247,11 +1338,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Get</command:verb>
       <command:noun>SeSelectValue</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get Select element selected value.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get Select element selected value.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1271,7 +1362,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>All</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill All Description }}</maml:para>
+            <maml:para>Get All selected values (only available when the Select element accept multiple values)</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1282,7 +1373,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>IsMultiSelect</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill IsMultiSelect Description }}</maml:para>
+            <maml:para>Set the referenced variable to a boolean representing whether or not the current Select element accept multiple selections.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">PSReference</command:parameterValue>
           <dev:type>
@@ -1297,7 +1388,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>All</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill All Description }}</maml:para>
+          <maml:para>Get All selected values (only available when the Select element accept multiple values)</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1321,7 +1412,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>IsMultiSelect</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill IsMultiSelect Description }}</maml:para>
+          <maml:para>Set the referenced variable to a boolean representing whether or not the current Select element accept multiple selections.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">PSReference</command:parameterValue>
         <dev:type>
@@ -1359,9 +1450,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Get-SeSelectValue -Element $Select</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Get the selected value for the specified element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1537,11 +1628,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Invoke</command:verb>
       <command:noun>SeClick</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Perform a click in the browser window or specified element.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Perform a click in the browser window or specified element.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1697,9 +1788,16 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Invoke-SeClick</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Perform a click in the browser at the current position</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Invoke-SeClick -Action Click_JS -Element $Element</dev:code>
+        <dev:remarks>
+          <maml:para>Perform a javascript click on the specified element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1711,16 +1809,41 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Invoke</command:verb>
       <command:noun>SeJavascript</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Invoke Javascript in the specified Driver.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Invoke Javascript in the specified Driver. arguments will be passed to the javascript as "argument[0]" (where 0 is the argument position)</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Invoke-SeJavascript</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>Script</maml:name>
+          <maml:Description>
+            <maml:para>Javascript script to be executed. Arguments passed down can be used in the scripts through `arguments[0],arguments[1]`,etc...
+</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>ArgumentList</maml:name>
+          <maml:Description>
+            <maml:para>Argument list to be passed down to the script.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object[]</command:parameterValue>
+          <dev:type>
+            <maml:name>Object[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -1732,37 +1855,13 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>Script</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill Script Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>ArgumentList</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill ArgumentList Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object[]</command:parameterValue>
-          <dev:type>
-            <maml:name>Object[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>ArgumentList</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ArgumentList Description }}</maml:para>
+          <maml:para>Argument list to be passed down to the script.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object[]</command:parameterValue>
         <dev:type>
@@ -1771,7 +1870,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -1783,10 +1882,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Script</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Script Description }}</maml:para>
+          <maml:para>Javascript script to be executed. Arguments passed down can be used in the scripts through `arguments[0],arguments[1]`,etc...
+</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1824,9 +1924,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Invoke-SeJavascript -Script 'arguments[0].click()' -ArgumentList $Element</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Perform a javascript click on the specified element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1838,28 +1938,16 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Invoke</command:verb>
       <command:noun>SeKeyAction</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Perform a key down or key up in the browser or specified element.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Perform a key down or key up in the browser or specified element.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Invoke-SeKeyAction</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>Driver</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Element Description }}</maml:para>
@@ -1871,10 +1959,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Action</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Action Description }}</maml:para>
+            <maml:para>Action to be perfomed</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">KeyDown</command:parameterValue>
@@ -1887,10 +1975,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Key</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Key Description }}</maml:para>
+            <maml:para>Modifier key</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">CTRL</command:parameterValue>
@@ -1904,10 +1992,22 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Driver Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>RightKey</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill RightKey Description }}</maml:para>
+            <maml:para>Use right modifier key.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1918,10 +2018,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Action</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Action Description }}</maml:para>
+          <maml:para>Action to be perfomed</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -1930,7 +2030,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -1942,7 +2042,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Element Description }}</maml:para>
@@ -1954,10 +2054,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Key</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Key Description }}</maml:para>
+          <maml:para>Modifier key</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -1969,7 +2069,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>RightKey</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill RightKey Description }}</maml:para>
+          <maml:para>Use right modifier key.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2007,9 +2107,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyDown -Key CTRL
+PS C:\&gt; Invoke-SeKeys -Element $Element -Keys 's'
+PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Perform a CTRL + S action on the specified element</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2021,11 +2123,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Invoke</command:verb>
       <command:noun>SeKeys</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Send the keys to the browser or specified element.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>The text to be typed may include special characters like arrow keys, backspaces, function keys, and so on. Valid special keys are defined in Keys. OpenQA_Selelnium_Keys (https://www.selenium.dev/selenium/docs/api/dotnet/html/T_OpenQA_Selenium_Keys.htm)</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2045,7 +2147,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Keys</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Keys Description }}</maml:para>
+            <maml:para>Text to be typed. Special keys (Enter, arrow down, etc...) can be typed using double brackets (eg: `{{Enter}}`). See cmdlet description for complete list of keys</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2057,7 +2159,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ClearFirst</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ClearFirst Description }}</maml:para>
+            <maml:para>Clear the element existing text first</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2105,7 +2207,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ClearFirst</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ClearFirst Description }}</maml:para>
+          <maml:para>Clear the element existing text first</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2129,7 +2231,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Keys</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Keys Description }}</maml:para>
+          <maml:para>Text to be typed. Special keys (Enter, arrow down, etc...) can be typed using double brackets (eg: `{{Enter}}`). See cmdlet description for complete list of keys</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2203,9 +2305,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Search = Get-SeElement -By TagName -Value input  -Single
+PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Type the defined text and a special key - Enter - defined in the special keys.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2217,16 +2320,40 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Invoke</command:verb>
       <command:noun>SeMouseAction</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Perform mouse move &amp; drag actions.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Perform mouse move &amp; drag actions.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Invoke-SeMouseAction</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Action</maml:name>
+          <maml:Description>
+            <maml:para>Action to be performed. Intellisense tooltip provide details regarding expected value.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Value</maml:name>
+          <maml:Description>
+            <maml:para>Value expected by the specified action.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
             <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -2238,37 +2365,13 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>Action</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill Action Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>Value</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill Value Description }}</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Action</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Action Description }}</maml:para>
+          <maml:para>Action to be performed. Intellisense tooltip provide details regarding expected value.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2277,7 +2380,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Driver Description }}</maml:para>
@@ -2289,10 +2392,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Value Description }}</maml:para>
+          <maml:para>Value expected by the specified action.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2330,9 +2433,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Invoke-SeMouseAction -Element $SourceElement -Action DragAndDrop -Value $DestinationElement</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Perform a drag&amp;drop operation from the source element to destination element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2344,11 +2447,12 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>New</command:verb>
       <command:noun>SeDriverOptions</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Create a driver options object that can be used with `Start-SeDriver`</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Create a driver options object that can be used with `Start-SeDriver`</maml:para>
+      <maml:para>This allow for more flexibility than the Start-SeDriver cmdlet as you can perform additional things with the driver options before starting the driver.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2356,7 +2460,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>StartURL</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StartURL Description }}</maml:para>
+            <maml:para>Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2368,7 +2472,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Arguments Description }}</maml:para>
+            <maml:para>Command line arguments to be passed to the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2392,7 +2496,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Browser</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Browser Description }}</maml:para>
+            <maml:para>Browser name to be started.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2416,7 +2520,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ImplicitWait</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ImplicitWait Description }}</maml:para>
+            <maml:para>Maximum time that the browser will implicitely wait between operations</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -2448,7 +2552,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Position</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Position Description }}</maml:para>
+            <maml:para>Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
           <dev:type>
@@ -2460,7 +2564,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
+            <maml:para>Launch the browser in a private session</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2483,7 +2587,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Size</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Size Description }}</maml:para>
+            <maml:para>Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
           <dev:type>
@@ -2495,7 +2599,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>State</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill State Description }}</maml:para>
+            <maml:para>Window state of the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2507,7 +2611,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Switches</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Switches Description }}</maml:para>
+            <maml:para>Special switches (additional legacy options that might appear for some browser )</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -2519,7 +2623,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>UserAgent</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill UserAgent Description }}</maml:para>
+            <maml:para>UserAgent to be set. Supported by Chrome &amp; Firefox</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2531,7 +2635,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>WebDriverPath</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+            <maml:para>Location of the web driver to be used.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2546,7 +2650,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Arguments</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Arguments Description }}</maml:para>
+          <maml:para>Command line arguments to be passed to the browser.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2570,7 +2674,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Browser</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Browser Description }}</maml:para>
+          <maml:para>Browser name to be started.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2594,7 +2698,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ImplicitWait</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ImplicitWait Description }}</maml:para>
+          <maml:para>Maximum time that the browser will implicitely wait between operations</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
@@ -2618,7 +2722,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Position</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Position Description }}</maml:para>
+          <maml:para>Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
         <dev:type>
@@ -2630,7 +2734,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PrivateBrowsing</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
+          <maml:para>Launch the browser in a private session</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2654,7 +2758,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Size</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Size Description }}</maml:para>
+          <maml:para>Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
         <dev:type>
@@ -2666,7 +2770,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>StartURL</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill StartURL Description }}</maml:para>
+          <maml:para>Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2678,7 +2782,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>State</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill State Description }}</maml:para>
+          <maml:para>Window state of the browser.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2690,7 +2794,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Switches</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Switches Description }}</maml:para>
+          <maml:para>Special switches (additional legacy options that might appear for some browser )</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -2702,7 +2806,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>UserAgent</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill UserAgent Description }}</maml:para>
+          <maml:para>UserAgent to be set. Supported by Chrome &amp; Firefox</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -2714,7 +2818,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>WebDriverPath</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+          <maml:para>Location of the web driver to be used.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2776,9 +2880,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Options = New-SeDriverOptions -Browser Chrome -Position 1920x0 -Size 1920x1080
+PS C:\&gt; $Options.AddAdditionalCapability('useAutomationExtension', $false)
+PS C:\&gt; Start-SeDriver -Options $Options</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Create a Chrome driver option object to perform additional things unsupported directly by Start-SeDriver, such as adding an additional capability, then Start a driver instance with the modified Chrome driver options object.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2790,11 +2896,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>New</command:verb>
       <command:noun>SeDriverService</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Create an instance of WebDriver service to be used with Start-SeDriver</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Create an instance of WebDriver service to be used with Start-SeDriver</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2802,7 +2908,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Browser</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Browser Description }}</maml:para>
+            <maml:para>Browser name</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2814,7 +2920,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>WebDriverPath</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+            <maml:para>Location of the web driver to be used.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2829,7 +2935,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Browser</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Browser Description }}</maml:para>
+          <maml:para>Browser name</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2841,7 +2947,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>WebDriverPath</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+          <maml:para>Location of the web driver to be used.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2903,9 +3009,13 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Service = New-SeDriverService -Browser Chrome 
+PS C:\&gt; $Service.PortServerAddress = 100
+PS C:\&gt; $Options = New-SeDriverOptions -Browser Chrome -Position 1920x0 -Size 1920x1080
+PS C:\&gt; Start-SeDriver -Service $Service -Options $Options
+PS C:\&gt; $Service.ProcessId</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Create a new instance of Chrome driver service, set a custom port and start the driver with the modified service instance.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3186,7 +3296,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>All</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill All Description }}</maml:para>
+            <maml:para>Clear all cookies.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3239,7 +3349,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>All</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill All Description }}</maml:para>
+          <maml:para>Clear all cookies.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3326,7 +3436,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Save the screenshot at the specified location.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3346,7 +3456,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ImageFormat</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ImageFormat Description }}</maml:para>
+            <maml:para>Image format for the file to be saved.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Png</command:parameterValue>
@@ -3365,7 +3475,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Path</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>Filepath where the image will be saved.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3380,7 +3490,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ImageFormat</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ImageFormat Description }}</maml:para>
+            <maml:para>Image format for the file to be saved.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Png</command:parameterValue>
@@ -3399,7 +3509,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Path</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>Filepath where the image will be saved.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3411,7 +3521,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Screenshot</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Screenshot Description }}</maml:para>
+            <maml:para>Screenshot object.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Screenshot</command:parameterValue>
           <dev:type>
@@ -3438,7 +3548,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ImageFormat</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ImageFormat Description }}</maml:para>
+          <maml:para>Image format for the file to be saved.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">ScreenshotImageFormat</command:parameterValue>
         <dev:type>
@@ -3450,7 +3560,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Path</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>Filepath where the image will be saved.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3462,7 +3572,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Screenshot</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Screenshot Description }}</maml:para>
+          <maml:para>Screenshot object.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Screenshot</command:parameterValue>
         <dev:type>
@@ -3508,9 +3618,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Screenshot = New-SeScreenshot 
+PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -ImageFormat Png</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Create then save a screenshot to disk.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3522,11 +3633,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Select</command:verb>
       <command:noun>SeDriver</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3549,7 +3660,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Name Description }}</maml:para>
+            <maml:para>SeFriendlyName of the browser to select.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -3576,7 +3687,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Name Description }}</maml:para>
+          <maml:para>SeFriendlyName of the browser to select.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3614,9 +3725,17 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; $Driver = Start-SeDriver -Browser Chrome 
+# Chrome is the only and default driver
+PS C:\&gt; Get-SeDriver -Current
+PS C:\&gt; Start-SeDriver -Browser Firefox
+# Firefox is now the default browser
+PS C:\&gt; Get-SeDriver -Current
+PS C:\&gt; Select-SeDriver -Driver $Driver
+# Chrome is the default browser again
+PS C:\&gt; Get-SeDriver -Current</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Select-SeDriver</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3819,11 +3938,11 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Set</command:verb>
       <command:noun>SeDriverTimeout</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Set the various driver timeouts default.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Set the various driver timeouts default.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -3831,7 +3950,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>TimeoutType</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill TimeoutType Description }}</maml:para>
+            <maml:para>Type of timeout to change.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">ImplicitWait</command:parameterValue>
@@ -3848,7 +3967,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Timeout</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Timeout Description }}</maml:para>
+            <maml:para>Value in seconds</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -3887,7 +4006,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Timeout</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Timeout Description }}</maml:para>
+          <maml:para>Value in seconds</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
@@ -3899,7 +4018,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>TimeoutType</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill TimeoutType Description }}</maml:para>
+          <maml:para>Type of timeout to change.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3937,9 +4056,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Set-SeDriverTimeout -TimeoutType ImplicitWait -Timeout 0</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Set Implicit wait timeout to 0</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3951,23 +4070,23 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:verb>Set</command:verb>
       <command:noun>SeSelectValue</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Set Select element selected value.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Set Select element selected value.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Set-SeSelectValue</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-          <maml:name>Element</maml:name>
+          <maml:name>value</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Value to which the specified element will be set.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
-            <maml:name>IWebElement</maml:name>
+            <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -3975,7 +4094,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>By</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill By Description }}</maml:para>
+            <maml:para>Selector to be used to set the value.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Index</command:parameterValue>
@@ -3990,13 +4109,13 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>value</maml:name>
+          <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill value Description }}</maml:para>
+            <maml:para>{{ Fill Element Description }}</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>IWebElement</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4007,7 +4126,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>By</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill By Description }}</maml:para>
+          <maml:para>Selector to be used to set the value.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">SeBySelect</command:parameterValue>
         <dev:type>
@@ -4016,7 +4135,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
           <maml:para>{{ Fill Element Description }}</maml:para>
@@ -4028,10 +4147,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>value</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill value Description }}</maml:para>
+          <maml:para>Value to which the specified element will be set.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -4069,9 +4188,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Set-SeSelectValue -By Text -value 'Hello' -Element $Element</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Set targeted Select element selected value to 'Hello' (by text)</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -4079,23 +4198,23 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Set-SeCookie</command:name>
+      <command:name>Set-SeUrl</command:name>
       <command:verb>Set</command:verb>
-      <command:noun>SeCookie</command:noun>
+      <command:noun>SeUrl</command:noun>
       <maml:description>
-        <maml:para>Add a cookie to the current browsing context</maml:para>
+        <maml:para>Navigates to the targeted URL with the selected or default driver.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Add a cookie to the current browsing context</maml:para>
+      <maml:para>Used for webdriver navigation commands, either to specific target URLs or for history (Back/Forward) navigation or refreshing the current page.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Set-SeCookie</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>Name</maml:name>
+        <maml:name>Set-SeUrl</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Url</maml:name>
           <maml:Description>
-            <maml:para>The name of the cookie</maml:para>
+            <maml:para>The target URL for the webdriver to navigate to.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4104,46 +4223,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>Value</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+          <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>The value of the cookie</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>Path</maml:name>
-          <maml:Description>
-            <maml:para>The path of the cookie</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-          <maml:name>Domain</maml:name>
-          <maml:Description>
-            <maml:para>The domain of the cookie</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
-          <maml:name>ExpiryDate</maml:name>
-          <maml:Description>
-            <maml:para>The expiration date of the cookie</maml:para>
+            <maml:para>The target webdriver to manage navigation for. Will utilise the default driver if left unset.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4152,10 +4235,100 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="5" aliases="none">
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-SeUrl</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Back</maml:name>
+          <maml:Description>
+            <maml:para>Trigger the Back history navigation action in the webdriver.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Depth</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Depth Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>1</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>The target webdriver to manage navigation for. Will utilise the default driver if left unset.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-SeUrl</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Forward</maml:name>
+          <maml:Description>
+            <maml:para>Trigger the Forward history navigation action in the webdriver.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Depth</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Depth Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>1</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>The target webdriver to manage navigation for. Will utilise the default driver if left unset.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-SeUrl</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Refresh</maml:name>
+          <maml:Description>
+            <maml:para>Refresh the current page in the webdriver.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>The target webdriver to manage navigation for. Will utilise the default driver if left unset.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4167,10 +4340,10 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-        <maml:name>Domain</maml:name>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Url</maml:name>
         <maml:Description>
-          <maml:para>The domain of the cookie</maml:para>
+          <maml:para>The target URL for the webdriver to navigate to.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4179,93 +4352,104 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="5" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Back</maml:name>
+        <maml:Description>
+          <maml:para>Trigger the Back history navigation action in the webdriver.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Forward</maml:name>
+        <maml:Description>
+          <maml:para>Trigger the Forward history navigation action in the webdriver.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Refresh</maml:name>
+        <maml:Description>
+          <maml:para>Refresh the current page in the webdriver.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Depth</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Depth Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>1</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>The target webdriver to manage navigation for. Will utilise the default driver if left unset.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
           <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
-        <maml:name>ExpiryDate</maml:name>
-        <maml:Description>
-          <maml:para>The expiration date of the cookie</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-        <maml:name>Name</maml:name>
-        <maml:Description>
-          <maml:para>The name of the cookie</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-        <maml:name>Path</maml:name>
-        <maml:Description>
-          <maml:para>The path of the cookie</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>Value</maml:name>
-        <maml:Description>
-          <maml:para>The value of the cookie</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
+    <command:inputTypes />
+    <command:returnValues />
     <maml:alertSet>
       <maml:alert>
-        <maml:para></maml:para>
+        <maml:para>The Back/Forward/Refresh logic is handled by the webdriver itself. If you need a more granular approach to handling which locations are saved or retrieved, use Push-SeUrl or Pop-SeUrl to utilise a separately managed location stack.</maml:para>
       </maml:alert>
     </maml:alertSet>
-    <command:examples />
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-SeUrl 'https://www.google.com/'</dev:code>
+        <dev:remarks>
+          <maml:para>Directs the default driver to navigate to www.google.com.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Set-SeUrl -Refresh</dev:code>
+        <dev:remarks>
+          <maml:para>Reloads the current page for the default driver.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Set-SeUrl -Target $Driver -Back</dev:code>
+        <dev:remarks>
+          <maml:para>Directs the targeted webdriver instance to navigate Back in its history.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>Set-SeUrl -Forward</dev:code>
+        <dev:remarks>
+          <maml:para>Directs the default webdriver to navigate Forward in its history.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
     <command:relatedLinks />
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
@@ -4278,7 +4462,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Launch a driver instance of the specified browser.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -4286,7 +4470,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>StartURL</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StartURL Description }}</maml:para>
+            <maml:para>Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4298,7 +4482,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Arguments Description }}</maml:para>
+            <maml:para>Command line arguments to be passed to the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -4322,7 +4506,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Browser</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Browser Description }}</maml:para>
+            <maml:para>Browser to be started.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4346,7 +4530,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ImplicitWait</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ImplicitWait Description }}</maml:para>
+            <maml:para>Maximum time that the browser will implicitely wait between operations</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -4378,7 +4562,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Name Description }}</maml:para>
+            <maml:para>Friendly name of the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4390,7 +4574,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Options</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Options Description }}</maml:para>
+            <maml:para>Driver Options object</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DriverOptions</command:parameterValue>
           <dev:type>
@@ -4402,7 +4586,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Position</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Position Description }}</maml:para>
+            <maml:para>Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
           <dev:type>
@@ -4414,7 +4598,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
+            <maml:para>Launch the browser in a private session</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -4437,7 +4621,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Service</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Service Description }}</maml:para>
+            <maml:para>DriverService object to be used.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">DriverService</command:parameterValue>
           <dev:type>
@@ -4449,7 +4633,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Size</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Size Description }}</maml:para>
+            <maml:para>Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
           <dev:type>
@@ -4461,7 +4645,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>State</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill State Description }}</maml:para>
+            <maml:para>Window state of the browser.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Headless</command:parameterValue>
@@ -4475,12 +4659,12 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
             <maml:name>SeWindowState</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>UserAgent</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill UserAgent Description }}</maml:para>
+            <maml:para>UserAgent to be set. Supported by Chrome &amp; Firefox</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4492,7 +4676,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>WebDriverPath</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+            <maml:para>Location of the web driver to be used.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4507,7 +4691,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>StartURL</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill StartURL Description }}</maml:para>
+            <maml:para>Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4519,7 +4703,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Arguments Description }}</maml:para>
+            <maml:para>Command line arguments to be passed to the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -4543,7 +4727,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Browser</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Browser Description }}</maml:para>
+            <maml:para>Browser to be started.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4567,7 +4751,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ImplicitWait</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ImplicitWait Description }}</maml:para>
+            <maml:para>Maximum time that the browser will implicitely wait between operations</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -4599,7 +4783,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Name Description }}</maml:para>
+            <maml:para>Friendly name of the browser.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4611,7 +4795,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Position</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Position Description }}</maml:para>
+            <maml:para>Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
           <dev:type>
@@ -4623,7 +4807,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PrivateBrowsing</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
+            <maml:para>Launch the browser in a private session</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -4646,7 +4830,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Size</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Size Description }}</maml:para>
+            <maml:para>Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
           <dev:type>
@@ -4658,7 +4842,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>State</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill State Description }}</maml:para>
+            <maml:para>Window state of the browser.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">Headless</command:parameterValue>
@@ -4672,12 +4856,12 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
             <maml:name>SeWindowState</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>Default</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Switches</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Switches Description }}</maml:para>
+            <maml:para>Special switches (additional legacy options that might appear for some browser )</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -4689,7 +4873,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>UserAgent</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill UserAgent Description }}</maml:para>
+            <maml:para>UserAgent to be set. Supported by Chrome &amp; Firefox</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -4701,7 +4885,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>WebDriverPath</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+            <maml:para>Location of the web driver to be used.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -4716,7 +4900,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Arguments</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Arguments Description }}</maml:para>
+          <maml:para>Command line arguments to be passed to the browser.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -4740,7 +4924,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Browser</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Browser Description }}</maml:para>
+          <maml:para>Browser to be started.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -4764,7 +4948,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ImplicitWait</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ImplicitWait Description }}</maml:para>
+          <maml:para>Maximum time that the browser will implicitely wait between operations</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
@@ -4788,7 +4972,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Name</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Name Description }}</maml:para>
+          <maml:para>Friendly name of the browser.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -4800,7 +4984,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Options</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Options Description }}</maml:para>
+          <maml:para>Driver Options object</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DriverOptions</command:parameterValue>
         <dev:type>
@@ -4812,7 +4996,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Position</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Position Description }}</maml:para>
+          <maml:para>Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Point</command:parameterValue>
         <dev:type>
@@ -4824,7 +5008,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PrivateBrowsing</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PrivateBrowsing Description }}</maml:para>
+          <maml:para>Launch the browser in a private session</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4848,7 +5032,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Service</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Service Description }}</maml:para>
+          <maml:para>DriverService object to be used.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">DriverService</command:parameterValue>
         <dev:type>
@@ -4860,7 +5044,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Size</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Size Description }}</maml:para>
+          <maml:para>Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Size</command:parameterValue>
         <dev:type>
@@ -4872,7 +5056,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>StartURL</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill StartURL Description }}</maml:para>
+          <maml:para>Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4884,19 +5068,19 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>State</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill State Description }}</maml:para>
+          <maml:para>Window state of the browser.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">SeWindowState</command:parameterValue>
         <dev:type>
           <maml:name>SeWindowState</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
+        <dev:defaultValue>Default</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Switches</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Switches Description }}</maml:para>
+          <maml:para>Special switches (additional legacy options that might appear for some browser )</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -4908,7 +5092,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>UserAgent</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill UserAgent Description }}</maml:para>
+          <maml:para>UserAgent to be set. Supported by Chrome &amp; Firefox</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -4920,7 +5104,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>WebDriverPath</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill WebDriverPath Description }}</maml:para>
+          <maml:para>Location of the web driver to be used.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -4958,9 +5142,9 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Start-SeDriver -Browser Chrome -Position 1920x0 -StartURL 'google.com'</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Start a Chrome browser at the specified position and starting URL</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5169,7 +5353,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         }
         Start-SeRemote -RemoteAddress $remoteDriverUrl -DesiredCapabilties $caps</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5433,9 +5617,9 @@ PS C:\&gt; Stop-SeDriver</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code></dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5533,15 +5717,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <maml:para></maml:para>
       </maml:alert>
     </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
-        <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
+    <command:examples />
     <command:relatedLinks />
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
@@ -5550,11 +5726,11 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:verb>Wait</command:verb>
       <command:noun>SeDriver</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Wait for the driver to be in the desired state.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Wait for the driver to be in the desired state.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5562,7 +5738,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Condition</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Condition Description }}</maml:para>
+            <maml:para>Condition that is expected to be met.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5574,7 +5750,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Value Description }}</maml:para>
+            <maml:para>Condition value expected to be met.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5586,7 +5762,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>Timeout</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Timeout Description }}</maml:para>
+            <maml:para>Time delimiter in second for which the operation should succeed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -5613,7 +5789,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Condition</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Condition Description }}</maml:para>
+          <maml:para>Condition that is expected to be met.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -5637,7 +5813,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>Timeout</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Timeout Description }}</maml:para>
+          <maml:para>Time delimiter in second for which the operation should succeed.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
@@ -5649,7 +5825,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Value Description }}</maml:para>
+          <maml:para>Condition value expected to be met.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -5687,9 +5863,9 @@ PS C:\&gt; Stop-SeDriver</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Wait-SeDriver -Condition UrlContains 'next-' -Timeout 5.5</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Wait 5.5 seconds for the driver URL to contains text "next-"</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5701,7 +5877,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:verb>Wait</command:verb>
       <command:noun>SeElement</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Wait for an element condition to be met.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -5713,7 +5889,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>By</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill By Description }}</maml:para>
+            <maml:para>Locator element.</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">ClassName</command:parameterValue>
@@ -5735,7 +5911,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Value</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Value Description }}</maml:para>
+            <maml:para>Value of the locator corresponding to the element that should match the Condition / ConditionValue.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -5747,7 +5923,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Condition</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Condition Description }}</maml:para>
+            <maml:para>Condition expected to be met. Some condition are only available with locator or element.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5759,7 +5935,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ConditionValue</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ConditionValue Description }}</maml:para>
+            <maml:para>Value of the expected condition to be met.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5783,7 +5959,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Timeout</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Timeout Description }}</maml:para>
+            <maml:para>Time delimiter in second for which the operation should succeed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -5798,7 +5974,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Condition</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Condition Description }}</maml:para>
+            <maml:para>Condition expected to be met. Some condition are only available with locator or element.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5810,7 +5986,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>ConditionValue</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill ConditionValue Description }}</maml:para>
+            <maml:para>Value of the expected condition to be met.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5834,7 +6010,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Element that need to meet the condition.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -5846,7 +6022,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Timeout</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Timeout Description }}</maml:para>
+            <maml:para>Time delimiter in second for which the operation should succeed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
@@ -5861,7 +6037,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>By</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill By Description }}</maml:para>
+          <maml:para>Locator element.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">SeBySelector</command:parameterValue>
         <dev:type>
@@ -5873,7 +6049,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Condition</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Condition Description }}</maml:para>
+          <maml:para>Condition expected to be met. Some condition are only available with locator or element.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -5885,7 +6061,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>ConditionValue</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill ConditionValue Description }}</maml:para>
+          <maml:para>Value of the expected condition to be met.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -5909,7 +6085,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Element that need to meet the condition.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -5921,7 +6097,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Timeout</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Timeout Description }}</maml:para>
+          <maml:para>Time delimiter in second for which the operation should succeed.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
@@ -5933,7 +6109,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Value</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Value Description }}</maml:para>
+          <maml:para>Value of the locator corresponding to the element that should match the Condition / ConditionValue.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -5971,9 +6147,9 @@ PS C:\&gt; Stop-SeDriver</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Wait-SeElement -Element $Element -Condition StalenessOf</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Wait for the specified element to not exist anymore in the DOM for 3 seconds (default timeout)</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

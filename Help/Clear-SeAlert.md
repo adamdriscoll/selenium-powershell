@@ -13,7 +13,7 @@ Clear alert popup by dismissing or accepting it.
 ## SYNTAX
 
 ```
-Clear-SeAlert [[-Alert] <Object>] [-Driver <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
+Clear-SeAlert [-Driver <Object>] [-Action <Object>] [-Alert <Object>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -55,7 +55,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False

@@ -12,15 +12,15 @@ schema: 2.0.0
 
 ## SYNTAX
 
-### Default
-```
-Save-SeScreenshot [-Driver <Object>] -Path <String> [-ImageFormat <ScreenshotImageFormat>] [<CommonParameters>]
-```
-
 ### Screenshot
 ```
 Save-SeScreenshot -Screenshot <Screenshot> -Path <String> [-ImageFormat <ScreenshotImageFormat>]
  [<CommonParameters>]
+```
+
+### Default
+```
+Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] [-Driver <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
