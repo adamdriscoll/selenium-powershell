@@ -45,7 +45,7 @@ This examples show the default browser changing from Chrome to Firefox when the 
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver

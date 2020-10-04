@@ -31,7 +31,7 @@ List all cookies of the default webdriver
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: Object

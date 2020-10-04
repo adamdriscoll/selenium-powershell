@@ -38,7 +38,7 @@ Return the specified driver PageLoad timeout.
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver
@@ -53,7 +53,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeoutType
-{{ Fill TimeoutType Description }}
+Timeout type to be changed
 
 ```yaml
 Type: Object
@@ -63,7 +63,7 @@ Accepted values: ImplicitWait, PageLoad, AsynchronousJavaScript
 
 Required: False
 Position: 0
-Default value: None
+Default value: ImplicitWait
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

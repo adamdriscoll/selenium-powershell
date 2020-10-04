@@ -31,7 +31,7 @@ Set Implicit wait timeout to 0
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target IWebDriver
 
 ```yaml
 Type: IWebDriver

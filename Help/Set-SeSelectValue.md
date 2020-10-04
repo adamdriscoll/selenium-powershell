@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement.
 
 ```yaml
 Type: IWebElement

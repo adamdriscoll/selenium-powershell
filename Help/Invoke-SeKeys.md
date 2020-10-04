@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement.
 
 ```yaml
 Type: IWebElement
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+Return the IWebElement or webdriver
 
 ```yaml
 Type: SwitchParameter
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -SleepSeconds
-{{ Fill SleepSeconds Description }}
+Time to sleep after performing the action in seconds
 
 ```yaml
 Type: Object
@@ -108,7 +108,7 @@ Accept wildcard characters: False
 ```
 
 ### -Submit
-{{ Fill Submit Description }}
+Call submit on the specified element.
 
 ```yaml
 Type: SwitchParameter

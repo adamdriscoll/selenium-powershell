@@ -25,7 +25,7 @@ Wait-SeElement [[-By] <SeBySelector>] [-Value] <String> [-Condition <Object>] [-
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Wait for an element condition to be met.
 
 ## EXAMPLES
 
@@ -85,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: Object

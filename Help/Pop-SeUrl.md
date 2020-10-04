@@ -32,7 +32,7 @@ Retrieves the most recently pushed URL and navigates back to that URL.
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: Object
