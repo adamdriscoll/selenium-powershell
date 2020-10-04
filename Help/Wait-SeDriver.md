@@ -8,7 +8,7 @@ schema: 2.0.0
 # Wait-SeDriver
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Wait for the driver to be in the desired state.
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ Wait-SeDriver [-Condition] <Object> [-Value] <Object> [[-Timeout] <Double>] [[-D
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Wait for the driver to be in the desired state.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Wait-SeDriver -Condition UrlContains 'next-' -Timeout 5.5
 ```
 
-{{ Add example description here }}
+Wait 5.5 seconds for the driver URL to contains text "next-"
 
 ## PARAMETERS
 
 ### -Condition
-{{ Fill Condition Description }}
+Condition that is expected to be met.
 
 ```yaml
 Type: Object
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Timeout
-{{ Fill Timeout Description }}
+Time delimiter in second for which the operation should succeed.
 
 ```yaml
 Type: Double
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -Value
-{{ Fill Value Description }}
+Condition value expected to be met.
 
 ```yaml
 Type: Object

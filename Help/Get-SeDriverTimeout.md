@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SeDriverTimeout
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the specified driver timeout value.
 
 ## SYNTAX
 
@@ -17,16 +17,23 @@ Get-SeDriverTimeout [-Driver <IWebDriver>] [[-TimeoutType] <Object>] [<CommonPar
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get the specified driver timeout value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-SeDriverTimeout
 ```
 
-{{ Add example description here }}
+Return the currently selected driver implicit wait timeout.
+
+### Example 2
+```powershell
+PS C:\> Get-SeDriverTimeout -TimeoutType PageLoad -Driver $Driver
+```
+
+Return the specified driver PageLoad timeout.
 
 ## PARAMETERS
 

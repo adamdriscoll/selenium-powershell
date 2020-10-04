@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-SeSelectValue
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Set Select element selected value.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Set-SeSelectValue [-By <SeBySelect>] [-Element] <IWebElement> [-value <Object>] 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Set Select element selected value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Set-SeSelectValue -By Text -value 'Hello' -Element $Element
 ```
 
-{{ Add example description here }}
+Set targeted Select element selected value to 'Hello' (by text)
 
 ## PARAMETERS
 
 ### -By
-{{ Fill By Description }}
+Selector to be used to set the value.
 
 ```yaml
 Type: SeBySelect
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -value
-{{ Fill value Description }}
+Value to which the specified element will be set.
 
 ```yaml
 Type: Object

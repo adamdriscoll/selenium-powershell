@@ -24,16 +24,17 @@ Save-SeScreenshot -Screenshot <Screenshot> -Path <String> [-ImageFormat <Screens
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Save the screenshot at the specified location.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Screenshot = New-SeScreenshot 
+PS C:\> Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -ImageFormat Png
 ```
 
-{{ Add example description here }}
+Create then save a screenshot to disk.
 
 ## PARAMETERS
 
@@ -53,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -ImageFormat
-{{ Fill ImageFormat Description }}
+Image format for the file to be saved.
 
 ```yaml
 Type: ScreenshotImageFormat
@@ -69,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Path
-{{ Fill Path Description }}
+Filepath where the image will be saved.
 
 ```yaml
 Type: String
@@ -84,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Screenshot
-{{ Fill Screenshot Description }}
+Screenshot object.
 
 ```yaml
 Type: Screenshot

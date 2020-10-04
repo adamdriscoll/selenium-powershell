@@ -1,11 +1,13 @@
 ﻿function Invoke-SeMouseAction {
     [CmdletBinding()]
     param (
-        $Driver,
         [ArgumentCompleter([SeMouseActionCompleter])]
         [ValidateScript( { $_ -in $Script:SeMouseAction.Text })]
         $Action,
-        $Value
+        $Value,
+        [Parameter(ValueFromPipeline = $true)]
+        [ValidateIsWebDriverAttribute()]
+        $Driver
     )
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     Test-SeMouseActionValueValidation -Action $Action -ConditionValue $Value -ErrorAction Stop

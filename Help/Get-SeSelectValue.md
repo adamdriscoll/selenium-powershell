@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SeSelectValue
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get Select element selected value.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Get-SeSelectValue [-Element] <IWebElement> [-IsMultiSelect <PSReference>] [-All]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get Select element selected value.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-SeSelectValue -Element $Select 
 ```
 
-{{ Add example description here }}
+Get the selected value for the specified element.
 
 ## PARAMETERS
 
 ### -All
-{{ Fill All Description }}
+Get All selected values (only available when the Select element accept multiple values)
 
 ```yaml
 Type: SwitchParameter
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -IsMultiSelect
-{{ Fill IsMultiSelect Description }}
+Set the referenced variable to a boolean representing whether or not the current Select element accept multiple selections.
 
 ```yaml
 Type: PSReference

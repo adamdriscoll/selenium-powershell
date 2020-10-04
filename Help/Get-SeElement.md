@@ -26,21 +26,51 @@ Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [-Element] <IWebElement
 ```
 
 ## DESCRIPTION
-Finds all IWebElements within the current context using the given mechanism
+Finds all IWebElements within the current context using the given mechanism.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeElement -By Name -Selection 'username'
+PS C:\> Get-SeElement -By XPath '//*[@id="home_text3"]/div[2]' -Value '//*[@id="home_text3"]/div[2]'
+#Same but positionally bound
+PS C:\> Get-SeElement '//*[@id="home_text3"]/div[2]'
+```
+Get the elements matching the specified XPath selector.
+
+### Example 2
+```powershell
+PS C:\> Get-SeElement -By Name -Value 'username' -Single
 ```
 
-Get the username field by name
+Get the username field by name with the expectation only one element is to be returned.
+
+### Example 3
+```powershell
+PS C:\> Get-SeElement -By Name -Value 'username' -Single
+```
+
+Get the username field by name with the expectation only one element is to be returned.
+
+### Example 4
+```powershell
+PS C:\> Get-SeElement -By ClassName -Value homeitem -All -Attributes name, id -Timeout 2.5
+#To return all attributes instead: -Attributes *
+```
+
+Get the elements by classname. Include hidden items `-All` and append an `Attributes` NoteProperty to all the result containing the value for the name and id attribute. The call will also fail if no results are found after 2.5 seconds.
+
+### Example 5
+```powershell
+PS C:\> Get-SeElement -By ClassName,PartialLinkText -Value 'homeitem','The'
+```
+
+Get the elements that match the selectors in a sequential manner. This call will return all links that contains the defined text (The) within elements that have a classname of "homeitem".
 
 ## PARAMETERS
 
 ### -All
-{{ Fill All Description }}
+Return matching hidden items in addition to displayed ones. 
 
 ```yaml
 Type: SwitchParameter
@@ -55,7 +85,7 @@ Accept wildcard characters: False
 ```
 
 ### -Attributes
-{{ Fill Attributes Description }}
+Append a list of Attributes (case sensitive) to each element returned. Attributes will be available through a dictionary property of the same name. Is the wildcard `*` character is used, all attributes will be queried and appended.
 
 ```yaml
 Type: String[]
@@ -70,7 +100,7 @@ Accept wildcard characters: False
 ```
 
 ### -By
-The locating mechanism to use
+The locating mechanism to use. It is possible to use multiple locator, in which case they will be processed sequentially.
 
 ```yaml
 Type: SeBySelector[]
@@ -116,7 +146,7 @@ Accept wildcard characters: False
 ```
 
 ### -Single
-{{ Fill Single Description }}
+Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.
 
 ```yaml
 Type: SwitchParameter
@@ -146,7 +176,7 @@ Accept wildcard characters: False
 ```
 
 ### -Value
-{{ Fill Value Description }}
+Locator Value corresponding to the `$By` selector. There should be an equal number of values than `$By` selector provided.
 
 ```yaml
 Type: String[]

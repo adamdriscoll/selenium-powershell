@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-SeDriverOptions
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create a driver options object that can be used with `Start-SeDriver`
 
 ## SYNTAX
 
@@ -21,21 +21,25 @@ New-SeDriverOptions [-Browser <Object>] [[-StartURL] <String>] [-State <Object>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create a driver options object that can be used with `Start-SeDriver`
+
+This allow for more flexibility than the Start-SeDriver cmdlet as you can perform additional things with the driver options before starting the driver.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Options = New-SeDriverOptions -Browser Chrome -Position 1920x0 -Size 1920x1080
+PS C:\> $Options.AddAdditionalCapability('useAutomationExtension', $false)
+PS C:\> Start-SeDriver -Options $Options
 ```
 
-{{ Add example description here }}
+Create a Chrome driver option object to perform additional things unsupported directly by Start-SeDriver, such as adding an additional capability, then Start a driver instance with the modified Chrome driver options object.
 
 ## PARAMETERS
 
 ### -Arguments
-{{ Fill Arguments Description }}
+Command line arguments to be passed to the browser.
 
 ```yaml
 Type: String[]
@@ -65,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -Browser
-{{ Fill Browser Description }}
+Browser name to be started.
 
 ```yaml
 Type: Object
@@ -95,7 +99,7 @@ Accept wildcard characters: False
 ```
 
 ### -ImplicitWait
-{{ Fill ImplicitWait Description }}
+Maximum time that the browser will implicitely wait between operations
 
 ```yaml
 Type: Double
@@ -126,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -Position
-{{ Fill Position Description }}
+Position of the browser to be set on or after launch. Some browser might not support position to be set prior launch and will have their position set after launch.
 
 ```yaml
 Type: Point
@@ -141,7 +145,7 @@ Accept wildcard characters: False
 ```
 
 ### -PrivateBrowsing
-{{ Fill PrivateBrowsing Description }}
+Launch the browser in a private session
 
 ```yaml
 Type: SwitchParameter
@@ -171,7 +175,7 @@ Accept wildcard characters: False
 ```
 
 ### -Size
-{{ Fill Size Description }}
+Size of the browser to be set on or after launch. Some browser might not support size to be set prior launch and will have their size set after launch.
 
 ```yaml
 Type: Size
@@ -186,7 +190,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartURL
-{{ Fill StartURL Description }}
+Start URL to be set immediately after launch. If no protocol is specified, https will be assumed.
 
 ```yaml
 Type: String
@@ -201,7 +205,7 @@ Accept wildcard characters: False
 ```
 
 ### -State
-{{ Fill State Description }}
+Window state of the browser.
 
 ```yaml
 Type: Object
@@ -211,12 +215,13 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accepted values: Headless, Default, Minimized, Maximized, Fullscreen
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Switches
-{{ Fill Switches Description }}
+Special switches (additional legacy options that might appear for some browser )
 
 ```yaml
 Type: String[]
@@ -231,7 +236,7 @@ Accept wildcard characters: False
 ```
 
 ### -UserAgent
-{{ Fill UserAgent Description }}
+UserAgent to be set. Supported by Chrome & Firefox
 
 ```yaml
 Type: String
@@ -246,7 +251,7 @@ Accept wildcard characters: False
 ```
 
 ### -WebDriverPath
-{{ Fill WebDriverPath Description }}
+Location of the web driver to be used.
 
 ```yaml
 Type: Object

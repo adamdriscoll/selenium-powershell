@@ -44,7 +44,7 @@ Remove all cookies from targeted Driver
 ## PARAMETERS
 
 ### -All
-{{ Fill All Description }}
+Clear all cookies.
 
 ```yaml
 Type: SwitchParameter

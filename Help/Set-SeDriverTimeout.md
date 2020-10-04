@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-SeDriverTimeout
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Set the various driver timeouts default.
 
 ## SYNTAX
 
@@ -17,16 +17,16 @@ Set-SeDriverTimeout [-Driver <IWebDriver>] [[-TimeoutType] <Object>] [[-Timeout]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Set the various driver timeouts default.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Set-SeDriverTimeout -TimeoutType ImplicitWait -Timeout 0
 ```
 
-{{ Add example description here }}
+Set Implicit wait timeout to 0 
 
 ## PARAMETERS
 
@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -Timeout
-{{ Fill Timeout Description }}
+Value in seconds
 
 ```yaml
 Type: Double
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeoutType
-{{ Fill TimeoutType Description }}
+Type of timeout to change.
 
 ```yaml
 Type: Object

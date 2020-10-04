@@ -8,7 +8,7 @@ schema: 2.0.0
 # Wait-SeElement
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Wait for an element condition to be met.
 
 ## SYNTAX
 
@@ -31,15 +31,15 @@ Wait-SeElement [[-By] <SeBySelector>] [-Value] <String> [-Condition <Object>] [-
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Wait-SeElement -Element $Element -Condition StalenessOf 
 ```
 
-{{ Add example description here }}
+Wait for the specified element to not exist anymore in the DOM for 3 seconds (default timeout)
 
 ## PARAMETERS
 
 ### -By
-{{ Fill By Description }}
+Locator element.
 
 ```yaml
 Type: SeBySelector
@@ -55,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -Condition
-{{ Fill Condition Description }}
+Condition expected to be met. Some condition are only available with locator or element.
 
 ```yaml
 Type: Object
@@ -70,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -ConditionValue
-{{ Fill ConditionValue Description }}
+Value of the expected condition to be met.
 
 ```yaml
 Type: Object
@@ -100,7 +100,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Element that need to meet the condition.
 
 ```yaml
 Type: IWebElement
@@ -115,7 +115,7 @@ Accept wildcard characters: False
 ```
 
 ### -Timeout
-{{ Fill Timeout Description }}
+Time delimiter in second for which the operation should succeed.
 
 ```yaml
 Type: Double
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -Value
-{{ Fill Value Description }}
+Value of the locator corresponding to the element that should match the Condition / ConditionValue.
 
 ```yaml
 Type: String

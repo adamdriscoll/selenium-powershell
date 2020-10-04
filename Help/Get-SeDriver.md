@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SeDriver
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the list of all active drivers.
 
 ## SYNTAX
 
@@ -28,21 +28,42 @@ Get-SeDriver [-Browser <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get the list of all active drivers or drivers matching the specified criterias.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-SeDriver
 ```
 
-{{ Add example description here }}
+Return the list of all active drivers.
+
+### Example 2
+```powershell
+PS C:\> Get-SeDriver -Current
+```
+
+Return the currently selected browser.
+
+### Example 3
+```powershell
+PS C:\> Get-SeDriver -Browser Chrome
+```
+
+Returh the list of all active "Chrome" browsers.
+
+### Example 3
+```powershell
+PS C:\> Get-SeDriver -Name '70c91e0f112dcdbd22b84dd567560b8d'
+```
+
+Return the driver with the specified name.
 
 ## PARAMETERS
 
 ### -Browser
-{{ Fill Browser Description }}
+Filter the list of returned drivers by their Browser type (enum: [SeBrowsers])
 
 ```yaml
 Type: Object
@@ -57,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -Current
-{{ Fill Current Description }}
+Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.
 
 ```yaml
 Type: SwitchParameter
@@ -72,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+Filter driver returned by its name (SeFriendlyName).
 
 ```yaml
 Type: String

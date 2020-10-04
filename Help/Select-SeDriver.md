@@ -8,7 +8,7 @@ schema: 2.0.0
 # Select-SeDriver
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ## SYNTAX
 
@@ -23,16 +23,24 @@ Select-SeDriver [-Driver] <IWebDriver> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Driver = Start-SeDriver -Browser Chrome 
+# Chrome is the only and default driver
+PS C:\> Get-SeDriver -Current
+PS C:\> Start-SeDriver -Browser Firefox
+# Firefox is now the default browser
+PS C:\> Get-SeDriver -Current
+PS C:\> Select-SeDriver -Driver $Driver
+# Chrome is the default browser again
+PS C:\> Get-SeDriver -Current
 ```
 
-{{ Add example description here }}
+This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Select-SeDriver
 
 ## PARAMETERS
 
@@ -52,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{ Fill Name Description }}
+SeFriendlyName of the browser to select.
 
 ```yaml
 Type: String
