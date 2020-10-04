@@ -46,7 +46,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -58,7 +58,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PassThru</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PassThru Description }}</maml:para>
+            <maml:para>Return Alert object.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -96,7 +96,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -108,7 +108,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PassThru</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PassThru Description }}</maml:para>
+          <maml:para>Return Alert object.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -251,7 +251,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -266,7 +266,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -483,7 +483,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>TimeoutType</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill TimeoutType Description }}</maml:para>
+            <maml:para>Timeout type to be changed</maml:para>
           </maml:Description>
           <command:parameterValueGroup>
             <command:parameterValue required="false" command:variableLength="false">ImplicitWait</command:parameterValue>
@@ -495,12 +495,12 @@
             <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>ImplicitWait</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -515,7 +515,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -527,14 +527,14 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>TimeoutType</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill TimeoutType Description }}</maml:para>
+          <maml:para>Timeout type to be changed</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
           <maml:name>Object</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
+        <dev:defaultValue>ImplicitWait</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -622,7 +622,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -705,7 +705,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -812,7 +812,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -824,7 +824,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -1162,7 +1162,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -1174,7 +1174,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -1200,7 +1200,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -1212,7 +1212,7 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -1350,7 +1350,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -1400,7 +1400,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -1561,7 +1561,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -1576,7 +1576,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -1652,7 +1652,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -1664,7 +1664,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -1676,7 +1676,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PassThru</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PassThru Description }}</maml:para>
+            <maml:para>Return the IWebElement.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1687,7 +1687,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>SleepSeconds</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill SleepSeconds Description }}</maml:para>
+            <maml:para>Sleep time in second after performing the click action.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -1714,7 +1714,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -1726,7 +1726,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -1738,7 +1738,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PassThru</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PassThru Description }}</maml:para>
+          <maml:para>Return the IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1750,7 +1750,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>SleepSeconds</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill SleepSeconds Description }}</maml:para>
+          <maml:para>Sleep time in second after performing the click action.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -1846,7 +1846,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -1873,7 +1873,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -1950,7 +1950,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -1995,7 +1995,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2033,7 +2033,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2045,7 +2045,7 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -2135,7 +2135,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -2170,7 +2170,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>PassThru</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill PassThru Description }}</maml:para>
+            <maml:para>Return the IWebElement or webdriver</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2181,7 +2181,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>SleepSeconds</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill SleepSeconds Description }}</maml:para>
+            <maml:para>Time to sleep after performing the action in seconds</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2193,7 +2193,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Submit</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Submit Description }}</maml:para>
+            <maml:para>Call submit on the specified element.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2219,7 +2219,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -2243,7 +2243,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>PassThru</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill PassThru Description }}</maml:para>
+          <maml:para>Return the IWebElement or webdriver</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2255,7 +2255,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>SleepSeconds</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill SleepSeconds Description }}</maml:para>
+          <maml:para>Time to sleep after performing the action in seconds</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -2267,7 +2267,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Submit</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Submit Description }}</maml:para>
+          <maml:para>Call submit on the specified element.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -2356,7 +2356,7 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -2383,7 +2383,7 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3050,7 +3050,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -3077,7 +3077,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3141,7 +3141,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -3156,7 +3156,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3307,7 +3307,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -3322,7 +3322,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -3361,7 +3361,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -3432,7 +3432,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:verb>Save</command:verb>
       <command:noun>SeScreenshot</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Save a screenshot on the disk.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -3444,7 +3444,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -3536,7 +3536,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3645,7 +3645,7 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -3675,7 +3675,7 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -3819,7 +3819,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="5" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -3846,7 +3846,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="5" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3979,7 +3979,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target IWebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -3994,7 +3994,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target IWebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -4111,7 +4111,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -4138,7 +4138,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -4252,7 +4252,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Depth</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Depth Description }}</maml:para>
+            <maml:para>Number of time the action should be performed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -4290,7 +4290,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Depth</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Depth Description }}</maml:para>
+            <maml:para>Number of time the action should be performed.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -4391,7 +4391,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Depth</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Depth Description }}</maml:para>
+          <maml:para>Number of time the action should be performed.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -4458,7 +4458,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:verb>Start</command:verb>
       <command:noun>SeDriver</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Launch the specified browser.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -5377,7 +5377,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -5392,7 +5392,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -5476,7 +5476,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5491,7 +5491,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5517,7 +5517,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5543,7 +5543,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -5643,7 +5643,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -5670,7 +5670,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -5881,7 +5881,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Wait for an element condition to be met.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5947,7 +5947,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -5998,7 +5998,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -6073,7 +6073,7 @@ PS C:\&gt; Stop-SeDriver</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
