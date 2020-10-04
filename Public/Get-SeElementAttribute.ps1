@@ -5,12 +5,15 @@ function Get-SeElementAttribute {
         [Parameter(Mandatory = $true)]
         [string[]]$Name
     )
+    Begin {
+        $Script = 'var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;'
+    }
     process {
         $AllAttributes = $Name.Count -eq 1 -and $Name[0] -eq '*'
         $ManyAttributes = $Name.Count -gt 1
 
         if ($AllAttributes) {
-            $AllAttributes = $Element.WrappedDriver.ExecuteScript('var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;', $Element)
+            $AllAttributes = $Element.WrappedDriver.ExecuteScript($Script, $Element)
             $Output = @{}
             
             Foreach ($Att in $AllAttributes.Keys) {
