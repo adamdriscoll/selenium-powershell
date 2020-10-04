@@ -86,7 +86,7 @@ navigate to a new URL.
 Delete the named cookie from the current domain
 
 ### [Save-SeScreenshot](Save-SeScreenshot.md)
-{{ Fill in the Synopsis }}
+Save a screenshot on the disk.
 
 ### [Select-SeDriver](Select-SeDriver.md)
 Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
@@ -100,8 +100,11 @@ Set the various driver timeouts default.
 ### [Set-SeSelectValue](Set-SeSelectValue.md)
 Set Select element selected value.
 
+### [Set-SeUrl](Set-SeUrl.md)
+Navigates to the targeted URL with the selected or default driver.
+
 ### [Start-SeDriver](Start-SeDriver.md)
-{{ Fill in the Synopsis }}
+Launch the specified browser.
 
 ### [Start-SeRemote](Start-SeRemote.md)
 Start a remote driver session.
