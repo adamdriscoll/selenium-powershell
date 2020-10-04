@@ -14,10 +14,20 @@ Take a screenshot of the current page
 
 ### Path (Default)
 ```
-New-SeScreenshot [-Driver <Object>] [<CommonParameters>]
+New-SeScreenshot [-AsBase64EncodedString] [<CommonParameters>]
 ```
 
-### Base64
+### Pipeline
+```
+New-SeScreenshot [-InputObject <Object>] [-AsBase64EncodedString] [<CommonParameters>]
+```
+
+### Element
+```
+New-SeScreenshot [-AsBase64EncodedString] [-Element <IWebElement>] [<CommonParameters>]
+```
+
+### Driver
 ```
 New-SeScreenshot [-AsBase64EncodedString] [-Driver <Object>] [<CommonParameters>]
 ```
@@ -41,10 +51,10 @@ Return image as base64 string
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Base64
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -56,7 +66,37 @@ Target WebDriver
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
+Parameter Sets: Driver
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+{{ Fill Element Description }}
+
+```yaml
+Type: IWebElement
+Parameter Sets: Element
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InputObject
+{{ Fill InputObject Description }}
+
+```yaml
+Type: Object
+Parameter Sets: Pipeline
 Aliases:
 
 Required: False

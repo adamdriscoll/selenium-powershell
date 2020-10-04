@@ -12,15 +12,27 @@ Save a screenshot on the disk.
 
 ## SYNTAX
 
+### Driver (Default)
+```
+Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] -Driver <Object> [<CommonParameters>]
+```
+
+### Pipeline
+```
+Save-SeScreenshot [-InputObject <Object>] -Path <String> [-ImageFormat <ScreenshotImageFormat>]
+ [<CommonParameters>]
+```
+
 ### Screenshot
 ```
 Save-SeScreenshot -Screenshot <Screenshot> -Path <String> [-ImageFormat <ScreenshotImageFormat>]
  [<CommonParameters>]
 ```
 
-### Default
+### Element
 ```
-Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] [-Driver <Object>] [<CommonParameters>]
+Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] -Element <IWebElement>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,13 +55,28 @@ Target WebDriver
 
 ```yaml
 Type: Object
-Parameter Sets: Default
+Parameter Sets: Driver
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+{{ Fill Element Description }}
+
+```yaml
+Type: IWebElement
+Parameter Sets: Element
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -66,6 +93,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InputObject
+{{ Fill InputObject Description }}
+
+```yaml
+Type: Object
+Parameter Sets: Pipeline
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -95,7 +137,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
