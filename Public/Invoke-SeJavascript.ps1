@@ -11,7 +11,11 @@ function Invoke-SeJavascript {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     }
     Process {
-        $Driver.ExecuteScript($Script, $ArgumentList)
+        #Fix #165 
+        $MYargumentList = Foreach ($item in $ArgumentList) {
+            $Item -as $Item.GetType()
+        }
+        $Driver.ExecuteScript($Script, $MyArgumentList)
     }
     End {}
 }
