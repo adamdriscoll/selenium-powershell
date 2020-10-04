@@ -8,7 +8,7 @@ function Invoke-SeClick {
         [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element,
         $SleepSeconds = 0 ,
-        $Driver ,
+        [OpenQA.Selenium.IWebDriver]$Driver,
         [switch]$PassThru
     )
 
