@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-SeKeyAction
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Perform a key down or key up in the browser or specified element.
 
 ## SYNTAX
 
@@ -18,21 +18,23 @@ Invoke-SeKeyAction [[-Driver] <Object>] [[-Element] <IWebElement>] [[-Action] <O
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Perform a key down or key up in the browser or specified element.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-SeKeyAction -Element $Element -Action KeyDown -Key CTRL
+PS C:\> Invoke-SeKeys -Element $Element -Keys 's'
+PS C:\> Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL
 ```
 
-{{ Add example description here }}
+Perform a CTRL + S action on the specified element
 
 ## PARAMETERS
 
 ### -Action
-{{ Fill Action Description }}
+Action to be perfomed
 
 ```yaml
 Type: Object
@@ -78,7 +80,7 @@ Accept wildcard characters: False
 ```
 
 ### -Key
-{{ Fill Key Description }}
+Modifier key
 
 ```yaml
 Type: String[]
@@ -94,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -RightKey
-{{ Fill RightKey Description }}
+Use right modifier key.
 
 ```yaml
 Type: SwitchParameter

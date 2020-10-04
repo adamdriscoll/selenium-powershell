@@ -48,8 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-The webdriver instance for which to retrieve the current URL or
-internal URL stack.
+The webdriver instance for which to retrieve the current URL or internal URL stack.
 
 ```yaml
 Type: Object

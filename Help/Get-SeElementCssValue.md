@@ -26,6 +26,8 @@ Get CSS value for the specified name of targeted element.
 PS C:\> Get-SeElementCssValue -Element $Element -Name 'padding'
 ```
 
+Get padding css value for the targeted element.
+
 ## PARAMETERS
 
 ### -Element

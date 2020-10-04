@@ -1,11 +1,23 @@
 function Get-SeHtml {
     param(
-        [Parameter(ValueFromPipeline = $true, Mandatory = $true)]
+        [Parameter(ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebElement]$Element,
-        [switch]$Inner
+        [switch]$Inner,
+        [OpenQA.Selenium.IWebDriver]$Driver
         
     )
-    if ($Inner) { return $Element.GetAttribute('innerHTML') }
-    return $Element.GetAttribute('outerHTML')
+    Begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    }
+    Process {
+        if ($PSBoundParameters.ContainsKey('Element')) {
+            if ($Inner) { return $Element.GetAttribute('innerHTML') }
+            return $Element.GetAttribute('outerHTML')
+        }
+        else {
+            $Driver.PageSource
+        }
+        
+    }
 }
 

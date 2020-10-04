@@ -1,11 +1,11 @@
 function Clear-SeAlert {
     param (
-        [parameter(ParameterSetName = 'Alert', Position = 0, ValueFromPipeline = $true)]
-        $Alert,
         [ValidateIsWebDriverAttribute()]
         $Driver,
         [ValidateSet('Accept', 'Dismiss')]
         $Action = 'Dismiss',
+        [parameter(ParameterSetName = 'Alert', ValueFromPipeline = $true)]
+        $Alert,
         [switch]$PassThru
     )
     Begin {

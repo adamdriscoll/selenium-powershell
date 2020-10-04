@@ -33,11 +33,6 @@ Instructs the driver to send future commands to a different frame
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 

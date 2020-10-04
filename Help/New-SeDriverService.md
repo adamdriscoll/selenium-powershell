@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-SeDriverService
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Create an instance of WebDriver service to be used with Start-SeDriver
 
 ## SYNTAX
 
@@ -17,21 +17,25 @@ New-SeDriverService [-Browser <Object>] [-WebDriverPath <Object>] [<CommonParame
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Create an instance of WebDriver service to be used with Start-SeDriver
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Service = New-SeDriverService -Browser Chrome 
+PS C:\> $Service.PortServerAddress = 100
+PS C:\> $Options = New-SeDriverOptions -Browser Chrome -Position 1920x0 -Size 1920x1080
+PS C:\> Start-SeDriver -Service $Service -Options $Options
+PS C:\> $Service.ProcessId
 ```
 
-{{ Add example description here }}
+Create a new instance of Chrome driver service, set a custom port and start the driver with the modified service instance.
 
 ## PARAMETERS
 
 ### -Browser
-{{ Fill Browser Description }}
+Browser name
 
 ```yaml
 Type: Object
@@ -46,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -WebDriverPath
-{{ Fill WebDriverPath Description }}
+Location of the web driver to be used.
 
 ```yaml
 Type: Object

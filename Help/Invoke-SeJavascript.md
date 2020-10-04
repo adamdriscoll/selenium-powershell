@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-SeJavascript
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Invoke Javascript in the specified Driver.
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ Invoke-SeJavascript [[-Driver] <IWebDriver>] [[-Script] <String>] [[-ArgumentLis
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Invoke Javascript in the specified Driver. arguments will be passed to the javascript as "argument[0]" (where 0 is the argument position)
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-SeJavascript -Script 'arguments[0].click()' -ArgumentList $Element
 ```
 
-{{ Add example description here }}
+Perform a javascript click on the specified element.
 
 ## PARAMETERS
 
 ### -ArgumentList
-{{ Fill ArgumentList Description }}
+Argument list to be passed down to the script. 
 
 ```yaml
 Type: Object[]
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Script
-{{ Fill Script Description }}
+Javascript script to be executed. Arguments passed down can be used in the scripts through `arguments[0],arguments[1]`,etc...  
 
 ```yaml
 Type: String

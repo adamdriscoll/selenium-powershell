@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-SeKeys
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Send the keys to the browser or specified element.
 
 ## SYNTAX
 
@@ -18,21 +18,22 @@ Invoke-SeKeys [[-Element] <IWebElement>] [-Keys] <String> [-ClearFirst] [-SleepS
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The text to be typed may include special characters like arrow keys, backspaces, function keys, and so on. Valid special keys are defined in Keys.  [OpenQA_Selelnium_Keys](https://www.selenium.dev/selenium/docs/api/dotnet/html/T_OpenQA_Selenium_Keys.htm)
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Search = Get-SeElement -By TagName -Value input  -Single
+PS C:\> Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'
 ```
 
-{{ Add example description here }}
+Type the defined text and a special key - Enter - defined in the special keys.
 
 ## PARAMETERS
 
 ### -ClearFirst
-{{ Fill ClearFirst Description }}
+Clear the element existing text first
 
 ```yaml
 Type: SwitchParameter
@@ -62,7 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -Keys
-{{ Fill Keys Description }}
+Text to be typed. Special keys (Enter, arrow down, etc...) can be typed using double brackets (eg: `{{Enter}}`). See cmdlet description for complete list of keys
 
 ```yaml
 Type: String

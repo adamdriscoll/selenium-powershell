@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-SeClick
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Perform a click in the browser window or specified element.
 
 ## SYNTAX
 
@@ -18,16 +18,23 @@ Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-SleepSeconds <O
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Perform a click in the browser window or specified element.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-SeClick
 ```
 
-{{ Add example description here }}
+Perform a click in the browser at the current position
+
+### Example 2
+```powershell
+PS C:\> Invoke-SeClick -Action Click_JS -Element $Element 
+```
+
+Perform a javascript click on the specified element. 
 
 ## PARAMETERS
 

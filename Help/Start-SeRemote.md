@@ -38,7 +38,6 @@ you can a remote testing account with testing bot at https://testingbot.com/user
         Start-SeRemote -RemoteAddress $remoteDriverUrl -DesiredCapabilties $caps
 ```
 
-{{ Add example description here }}
 
 ## PARAMETERS
 

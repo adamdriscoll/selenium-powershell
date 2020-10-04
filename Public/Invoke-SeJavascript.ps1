@@ -1,9 +1,10 @@
 function Invoke-SeJavascript {
     param(
-        [Parameter(ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]$Driver,
+        [Parameter(ValueFromPipeline = $true, Position = 0)]
         [String]$Script,
-        [Object[]]$ArgumentList
+        [Parameter(Position = 1)]
+        [Object[]]$ArgumentList,
+        [OpenQA.Selenium.IWebDriver]$Driver
         
     )
     begin {

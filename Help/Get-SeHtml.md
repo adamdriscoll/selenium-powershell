@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SeHtml
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get outer html of the specified element or driver.
 
 ## SYNTAX
 
@@ -17,16 +17,25 @@ Get-SeHtml [-Element] <IWebElement> [-Inner] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get outer html of the specified element or driver.
+Driver is used by default if no element is specified.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> $Element = Get-SeElement -By ClassName -Value 'homeitem'
+PS C:\> $Element | Get-SeHtml -Inner
 ```
 
-{{ Add example description here }}
+Get inner html for all specified elements.
+
+### Example 2
+```powershell
+PS C:\> Get-SeHtml 
+```
+
+Get html of the current page. Equivalent to $Driver.PageSource
 
 ## PARAMETERS
 
@@ -46,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -Inner
-{{ Fill Inner Description }}
+Return inner html instead.
 
 ```yaml
 Type: SwitchParameter

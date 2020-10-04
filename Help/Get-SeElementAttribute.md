@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-SeElementAttribute
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get the specified attribute from the specified element.
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-SeElementAttribute [-Element] <IWebElement> [-Attribute] <String> [<CommonPa
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Get the specified attribute from the specified element.
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ Get the placeholder attribue of the username element.
 ## PARAMETERS
 
 ### -Attribute
-{{ Fill Attribute Description }}
+
 
 ```yaml
 Type: String

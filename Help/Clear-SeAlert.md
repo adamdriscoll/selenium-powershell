@@ -8,7 +8,7 @@ schema: 2.0.0
 # Clear-SeAlert
 
 ## SYNOPSIS
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
 
 ## SYNTAX
 
@@ -17,16 +17,16 @@ Clear-SeAlert [[-Alert] <Object>] [-Driver <Object>] [-Action <Object>] [-PassTh
 ```
 
 ## DESCRIPTION
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Clear-SeAlert -Action Dismiss
 ```
 
-{{ Add example description here }}
+Dismiss an alert on the currently selected driver.
 
 ## PARAMETERS
 

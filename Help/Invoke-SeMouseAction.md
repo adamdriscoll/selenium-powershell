@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-SeMouseAction
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Perform mouse move & drag actions.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Invoke-SeMouseAction [[-Driver] <Object>] [[-Action] <Object>] [[-Value] <Object
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Perform mouse move & drag actions.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Invoke-SeMouseAction -Element $SourceElement -Action DragAndDrop -Value $DestinationElement
 ```
 
-{{ Add example description here }}
+Perform a drag&drop operation from the source element to destination element.
 
 ## PARAMETERS
 
 ### -Action
-{{ Fill Action Description }}
+Action to be performed. Intellisense tooltip provide details regarding expected value.
 
 ```yaml
 Type: Object
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Value
-{{ Fill Value Description }}
+Value expected by the specified action.
 
 ```yaml
 Type: Object

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Clear-SeSelectValue
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Clear all selected entries of a SELECT element.
 
 ## SYNTAX
 
@@ -17,21 +17,21 @@ Clear-SeSelectValue [-Element] <IWebElement> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Clear all selected entries of a SELECT element.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Clear-SeSelectValue -Element $Select
 ```
 
-{{ Add example description here }}
+Clear the selected value from the specified SELECT element.
 
 ## PARAMETERS
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement
 
 ```yaml
 Type: IWebElement
