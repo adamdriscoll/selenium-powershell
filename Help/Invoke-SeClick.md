@@ -31,7 +31,7 @@ Perform a click in the browser at the current position
 
 ### Example 2
 ```powershell
-PS C:\> Invoke-SeClick -Action Click_JS -Element $Element 
+PS C:\> Invoke-SeClick -Action Click_JS -Element $Element
 ```
 
 Perform a javascript click on the specified element. 

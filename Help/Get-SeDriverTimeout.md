@@ -13,7 +13,7 @@ Get the specified driver timeout value.
 ## SYNTAX
 
 ```
-Get-SeDriverTimeout [-Driver <IWebDriver>] [[-TimeoutType] <Object>] [<CommonParameters>]
+Get-SeDriverTimeout [[-TimeoutType] <Object>] [-Driver <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

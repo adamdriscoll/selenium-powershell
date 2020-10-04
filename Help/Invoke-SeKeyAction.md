@@ -13,8 +13,8 @@ Perform a key down or key up in the browser or specified element.
 ## SYNTAX
 
 ```
-Invoke-SeKeyAction [[-Driver] <Object>] [[-Element] <IWebElement>] [[-Action] <Object>] [[-Key] <String[]>]
- [-RightKey] [<CommonParameters>]
+Invoke-SeKeyAction [[-Element] <IWebElement>] [[-Action] <Object>] [[-Key] <String[]>] [-RightKey]
+ [[-Driver] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,7 +43,7 @@ Aliases:
 Accepted values: KeyDown, KeyUp
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -58,9 +58,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: 3
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -73,7 +73,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -89,7 +89,7 @@ Aliases:
 Accepted values: CTRL, Alt, Shift
 
 Required: False
-Position: 3
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

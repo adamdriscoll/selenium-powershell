@@ -13,7 +13,7 @@ Invoke Javascript in the specified Driver.
 ## SYNTAX
 
 ```
-Invoke-SeJavascript [[-Driver] <IWebDriver>] [[-Script] <String>] [[-ArgumentList] <Object[]>]
+Invoke-SeJavascript [[-Script] <String>] [[-ArgumentList] <Object[]>] [-Driver <IWebDriver>]
  [<CommonParameters>]
 ```
 
@@ -40,7 +40,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -55,9 +55,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -70,9 +70,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

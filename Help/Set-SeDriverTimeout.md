@@ -13,7 +13,7 @@ Set the various driver timeouts default.
 ## SYNTAX
 
 ```
-Set-SeDriverTimeout [-Driver <IWebDriver>] [[-TimeoutType] <Object>] [[-Timeout] <Double>] [<CommonParameters>]
+Set-SeDriverTimeout [[-TimeoutType] <Object>] [[-Timeout] <Double>] [-Driver <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

@@ -31,7 +31,7 @@ Wait-SeElement [[-By] <SeBySelector>] [-Value] <String> [-Condition <Object>] [-
 
 ### Example 1
 ```powershell
-PS C:\> Wait-SeElement -Element $Element -Condition StalenessOf 
+PS C:\> Wait-SeElement -Element $Element -Condition StalenessOf
 ```
 
 Wait for the specified element to not exist anymore in the DOM for 3 seconds (default timeout)

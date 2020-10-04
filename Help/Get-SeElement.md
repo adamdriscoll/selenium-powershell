@@ -36,6 +36,7 @@ PS C:\> Get-SeElement -By XPath '//*[@id="home_text3"]/div[2]' -Value '//*[@id="
 #Same but positionally bound
 PS C:\> Get-SeElement '//*[@id="home_text3"]/div[2]'
 ```
+
 Get the elements matching the specified XPath selector.
 
 ### Example 2

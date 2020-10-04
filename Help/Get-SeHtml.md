@@ -13,7 +13,7 @@ Get outer html of the specified element or driver.
 ## SYNTAX
 
 ```
-Get-SeHtml [-Element] <IWebElement> [-Inner] [<CommonParameters>]
+Get-SeHtml [[-Element] <IWebElement>] [-Inner] [[-Driver] <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,12 +32,27 @@ Get inner html for all specified elements.
 
 ### Example 2
 ```powershell
-PS C:\> Get-SeHtml 
+PS C:\> Get-SeHtml
 ```
 
 Get html of the current page. Equivalent to $Driver.PageSource
 
 ## PARAMETERS
+
+### -Driver
+{{ Fill Driver Description }}
+
+```yaml
+Type: IWebDriver
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Element
 {{ Fill Element Description }}
@@ -47,7 +62,7 @@ Type: IWebElement
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)

@@ -23,7 +23,7 @@ Get Select element selected value.
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeSelectValue -Element $Select 
+PS C:\> Get-SeSelectValue -Element $Select
 ```
 
 Get the selected value for the specified element.

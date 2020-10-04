@@ -19,7 +19,7 @@ New-SeScreenshot [-Driver <Object>] [<CommonParameters>]
 
 ### Base64
 ```
-New-SeScreenshot [-Driver <Object>] [-AsBase64EncodedString] [<CommonParameters>]
+New-SeScreenshot [-AsBase64EncodedString] [-Driver <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION

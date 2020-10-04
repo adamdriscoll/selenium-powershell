@@ -12,38 +12,38 @@ Locale: {{ Update Locale }}
 
 ## Selenium Cmdlets
 ### [Clear-SeAlert](Clear-SeAlert.md)
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
 
 ### [Clear-SeSelectValue](Clear-SeSelectValue.md)
-{{ Fill in the Synopsis }}
+Clear all selected entries of a SELECT element.
 
 ### [Get-SeCookie](Get-SeCookie.md)
 List all cookies
 
 ### [Get-SeDriver](Get-SeDriver.md)
-{{ Fill in the Synopsis }}
+Get the list of all active drivers.
 
 ### [Get-SeDriverTimeout](Get-SeDriverTimeout.md)
-{{ Fill in the Synopsis }}
+Get the specified driver timeout value.
 
 ### [Get-SeElement](Get-SeElement.md)
 	
 Finds all IWebElements within the current context using the given mechanism
 
 ### [Get-SeElementAttribute](Get-SeElementAttribute.md)
-{{ Fill in the Synopsis }}
+Get the specified attribute from the specified element.
 
 ### [Get-SeElementCssValue](Get-SeElementCssValue.md)
 Get CSS value for the specified name of targeted element.
 
 ### [Get-SeHtml](Get-SeHtml.md)
-{{ Fill in the Synopsis }}
+Get outer html of the specified element or driver.
 
 ### [Get-SeKeys](Get-SeKeys.md)
 Return a list of the available special keys
 
 ### [Get-SeSelectValue](Get-SeSelectValue.md)
-{{ Fill in the Synopsis }}
+Get Select element selected value.
 
 ### [Get-SeUrl](Get-SeUrl.md)
 Retrieves the current URL of a target webdriver instance.
@@ -52,25 +52,25 @@ Retrieves the current URL of a target webdriver instance.
 Gets the window handles of open browser windows
 
 ### [Invoke-SeClick](Invoke-SeClick.md)
-{{ Fill in the Synopsis }}
+Perform a click in the browser window or specified element.
 
 ### [Invoke-SeJavascript](Invoke-SeJavascript.md)
-{{ Fill in the Synopsis }}
+Invoke Javascript in the specified Driver.
 
 ### [Invoke-SeKeyAction](Invoke-SeKeyAction.md)
-{{ Fill in the Synopsis }}
+Perform a key down or key up in the browser or specified element.
 
 ### [Invoke-SeKeys](Invoke-SeKeys.md)
-{{ Fill in the Synopsis }}
+Send the keys to the browser or specified element.
 
 ### [Invoke-SeMouseAction](Invoke-SeMouseAction.md)
-{{ Fill in the Synopsis }}
+Perform mouse move & drag actions.
 
 ### [New-SeDriverOptions](New-SeDriverOptions.md)
-{{ Fill in the Synopsis }}
+Create a driver options object that can be used with `Start-SeDriver`
 
 ### [New-SeDriverService](New-SeDriverService.md)
-{{ Fill in the Synopsis }}
+Create an instance of WebDriver service to be used with Start-SeDriver
 
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
@@ -89,19 +89,16 @@ Delete the named cookie from the current domain
 {{ Fill in the Synopsis }}
 
 ### [Select-SeDriver](Select-SeDriver.md)
-{{ Fill in the Synopsis }}
+Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
 ### [Set-SeDriverTimeout](Set-SeDriverTimeout.md)
-{{ Fill in the Synopsis }}
+Set the various driver timeouts default.
 
 ### [Set-SeSelectValue](Set-SeSelectValue.md)
-{{ Fill in the Synopsis }}
-
-### [Set-SeCookie](Set-SeCookie.md)
-Add a cookie to the current browsing context
+Set Select element selected value.
 
 ### [Start-SeDriver](Start-SeDriver.md)
 {{ Fill in the Synopsis }}
@@ -119,8 +116,8 @@ Instructs the driver to send future commands to a different frame
 Instructs the driver to send future commands to a different window
 
 ### [Wait-SeDriver](Wait-SeDriver.md)
-{{ Fill in the Synopsis }}
+Wait for the driver to be in the desired state.
 
 ### [Wait-SeElement](Wait-SeElement.md)
-{{ Fill in the Synopsis }}
+Wait for an element condition to be met.
 

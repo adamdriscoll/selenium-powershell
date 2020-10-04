@@ -33,7 +33,6 @@ Get the placeholder attribue of the username element.
 
 ### -Attribute
 
-
 ```yaml
 Type: String
 Parameter Sets: (All)
