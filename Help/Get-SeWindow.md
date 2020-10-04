@@ -31,7 +31,7 @@ Gets the window handles of open browser windows.
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver

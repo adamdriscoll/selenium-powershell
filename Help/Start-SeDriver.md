@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-SeDriver
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Launch the specified browser.
 
 ## SYNTAX
 

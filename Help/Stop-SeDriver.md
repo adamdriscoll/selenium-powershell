@@ -39,7 +39,7 @@ Stop the default driver, which was defined using the `-AsDefaultDriver` switch.
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver

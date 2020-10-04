@@ -117,7 +117,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver
@@ -132,7 +132,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement.
 
 ```yaml
 Type: IWebElement

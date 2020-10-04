@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: Object
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+Return Alert object.
 
 ```yaml
 Type: SwitchParameter

@@ -59,7 +59,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver

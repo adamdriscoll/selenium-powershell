@@ -40,7 +40,7 @@ Get html of the current page. Equivalent to $Driver.PageSource
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver
@@ -55,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement.
 
 ```yaml
 Type: IWebElement

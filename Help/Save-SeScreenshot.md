@@ -8,7 +8,7 @@ schema: 2.0.0
 # Save-SeScreenshot
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Save a screenshot on the disk.
 
 ## SYNTAX
 
@@ -39,7 +39,7 @@ Create then save a screenshot to disk.
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: Object

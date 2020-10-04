@@ -24,7 +24,7 @@ Instructs the driver to send future commands to a different window
 ## PARAMETERS
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver
