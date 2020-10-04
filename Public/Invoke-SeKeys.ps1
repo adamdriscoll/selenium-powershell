@@ -10,9 +10,13 @@ function Invoke-SeKeys {
         [switch]$ClearFirst,
         $SleepSeconds = 0 ,
         [switch]$Submit,
-        [switch]$PassThru
+        [switch]$PassThru,
+        [ValidateNotNull()]
+        [OpenQA.Selenium.IWebDriver]$Driver
     )
     begin {
+        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        
         foreach ($Key in $Script:SeKeys.Name) {
             $Keys = $Keys -replace "{{$Key}}", [OpenQA.Selenium.Keys]::$Key
         }
@@ -26,7 +30,7 @@ function Invoke-SeKeys {
         }
         else {
             $Action = [OpenQA.Selenium.Interactions.Actions]::new($Driver)
-            $Action.SendKeys($Keys)
+            $Action.SendKeys($Keys).Perform()
         }
        
         if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
