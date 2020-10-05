@@ -1146,6 +1146,85 @@ PS C:\&gt; Get-SeElementAttribute -Element $Element -Attribute 'placeholder'</de
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>Get-SeFrame</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SeFrame</command:noun>
+      <maml:description>
+        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Fill in the Description }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SeFrame</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Driver Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebDriver</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Driver</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Driver Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebDriver</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Get-SeHtml</command:name>
       <command:verb>Get</command:verb>
       <command:noun>SeHtml</command:noun>
@@ -1685,13 +1764,13 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>SleepSeconds</maml:name>
+          <maml:name>Sleep</maml:name>
           <maml:Description>
             <maml:para>Sleep time in second after performing the click action.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>Double</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -1748,13 +1827,13 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>SleepSeconds</maml:name>
+        <maml:name>Sleep</maml:name>
         <maml:Description>
           <maml:para>Sleep time in second after performing the click action.</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
-          <maml:name>Object</maml:name>
+          <maml:name>Double</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -2170,7 +2249,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Driver Description }}</maml:para>
+            <maml:para>Target WebDriver</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
           <dev:type>
@@ -2191,13 +2270,13 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>SleepSeconds</maml:name>
+          <maml:name>Sleep</maml:name>
           <maml:Description>
-            <maml:para>Time to sleep after performing the action in seconds</maml:para>
+            <maml:para>Sleep time in second after performing the type action.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>Double</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -2231,7 +2310,7 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Driver Description }}</maml:para>
+          <maml:para>Target WebDriver</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
         <dev:type>
@@ -2277,13 +2356,13 @@ PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:cod
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>SleepSeconds</maml:name>
+        <maml:name>Sleep</maml:name>
         <maml:Description>
-          <maml:para>Time to sleep after performing the action in seconds</maml:para>
+          <maml:para>Sleep time in second after performing the type action.</maml:para>
         </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Double</command:parameterValue>
         <dev:type>
-          <maml:name>Object</maml:name>
+          <maml:name>Double</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -3838,120 +3917,6 @@ PS C:\&gt; $Service.ProcessId</dev:code>
 PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -ImageFormat Png</dev:code>
         <dev:remarks>
           <maml:para>Create then save a screenshot to disk.</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks />
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Switch-SeDriver</command:name>
-      <command:verb>Select</command:verb>
-      <command:noun>SeDriver</command:noun>
-      <maml:description>
-        <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Switch-SeDriver</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>Driver</maml:name>
-          <maml:Description>
-            <maml:para>Target WebDriver</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
-          <dev:type>
-            <maml:name>IWebDriver</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Switch-SeDriver</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>Name</maml:name>
-          <maml:Description>
-            <maml:para>SeFriendlyName of the browser to select.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-        <maml:name>Driver</maml:name>
-        <maml:Description>
-          <maml:para>Target WebDriver</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
-        <dev:type>
-          <maml:name>IWebDriver</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-        <maml:name>Name</maml:name>
-        <maml:Description>
-          <maml:para>SeFriendlyName of the browser to select.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; $Driver = Start-SeDriver -Browser Chrome 
-# Chrome is the only and default driver
-PS C:\&gt; Get-SeDriver -Current
-PS C:\&gt; Start-SeDriver -Browser Firefox
-# Firefox is now the default browser
-PS C:\&gt; Get-SeDriver -Current
-PS C:\&gt; Switch-SeDriver -Driver $Driver
-# Chrome is the default browser again
-PS C:\&gt; Get-SeDriver -Current</dev:code>
-        <dev:remarks>
-          <maml:para>This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Switch-SeDriver</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5657,6 +5622,120 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
 PS C:\&gt; Stop-SeDriver</dev:code>
         <dev:remarks>
           <maml:para>Stop the default driver, which was defined using the `-AsDefaultDriver` switch.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Switch-SeDriver</command:name>
+      <command:verb>Switch</command:verb>
+      <command:noun>SeDriver</command:noun>
+      <maml:description>
+        <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Switch-SeDriver</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>Target WebDriver</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebDriver</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Switch-SeDriver</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>SeFriendlyName of the browser to select.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Driver</maml:name>
+        <maml:Description>
+          <maml:para>Target WebDriver</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebDriver</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Name</maml:name>
+        <maml:Description>
+          <maml:para>SeFriendlyName of the browser to select.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $Driver = Start-SeDriver -Browser Chrome 
+# Chrome is the only and default driver
+PS C:\&gt; Get-SeDriver -Current
+PS C:\&gt; Start-SeDriver -Browser Firefox
+# Firefox is now the default browser
+PS C:\&gt; Get-SeDriver -Current
+PS C:\&gt; Switch-SeDriver -Driver $Driver
+# Chrome is the default browser again
+PS C:\&gt; Get-SeDriver -Current</dev:code>
+        <dev:remarks>
+          <maml:para>This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Switch-SeDriver</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

@@ -36,6 +36,9 @@ Get the specified attribute from the specified element.
 ### [Get-SeElementCssValue](Get-SeElementCssValue.md)
 Get CSS value for the specified name of targeted element.
 
+### [Get-SeFrame](Get-SeFrame.md)
+{{ Fill in the Synopsis }}
+
 ### [Get-SeHtml](Get-SeHtml.md)
 Get outer html of the specified element or driver.
 
@@ -88,9 +91,6 @@ Delete the named cookie from the current domain
 ### [Save-SeScreenshot](Save-SeScreenshot.md)
 Save a screenshot on the disk.
 
-### [Switch-SeDriver](Switch-SeDriver.md)
-Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
-
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
@@ -111,6 +111,9 @@ Start a remote driver session.
 
 ### [Stop-SeDriver](Stop-SeDriver.md)
 Quits this driver, closing every associated window.
+
+### [Switch-SeDriver](Switch-SeDriver.md)
+Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ### [Switch-SeFrame](Switch-SeFrame.md)
 Instructs the driver to send future commands to a different frame

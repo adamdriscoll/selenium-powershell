@@ -49,14 +49,14 @@ Describe "All in one Test"  {
             #get element, pipe as input element for Typing, pass the element through
             #so pester catches 'null or empty' if it was not found
             SeElement -By TagName input |
-                SeType -ClearFirst "selenium{{Enter}}" -PassThru -SleepSeconds 2    | Should -Not -BeNullorEmpty
+                SeType -ClearFirst "selenium{{Enter}}" -PassThru -Sleep 2    | Should -Not -BeNullorEmpty
         }
         $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'
         It 'searched successfully                                                  ' {
             SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
             #Two tests on the same element, second passes it through to click
             SeShouldHave $linkpath -With href match selenium
-            SeShouldHave $linkpath -With Text like *selenium* -PassThru | SeClick -SleepSeconds 5
+            SeShouldHave $linkpath -With Text like *selenium* -PassThru | SeClick -Sleep 5
         }
         It 'opened the search result page and found the expected content           ' {
             #Just to show we can test for the presence of multiple links. Each one is re-tested ...
@@ -124,7 +124,7 @@ Describe "All in one Test"  {
              $e | SeSelection -ByPartialText  "Sa"
         }
         It 'submitted the form and got the expected response                       ' {
-            SeElement '/html/body/form/input' | SeClick -SleepSeconds 5
+            SeElement '/html/body/form/input' | SeClick -Sleep 5
             SeFrame -Parent
             SeFrame 'iframeResult'
             SeShouldHave "/html/body/div[1]" -with text match "cars=saab"

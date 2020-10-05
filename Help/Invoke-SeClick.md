@@ -13,7 +13,7 @@ Perform a click in the browser window or specified element.
 ## SYNTAX
 
 ```
-Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-SleepSeconds <Object>] [-Driver <IWebDriver>]
+Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-Sleep <Double>] [-Driver <IWebDriver>]
  [-PassThru] [<CommonParameters>]
 ```
 
@@ -98,11 +98,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SleepSeconds
+### -Sleep
 Sleep time in second after performing the click action.
 
 ```yaml
-Type: Object
+Type: Double
 Parameter Sets: (All)
 Aliases:
 
