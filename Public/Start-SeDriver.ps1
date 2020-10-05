@@ -18,7 +18,7 @@ function Start-SeDriver {
         [SeWindowState] $State = [SeWindowState]::Default,
         [System.IO.FileInfo]$DefaultDownloadPath,
         [switch]$PrivateBrowsing,
-        [Double]$ImplicitWait = 0.3,
+        [Double]$ImplicitWait = 0.2,
         [System.Drawing.Size][SizeTransformAttribute()]$Size,
         [System.Drawing.Point][PointTransformAttribute()]$Position,
         $WebDriverPath,
