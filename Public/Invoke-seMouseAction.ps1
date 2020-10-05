@@ -6,6 +6,7 @@
         $Action,
         $Value,
         [Parameter(ValueFromPipeline = $true)]
+        [OpenQA.Selenium.IWebElement]$Element,
         [ValidateIsWebDriverAttribute()]
         $Driver
     )
