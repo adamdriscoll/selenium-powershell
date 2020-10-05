@@ -88,7 +88,7 @@ Delete the named cookie from the current domain
 ### [Save-SeScreenshot](Save-SeScreenshot.md)
 Save a screenshot on the disk.
 
-### [Select-SeDriver](Select-SeDriver.md)
+### [Switch-SeDriver](Switch-SeDriver.md)
 Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ### [Set-SeCookie](Set-SeCookie.md)

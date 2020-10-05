@@ -1,4 +1,4 @@
-function Select-SeDriver {
+function Switch-SeDriver {
     [cmdletbinding(DefaultParameterSetName = 'ByName')]
     param(
         [parameter(Position = 0, ParameterSetName = 'ByDriver', Mandatory = $True)]

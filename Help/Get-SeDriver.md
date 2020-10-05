@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -Current
-Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.
+Return the currently selected browser. Selected browser is the last one started, unless changed via Switch-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.
 
 ```yaml
 Type: SwitchParameter

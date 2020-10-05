@@ -345,7 +345,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Current</maml:name>
           <maml:Description>
-            <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
+            <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Switch-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -386,7 +386,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Current</maml:name>
         <maml:Description>
-          <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Select-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
+          <maml:para>Return the currently selected browser. Selected browser is the last one started, unless changed via Switch-SeDriver and is always the one that get used in all cmdlet that have an unspecified $Driver.</maml:para>
         </maml:Description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3845,7 +3845,7 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Select-SeDriver</command:name>
+      <command:name>Switch-SeDriver</command:name>
       <command:verb>Select</command:verb>
       <command:noun>SeDriver</command:noun>
       <maml:description>
@@ -3857,7 +3857,7 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Select-SeDriver</maml:name>
+        <maml:name>Switch-SeDriver</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
@@ -3872,7 +3872,7 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Select-SeDriver</maml:name>
+        <maml:name>Switch-SeDriver</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Name</maml:name>
           <maml:Description>
@@ -3947,11 +3947,11 @@ PS C:\&gt; Get-SeDriver -Current
 PS C:\&gt; Start-SeDriver -Browser Firefox
 # Firefox is now the default browser
 PS C:\&gt; Get-SeDriver -Current
-PS C:\&gt; Select-SeDriver -Driver $Driver
+PS C:\&gt; Switch-SeDriver -Driver $Driver
 # Chrome is the default browser again
 PS C:\&gt; Get-SeDriver -Current</dev:code>
         <dev:remarks>
-          <maml:para>This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Select-SeDriver</maml:para>
+          <maml:para>This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Switch-SeDriver</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
