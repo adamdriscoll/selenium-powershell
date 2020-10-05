@@ -127,7 +127,7 @@ function Start-SeDriver {
 
 
             $Script:SeDrivers.Add($Driver)
-            Return Select-SeDriver -Name $FriendlyName
+            Return Switch-SeDriver -Name $FriendlyName
         }
 
     }

@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Select-SeDriver
+# Switch-SeDriver
 
 ## SYNOPSIS
 Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
@@ -14,12 +14,12 @@ Select a driver, making it the default to be used with any ulterior calls whenev
 
 ### ByName (Default)
 ```
-Select-SeDriver [-Name] <String> [<CommonParameters>]
+Switch-SeDriver [-Name] <String> [<CommonParameters>]
 ```
 
 ### ByDriver
 ```
-Select-SeDriver [-Driver] <IWebDriver> [<CommonParameters>]
+Switch-SeDriver [-Driver] <IWebDriver> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,12 +35,12 @@ PS C:\> Get-SeDriver -Current
 PS C:\> Start-SeDriver -Browser Firefox
 # Firefox is now the default browser
 PS C:\> Get-SeDriver -Current
-PS C:\> Select-SeDriver -Driver $Driver
+PS C:\> Switch-SeDriver -Driver $Driver
 # Chrome is the default browser again
 PS C:\> Get-SeDriver -Current
 ```
 
-This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Select-SeDriver
+This examples show the default browser changing from Chrome to Firefox when the second instance is launched, then set back to Chrome through Switch-SeDriver
 
 ## PARAMETERS
 
