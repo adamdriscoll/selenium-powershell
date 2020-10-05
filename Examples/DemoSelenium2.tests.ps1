@@ -22,7 +22,7 @@ $ModaltestCases = @(
 
 Function ClickOpensModal {
 	Param ($linkXPath , $modalXPath)
-    Get-SeElement -by XPath  $linkXPath | Send-SeClick -JavaScriptClick -SleepSeconds 1
+    Get-SeElement -by XPath  $linkXPath | Send-SeClick -JavaScriptClick -Sleep 1
 	$modal = SeElement  $modalXPath -by XPath
 	if (-not $modal.displayed) {Write-Warning -Message 'Modal not displayed'; return $false}
 	else {
