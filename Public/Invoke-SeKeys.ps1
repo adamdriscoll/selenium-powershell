@@ -8,7 +8,7 @@ function Invoke-SeKeys {
         [AllowEmptyString()]
         [string]$Keys,
         [switch]$ClearFirst,
-        $SleepSeconds = 0 ,
+        [Double]$Sleep = 0 ,
         [switch]$Submit,
         [switch]$PassThru,
         [ValidateNotNull()]
@@ -33,7 +33,7 @@ function Invoke-SeKeys {
             $Action.SendKeys($Keys).Perform()
         }
        
-        if ($SleepSeconds) { Start-Sleep -Seconds $SleepSeconds }
+        if ($Sleep) { Start-Sleep -Milliseconds ($Sleep * 1000) }
         if ($PassThru) { $Element }
     }
 }

@@ -7,7 +7,7 @@ function Invoke-SeClick {
         [Parameter( ValueFromPipeline = $true, Position = 1)]
         [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element,
-        $SleepSeconds = 0 ,
+        [Double]$Sleep = 0 ,
         [OpenQA.Selenium.IWebDriver]$Driver,
         [switch]$PassThru
     )
@@ -40,7 +40,7 @@ function Invoke-SeClick {
             }
         }
 
-        if ($SleepSeconds -gt 0) { Start-Sleep -Seconds $SleepSeconds }
+        if ($Sleep -gt 0) { Start-Sleep -Milliseconds ($Sleep * 1000) }
         if ($PassThru) { if ($HasElement) { return $Element } else { return $Driver } }
         
     }
