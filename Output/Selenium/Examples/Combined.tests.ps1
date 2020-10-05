@@ -20,8 +20,8 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false 
-            SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -SleepSeconds 1
-            SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -SleepSeconds 1
+            SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -Sleep 1
+            SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -Sleep 1
             SeShouldHave  'body'       -By   TagName
             SeShouldHave   $modalXPath -With displayed eq $false
         }
@@ -78,14 +78,14 @@ Describe "PsGallery Test" {
             #get element, pipe as input element for Typing, pass the element through
             #so pester catches 'null or empty' if it was not found
             Get-SeElement -By TagName -Value 'input' |
-                Invoke-SeKeys -ClearFirst -Keys "selenium{{Enter}}" -PassThru -SleepSeconds 2    | Should -Not -BeNullorEmpty
+                Invoke-SeKeys -ClearFirst -Keys "selenium{{Enter}}" -PassThru -Sleep 2    | Should -Not -BeNullorEmpty
         }
         It 'searched successfully                                                  ' {
             $linkpath = '//*[@id="skippedToContent"]/section/div[1]/div[2]/div[2]/section[1]/div/table/tbody/tr/td[1]/div/div[2]/header/div[1]/h1/a'
             SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
             #Two tests on the same element, second passes it through to click
             SeShouldHave $linkpath -With href match selenium
-            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -SleepSeconds 5
+            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -Sleep 5
         }
         It 'opened the search result page and found the expected content           ' {
             #Just to show we can test for the presence of multiple links. Each one is re-tested ...
@@ -174,7 +174,7 @@ Describe "Alerts and Selection boxes tests" {
             $e | Set-SeSelectValue -By Text  -value "Sa*"
         }
         It 'submitted the form and got the expected response                       ' {
-            Get-SeElement '/html/body/form/input' | Invoke-SeClick -SleepSeconds 5
+            Get-SeElement '/html/body/form/input' | Invoke-SeClick -Sleep 5
             Switch-SeFrame -Parent
             Switch-SeFrame 'iframeResult'
             SeShouldHave "/html/body/div[1]" -with text match "cars=saab"

@@ -13,8 +13,8 @@ Send the keys to the browser or specified element.
 ## SYNTAX
 
 ```
-Invoke-SeKeys [[-Element] <IWebElement>] [-Keys] <String> [-ClearFirst] [-SleepSeconds <Object>] [-Submit]
- [-PassThru] [-Driver <IWebDriver>] [<CommonParameters>]
+Invoke-SeKeys [[-Element] <IWebElement>] [-Keys] <String> [-ClearFirst] [-Sleep <Double>] [-Submit] [-PassThru]
+ [-Driver <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Driver
-{{ Fill Driver Description }}
+Target WebDriver
 
 ```yaml
 Type: IWebDriver
@@ -107,11 +107,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SleepSeconds
-Time to sleep after performing the action in seconds
+### -Sleep
+Sleep time in second after performing the type action.
 
 ```yaml
-Type: Object
+Type: Double
 Parameter Sets: (All)
 Aliases:
 
