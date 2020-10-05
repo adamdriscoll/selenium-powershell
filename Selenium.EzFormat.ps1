@@ -4,11 +4,19 @@ $myFile = $MyInvocation.MyCommand.ScriptBlock.File
 $myModuleName = $($myFile | Split-Path -Leaf) -replace '\.ezformat\.ps1', '' -replace '\.ezout\.ps1', ''
 $myRoot = $myFile | Split-Path
 Push-Location $myRoot
-    $Type = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebElement' }
-    $Typed = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebDriver' }
+$Type = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebElement' }
+$Typed = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebDriver' }
 $formatting = @(
     Write-FormatView @type  -Property Tagname, Enabled, Displayed, Text   -Width 7, 7, 9, 80 -AlignProperty @{Text = 'Left' } -VirtualProperty @{'Hello' = { 'World' } } 
     Write-FormatView @type -AsList -Property Tagname, Text, Enabled, Selected, Location, Size, Displayed 
+
+    Write-FormatView -TypeName 'SeFrame' -Property 'TagName', 'Enabled','Name','Id' -VirtualProperty @{
+        Name = { $_.Attributes.name }
+        Id   = { $_.Attributes.id }
+    }
+
+    
+
     # Add your own Write-FormatView here,
     # or put them in a Formatting or Views directory
     foreach ($potentialDirectory in 'Formatting', 'Views') {
