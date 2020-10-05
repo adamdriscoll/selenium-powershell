@@ -4,8 +4,9 @@ function Set-SeSelectValue {
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelect]) })]
         [SeBySelect]$By = [SeBySelect]::Text,
         [Parameter( ValueFromPipeline = $true, Position = 1, Mandatory = $true)]
-        [Object]$value,
-        [OpenQA.Selenium.IWebElement]$Element
+        [OpenQA.Selenium.IWebElement]$Element,
+        [Object]$value
+        
     )
     try {
         $IsMultiSelect = [SeleniumSelection.Option]::IsMultiSelect($Element)

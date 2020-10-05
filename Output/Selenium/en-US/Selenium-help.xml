@@ -4296,13 +4296,13 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
       <command:syntaxItem>
         <maml:name>Set-SeSelectValue</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-          <maml:name>value</maml:name>
+          <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>Value to which the specified element will be set.</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>IWebElement</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4325,13 +4325,13 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Element</maml:name>
+          <maml:name>value</maml:name>
           <maml:Description>
-            <maml:para>Target IWebElement.</maml:para>
+            <maml:para>Value to which the specified element will be set.</maml:para>
           </maml:Description>
-          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
-            <maml:name>IWebElement</maml:name>
+            <maml:name>Object</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -4351,7 +4351,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
           <maml:para>Target IWebElement.</maml:para>
@@ -4363,7 +4363,7 @@ PS C:\&gt; Get-SeDriver -Current</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>value</maml:name>
         <maml:Description>
           <maml:para>Value to which the specified element will be set.</maml:para>
