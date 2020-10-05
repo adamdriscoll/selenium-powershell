@@ -1,4 +1,5 @@
 function Get-SeWindow {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebDriver]
