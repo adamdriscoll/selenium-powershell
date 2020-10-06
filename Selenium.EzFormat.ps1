@@ -54,3 +54,13 @@ if ($types) {
     $types | Out-TypeData | Set-Content $myTypesFile -Encoding UTF8
 }
 Pop-Location
+
+$Content = Get-Content -Path $myFormatFile | Select -SkipLast 2
+
+$SeSelectViewPath = Join-Path -Path $PSScriptRoot  -ChildPath 'views/SeSelectValueInfo.ps1xml'
+$EndOfFile = @'
+
+  </ViewDefinitions>
+</Configuration>
+'@
+($Content | Out-String) + (Get-Content -Path $SeSelectViewPath -raw) + $EndOfFile | Out-File -Encoding utf8 $myFormatFile
