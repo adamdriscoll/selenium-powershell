@@ -1,7 +1,7 @@
 ﻿<View>
       <Name>SeSelectValueInfo</Name>
       <ViewSelectedBy>
-        <TypeName>SeSelectValueInfo</TypeName>
+        <TypeName>selenium-powershell/SeSelectValueInfo</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

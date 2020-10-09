@@ -10,7 +10,7 @@ $formatting = @(
     Write-FormatView @type  -Property Tagname, Enabled, Displayed, Text   -Width 7, 7, 9, 80 -AlignProperty @{Text = 'Left' } -VirtualProperty @{'Hello' = { 'World' } } 
     Write-FormatView @type -AsList -Property Tagname, Text, Enabled, Selected, Location, Size, Displayed 
 
-    Write-FormatView -TypeName 'SeFrame' -Property 'TagName', 'Enabled','Name','Id' -VirtualProperty @{
+    Write-FormatView -TypeName 'selenium-powershell/SeFrame' -Property 'TagName', 'Enabled', 'Name', 'Id' -VirtualProperty @{
         Name = { $_.Attributes.name }
         Id   = { $_.Attributes.id }
     }

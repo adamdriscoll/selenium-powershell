@@ -82,9 +82,9 @@
       </ListControl>
     </View>
     <View>
-      <Name>SeFrame</Name>
+      <Name>selenium-powershell/SeFrame</Name>
       <ViewSelectedBy>
-        <TypeName>SeFrame</TypeName>
+        <TypeName>selenium-powershell/SeFrame</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -119,10 +119,10 @@
         </TableRowEntries>
       </TableControl>
     </View>
-    <View>
+<View>
       <Name>SeSelectValueInfo</Name>
       <ViewSelectedBy>
-        <TypeName>SeSelectValueInfo</TypeName>
+        <TypeName>selenium-powershell/SeSelectValueInfo</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>

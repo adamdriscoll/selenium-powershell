@@ -10,15 +10,14 @@ function Get-SeSelectValueInfo {
         $Options = Get-SeElement -Element $Element -By Tagname -Value option -Attributes value
         $Values = foreach ($Opt in $Options) {
             [PSCustomObject]@{
-                PSTypeName = 'SeSelectValueInfo'
-                Index      = $Index
-                Text       = $Opt.text
-                Value      = $opt.Attributes.value
+                Index = $Index
+                Text  = $Opt.text
+                Value = $opt.Attributes.value
             }
             $Index += 1
         }
         return  [PSCustomObject]@{
-            PSTypeName    = 'SeSelectValueInfo'
+            PSTypeName    = 'selenium-powershell/SeSelectValueInfo'
             IsMultiSelect = [SeleniumSelection.Option]::IsMultiSelect($Element)
             Items         = $Values
         }
