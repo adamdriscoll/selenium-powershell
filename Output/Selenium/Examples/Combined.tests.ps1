@@ -163,6 +163,7 @@ Describe "Alerts and Selection boxes tests" {
             Set-SeUrl  $SelectTestPage
             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
             Switch-SeFrame 'iframeResult'
+            Get-SeSelectValue
             SeShouldHave -By Name "cars" -With choice contains "volvo"
         }
         It 'made selections from the "cars" selection box                          ' {
