@@ -5,58 +5,58 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SeSelectValue
+# New-SeWindow
 
 ## SYNOPSIS
-Get Select element selected value.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Get-SeSelectValue [-Element] <IWebElement> [-All] [<CommonParameters>]
+New-SeWindow [[-Url] <Object>] [[-Driver] <IWebDriver>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Get Select element selected value.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeSelectValue -Element $Select
+PS C:\> {{ Add example code here }}
 ```
 
-Get the selected value for the specified element.
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -All
-Get All selected values (only available when the Select element accept multiple values)
+### -Driver
+{{ Fill Driver Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: IWebDriver
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Element
-Target IWebElement.
-
-```yaml
-Type: IWebElement
-Parameter Sets: (All)
-Aliases:
-
-Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Url
+{{ Fill Url Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -65,7 +65,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### OpenQA.Selenium.IWebElement
+### OpenQA.Selenium.IWebDriver
 
 ## OUTPUTS
 

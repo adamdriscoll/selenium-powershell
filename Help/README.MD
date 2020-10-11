@@ -60,9 +60,6 @@ Perform a click in the browser window or specified element.
 ### [Invoke-SeJavascript](Invoke-SeJavascript.md)
 Invoke Javascript in the specified Driver.
 
-### [Invoke-SeKeyAction](Invoke-SeKeyAction.md)
-Perform a key down or key up in the browser or specified element.
-
 ### [Invoke-SeKeys](Invoke-SeKeys.md)
 Send the keys to the browser or specified element.
 
@@ -78,6 +75,9 @@ Create an instance of WebDriver service to be used with Start-SeDriver
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
 
+### [New-SeWindow](New-SeWindow.md)
+{{ Fill in the Synopsis }}
+
 ### [Pop-SeUrl](Pop-SeUrl.md)
 Navigate back to the most recently pushed URL in the location stack.
 
@@ -87,6 +87,9 @@ navigate to a new URL.
 
 ### [Remove-SeCookie](Remove-SeCookie.md)
 Delete the named cookie from the current domain
+
+### [Remove-SeWindow](Remove-SeWindow.md)
+{{ Fill in the Synopsis }}
 
 ### [Save-SeScreenshot](Save-SeScreenshot.md)
 Save a screenshot on the disk.
