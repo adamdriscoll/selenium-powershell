@@ -35,14 +35,31 @@ function Get-SeElement {
         $Output = $null
         $ByCondition = $null
 
+        
+
         if ($by.Count -gt 1) {
             $ByChainedArgs = for ($i = 0; $i -lt $by.Count; $i++) {
                 $cby = $by[$i]
-                [OpenQA.Selenium.By]::$cby($value[$i])
+                $CValue = $value[$i]
+                if ($cby -eq ([SeBySelector]::ClassName)) {
+                    $spl = $CValue.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
+                    if ($spl.count -gt 1) {
+                        $Cby = [SeBySelector]::CssSelector
+                        $CValue = ".$($spl -join '.')"
+                    }
+                }
+                [OpenQA.Selenium.By]::$cby($CValue)
             }
             $ByCondition = [OpenQA.Selenium.Support.PageObjects.ByChained]::new($ByChainedArgs)
         }
         else {
+            if ($By[0] -eq ([SeBySelector]::ClassName)) {
+                $spl = $Value.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)
+                if ($spl.Count -gt 1) {
+                    $by = [SeBySelector]::CssSelector
+                    $Value = ".$($spl -join '.')"
+                }
+            }
             $ByCondition = [OpenQA.Selenium.By]::$By($Value)
         }
         
@@ -127,5 +144,3 @@ function Get-SeElement {
         
     }
 }
-
-
