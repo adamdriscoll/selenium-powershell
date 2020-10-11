@@ -19,7 +19,7 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
     Context "in $($Env:BrowserID) with settings ($Env:BrowserOptText)" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
-            SeShouldHave   $modalXPath -With displayed eq $false 
+            SeShouldHave   $modalXPath -With displayed eq $false -Timeout 10
             SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -Sleep 1
             SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -Sleep 1
             SeShouldHave  'body'       -By   TagName
