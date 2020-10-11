@@ -20,8 +20,8 @@ Describe "Testing the tailspin toys demo site at $env:SITE_URL" {
         It "produced the right modal dialog for the <name>" -TestCases (Get-ModalTestCases) {
             Param ($linkXPath, $modalXPath)
             SeShouldHave   $modalXPath -With displayed eq $false -Timeout 10
-            SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -Sleep 1
-            SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -Sleep 1
+            SeElement      $linkXPath | Invoke-SeClick  -Action Click_JS -Sleep 1 -Verbose
+            SeElement   $modalXPath   | SeElement -By ClassName 'close' | Invoke-SeClick -Action Click_JS -Sleep 1 -Verbose
             SeShouldHave  'body'       -By   TagName
             SeShouldHave   $modalXPath -With displayed eq $false
         }
@@ -85,7 +85,7 @@ Describe "PsGallery Test" {
             SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
             #Two tests on the same element, second passes it through to click
             SeShouldHave $linkpath -With href match selenium
-            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -Action Click_JS -Sleep 5
+            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -Action Click_JS -Sleep 5 -Verbose
         }
         It 'opened the search result page and found the expected content           ' {
             #Just to show we can test for the presence of multiple links. Each one is re-tested ...
@@ -97,7 +97,7 @@ Describe "PsGallery Test" {
             #Can test with "Get-SeElement | where-object <<complex test>>" rather than "with <<feild>> <<operator>> <<value>>"
             SeElement    '//*[@id="skippedToContent"]/section/div/aside/ul[2]/li[1]/a'  |
                 Where-Object { ($_.text -like "*Project Site*") -and ($_.GetAttribute('href') -match "selenium") } |
-                    Invoke-SeClick -PassThru  | Should -Not -Benullorempty
+                    Invoke-SeClick -PassThru -Verbose  | Should -Not -Benullorempty
         }
         It 'went to Github from the project link on the search result              ' {
             SeShouldHave -URL  match 'github' -Timeout 30
@@ -175,7 +175,7 @@ Describe "Alerts and Selection boxes tests" {
             $e | Set-SeSelectValue -By Text  -value "Sa*"
         }
         It 'submitted the form and got the expected response                       ' {
-            Get-SeElement '/html/body/form/input' | Invoke-SeClick -Sleep 5
+            Get-SeElement '/html/body/form/input' | Invoke-SeClick -Sleep 5 -Verbose
             Switch-SeFrame -Parent
             Switch-SeFrame 'iframeResult'
             SeShouldHave "/html/body/div[1]" -with text match "cars=saab"
@@ -235,7 +235,7 @@ Describe "'Headless' mode browser test" {
                     should -Not -BeNullOrEmpty
 
             SeShouldHave '//*[@id="tsf"]/div[2]/div[1]/div[1]/a' -PassThru |
-                Invoke-SeClick -PassThru                 | should -Not -BeNullOrEmpty
+                Invoke-SeClick -PassThru -Verbose                 | should -Not -BeNullOrEmpty
         }
         It 'closed the browser a third time                                        ' {
             Stop-SeDriver
