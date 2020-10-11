@@ -7,7 +7,10 @@
     }
     $Driver = Get-SeDriver -Current -ErrorAction Stop
        
-    if ($null -eq $Driver) {
+    if ($null -ne $Driver) {
+        return $Driver
+    }
+    else {
         Throw [System.ArgumentNullException]::new("An available Driver could not be found.")
     }
 
