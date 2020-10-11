@@ -15,8 +15,8 @@ Finds all IWebElements within the current context using the given mechanism
 
 ### Default (Default)
 ```
-Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Double>] [[-Driver] <IWebDriver>] [-All]
- [-Attributes <String[]>] [-Single] [<CommonParameters>]
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Double>] [-All] [-Attributes <String[]>]
+ [-Single] [<CommonParameters>]
 ```
 
 ### ByElement
@@ -113,21 +113,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

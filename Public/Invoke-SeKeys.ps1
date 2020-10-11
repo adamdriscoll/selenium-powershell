@@ -18,9 +18,7 @@ function Invoke-SeKeys {
         [switch]$ClearFirst,
         [Double]$Sleep = 0 ,
         [switch]$Submit,
-        [switch]$PassThru,
-        [ValidateNotNull()]
-        [OpenQA.Selenium.IWebDriver]$Driver
+        [switch]$PassThru
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

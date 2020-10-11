@@ -13,7 +13,7 @@ Clear alert popup by dismissing or accepting it.
 ## SYNTAX
 
 ```
-Clear-SeAlert [-Driver <Object>] [-Action <Object>] [-Alert <Object>] [-PassThru] [<CommonParameters>]
+Clear-SeAlert [-Action <Object>] [-Alert <Object>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -58,21 +58,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

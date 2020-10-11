@@ -32,13 +32,7 @@ function Push-SeUrl {
         [Parameter(Position = 0, ParameterSetName = 'url')]
         [ValidateURIAttribute()]
         [string]
-        $Url,
-
-        # The webdriver instance that owns the url stack, and will navigate to
-        # a provided new url (if any).
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver 
+        $Url
     )
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     if (-not $Script:SeLocationMap.ContainsKey($Driver)) {

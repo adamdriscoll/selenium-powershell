@@ -14,12 +14,12 @@ Delete the named cookie from the current domain
 
 ### All
 ```
-Remove-SeCookie [-Driver <IWebDriver>] [-All] [<CommonParameters>]
+Remove-SeCookie [-All] [<CommonParameters>]
 ```
 
 ### NamedCookie
 ```
-Remove-SeCookie [-Driver <IWebDriver>] -Name <String> [<CommonParameters>]
+Remove-SeCookie -Name <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -55,21 +55,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

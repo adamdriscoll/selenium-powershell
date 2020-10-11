@@ -16,11 +16,7 @@ function Save-SeScreenshot {
         [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png,
         [Parameter(Mandatory = $true, ParameterSetName = 'Element')]
         [ValidateNotNull()]
-        [OpenQA.Selenium.IWebElement]$Element,
-        [ValidateIsWebDriverAttribute()]
-        [Parameter(Mandatory = $true, ParameterSetName = 'Driver')]
-        [ValidateNotNull()]
-        $Driver
+        [OpenQA.Selenium.IWebElement]$Element
     )
 
     begin {

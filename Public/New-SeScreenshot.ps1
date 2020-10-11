@@ -13,10 +13,7 @@ function New-SeScreenshot {
         [Switch]$AsBase64EncodedString,
         [Parameter(ParameterSetName = 'Element')]
         [ValidateNotNull()]
-        [OpenQA.Selenium.IWebElement]$Element,
-        [Parameter(ParameterSetName = 'Driver')]
-        [ValidateIsWebDriverAttribute()][ValidateNotNull()]
-        $Driver
+        [OpenQA.Selenium.IWebElement]$Element
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

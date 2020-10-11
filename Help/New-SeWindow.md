@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-SeWindow [[-Url] <Object>] [[-Driver] <IWebDriver>] [<CommonParameters>]
+New-SeWindow [[-Url] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -Driver
-{{ Fill Driver Description }}
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### -Url
 {{ Fill Url Description }}

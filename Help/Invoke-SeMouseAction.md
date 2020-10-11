@@ -13,8 +13,7 @@ Perform mouse move & drag actions.
 ## SYNTAX
 
 ```
-Invoke-SeMouseAction [[-Action] <Object>] [[-Value] <Object>] [[-Element] <IWebElement>] [[-Driver] <Object>]
- [<CommonParameters>]
+Invoke-SeMouseAction [[-Action] <Object>] [[-Value] <Object>] [[-Element] <IWebElement>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,21 +40,6 @@ Aliases:
 
 Required: False
 Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

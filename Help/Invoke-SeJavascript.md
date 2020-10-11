@@ -13,8 +13,7 @@ Invoke Javascript in the specified Driver.
 ## SYNTAX
 
 ```
-Invoke-SeJavascript [[-Script] <String>] [[-ArgumentList] <Object[]>] [-Driver <IWebDriver>]
- [<CommonParameters>]
+Invoke-SeJavascript [[-Script] <String>] [[-ArgumentList] <Object[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,21 +40,6 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

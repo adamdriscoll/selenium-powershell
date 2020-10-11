@@ -1,8 +1,6 @@
 function Get-SeFrame {
     [cmdletbinding()]
-    param(
-        [OpenQA.Selenium.IWebDriver]$Driver
-    )
+    param()
 
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     

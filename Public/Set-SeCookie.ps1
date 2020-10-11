@@ -5,17 +5,10 @@ function Set-SeCookie {
         [string]$Value,
         [string]$Path,
         [string]$Domain,
-        $ExpiryDate,
-
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver 
+        [DateTime]$ExpiryDate
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
-        if ($null -ne $ExpiryDate -and $ExpiryDate.GetType().Name -ne 'DateTime') {
-            throw '$ExpiryDate can only be $null or TypeName: System.DateTime'
-        }
     }
 
     process {

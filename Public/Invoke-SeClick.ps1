@@ -9,7 +9,6 @@ function Invoke-SeClick {
         [ValidateNotNull()]
         [OpenQA.Selenium.IWebElement]$Element,
         [Double]$Sleep = 0 ,
-        [OpenQA.Selenium.IWebDriver]$Driver,
         [switch]$PassThru
     )
 

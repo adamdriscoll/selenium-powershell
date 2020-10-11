@@ -14,7 +14,7 @@ Send the keys to the browser or specified element.
 
 ```
 Invoke-SeKeys [[-Element] <IWebElement>] [-Keys] <String> [-ClearFirst] [-Sleep <Double>] [-Submit] [-PassThru]
- [-Driver <IWebDriver>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,21 +37,6 @@ Clear the element existing text first
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
 Parameter Sets: (All)
 Aliases:
 

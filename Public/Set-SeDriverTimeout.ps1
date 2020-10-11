@@ -5,9 +5,7 @@ function Set-SeDriverTimeout {
         [ValidateSet('ImplicitWait', 'PageLoad', 'AsynchronousJavaScript')]
         $TimeoutType = 'ImplicitWait',
         [Parameter(Position = 1)]
-        [Double]$Timeout = 0,
-        [Parameter(ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]$Driver
+        [Double]$Timeout = 0
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

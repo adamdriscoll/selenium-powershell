@@ -3,10 +3,7 @@ function New-SeWindow {
     param(
         [ValidateURIAttribute()]
         [StringUrlTransformAttribute()]
-        $Url,
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]
-        $Driver 
+        $Url
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

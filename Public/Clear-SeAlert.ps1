@@ -1,8 +1,6 @@
 function Clear-SeAlert {
     [CmdletBinding()]
     param (
-        [ValidateIsWebDriverAttribute()]
-        $Driver,
         [ValidateSet('Accept', 'Dismiss')]
         $Action = 'Dismiss',
         [parameter(ParameterSetName = 'Alert', ValueFromPipeline = $true)]

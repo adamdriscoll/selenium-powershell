@@ -1,10 +1,7 @@
 function Remove-SeWindow {
     [CmdletBinding()]
     param(
-        [String]$SwitchToWindow,
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]
-        $Driver 
+        [String]$SwitchToWindow
     )
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
