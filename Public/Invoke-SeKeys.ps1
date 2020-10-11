@@ -37,10 +37,10 @@ function Invoke-SeKeys {
             if ($null -ne $Found) {
                 if ($UseSequence -and $Key -in $Script:ModifierKeys) {
                     $Sequence.Add([OpenQA.Selenium.Keys]::$key)
-                    $Inputstr = $Inputstr -replace "{{$key}}", ''
+                    $Keys = $Keys -replace "{{$key}}", ''
                 }
                 else {
-                    $Inputstr = $Inputstr -replace "{{$key}}", [OpenQA.Selenium.Keys]::$key
+                    $Keys = $Keys -replace "{{$key}}", [OpenQA.Selenium.Keys]::$key
                 }
                 
             }
