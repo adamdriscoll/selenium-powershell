@@ -1,4 +1,5 @@
 function Invoke-SeJavascript {
+    [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Position = 0)]
         [String]$Script,

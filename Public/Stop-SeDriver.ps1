@@ -1,4 +1,5 @@
 function Stop-SeDriver { 
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebDriver]

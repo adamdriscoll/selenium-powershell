@@ -1,4 +1,5 @@
 function Set-SeDriverTimeout {
+    [CmdletBinding()]
     param(
         [Parameter(Position = 0)]
         [ValidateSet('ImplicitWait', 'PageLoad', 'AsynchronousJavaScript')]

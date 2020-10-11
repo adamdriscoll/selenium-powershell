@@ -1,4 +1,5 @@
 function Get-SeElementCssValue {
+    [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline = $true, Mandatory = $true)]
         [OpenQA.Selenium.IWebElement]$Element,

@@ -1,4 +1,5 @@
 function Switch-SeFrame {
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Frame', Position = 0)]
         $Frame,

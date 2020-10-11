@@ -1,4 +1,5 @@
 function Set-SeSelectValue {
+    [CmdletBinding()]
     param (
         [ArgumentCompleter( { [Enum]::GetNames([SeBySelect]) })]
         [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelect]) })]

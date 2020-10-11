@@ -1,4 +1,5 @@
 function Get-SeHtml {
+    [CmdletBinding()]
     param(
         [Parameter(ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebElement]$Element,

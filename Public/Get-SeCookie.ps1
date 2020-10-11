@@ -1,4 +1,5 @@
 function Get-SeCookie {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
         [ValidateIsWebDriverAttribute()]
