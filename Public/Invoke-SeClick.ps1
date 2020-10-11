@@ -32,8 +32,13 @@ function Invoke-SeClick {
                 $Interaction = [OpenQA.Selenium.Interactions.Actions]::new($Driver)
                 if ($PSBoundParameters.ContainsKey('Element')) {
                     Write-Verbose "On Element: $($Element.Tagname)"
-                    try { $Interaction.$Action($Element).Perform() }
-                    catch { $PSCmdlet.ThrowTerminatingError($_) }
+                    if ($Action -eq 'Click') {  
+                        $Element.Click() #Mitigating IE driver issue with statement below.
+                    }
+                    else {
+                        try { $Interaction.$Action($Element).Perform() }
+                        catch { $PSCmdlet.ThrowTerminatingError($_) }
+                    }
                 }
                 else {
                     Write-Verbose "On Driver currently located at: $($Driver.Url)"
