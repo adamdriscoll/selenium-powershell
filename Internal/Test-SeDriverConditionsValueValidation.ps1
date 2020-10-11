@@ -14,7 +14,7 @@
             Throw "The condition $Condition accept only value of type $ConditionValueType. The value provided was of type $($Value.GetType())"
         }
         else {
-            return $true      
+            return 
         }
     }
  
