@@ -35,7 +35,7 @@
             Throw "The condition $Condition accept only value of type $($ConditionDetails.ValueType). The value provided was of type $($ConditionValue.GetType())"
         }
         else {
-            return $true      
+            return 
         }
     }
 }
