@@ -213,9 +213,17 @@ Describe "'Headless' mode browser test" {
     }
     Context "in $Env:BrowserID with settings ($Env:BrowserOptText)" {
         It 're-opened the Browser in "Headless" mode' {
-            $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
-            $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
-            $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
+            if ($PSVersionTable.PSVersion.Major -eq 5) {
+                $Processes = Get-CimInstance -Class Win32_Process
+                $DriverProcess = $Processes | Where { $_.Name -like '*driver.exe' -and $_.ParentProcessId -eq $Pid }
+                $BrowserProcess = $Processes | Where-Object { $_.ParentProcessId -eq $DriverProcess.ProcessId -and $_.Name -ne 'conhost.exe' }
+                (Get-process -Id $BrowserProcess.ProcessId).MainWindowHandle   | Should      -be 0
+            }
+            else {
+                $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
+                $BrowserProcess = Get-Process         | Where-Object { $_.Parent.id -eq $DriverProcess.id -and $_.Name -ne 'conhost' }
+                $BrowserProcess.MainWindowHandle  | Select-Object -First 1     | Should      -be 0
+            }
         }
         it 'did a google Search                                                    ' {
             Set-SeUrl 'https://www.google.com/ncr'
