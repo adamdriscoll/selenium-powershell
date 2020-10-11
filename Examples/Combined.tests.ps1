@@ -163,8 +163,9 @@ Describe "Alerts and Selection boxes tests" {
             Set-SeUrl  $SelectTestPage
             SeShouldHave -Selection "iframe" -By TagName -with id eq iframeResult
             Switch-SeFrame 'iframeResult'
-            Get-SeSelectValue
-            SeShouldHave -By Name "cars" -With choice contains "volvo"
+            $e = SeElement -by Name "cars"
+            $e | Should -Not -BeNullOrEmpty
+            (Get-SeSelectValue -Element $e -All).Items.Text | Should -Contain 'volvo'
         }
         It 'made selections from the "cars" selection box                          ' {
             $e = SeElement -by Name "cars"
