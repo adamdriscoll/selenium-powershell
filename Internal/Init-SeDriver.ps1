@@ -1,14 +1,17 @@
 ﻿function Init-SeDriver {
     [CmdletBinding()]
-    param (
-        [ref]$Driver,
-        [OpenQA.Selenium.IWebElement[]]$Element
-    )
+    param ($Element)
     
-    if ($null -ne $Driver.Value) { return }
-    if ($null -ne $Element) { $Driver.Value = ($Element | Select -First 1).WrappedDriver }
-    if ($null -ne $script:SeDriversCurrent) { $Driver.Value = $script:SeDriversCurrent; return }
-    Throw [System.ArgumentNullException]::new("A driver need to be explicitely specified or implicitely available.")
+    IF ($null -NE $Element) {
+        $Driver = ($Element | Select-Object -First 1).WrappedDriver
+    }
+    $Driver = Get-SeDriver -Current -ErrorAction Stop
+       
+    if ($null -eq $Driver) {
+        Throw [System.ArgumentNullException]::new("An available Driver could not be found.")
+    }
+
+
 
     
     

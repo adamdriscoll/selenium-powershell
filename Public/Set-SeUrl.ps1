@@ -58,7 +58,7 @@ function Set-SeUrl {
         [ValidateScript( { $_ -ge 1 })] 
         [Int]$Depth = 1
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver  -ErrorAction Stop
     for ($i = 0; $i -lt $Depth; $i++) {
         switch ($PSCmdlet.ParameterSetName) {
             'url' { $Driver.Navigate().GoToUrl($Url); break }

@@ -20,7 +20,7 @@ function Get-SeElement {
         [Switch]$Single
     )
     Begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver -ErrorAction Stop
         $ShowAll = $PSBoundParameters.ContainsKey('All') -and $PSBoundParameters.Item('All') -eq $true
         if ($By.Count -ne $Value.Count) {
             Throw [System.InvalidOperationException]::new("An equal number of `$By element ($($By.Count)) and `$Value ($($Value.Count)) must be provided.")

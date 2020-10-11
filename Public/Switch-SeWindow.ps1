@@ -4,7 +4,7 @@ function Switch-SeWindow {
         [Parameter(Mandatory = $true)]$Window
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     process {
         $Driver.SwitchTo().Window($Window) | Out-Null

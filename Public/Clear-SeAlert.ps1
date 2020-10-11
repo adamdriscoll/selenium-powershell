@@ -8,7 +8,7 @@ function Clear-SeAlert {
         [switch]$PassThru
     )
     Begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver -ErrorAction Stop
         $ImpTimeout = 0
     }
     Process {

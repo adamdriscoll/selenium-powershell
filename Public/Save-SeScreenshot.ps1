@@ -21,7 +21,7 @@ function Save-SeScreenshot {
 
     begin {
         if ($PSCmdlet.ParameterSetName -eq 'Driver') {
-            Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+            $Driver = Init-SeDriver  -ErrorAction Stop
         }
     }
     process {

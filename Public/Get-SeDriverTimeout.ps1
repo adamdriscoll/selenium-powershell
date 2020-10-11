@@ -6,7 +6,7 @@ function Get-SeDriverTimeout {
         $TimeoutType = 'ImplicitWait'
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver -ErrorAction Stop
     }
     Process {
         return $Driver.Manage().Timeouts().$TimeoutType 

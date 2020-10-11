@@ -6,7 +6,7 @@ function Get-SeHtml {
         [switch]$Inner        
     )
     Begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver -ErrorAction Stop
     }
     Process {
         if ($PSBoundParameters.ContainsKey('Element')) {

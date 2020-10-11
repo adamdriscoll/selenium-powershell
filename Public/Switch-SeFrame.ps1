@@ -10,7 +10,7 @@ function Switch-SeFrame {
         [Parameter(Mandatory = $true, ParameterSetName = 'Root')]
         [switch]$Root
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver  -ErrorAction Stop
     #TODO Frame validation... Do not try to switch if element does not exist ?
     #TODO Review ... Maybe Parent / Root should be a unique parameter : -Level Parent/Root )
     if ($frame) { [void]$Driver.SwitchTo().Frame($Frame) }

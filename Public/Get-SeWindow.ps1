@@ -2,7 +2,7 @@ function Get-SeWindow {
     [CmdletBinding()]
     param()
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     process {
         $Driver.WindowHandles

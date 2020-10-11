@@ -25,15 +25,9 @@ function Get-SeUrl {
         # webdriver instance.
         [Parameter()]
         [switch]
-        $Stack,
-
-        # The webdriver instance for which to retrieve the current URL or
-        # internal URL stack.
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver
+        $Stack
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver -ErrorAction Stop
     
     if ($Stack) {
         if ($Script:SeLocationMap[$Driver].Count -gt 0) {

@@ -21,7 +21,7 @@ function Invoke-SeKeys {
         [switch]$PassThru
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
         
         $Regexstr = '(?<expression>{{(?<value>.*?)}})'
         $MyMatches = [Regex]::Matches($Keys, $Regexstr)
