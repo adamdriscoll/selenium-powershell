@@ -1449,18 +1449,6 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>IsMultiSelect</maml:name>
-          <maml:Description>
-            <maml:para>Set the referenced variable to a boolean representing whether or not the current Select element accept multiple selections.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">PSReference</command:parameterValue>
-          <dev:type>
-            <maml:name>PSReference</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -1484,18 +1472,6 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
           <maml:name>IWebElement</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>IsMultiSelect</maml:name>
-        <maml:Description>
-          <maml:para>Set the referenced variable to a boolean representing whether or not the current Select element accept multiple selections.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">PSReference</command:parameterValue>
-        <dev:type>
-          <maml:name>PSReference</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -2013,191 +1989,6 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Invoke-SeKeyAction</command:name>
-      <command:verb>Invoke</command:verb>
-      <command:noun>SeKeyAction</command:noun>
-      <maml:description>
-        <maml:para>Perform a key down or key up in the browser or specified element.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Perform a key down or key up in the browser or specified element.</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Invoke-SeKeyAction</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-          <maml:name>Element</maml:name>
-          <maml:Description>
-            <maml:para>Target IWebElement.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
-          <dev:type>
-            <maml:name>IWebElement</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>Action</maml:name>
-          <maml:Description>
-            <maml:para>Action to be perfomed</maml:para>
-          </maml:Description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="false" command:variableLength="false">KeyDown</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">KeyUp</command:parameterValue>
-          </command:parameterValueGroup>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>Key</maml:name>
-          <maml:Description>
-            <maml:para>Modifier key</maml:para>
-          </maml:Description>
-          <command:parameterValueGroup>
-            <command:parameterValue required="false" command:variableLength="false">CTRL</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">Alt</command:parameterValue>
-            <command:parameterValue required="false" command:variableLength="false">Shift</command:parameterValue>
-          </command:parameterValueGroup>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
-          <maml:name>Driver</maml:name>
-          <maml:Description>
-            <maml:para>Target WebDriver</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>RightKey</maml:name>
-          <maml:Description>
-            <maml:para>Use right modifier key.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>Action</maml:name>
-        <maml:Description>
-          <maml:para>Action to be perfomed</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="3" aliases="none">
-        <maml:name>Driver</maml:name>
-        <maml:Description>
-          <maml:para>Target WebDriver</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
-        <maml:name>Element</maml:name>
-        <maml:Description>
-          <maml:para>Target IWebElement.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
-        <dev:type>
-          <maml:name>IWebElement</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-        <maml:name>Key</maml:name>
-        <maml:Description>
-          <maml:para>Modifier key</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-        <dev:type>
-          <maml:name>String[]</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>RightKey</maml:name>
-        <maml:Description>
-          <maml:para>Use right modifier key.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name>None</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name>System.Object</maml:name>
-        </dev:type>
-        <maml:description>
-          <maml:para></maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyDown -Key CTRL
-PS C:\&gt; Invoke-SeKeys -Element $Element -Keys 's'
-PS C:\&gt; Invoke-SeKeyAction -Element $Element -Action KeyUp -Key CTRL</dev:code>
-        <dev:remarks>
-          <maml:para>Perform a CTRL + S action on the specified element</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks />
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
       <command:name>Invoke-SeKeys</command:name>
       <command:verb>Invoke</command:verb>
       <command:noun>SeKeys</command:noun>
@@ -2457,6 +2248,18 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
+          <maml:name>Element</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Element Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebElement</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
           <maml:name>Driver</maml:name>
           <maml:Description>
             <maml:para>Target WebDriver</maml:para>
@@ -2483,7 +2286,7 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
         <maml:name>Driver</maml:name>
         <maml:Description>
           <maml:para>Target WebDriver</maml:para>
@@ -2491,6 +2294,18 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
           <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="2" aliases="none">
+        <maml:name>Element</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Element Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebElement</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -3304,6 +3119,109 @@ PS C:\&gt; $Service.ProcessId</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>New-SeWindow</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>SeWindow</command:noun>
+      <maml:description>
+        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Fill in the Description }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-SeWindow</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Url</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Url Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Driver Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebDriver</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>Driver</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Driver Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebDriver</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Url</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Url Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>OpenQA.Selenium.IWebDriver</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>Pop-SeUrl</command:name>
       <command:verb>Pop</command:verb>
       <command:noun>SeUrl</command:noun>
@@ -3600,6 +3518,109 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <dev:code>PS C:\&gt; Remove-SeCookie -DeleteAllCookies</dev:code>
         <dev:remarks>
           <maml:para>Remove all cookies from targeted Driver</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-SeWindow</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>SeWindow</command:noun>
+      <maml:description>
+        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Fill in the Description }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-SeWindow</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SwitchToWindow</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill SwitchToWindow Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>Driver</maml:name>
+          <maml:Description>
+            <maml:para>{{ Fill Driver Description }}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+          <dev:type>
+            <maml:name>IWebDriver</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>Driver</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill Driver Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">IWebDriver</command:parameterValue>
+        <dev:type>
+          <maml:name>IWebDriver</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SwitchToWindow</maml:name>
+        <maml:Description>
+          <maml:para>{{ Fill SwitchToWindow Description }}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>OpenQA.Selenium.IWebDriver</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
