@@ -124,6 +124,9 @@ Instructs the driver to send future commands to a different frame
 ### [Switch-SeWindow](Switch-SeWindow.md)
 Instructs the driver to send future commands to a different window
 
+### [Update-SeDriver](Update-SeDriver.md)
+{{ Fill in the Synopsis }}
+
 ### [Wait-SeDriver](Wait-SeDriver.md)
 Wait for the driver to be in the desired state.
 
