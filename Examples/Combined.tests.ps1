@@ -85,7 +85,7 @@ Describe "PsGallery Test" {
             SeShouldHave -URL                 match 'packages\?q=selenium' -Timeout 15
             #Two tests on the same element, second passes it through to click
             SeShouldHave $linkpath -With href match selenium
-            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -Sleep 5
+            SeShouldHave $linkpath -With Text like *selenium* -PassThru | Invoke-SeClick -Action Click_JS -Sleep 5
         }
         It 'opened the search result page and found the expected content           ' {
             #Just to show we can test for the presence of multiple links. Each one is re-tested ...
