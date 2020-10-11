@@ -151,7 +151,7 @@ Describe "Alerts and Selection boxes tests" {
             Switch-SeFrame  'iframeResult'
             Get-SeElement "/html/body/button"  | Invoke-SeClick  -PassThru   | Should -Not -BeNullOrEmpty
             #Checking the text of the alert is optional. Dissmiss can pass the alert result through
-            { Wait-SeDriver -Condition AlertState -Value $false -Timeout 5 -ErrorAction Stop } | Should -Not -throw
+            { Wait-SeDriver -Condition AlertState -Value $false -Timeout 15 -ErrorAction Stop } | Should -Not -throw
             Clear-SeAlert -Alert $Alert -Action Dismiss -PassThru  | Should -Not -BeNullOrEmpty
         }
         It 'reselected the parent frame                                            ' {
