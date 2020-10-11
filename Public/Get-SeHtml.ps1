@@ -3,9 +3,7 @@ function Get-SeHtml {
     param(
         [Parameter(ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebElement]$Element,
-        [switch]$Inner,
-        [OpenQA.Selenium.IWebDriver]$Driver
-        
+        [switch]$Inner        
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

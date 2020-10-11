@@ -8,10 +8,7 @@ function Switch-SeFrame {
         [switch]$Parent,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Root')]
-        [switch]$Root,
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver
+        [switch]$Root
     )
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     #TODO Frame validation... Do not try to switch if element does not exist ?

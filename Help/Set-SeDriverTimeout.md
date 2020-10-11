@@ -13,7 +13,7 @@ Set the various driver timeouts default.
 ## SYNTAX
 
 ```
-Set-SeDriverTimeout [[-TimeoutType] <Object>] [[-Timeout] <Double>] [-Driver <IWebDriver>] [<CommonParameters>]
+Set-SeDriverTimeout [[-TimeoutType] <Object>] [[-Timeout] <Double>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> Set-SeDriverTimeout -TimeoutType ImplicitWait -Timeout 0
 Set Implicit wait timeout to 0 
 
 ## PARAMETERS
-
-### -Driver
-Target IWebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### -Timeout
 Value in seconds

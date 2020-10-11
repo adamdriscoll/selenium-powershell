@@ -13,8 +13,7 @@ Wait for the driver to be in the desired state.
 ## SYNTAX
 
 ```
-Wait-SeDriver [-Condition] <Object> [-Value] <Object> [[-Timeout] <Double>] [[-Driver] <Object>]
- [<CommonParameters>]
+Wait-SeDriver [-Condition] <Object> [-Value] <Object> [[-Timeout] <Double>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,21 +42,6 @@ Required: True
 Position: 0
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-{{ Fill Driver Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

@@ -56,13 +56,7 @@ function Set-SeUrl {
         [Parameter(ParameterSetName = 'back')]
         [Parameter(ParameterSetName = 'forward', Position = 1)]
         [ValidateScript( { $_ -ge 1 })] 
-        [Int]$Depth = 1,
-
-        # The target webdriver to manage navigation for. Will utilise the
-        # default driver if left unset.
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver 
+        [Int]$Depth = 1
     )
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     for ($i = 0; $i -lt $Depth; $i++) {

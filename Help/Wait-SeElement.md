@@ -15,13 +15,13 @@ Wait for an element condition to be met.
 ### Element (Default)
 ```
 Wait-SeElement -Element <IWebElement> [-Condition <Object>] [-ConditionValue <Object>] [-Timeout <Double>]
- [-Driver <Object>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ### Locator
 ```
 Wait-SeElement [[-By] <SeBySelector>] [-Value] <String> [-Condition <Object>] [-ConditionValue <Object>]
- [-Timeout <Double>] [-Driver <Object>] [<CommonParameters>]
+ [-Timeout <Double>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -81,21 +81,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

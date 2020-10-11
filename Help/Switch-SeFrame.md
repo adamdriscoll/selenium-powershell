@@ -14,17 +14,17 @@ Instructs the driver to send future commands to a different frame
 
 ### Frame
 ```
-Switch-SeFrame [-Frame] <Object> [-Driver <Object>] [<CommonParameters>]
+Switch-SeFrame [-Frame] <Object> [<CommonParameters>]
 ```
 
 ### Parent
 ```
-Switch-SeFrame [-Parent] [-Driver <Object>] [<CommonParameters>]
+Switch-SeFrame [-Parent] [<CommonParameters>]
 ```
 
 ### Root
 ```
-Switch-SeFrame [-Root] [-Driver <Object>] [<CommonParameters>]
+Switch-SeFrame [-Root] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,21 +35,6 @@ Instructs the driver to send future commands to a different frame
 ### Example 1
 
 ## PARAMETERS
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### -Frame
 {{ Fill Frame Description }}

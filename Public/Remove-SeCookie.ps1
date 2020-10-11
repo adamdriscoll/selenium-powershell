@@ -1,10 +1,6 @@
 function Remove-SeCookie {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]
-        $Driver,
- 
         [Parameter(Mandatory = $true, ParameterSetName = 'All')]
         [switch]$All,
 

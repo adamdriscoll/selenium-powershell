@@ -11,10 +11,6 @@ function Get-SeElement {
         #Specifies a time out
         [Parameter(Position = 2, ParameterSetName = 'Default')]
         [Double]$Timeout = 0,
-        #The driver or Element where the search should be performed.
-        [Parameter(Position = 3, ValueFromPipeline = $true, ParameterSetName = 'Default')]
-        [OpenQA.Selenium.IWebDriver]
-        $Driver,
         [Parameter(Position = 3, ValueFromPipeline = $true, Mandatory = $true, ParameterSetName = 'ByElement')]
         [OpenQA.Selenium.IWebElement]
         $Element,

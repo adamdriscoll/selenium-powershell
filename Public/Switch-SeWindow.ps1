@@ -1,10 +1,6 @@
 function Switch-SeWindow {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebDriver]
-        $Driver,
-
         [Parameter(Mandatory = $true)]$Window
     )
     begin {

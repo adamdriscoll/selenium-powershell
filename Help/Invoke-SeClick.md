@@ -13,8 +13,8 @@ Perform a click in the browser window or specified element.
 ## SYNTAX
 
 ```
-Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-Sleep <Double>] [-Driver <IWebDriver>]
- [-PassThru] [<CommonParameters>]
+Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-Sleep <Double>] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,21 +48,6 @@ Aliases:
 
 Required: False
 Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

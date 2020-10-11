@@ -6,9 +6,7 @@
         $Action,
         $Value,
         [Parameter(ValueFromPipeline = $true)]
-        [OpenQA.Selenium.IWebElement]$Element,
-        [ValidateIsWebDriverAttribute()]
-        $Driver
+        [OpenQA.Selenium.IWebElement]$Element
     )
     Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     Test-SeMouseActionValueValidation -Action $Action -ConditionValue $Value -ErrorAction Stop

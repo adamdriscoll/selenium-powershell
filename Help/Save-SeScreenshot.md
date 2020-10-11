@@ -14,7 +14,7 @@ Save a screenshot on the disk.
 
 ### Driver (Default)
 ```
-Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] -Driver <Object> [<CommonParameters>]
+Save-SeScreenshot -Path <String> [-ImageFormat <ScreenshotImageFormat>] [<CommonParameters>]
 ```
 
 ### Pipeline
@@ -49,21 +49,6 @@ PS C:\> Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -Ima
 Create then save a screenshot to disk.
 
 ## PARAMETERS
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: Driver
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Element
 {{ Fill Element Description }}

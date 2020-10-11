@@ -20,11 +20,7 @@ function Pop-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    param(
-        [Parameter(ValueFromPipeline = $true)]
-        [ValidateIsWebDriverAttribute()]
-        $Driver 
-    )
+    param()
     begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
     }

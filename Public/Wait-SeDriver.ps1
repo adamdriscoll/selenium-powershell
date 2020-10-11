@@ -10,11 +10,7 @@ function Wait-SeDriver {
         $Value,
         #Specifies a time out
         [Parameter(Position = 2)]
-        [Double]$Timeout = 3,
-        #The driver or Element where the search should be performed.
-        [Parameter(Position = 3, ValueFromPipeline = $true)]
-        $Driver
-
+        [Double]$Timeout = 3
     )
     Begin {
         Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop

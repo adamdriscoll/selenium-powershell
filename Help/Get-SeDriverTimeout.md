@@ -13,7 +13,7 @@ Get the specified driver timeout value.
 ## SYNTAX
 
 ```
-Get-SeDriverTimeout [[-TimeoutType] <Object>] [-Driver <IWebDriver>] [<CommonParameters>]
+Get-SeDriverTimeout [[-TimeoutType] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,21 +36,6 @@ PS C:\> Get-SeDriverTimeout -TimeoutType PageLoad -Driver $Driver
 Return the specified driver PageLoad timeout.
 
 ## PARAMETERS
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### -TimeoutType
 Timeout type to be changed

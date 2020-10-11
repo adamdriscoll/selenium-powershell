@@ -27,11 +27,6 @@ New-SeScreenshot [-InputObject <Object>] [-AsBase64EncodedString] [<CommonParame
 New-SeScreenshot [-AsBase64EncodedString] [-Element <IWebElement>] [<CommonParameters>]
 ```
 
-### Driver
-```
-New-SeScreenshot [-AsBase64EncodedString] [-Driver <Object>] [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Take a screenshot of the current page
 
@@ -52,21 +47,6 @@ Return image as base64 string
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: Driver
 Aliases:
 
 Required: False

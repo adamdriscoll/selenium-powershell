@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Remove-SeWindow [[-SwitchToWindow] <String>] [[-Driver] <IWebDriver>] [<CommonParameters>]
+Remove-SeWindow [[-SwitchToWindow] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> {{ Add example code here }}
 {{ Add example description here }}
 
 ## PARAMETERS
-
-### -Driver
-{{ Fill Driver Description }}
-
-```yaml
-Type: IWebDriver
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### -SwitchToWindow
 {{ Fill SwitchToWindow Description }}

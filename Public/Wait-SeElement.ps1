@@ -16,10 +16,7 @@ function Wait-SeElement {
         [ValidateNotNull()]
         $ConditionValue,
         #Specifies a time out
-        [Double]$Timeout = 3,
-        #The driver or Element where the search should be performed.
-        [Parameter( ValueFromPipeline = $true)]
-        $Driver
+        [Double]$Timeout = 3
 
     )
     begin {

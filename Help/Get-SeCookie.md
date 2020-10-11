@@ -13,7 +13,7 @@ List all cookies
 ## SYNTAX
 
 ```
-Get-SeCookie [[-Driver] <Object>] [<CommonParameters>]
+Get-SeCookie [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> Get-SeCookie
 List all cookies of the default webdriver
 
 ## PARAMETERS
-
-### -Driver
-Target WebDriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
