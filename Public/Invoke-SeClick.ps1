@@ -1,4 +1,5 @@
 function Invoke-SeClick {
+    [CmdletBinding()]
     param(
         [parameter(Position = 0, HelpMessage = 'test')]
         [ArgumentCompleter([SeMouseClickActionCompleter])]
@@ -21,7 +22,7 @@ function Invoke-SeClick {
         }
     }
     Process {
-
+        Write-Verbose "Performing $Action"
         switch ($Action) {
             'Click_Js' {
                 try { $Driver.ExecuteScript("arguments[0].click()", $Element) }
@@ -30,10 +31,12 @@ function Invoke-SeClick {
             Default {
                 $Interaction = [OpenQA.Selenium.Interactions.Actions]::new($Driver)
                 if ($PSBoundParameters.ContainsKey('Element')) {
+                    Write-Verbose "On Element: $($Element.Tagname)"
                     try { $Interaction.$Action($Element).Perform() }
                     catch { $PSCmdlet.ThrowTerminatingError($_) }
                 }
                 else {
+                    Write-Verbose "On Driver currently located at: $($Driver.Url)"
                     try { $Interaction.$Action().Perform() }
                     catch { $PSCmdlet.ThrowTerminatingError($_) }
                 }

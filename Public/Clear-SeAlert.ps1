@@ -1,4 +1,5 @@
 function Clear-SeAlert {
+    [CmdletBinding()]
     param (
         [ValidateIsWebDriverAttribute()]
         $Driver,

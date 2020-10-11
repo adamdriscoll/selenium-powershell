@@ -1,4 +1,5 @@
 function Get-SeSelectValue {
+    [CmdletBinding()]
     [cmdletbinding(DefaultParameterSetName = 'default')]
     param (
         [Parameter( ValueFromPipeline = $true, Mandatory = $true, Position = 1)]
