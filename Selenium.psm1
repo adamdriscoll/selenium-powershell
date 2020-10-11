@@ -13,5 +13,10 @@ ForEach ($folder in $functionFolders) {
         }
     }    
 }
+
+$MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = { 
+    Get-SeDriver | Stop-SeDriver
+}
+
 $publicFunctions = (Get-ChildItem -Path "$PSScriptRoot\Public" -Filter '*.ps1').BaseName
 Export-ModuleMember -Function $publicFunctions

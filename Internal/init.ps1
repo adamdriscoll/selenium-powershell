@@ -1,5 +1,14 @@
 ﻿using namespace System.Collections.Generic
 
+
+if (!$PSCommandPath.EndsWith('init.ps1')) {
+    $MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = { 
+         Get-SeDriver | Stop-SeDriver
+    }
+
+}
+
+
 Function New-Condition {
     Param([Parameter(Mandatory = $true)]$Text, [Type]$ValueType, $Tooltip, [Switch]$OptionalValue, $ElementRequired = $true )
     return [PSCustomObject]@{
