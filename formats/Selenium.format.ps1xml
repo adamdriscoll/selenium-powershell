@@ -144,7 +144,7 @@
                   $TextMax = ($_.Items.Text | Measure-Object -Maximum).Maximum.length
                   $ValueMax = ($_.Items.Value | Measure-Object -Maximum).Maximum.length
                   [void]($Output.AppendFormat("Index {0} {1} Selected`n", 'Text'.PadRight($TextMax, ' '), 'Value'.PadRight($ValueMax, ' ')))
-                  [void]($Output.AppendFormat("----- {0} {1} --------`n", '----'.PadRight($TextMax, '-'), '-----'.PadRight($ValueMax, '-')))
+                  [void]($Output.AppendFormat("----- {0} {1} --------`n", '----'.PadRight($TextMax, ' '), '-----'.PadRight($ValueMax, ' ')))
                   foreach ($I in $_.Items) {
                     $IsSelected = if ($I.Selected) {"   *"} else {''}
                     [Void]($output.AppendFormat("{0} {1} {2} {3}`n", "$($I.Index)".PadLeft(5, ' '), "$($I.Text)".PadRight($TextMax, ' '), "$($I.Value)".PadRight($ValueMax, ' '), $IsSelected))
