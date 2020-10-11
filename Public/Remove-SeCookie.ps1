@@ -7,7 +7,7 @@ function Remove-SeCookie {
         [Parameter(Mandatory = $true, ParameterSetName = 'NamedCookie')] 
         [string]$Name
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver  -ErrorAction Stop
     if ($All) {
         $Driver.Manage().Cookies.DeleteAllCookies()
     }

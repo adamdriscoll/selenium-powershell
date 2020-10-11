@@ -8,7 +8,7 @@ function Set-SeDriverTimeout {
         [Double]$Timeout = 0
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     Process {
         $Driver.Manage().Timeouts().$TimeoutType = [timespan]::FromMilliseconds($Timeout * 1000)

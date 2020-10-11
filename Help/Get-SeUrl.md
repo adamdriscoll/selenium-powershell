@@ -13,7 +13,7 @@ Retrieves the current URL of a target webdriver instance.
 ## SYNTAX
 
 ```
-Get-SeUrl [-Stack] [[-Driver] <Object>] [<CommonParameters>]
+Get-SeUrl [-Stack] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,21 +44,6 @@ Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Driver
-The webdriver instance for which to retrieve the current URL or internal URL stack.
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

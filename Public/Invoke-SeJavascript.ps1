@@ -7,7 +7,7 @@ function Invoke-SeJavascript {
         [Object[]]$ArgumentList        
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     Process {
         #Fix #165 

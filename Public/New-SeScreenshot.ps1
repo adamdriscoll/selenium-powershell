@@ -16,7 +16,7 @@ function New-SeScreenshot {
         [OpenQA.Selenium.IWebElement]$Element
     )
     Begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     Process {
         switch ($PSCmdlet.ParameterSetName) {

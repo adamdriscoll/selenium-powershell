@@ -34,7 +34,7 @@ function Push-SeUrl {
         [string]
         $Url
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver  -ErrorAction Stop
     if (-not $Script:SeLocationMap.ContainsKey($Driver)) {
         $script:SeLocationMap[$Driver] = [System.Collections.Generic.Stack[string]]@()
     }

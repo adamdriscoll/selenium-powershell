@@ -8,7 +8,7 @@
         [Parameter(ValueFromPipeline = $true)]
         [OpenQA.Selenium.IWebElement]$Element
     )
-    Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+    $Driver = Init-SeDriver  -ErrorAction Stop
     Test-SeMouseActionValueValidation -Action $Action -ConditionValue $Value -ErrorAction Stop
 
 

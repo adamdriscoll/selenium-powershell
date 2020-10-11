@@ -13,7 +13,7 @@ function Wait-SeDriver {
         [Double]$Timeout = 3
     )
     Begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
         $ImpTimeout = -1
         Test-SeDriverConditionsValueValidation -Condition $Condition -Value $Value -Erroraction Stop
     }

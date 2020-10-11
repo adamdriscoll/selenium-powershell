@@ -1382,18 +1382,6 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-SeUrl</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-          <maml:name>Driver</maml:name>
-          <maml:Description>
-            <maml:para>The webdriver instance for which to retrieve the current URL or internal URL stack.</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Stack</maml:name>
           <maml:Description>
@@ -1419,18 +1407,6 @@ PS C:\&gt; $Element | Get-SeHtml -Inner</dev:code>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
-        <maml:name>Driver</maml:name>
-        <maml:Description>
-          <maml:para>The webdriver instance for which to retrieve the current URL or internal URL stack.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />

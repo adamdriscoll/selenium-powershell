@@ -4,7 +4,7 @@ function Remove-SeWindow {
         [String]$SwitchToWindow
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
     process {
         try {

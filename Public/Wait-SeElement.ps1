@@ -20,7 +20,7 @@ function Wait-SeElement {
 
     )
     begin {
-        Init-SeDriver -Driver ([ref]$Driver) -ErrorAction Stop
+        $Driver = Init-SeDriver  -ErrorAction Stop
         Test-SeElementConditionsValueValidation -By $By -Element $Element -Condition $Condition -ConditionValue $ConditionValue -ParameterSetName $PSCmdlet.ParameterSetName @Stop 
         $ImpTimeout = -1 
 
