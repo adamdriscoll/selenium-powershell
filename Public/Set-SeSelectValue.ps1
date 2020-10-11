@@ -23,10 +23,10 @@ function Set-SeSelectValue {
 
                 if ($HaveWildcards) {
                     $ValuesToSelect = Get-SeSelectValue -Element $Element  -All
-                    $ValuesToSelect = $ValuesToSelect | Where-Object { $_ -like $Value }
+                    $ValuesToSelect = $ValuesToSelect.Items | Where-Object { $_.Text -like $Value }
                     if (! $IsMultiSelect) { $ValuesToSelect = $ValuesToSelect | Select -first 1 }
                     Foreach ($v in $ValuesToSelect) {
-                        [SeleniumSelection.Option]::SelectByText($Element, $v, $false)     
+                        [SeleniumSelection.Option]::SelectByText($Element, $v.Text, $false)     
                     }
                 }
                 else {
