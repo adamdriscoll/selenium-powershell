@@ -1,5 +1,3 @@
-Import-Module .\Selenium.psd1
-
 function ConvertTo-Selenium {
     <#
         .SYNOPSIS
@@ -71,44 +69,42 @@ function ConvertTo-Selenium {
 
     $Recording = Get-Content -Path $Path | ConvertFrom-Json
     $BaseUrl = [Uri]$Recording.url
-    '# Project: ' + $Recording.name
-
-    foreach ($Test in $Recording.tests) {
-        '# Test: ' + $Test.name
-        foreach ($Command in $Test.commands) {
-            $PsCode = switch ($Command) {
-                { $_.comment } { '# Description: ' + $_.comment }
-                { $_.command -eq 'open' } {
-                    $Url = if ([Uri]::IsWellFormedUriString($_.target, [System.UriKind]::Relative)) {
-                        [Uri]::new($BaseUrl, $_.target)
+    $PsCode = $(
+        '# Project: ' + $Recording.name
+        foreach ($Test in $Recording.tests) {
+            '# Test: ' + $Test.name
+            foreach ($Command in $Test.commands) {
+                switch ($Command) {
+                    { $_.comment } { '# Description: ' + $_.comment }
+                    { $_.command -eq 'open' } {
+                        $Url = if ([Uri]::IsWellFormedUriString($_.target, [System.UriKind]::Relative)) {
+                            [Uri]::new($BaseUrl, $_.target)
+                        }
+                        else {
+                            $_.target
+                        }
+                        { Set-SeUrl -Url $Url } | Get-Replace -From '$Url' -To $Url -QuotesTo
+                        Break
                     }
-                    else {
-                        $_.target
+                    { $_.command -eq 'close' } { { Stop-SeDriver } ; Break }
+                    { $_.command -in $ActionMap.Keys } {
+                        $Action = $ActionMap[$_.command] | Get-Replace -From '$Keys' -To $_.value -QuotesTo -By $_.value
+                        { Get-SeElement -By $By | _Action_ } | Get-Replace -From '_Action_' -To $Action -By $_.target
+                        Break
                     }
-                    { Set-SeUrl -Url $Url } | Get-Replace -From '$Url' -To $Url -QuotesTo
-                    Break
+                    { $_.command -eq 'selectFrame' } {
+                        if ($_.target -eq 'relative=parent') {
+                            { Switch-SeFrame -Parent }
+                        }
+                        else {
+                            { $null = (Get-SeDriver -Current).SwitchTo().Frame($Index) } | Get-Replace -From '$Index' -To $_.target -SplitTo
+                        }
+                        Break
+                    }
+                    Default { '# Unsupported command. Command: "{0}", Target: "{1}", Value: "{2}", Comment: "{3}".' -f $_.command, $_.target, $_.value, $_.comment }
                 }
-                { $_.command -eq 'close' } { { Stop-SeDriver } ; Break }
-                { $_.command -in $ActionMap.Keys } {
-                    $Action = $ActionMap[$_.command] | Get-Replace -From '$Keys' -To $_.value -QuotesTo -By $_.value
-                    { Get-SeElement -By $By | _Action_ } | Get-Replace -From '_Action_' -To $Action -By $_.target
-                    Break
-                }
-                { $_.command -eq 'selectFrame' } {
-                    if ($_.target -eq 'relative=parent') {
-                        { Switch-SeFrame -Parent }
-                    }
-                    else {
-                        { $null = (Get-SeDriver -Current).SwitchTo().Frame($Index) } | Get-Replace -From '$Index' -To $_.target -SplitTo
-                    }
-                    Break
-                }
-                Default { '# Unsupported command. Command: "{0}", Target: "{1}", Value: "{2}", Comment: "{3}".' -f $_.command, $_.target, $_.value, $_.comment }
             }
-            $PsCode | Get-Replace
         }
-    }
+    ) | Get-Replace
+    [ScriptBlock]::Create($PsCode -join [Environment]::NewLine)
 }
-$PsCode = ConvertTo-Selenium -Path .\Example.side
-$null = Start-SeDriver -Browser Chrome
-. ([scriptblock]::Create(($PsCode | Out-String)))
