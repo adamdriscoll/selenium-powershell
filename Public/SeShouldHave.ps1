@@ -91,31 +91,32 @@ function SeShouldHave {
         $foundElements = [System.Collections.Generic.List[PSObject]]::new()
     }
     process {
+        $Driver = (Get-SeDriver -Current)
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
         if ($URL) {
             do {
-                $Success = applyTest -testitems $Script:SeDriversCurrent.Url -operator $Operator -value $Value
+                $Success = applyTest -testitems $Driver.Url -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "PageURL was $($Script:SeDriversCurrent.Url). The comparison '-$operator $value' failed.")
+                throw (expandErr "PageURL was $($Driver.Url). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Title) {
             do {
-                $Success = applyTest -testitems $Script:SeDriversCurrent.Title -operator $Operator -value $Value
+                $Success = applyTest -testitems $Driver.Title -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "Page title was $($Script:SeDriversCurrent.Title). The comparison '-$operator $value' failed.")
+                throw (expandErr "Page title was $($Driver.Title). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Alert -or $NoAlert) {
             do {
                 try {
-                    $a = $Script:SeDriversCurrent.SwitchTo().alert()
+                    $a = $Driver.SwitchTo().alert()
                     $Success = $true
                 }
                 catch {

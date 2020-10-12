@@ -37,7 +37,7 @@ function Start-SeInternetExplorerDriver {
 
     $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $InternetExplorer_Options)
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
-
+    Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     if ($PSBoundParameters.ContainsKey('LogLevel')) {
         Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
     }

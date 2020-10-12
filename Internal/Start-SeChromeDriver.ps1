@@ -98,7 +98,7 @@ function Start-SeChromeDriver {
         
         $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
-
+        Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
         $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 

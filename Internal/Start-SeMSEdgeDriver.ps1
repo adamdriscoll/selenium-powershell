@@ -45,7 +45,7 @@ function Start-SeMSEdgeDriver {
         throw $_ ; return
     }
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
-
+    Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     #region post creation options
     if ($PSBoundParameters.ContainsKey('Size')) { $Driver.Manage().Window.Size = $Size }
     if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
