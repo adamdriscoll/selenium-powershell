@@ -89,7 +89,7 @@ function ConvertTo-Selenium {
                     }
                     { $_.command -eq 'close' } { { Stop-SeDriver } ; Break }
                     { $_.command -in $ActionMap.Keys } {
-                        $Action = $ActionMap[$_.command] | Get-Replace -From '$Keys' -To $_.value -QuotesTo -By $_.value
+                        $Action = $ActionMap[$_.command] | Get-Replace -From '$Keys' -To ($_.value.Replace('${KEY_ENTER}', '{{Enter}}')) -QuotesTo -By $_.value
                         { Get-SeElement -By $By | _Action_ } | Get-Replace -From '_Action_' -To $Action -By $_.target
                         Break
                     }
