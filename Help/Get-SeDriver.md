@@ -12,7 +12,12 @@ Get the list of all active drivers.
 
 ## SYNTAX
 
-### Current (Default)
+### All (Default)
+```
+Get-SeDriver [<CommonParameters>]
+```
+
+### Current
 ```
 Get-SeDriver [-Current] [<CommonParameters>]
 ```

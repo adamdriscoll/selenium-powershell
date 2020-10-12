@@ -124,7 +124,7 @@ function Start-SeDriver {
             Add-Member @mp -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
             Add-Member @mp -Name 'SeFriendlyName' -Value "$FriendlyName"  
             Add-Member @mp -Name 'SeSelectedElements' -Value $null
-
+            Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeProcessId' -Value (Get-DriverProcessId -ServiceProcessId $Driver.SeServiceProcessId)
 
             $Script:SeDrivers.Add($Driver)
             Return Switch-SeDriver -Name $FriendlyName

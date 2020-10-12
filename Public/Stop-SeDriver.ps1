@@ -14,28 +14,20 @@ function Stop-SeDriver {
             $Driver = $script:SeDriversCurrent
         }
 
-
-        if ($null -ne $Driver) {
-            $BrowserName = $TextInfo.ToTitleCase($Driver.Capabilities.browsername)
-
-            if ($null -eq $Driver.SessionId) {
-                Write-Warning "$BrowserName Driver already closed"
-                if ($ElementsToRemove.contains($Driver)) { $ElementsToRemove.Add($Driver) }
-                
-            }
-            else {
-                Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
-            
-                $Driver.Close()
-                $Driver.Dispose()
-                $ElementsToRemove.Add($Driver)    
-            }
-
-            
-      
-       
-        }
         
+        $Processes = (Get-Process -Id $Drv.SeProcessId, $Drv.SeServiceProcessId -ErrorAction SilentlyContinue )
+
+        switch ($Processes.Count) {
+            2 {
+                Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
+                $Driver.Close()
+                $Driver.Dispose() 
+                break
+            }
+            1 { Stop-Process -Id $Processes.Id -ErrorAction SilentlyContinue }
+        }
+        $ElementsToRemove.Add($Driver)   
+               
     }
     End {
         $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
