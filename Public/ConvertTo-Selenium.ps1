@@ -61,10 +61,11 @@ function ConvertTo-Selenium {
     }
 
     $ActionMap = @{
-        click    = { Invoke-SeClick }
-        sendKeys = { Invoke-SeKeys -Keys $Keys }
-        type     = { Invoke-SeKeys -Keys $Keys }
-        select   = { Set-SeSelectValue -By $By }
+        click       = { Invoke-SeClick }
+        doubleClick = { Invoke-SeClick -Action DoubleClick }
+        sendKeys    = { Invoke-SeKeys -Keys $Keys }
+        type        = { Invoke-SeKeys -Keys $Keys }
+        select      = { Set-SeSelectValue -By $By }
     }
 
     $Recording = Get-Content -Path $Path | ConvertFrom-Json
