@@ -15,7 +15,7 @@ function Stop-SeDriver {
         }
 
         
-        $Processes = (Get-Process -Id $Drv.SeProcessId, $Drv.SeServiceProcessId -ErrorAction SilentlyContinue )
+        $Processes = (Get-Process -Id $Driver.SeProcessId, $Driver.SeServiceProcessId -ErrorAction SilentlyContinue )
 
         switch ($Processes.Count) {
             2 {
