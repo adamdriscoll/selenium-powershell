@@ -98,7 +98,7 @@ function ConvertTo-Selenium {
                             { Switch-SeFrame -Parent }
                         }
                         else {
-                            { $null = (Get-SeDriver -Current).SwitchTo().Frame($Index) } | Get-Replace -From '$Index' -To $_.target -SplitTo
+                            { Switch-SeFrame -Frame $Index } | Get-Replace -From '$Index' -To $_.target -SplitTo
                         }
                         Break
                     }
