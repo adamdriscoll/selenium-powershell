@@ -11,7 +11,7 @@ function Stop-SeDriver {
     }
     Process {
         if (! $PSBoundParameters.ContainsKey('Driver')) {
-            $Driver = $script:SeDriversCurrent
+            $Driver = Get-SeDriver -Current
         }
 
         
@@ -31,7 +31,10 @@ function Stop-SeDriver {
     }
     End {
         $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
-        $script:SeDriversCurrent = $null
+        if ($script:SeDriversCurrent -notin $script:SeDrivers) {
+            $script:SeDriversCurrent = $null
+        }
+        
     }
     
 
