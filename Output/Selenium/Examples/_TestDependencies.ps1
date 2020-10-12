@@ -1,6 +1,6 @@
 
 Function Get-DefaultParams() {
-    if ($null -eq $Global:DefaultBrowser) { $Global:DefaultBrowser = 'Chrome' }
+    if ($null -eq $Global:DefaultBrowser) { $Global:DefaultBrowser = 'Firefox' }
     if ($null -eq $env:SITE_URL) { $env:SITE_URL = 'http://tailspin-spacegame-web.azurewebsites.net' }
     if ($null -eq $Global:HeadlessOnly) { $Global:HeadlessOnly = $False }
 }

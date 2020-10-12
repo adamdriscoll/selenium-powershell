@@ -84,6 +84,7 @@ function Start-SeEdgeDriver {
         Write-Warning "Web driver was not created"; return
     }
     else {
+        Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         $driverversion = $Driver.Capabilities.ToDictionary().msedge.msedgedriverVersion -replace '^([\d.]+).*$', '$1'
         if (-not $driverversion) { $driverversion = $driver.Capabilities.ToDictionary().chrome.chromedriverVersion -replace '^([\d.]+).*$', '$1' }
         Write-Verbose "Web Driver version $driverversion"

@@ -218,7 +218,9 @@ Describe "'Headless' mode browser test" {
                 $Processes = Get-CimInstance -Class Win32_Process
                 $DriverProcess = $Processes | Where { $_.Name -like '*driver.exe' -and $_.ParentProcessId -eq $Pid }
                 $BrowserProcess = $Processes | Where-Object { $_.ParentProcessId -eq $DriverProcess.ProcessId -and $_.Name -ne 'conhost.exe' }
-                (Get-process -Id $BrowserProcess.ProcessId).MainWindowHandle   | Should      -be 0
+                if ($BrowserProcess -ne $null) {
+                    (Get-process -Id $BrowserProcess.ProcessId).MainWindowHandle   | Should      -be 0
+                }
             }
             else {
                 $DriverProcess = Get-Process *driver | Where-Object { $_.Parent.id -eq $pid }
