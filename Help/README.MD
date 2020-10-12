@@ -42,6 +42,9 @@ Get CSS value for the specified name of targeted element.
 ### [Get-SeHtml](Get-SeHtml.md)
 Get outer html of the specified element or driver.
 
+### [Get-SeInput](Get-SeInput.md)
+Get element with an input tagname matching the specified conditions.
+
 ### [Get-SeKeys](Get-SeKeys.md)
 Return a list of the available special keys
 

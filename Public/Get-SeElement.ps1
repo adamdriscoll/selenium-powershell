@@ -127,7 +127,7 @@ function Get-SeElement {
             return
         }
         elseif ($PSBoundParameters.ContainsKey('Single') -and $Single -eq $true -and $Output.count -gt 1) {
-            $Message = "A single element was expected bu $($Output.count) elements were found using the locator  $($By -join ',') with value $($Value -join ',')."
+            $Message = "A single element was expected but $($Output.count) elements were found using the locator  $($By -join ',') with value $($Value -join ',')."
             Write-Error -Exception ([System.InvalidOperationException]::new($Message))
             return
         }
