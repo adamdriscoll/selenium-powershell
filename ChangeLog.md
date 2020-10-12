@@ -1,7 +1,7 @@
 #4.0.0 (Unreleased)
 
 
-# 4.0.0-beta-1 (Prerelease)
+# 4.0.0-preview1 (Prerelease)
 Note: V4 have an enormous amount of breakchanges. Most of the cmdlet have been rewriten in a way or another. 
 
 Duplicate functions have been eliminated along with all aliases that piled up over time.  Start-SeDriver provide an unified front to start all the browsers and the $Driver parameter / default driver are no more. Instead, starting a driver make it the active driver. Switching active driver can be accomplished through the Switch-SeDriver cmdlet. 
