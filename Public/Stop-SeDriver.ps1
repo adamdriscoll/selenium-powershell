@@ -7,7 +7,6 @@ function Stop-SeDriver {
     )
     Begin {
         $ElementsToRemove = [System.Collections.Generic.List[PSObject]]::new()
-        $TextInfo = (Get-Culture).TextInfo 
     }
     Process {
         if (! $PSBoundParameters.ContainsKey('Driver')) {
@@ -15,18 +14,20 @@ function Stop-SeDriver {
         }
 
         
-        $Processes = (Get-Process -Id $Driver.SeProcessId, $Driver.SeServiceProcessId -ErrorAction SilentlyContinue )
+        if ($null -ne $Driver) {
+            $Processes = (Get-Process -Id $Driver.SeProcessId, $Driver.SeServiceProcessId -ErrorAction SilentlyContinue )
 
-        switch ($Processes.Count) {
-            2 {
-                Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
-                $Driver.Close()
-                $Driver.Dispose() 
-                break
+            switch ($Processes.Count) {
+                2 {
+                    Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
+                    $Driver.Close()
+                    $Driver.Dispose() 
+                    break
+                }
+                1 { Stop-Process -Id $Processes.Id -ErrorAction SilentlyContinue }
             }
-            1 { Stop-Process -Id $Processes.Id -ErrorAction SilentlyContinue }
+            $ElementsToRemove.Add($Driver)   
         }
-        $ElementsToRemove.Add($Driver)   
                
     }
     End {

@@ -18,11 +18,7 @@ function Get-SeDriver {
     $Output = $null
     switch ($PSCmdlet.ParameterSetName) {
         'All' { $Output = $Script:SeDrivers; break }
-        'Current' { 
-            $Output = $Script:SeDriversCurrent
-            if ($null -eq $Output) { Write-Warning 'No selected driver' }
-            break 
-        }
+        'Current' { $Output = $Script:SeDriversCurrent; break }
         'ByName' { $Output = $Script:SeDrivers.Where( { $_.SeFriendlyName -eq $Name }, 'first' ); break }
         'ByBrowser' { $Output = $Script:SeDrivers.Where( { $_.SeBrowser -like "$Browser*" }); break }
     }
