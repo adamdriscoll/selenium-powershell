@@ -1,7 +1,65 @@
+#4.0.0 (Unreleased)
+
+
+# 4.0.0-preview1 (Prerelease)
+Note: V4 have an enormous amount of breakchanges. Most of the cmdlet have been rewriten in a way or another. 
+
+Duplicate functions have been eliminated along with all aliases that piled up over time.  Start-SeDriver provide an unified front to start all the browsers and the $Driver parameter / default driver are no more. Instead, starting a driver make it the active driver. Switching active driver can be accomplished through the Switch-SeDriver cmdlet. 
+
+## Added
+- Convert-toSeSelenium to convert IDE projects to Selenium-Powershell script
+- Update-SeDriver to download the latest driver (Support only Chrome currently)
+- Support for UserAgent in Start-SeDriver (#91)
+- New view for IwebDriver (#111). IWebDriver will now display as a table in the console by default instead of a list.
+- Get-SeElement - New view. Elements will now be returned in a table view to show the essential only. This make it significantly easier to deal with elements in the console interactively (#115)
+- Get-SeElement - Bychained support. The cmdlet will now drilldown when multiple by / value are provided to allow for instance the selection of links in a div containing a specific classname. This is an alternative for those less savy with Xpath  (#116)
+- Get-SeHtml - Allow the retrieval of the html of an element (or driver is no element is provided). Essentially a wrapper around $Element.GetAttribute('xxHTML') (xx: Inner /Outer) (#118)
+- New-SeDriverService - Allow the creation of a driver service to be used later on with Start-SeDriver. Only useful if you need to do change to the service parameters native object before starting the driver (#119)
+- Invoke-SeMouseAction - Support for interactions  (#122)
+- Wait-SeDriver / Wait-SeElement expliciti wait support (#125)
+- Get-SeElement -Attributes. Allow getting specific attributes (or all using *) to the elements to be returned. Attributes will be available in an Attributes string dictionary attached to each elements.  (#133)
+- Position / Size parameter for Start-SeDriver. Allow starting the driver at a specified position and size. If no command line available (or not implemented), the driver will start with the default settings and the be moved. (#134)
+- Get-SeElement -Single switch added. Define the expectaction that only one element should be returned (#144)
+- Get/Set-SeDriverTimeout - Allow changing driver timeouts easily (#150)
+- Invoke-SeJavascript - A wrapper around $Driver.ExecuteScript (#151)
+- Get-SeFrame, wrapper around Get-SeElement to show iframe along with their name / id in a convenient view (#159)
+- New-SeWindow / Remove-SeWindow cmdlet added to complement the existing Get/Switch  (#170)
+- Get-SeInput (#178) - A wrapper around Get-SeElement to get input element.
+
+
+
+## Changed
+- AsDefaultDriver implementation changed. Instead, Start-SeDriver automatically make the started driver the default. (#93)
+- Driver parameter was removed on most cmdleet. It is now expected to use the Switch-SeDriver cmdlet to change the active driver if multiple are open. 
+- Start-SeChrome and other have been removed in favor of Start-SeDriver -Browser Chrome (#100)
+- #98 Removed duplicate functions that performed the same thing or overlapped significantly
+- Removed all the aliases everywhere on all the parameter / functions in favor of a more rigid way of writing things (#99)
+- Standardize parameters. Some parameters had different names to mean the same thing (#100)
+- Revamp Get-SeSelectionOption. The cmdlet have been separated in 3 cmdlet Get/Clear/Set -SeSelectValue. The get cmdlet will also now return the Text & Value of the selected element instead of the text only. (#112)
+- Set-SeUrl now have a -Depth parameter to navigate forward or back x times (#124)
+- Get-SeElement now returns visible elements by default. To view hidden elements, the All switch parameter need to be used (#126)
+- Start-SeDriver -Quiet parameter removal. Quiet is now the default. This remove the extra Selenium verbose and resolves an issue with Driver not being usable in jobs. (#127)
+- Get-SeElement now write an error if no element are returned.  (#135)
+- cmdlet that expect urls will now accept urls without protocol defined. Assumptions in these cases is that the url is https thus google.ca will be treated as https://www.google.ca (#153)
+- Get-SeElementAttribute - Accept multiple values and wildcard to load all attributes (#161)
+- Get-SeElement - support for multiple classname (#160)
+- Get-SeElementCssValue - support for multiple values / wildcard character (#162)
+- Sleep / Timeout parameters type changed from int to double (Still seconds, but provide more granularity)
+- Invoke-SeScreenshot - support for Element screenshot. You can now easily produce a screenshot of a specific element instead of the whole page. (#168)
+
+
+
+## Bugfixes
+- Get-SeElement no longer support splatting (#82)
+- Getck driver abysmal performance (#113). Gecko service need to be configured to use localhost ::1. Otherwise, it take significantly more time to do everything with it (#113)
+- Get-SeElement with Timeout return only the first element instead of the collection  (#139)
+- Implcit-Wait - Default reduced to 0.3 seconds instead of 10 seconds. One of the problem of implicit wait is that some operation will wait 100% of the defined implicit wait before performing an action. (#146) 
+- Implicit / Explicit wait management. Some cmdlet (old an new) uses explicit wait. Explicit wait and Implicit wait should not be mixed together. Therefore, when an explicit wait is used, implicit wait (if present) get temporary disabled(#149)
+
+
 # 3.1.0 - Unreleased
 
 ## Added
-
 - Added -IgnoreProtectedModeSettings to Start-SeInternetExplorer - https://github.com/adamdriscoll/selenium-powershell/issues/79 - Thanks, @MysticRyuujin!
 
 - Added Markdown documentation (See Help subfolder) for all the cmdlets (PlatyPS is used behind the scene to maintain it) 

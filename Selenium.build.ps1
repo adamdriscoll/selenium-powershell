@@ -82,6 +82,8 @@ task CopyAdditionalFiles {
     $CopyFolder = { Param($Name) Copy-Item -Path "$script:ModuleRoot\$Name" -Destination "$script:ModuleOutPutFolder" -Force -Verbose -Container -Recurse }
 
     & $CopyFolder 'assemblies'
+    & $CopyFolder 'types'
+    & $CopyFolder 'formats'
     & $CopyFolder 'Examples'
 
     & $CopyFile 'SeleniumClasses.ps1'

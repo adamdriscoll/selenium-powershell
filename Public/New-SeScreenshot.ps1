@@ -1,32 +1,43 @@
 function New-SeScreenshot {
-    [Alias('SeScreenshot')]
+    
     [cmdletbinding(DefaultParameterSetName = 'Path')]
     param(
-        [Parameter(ParameterSetName = 'Path' , Position = 0, Mandatory = $true)]
-        [Parameter(ParameterSetName = 'PassThru', Position = 0)]
-        $Path,
-
-        [Parameter(ParameterSetName = 'Path', Position = 1)]
-        [Parameter(ParameterSetName = 'PassThru', Position = 1)]
-        [OpenQA.Selenium.ScreenshotImageFormat]$ImageFormat = [OpenQA.Selenium.ScreenshotImageFormat]::Png,
-
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver ,
-
-        [Parameter(ParameterSetName = 'Base64', Mandatory = $true)]
+        [Parameter(DontShow, ValueFromPipeline = $true, ParameterSetName = 'Pipeline')]
+        [ValidateScript( {
+                $Types = @([OpenQA.Selenium.IWebDriver], [OpenQA.Selenium.IWebElement])
+                $Found = $false
+                Foreach ($t in $Types) { if ($_ -is $t) { $Found = $true; break } }
+                if ($found) { return $true } else { Throw "Input must be of one of the following types $($Types -join ',')" }
+            })]
+        $InputObject,
         [Switch]$AsBase64EncodedString,
-
-        [Parameter(ParameterSetName = 'PassThru', Mandatory = $true)]
-        [Alias('PT')]
-        [Switch]$PassThru
+        [Parameter(ParameterSetName = 'Element')]
+        [ValidateNotNull()]
+        [OpenQA.Selenium.IWebElement]$Element
     )
-    $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Target)
-    if ($AsBase64EncodedString) { $Screenshot.AsBase64EncodedString }
-    elseif ($Path) {
-        $Path = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
-        $Screenshot.SaveAsFile($Path, $ImageFormat) 
+    Begin {
+        $Driver = Init-SeDriver  -ErrorAction Stop
     }
-    if ($Passthru) { $Screenshot }
+    Process {
+        switch ($PSCmdlet.ParameterSetName) {
+            'Pipeline' {
+                switch ($InputObject) {
+                    { $_ -is [OpenQA.Selenium.IWebElement] } { $Screenshot = $InputObject.GetScreenshot() }
+                    { $_ -is [OpenQA.Selenium.IWebDriver] } { $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($InputObject) }
+                }                
+            }
+            'Element' { $Screenshot = $Element.GetScreenshot() }
+            'Driver' { $Screenshot = [OpenQA.Selenium.Support.Extensions.WebDriverExtensions]::TakeScreenshot($Driver) }
+        }
+
+        if ($AsBase64EncodedString) { 
+            return $Screenshot.AsBase64EncodedString 
+        }
+        else {
+            return $Screenshot
+        }
+    }
+    End {}
+    
+    
 }

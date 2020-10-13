@@ -20,16 +20,13 @@ function Pop-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    [Alias('Pop-SeLocation')]
-    param(
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
-    )
+    param()
+    begin {
+        $Driver = Init-SeDriver  -ErrorAction Stop
+    }
     process {
-        if ($Script:SeLocationMap[$Target].Count -gt 0) {
-            Set-SeUrl -Url $Script:SeLocationMap[$Target].Pop() -Target $Target
+        if ($Script:SeLocationMap[$Driver].Count -gt 0) {
+            Set-SeUrl -Url $Script:SeLocationMap[$Driver].Pop() -Driver $Driver
         }
     }
 }

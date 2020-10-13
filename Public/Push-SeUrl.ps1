@@ -27,31 +27,23 @@ function Push-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    [Alias('Push-SeLocation')]
     param(
         # The new URL to navigate to after storing the current location.
         [Parameter(Position = 0, ParameterSetName = 'url')]
         [ValidateURIAttribute()]
         [string]
-        $Url,
-
-        # The webdriver instance that owns the url stack, and will navigate to
-        # a provided new url (if any).
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Url
     )
-
-    if (-not $Script:SeLocationMap.ContainsKey($Target)) {
-        $script:SeLocationMap[$Target] = [System.Collections.Generic.Stack[string]]@()
+    $Driver = Init-SeDriver  -ErrorAction Stop
+    if (-not $Script:SeLocationMap.ContainsKey($Driver)) {
+        $script:SeLocationMap[$Driver] = [System.Collections.Generic.Stack[string]]@()
     }
 
     # Push the current location to the stack
-    $script:SeLocationMap[$Target].Push($Target.Url)
+    $script:SeLocationMap[$Driver].Push($Driver.Url)
 
     if ($Url) {
         # Change the driver current URL to provided URL
-        Set-SeUrl -Url $Url -Target $Target
+        Set-SeUrl -Url $Url -Driver $Driver
     }
 }

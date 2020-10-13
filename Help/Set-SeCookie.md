@@ -14,7 +14,7 @@ Add a cookie to the current browsing context
 
 ```
 Set-SeCookie [[-Name] <String>] [[-Value] <String>] [[-Path] <String>] [[-Domain] <String>]
- [[-ExpiryDate] <Object>] [[-Target] <Object>] [<CommonParameters>]
+ [[-ExpiryDate] <DateTime>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,7 +43,7 @@ Accept wildcard characters: False
 The expiration date of the cookie
 
 ```yaml
-Type: Object
+Type: DateTime
 Parameter Sets: (All)
 Aliases:
 
@@ -81,21 +81,6 @@ Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-Target webdriver
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Driver
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

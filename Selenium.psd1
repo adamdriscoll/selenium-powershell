@@ -8,7 +8,7 @@
 # Modified James O'Neill 30 Nov 2019
 
 @{
-    ModuleVersion        = '3.0.1'
+    ModuleVersion        = '4.0.0'
     GUID                 = 'a3bdb8c3-c150-48a8-b56d-cd4d43f46a26'
     Author               = 'Adam Driscoll'
     CompanyName          = 'Unknown'
@@ -16,28 +16,9 @@
     Description          = 'Web automation using the Selenium Web Driver'
     ScriptsToProcess     = @('SeleniumClasses.ps1')
     RootModule           = 'Selenium.psm1'
-    RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll')
+    RequiredAssemblies   = @('./assemblies/WebDriver.dll', './assemblies/WebDriver.Support.dll', 'System.Drawing')
     FunctionsToExport    = '*'
-    AliasesToExport      = @(
-        'SeChrome' ,
-        'SeFirefox',
-        'SeIE'     , 'SeInternetExplorer' ,
-        'CrEdge'   , 'NewEdge',
-        'MSEdge'   , 'LegacyEdge', 'Start-SeLegacyEdge',
-        'Enter-SeUrl' , 'Open-SeUrl', 'Set-SeLocation'
-        'Push-SeLocation',
-        'Pop-SeLocation',
-        'Get-SeLocation',
-        'Find-SeElement',
-        'SeAccept',
-        'SeDismiss',
-        'SeClick',
-        'SeClose',
-        'SeElement',
-        'SeFrame',
-        'SeNavigate',
-        'SeScreenshot',
-        'SeSelection')
+    AliasesToExport      = @()
     CmdletsToExport      = @()
     VariablesToExport    = @()
     DscResourcesToExport = @()
@@ -87,11 +68,11 @@
     # Modules that must be imported into the global environment prior to importing this module
     # RequiredModules = @()
 
-    # Type files (.ps1xml) to be loaded when importing this module
-    # TypesToProcess = @()
+    #Type files (.ps1xml) to be loaded when importing this module
+    TypesToProcess       = @('types/Selenium.types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
-    # FormatsToProcess = @()
+    FormatsToProcess     = @('formats/Selenium.format.ps1xml')
 
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     # NestedModules = @()

@@ -13,7 +13,7 @@ Get CSS value for the specified name of targeted element.
 ## SYNTAX
 
 ```
-Get-SeElementCssValue [-Element] <IWebElement> [-Name] <String> [<CommonParameters>]
+Get-SeElementCssValue [-Element] <IWebElement> [-Name] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +25,8 @@ Get CSS value for the specified name of targeted element.
 ```powershell
 PS C:\> Get-SeElementCssValue -Element $Element -Name 'padding'
 ```
+
+Get padding css value for the targeted element.
 
 ## PARAMETERS
 
@@ -47,7 +49,7 @@ Accept wildcard characters: False
 Name of the CSS attribute to query
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

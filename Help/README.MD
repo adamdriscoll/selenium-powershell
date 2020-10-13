@@ -12,26 +12,44 @@ Locale: {{ Update Locale }}
 
 ## Selenium Cmdlets
 ### [Clear-SeAlert](Clear-SeAlert.md)
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
+
+### [Clear-SeSelectValue](Clear-SeSelectValue.md)
+Clear all selected entries of a SELECT element.
 
 ### [Get-SeCookie](Get-SeCookie.md)
 List all cookies
+
+### [Get-SeDriver](Get-SeDriver.md)
+Get the list of all active drivers.
+
+### [Get-SeDriverTimeout](Get-SeDriverTimeout.md)
+Get the specified driver timeout value.
 
 ### [Get-SeElement](Get-SeElement.md)
 	
 Finds all IWebElements within the current context using the given mechanism
 
 ### [Get-SeElementAttribute](Get-SeElementAttribute.md)
-{{ Fill in the Synopsis }}
+Get the specified attribute from the specified element.
 
 ### [Get-SeElementCssValue](Get-SeElementCssValue.md)
 Get CSS value for the specified name of targeted element.
 
+### [Get-SeFrame](Get-SeFrame.md)
+{{ Fill in the Synopsis }}
+
+### [Get-SeHtml](Get-SeHtml.md)
+Get outer html of the specified element or driver.
+
+### [Get-SeInput](Get-SeInput.md)
+Get element with an input tagname matching the specified conditions.
+
 ### [Get-SeKeys](Get-SeKeys.md)
 Return a list of the available special keys
 
-### [Get-SeSelectionOption](Get-SeSelectionOption.md)
-Get Selected option from a Select control
+### [Get-SeSelectValue](Get-SeSelectValue.md)
+Get Select element selected value.
 
 ### [Get-SeUrl](Get-SeUrl.md)
 Retrieves the current URL of a target webdriver instance.
@@ -40,13 +58,28 @@ Retrieves the current URL of a target webdriver instance.
 Gets the window handles of open browser windows
 
 ### [Invoke-SeClick](Invoke-SeClick.md)
-Select an element then send a click action on it.
+Perform a click in the browser window or specified element.
 
-### [Invoke-SeScreenshot](Invoke-SeScreenshot.md)
-Take a screenshot of the current page
+### [Invoke-SeJavascript](Invoke-SeJavascript.md)
+Invoke Javascript in the specified Driver.
+
+### [Invoke-SeKeys](Invoke-SeKeys.md)
+Send the keys to the browser or specified element.
+
+### [Invoke-SeMouseAction](Invoke-SeMouseAction.md)
+Perform mouse move & drag actions.
+
+### [New-SeDriverOptions](New-SeDriverOptions.md)
+Create a driver options object that can be used with `Start-SeDriver`
+
+### [New-SeDriverService](New-SeDriverService.md)
+Create an instance of WebDriver service to be used with Start-SeDriver
 
 ### [New-SeScreenshot](New-SeScreenshot.md)
 Take a screenshot of the current page
+
+### [New-SeWindow](New-SeWindow.md)
+{{ Fill in the Synopsis }}
 
 ### [Pop-SeUrl](Pop-SeUrl.md)
 Navigate back to the most recently pushed URL in the location stack.
@@ -58,45 +91,48 @@ navigate to a new URL.
 ### [Remove-SeCookie](Remove-SeCookie.md)
 Delete the named cookie from the current domain
 
+### [Remove-SeWindow](Remove-SeWindow.md)
+{{ Fill in the Synopsis }}
+
 ### [Save-SeScreenshot](Save-SeScreenshot.md)
-Take a screenshot of the current page
-
-### [Send-SeClick](Send-SeClick.md)
-Send a click to the targeted element
-
-### [Send-SeKeys](Send-SeKeys.md)
-Simulates typing text into the element
+Save a screenshot on the disk.
 
 ### [Set-SeCookie](Set-SeCookie.md)
 Add a cookie to the current browsing context
 
+### [Set-SeDriverTimeout](Set-SeDriverTimeout.md)
+Set the various driver timeouts default.
+
+### [Set-SeSelectValue](Set-SeSelectValue.md)
+Set Select element selected value.
+
 ### [Set-SeUrl](Set-SeUrl.md)
 Navigates to the targeted URL with the selected or default driver.
 
-### [Start-SeChrome](Start-SeChrome.md)
-Initializes a new instance of the **ChromeDriver** class. 
+### [Start-SeDriver](Start-SeDriver.md)
+Launch the specified browser.
 
-### [Start-SeEdge](Start-SeEdge.md)
-Initializes a new instance of the EdgeDriver class
-
-### [Start-SeFirefox](Start-SeFirefox.md)
-Initializes a new instance of the **FirefoxDriver** class.
-
-### [Start-SeInternetExplorer](Start-SeInternetExplorer.md)
-{{ Fill in the Synopsis }}
-
-### [Start-SeNewEdge](Start-SeNewEdge.md)
-Initializes a new instance of the EdgeDriver class
-
-### [Start-SeNewEdge](Start-SeNewEdge.md)
-{{ Fill in the Synopsis }}
+### [Start-SeRemote](Start-SeRemote.md)
+Start a remote driver session.
 
 ### [Stop-SeDriver](Stop-SeDriver.md)
 Quits this driver, closing every associated window.
+
+### [Switch-SeDriver](Switch-SeDriver.md)
+Select a driver, making it the default to be used with any ulterior calls whenever the driver parameter is not specified.
 
 ### [Switch-SeFrame](Switch-SeFrame.md)
 Instructs the driver to send future commands to a different frame
 
 ### [Switch-SeWindow](Switch-SeWindow.md)
 Instructs the driver to send future commands to a different window
+
+### [Update-SeDriver](Update-SeDriver.md)
+{{ Fill in the Synopsis }}
+
+### [Wait-SeDriver](Wait-SeDriver.md)
+Wait for the driver to be in the desired state.
+
+### [Wait-SeElement](Wait-SeElement.md)
+Wait for an element condition to be met.
 

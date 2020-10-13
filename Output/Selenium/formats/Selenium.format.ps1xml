@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<!-- Generated with EZOut 1.8.3.1: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <Name>OpenQA.Selenium.Remote.RemoteWebElement</Name>
+      <ViewSelectedBy>
+        <TypeName>OpenQA.Selenium.Remote.RemoteWebElement</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Alignment>left</Alignment>
+            <Width>7</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>left</Alignment>
+            <Width>7</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>left</Alignment>
+            <Width>9</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Alignment>Left</Alignment>
+            <Width>80</Width>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Tagname</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Displayed</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Text</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>OpenQA.Selenium.Remote.RemoteWebElement</Name>
+      <ViewSelectedBy>
+        <TypeName>OpenQA.Selenium.Remote.RemoteWebElement</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>Tagname</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Text</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Enabled</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Selected</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Location</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Size</PropertyName>
+              </ListItem>
+              <ListItem>
+                <PropertyName>Displayed</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
+      <Name>selenium-powershell/SeFrame</Name>
+      <ViewSelectedBy>
+        <TypeName>selenium-powershell/SeFrame</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Id</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>TagName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Enabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock> $_.Attributes.name </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock> $_.Attributes.id </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+<View>
+      <Name>SeSelectValueInfo</Name>
+      <ViewSelectedBy>
+        <TypeName>selenium-powershell/SeSelectValueInfo</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <PropertyName>IsMultiSelect</PropertyName>
+              </ListItem>
+
+              <ListItem>
+                <Label>Items</Label>
+                <ItemSelectionCondition>
+                  <ScriptBlock>
+                    ($_.Items.Count -ne 0)
+                  </ScriptBlock>
+                </ItemSelectionCondition>
+                <ScriptBlock>
+                  $output = [System.Text.StringBuilder]::new();
+                  $TextMax = ($_.Items.Text | Measure-Object -Maximum).Maximum.length
+                  $ValueMax = ($_.Items.Value | Measure-Object -Maximum).Maximum.length
+                  [void]($Output.AppendFormat("Index {0} {1} Selected`n", 'Text'.PadRight($TextMax, ' '), 'Value'.PadRight($ValueMax, ' ')))
+                  [void]($Output.AppendFormat("----- {0} {1} --------`n", '----'.PadRight($TextMax, ' '), '-----'.PadRight($ValueMax, ' ')))
+                  foreach ($I in $_.Items) {
+                    $IsSelected = if ($I.Selected) {"   *"} else {''}
+                    [Void]($output.AppendFormat("{0} {1} {2} {3}`n", "$($I.Index)".PadLeft(5, ' '), "$($I.Text)".PadRight($TextMax, ' '), "$($I.Value)".PadRight($ValueMax, ' '), $IsSelected))
+                  };
+                  $output.ToString().Trim("`n");
+                </ScriptBlock>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>

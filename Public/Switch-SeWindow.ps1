@@ -1,14 +1,12 @@
 function Switch-SeWindow {
+    [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
-        [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver,
-
         [Parameter(Mandatory = $true)]$Window
     )
-
+    begin {
+        $Driver = Init-SeDriver  -ErrorAction Stop
+    }
     process {
-        $Target.SwitchTo().Window($Window) | Out-Null
+        $Driver.SwitchTo().Window($Window) | Out-Null
     }
 }

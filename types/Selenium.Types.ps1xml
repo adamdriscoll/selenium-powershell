@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<!-- Generated with EZOut 1.8.3.1: Install-Module EZOut or https://github.com/StartAutomating/EZOut -->
+<Types>
+  <Type>
+    <Name>OpenQA.Selenium.Remote.RemoteWebElement</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Tagname</Name>
+              <Name>Enabled</Name>
+              <Name>Displayed</Name>
+              <Name>Text</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+  <Type>
+    <Name>OpenQA.Selenium.Remote.RemoteWebDriver</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>SeFriendlyName</Name>
+              <Name>SeBrowser</Name>
+              <Name>SeTitle</Name>
+              <Name>SeUrl</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+      <ScriptProperty>
+        <Name>SeUrl</Name>
+        <GetScriptBlock>
+                     if ($null -ne $this.SessionId) { $this.Url } 
+                </GetScriptBlock>
+      </ScriptProperty>
+      <ScriptProperty>
+        <Name>SeTitle</Name>
+        <GetScriptBlock>
+                     if ($null -ne $this.SessionId) { $this.Title } 
+                </GetScriptBlock>
+      </ScriptProperty>
+    </Members>
+  </Type>
+</Types>

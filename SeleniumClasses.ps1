@@ -1,3 +1,7 @@
+using namespace system.Collections
+using namespace System.Collections.Generic
+using namespace System.Management.Automation
+using namespace System.Management.Automation.Language
 
 if ('ValidateURIAttribute' -as [type]) {
     class ValidateURIAttribute :  System.Management.Automation.ValidateArgumentsAttribute {
@@ -24,31 +28,13 @@ if ('ValidateIsWebDriverAttribute' -as [type]) {
     class ValidateIsWebDriver : ValidateIsWebDriverAttribute {}
 }
 
-if ('ByTransformAttribute' -as [type]) {
-    #Allow BY to shorten cssSelector, ClassName, LinkText, and TagName
-    class ByTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
-        [object] Transform([System.Management.Automation.EngineIntrinsics]$EngineIntrinsics, [object] $InputData) {
-            if ($inputData -match 'CssSelector|Name|Id|ClassName|LinkText|PartialLinkText|TagName|XPath') {
-                return $InputData
-            }
-            switch -regex ($InputData) {
-                "^css" { return 'CssSelector'; break }
-                "^class" { return 'ClassName'  ; break }
-                "^link" { return 'LinkText'   ; break }
-                "^tag" { return 'TagName'    ; break }
-            }
-            return $InputData
-        }
-    }
 
-    class ByTransform : ByTransformAttribute {}
-}
 
 if ('OperatorTransformAttribute' -as [type]) {
     #Allow operator to use containing, matching, matches, equals etc.
     class OperatorTransformAttribute : System.Management.Automation.ArgumentTransformationAttribute {
         [object] Transform([System.Management.Automation.EngineIntrinsics]$EngineIntrinsics, [object] $InputData) {
-            if ($inputData -match '^(contains|like|notlike|match|notmatch|eq|ne|gt|lt)$#') {
+            if ($inputData -match '^(contains|like|notlike|match|notmatch|eq|ne|gt|lt)$') {
                 return $InputData
             }
             switch -regex ($InputData) {
@@ -57,6 +43,7 @@ if ('OperatorTransformAttribute' -as [type]) {
                 "^n\w*match" { return 'notmatch' ; break }
                 "^eq" { return 'eq'       ; break }
                 "^n\w*eq" { return 'ne'       ; break }
+                "^n\w*like" { return 'like'       ; break }
             }
             return $InputData
         }
@@ -121,3 +108,37 @@ namespace SeleniumSelection {
     }
 }
 "@ -ReferencedAssemblies $dll1Path, $dll2Path, mscorlib
+
+
+enum SeBrowsers {
+    Chrome
+    Edge 
+    Firefox
+    InternetExplorer
+    MSEdge
+}
+
+enum SeWindowState {
+    Headless
+    Default
+    Minimized
+    Maximized
+    Fullscreen
+}
+
+enum SeBySelector {
+    ClassName
+    CssSelector
+    Id
+    LinkText
+    PartialLinkText
+    Name
+    TagName
+    XPath
+}
+
+enum SeBySelect {
+    Index
+    Text
+    Value    
+}

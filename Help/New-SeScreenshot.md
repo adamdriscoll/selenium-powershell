@@ -14,19 +14,17 @@ Take a screenshot of the current page
 
 ### Path (Default)
 ```
-New-SeScreenshot [-Path] <Object> [[-ImageFormat] <ScreenshotImageFormat>] [-Target <Object>]
- [<CommonParameters>]
+New-SeScreenshot [-AsBase64EncodedString] [<CommonParameters>]
 ```
 
-### PassThru
+### Pipeline
 ```
-New-SeScreenshot [[-Path] <Object>] [[-ImageFormat] <ScreenshotImageFormat>] [-Target <Object>] [-PassThru]
- [<CommonParameters>]
+New-SeScreenshot [-InputObject <Object>] [-AsBase64EncodedString] [<CommonParameters>]
 ```
 
-### Base64
+### Element
 ```
-New-SeScreenshot [-Target <Object>] [-AsBase64EncodedString] [<CommonParameters>]
+New-SeScreenshot [-AsBase64EncodedString] [-Element <IWebElement>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,81 +46,38 @@ Return image as base64 string
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Base64
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ImageFormat
-Set the image format
-
-```yaml
-Type: ScreenshotImageFormat
-Parameter Sets: Path, PassThru
-Aliases:
-Accepted values: Png, Jpeg, Gif, Tiff, Bmp
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PassThru
-Return the screenshot element
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: PassThru
-Aliases: PT
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Path
-Filepath where the image iwll be saved to.
-
-```yaml
-Type: Object
-Parameter Sets: Path
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: Object
-Parameter Sets: PassThru
-Aliases:
-
-Required: False
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-Target webdriver
-
-```yaml
-Type: Object
 Parameter Sets: (All)
-Aliases: Driver
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+{{ Fill Element Description }}
+
+```yaml
+Type: IWebElement
+Parameter Sets: Element
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InputObject
+{{ Fill InputObject Description }}
+
+```yaml
+Type: Object
+Parameter Sets: Pipeline
+Aliases:
 
 Required: False
 Position: Named

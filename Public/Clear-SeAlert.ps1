@@ -1,23 +1,36 @@
 function Clear-SeAlert {
-    [Alias('SeAccept', 'SeDismiss')]
+    [CmdletBinding()]
     param (
-        [parameter(ParameterSetName = 'Alert', Position = 0, ValueFromPipeline = $true)]
-        $Alert,
-        [parameter(ParameterSetName = 'Driver')]
-        [ValidateIsWebDriverAttribute()]
-        [Alias("Driver")]
-        $Target = $Global:SeDriver,
         [ValidateSet('Accept', 'Dismiss')]
         $Action = 'Dismiss',
-        [Alias('PT')]
+        [parameter(ParameterSetName = 'Alert', ValueFromPipeline = $true)]
+        $Alert,
         [switch]$PassThru
     )
-    if ($Target) {
-        try { $Alert = $Target.SwitchTo().alert() }
-        catch { Write-Warning 'No alert was displayed'; return }
+    Begin {
+        $Driver = Init-SeDriver -ErrorAction Stop
+        $ImpTimeout = 0
     }
-    if (-not $PSBoundParameters.ContainsKey('Action') -and
-        $MyInvocation.InvocationName -match 'Accept') { $Action = 'Accept' }
-    if ($Alert) { $alert.$action() }
-    if ($PassThru) { $Alert }
+    Process {
+        if ($Driver) {
+            try { 
+                $ImpTimeout = Disable-SeDriverImplicitTimeout -Driver $Driver
+                $WebDriverWait = [OpenQA.Selenium.Support.UI.WebDriverWait]::new($Driver, (New-TimeSpan -Seconds 10))
+                $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::AlertIsPresent()
+                $WebDriverWait.Until($Condition)
+                $Alert = $Driver.SwitchTo().alert() 
+            }
+            catch { 
+                Write-Warning 'No alert was displayed'
+                return 
+            }
+            Finally {
+                Enable-SeDriverImplicitTimeout -Driver $Driver -Timeout $ImpTimeout
+            }
+        }
+        if ($Alert) { $alert.$action() }
+        if ($PassThru) { $Alert }
+    }
+    End {}
 }
+

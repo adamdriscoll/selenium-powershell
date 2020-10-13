@@ -14,27 +14,27 @@ Navigates to the targeted URL with the selected or default driver.
 
 ### default (Default)
 ```
-Set-SeUrl [-Target <Object>] [<CommonParameters>]
+Set-SeUrl [<CommonParameters>]
 ```
 
 ### url
 ```
-Set-SeUrl [-Url] <String> [-Target <Object>] [<CommonParameters>]
+Set-SeUrl [-Url] <String> [<CommonParameters>]
 ```
 
 ### back
 ```
-Set-SeUrl [-Back] [-Target <Object>] [<CommonParameters>]
+Set-SeUrl [-Back] [-Depth <Int32>] [<CommonParameters>]
 ```
 
 ### forward
 ```
-Set-SeUrl [-Forward] [-Target <Object>] [<CommonParameters>]
+Set-SeUrl [-Forward] [-Depth <Int32>] [<CommonParameters>]
 ```
 
 ### refresh
 ```
-Set-SeUrl [-Refresh] [-Target <Object>] [<CommonParameters>]
+Set-SeUrl [-Refresh] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -133,20 +133,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Target
-The target webdriver to manage navigation for.
-Will utilise the
-default driver if left unset.
+### -Depth
+Number of time the action should be performed.
 
 ```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Driver
+Type: Int32
+Parameter Sets: back, forward
+Aliases:
 
 Required: False
 Position: Named
-Default value: $Global:SeDriver
-Accept pipeline input: True (ByValue)
+Default value: 1
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

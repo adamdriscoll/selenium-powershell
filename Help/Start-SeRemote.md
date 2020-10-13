@@ -5,142 +5,46 @@ online version:
 schema: 2.0.0
 ---
 
-# Start-SeNewEdge
+# Start-SeRemote
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Start a remote driver session.
 
 ## SYNTAX
 
-### default (Default)
 ```
-Start-SeNewEdge [[-StartURL] <String>] [-HideVersionHint] [-BinaryPath <Object>]
- [-ProfileDirectoryPath <Object>] [-DefaultDownloadPath <Object>] [-AsDefaultDriver] [-Quiet]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
-```
-
-### Minimized
-```
-Start-SeNewEdge [[-StartURL] <String>] [-HideVersionHint] [-Minimized] [-BinaryPath <Object>]
- [-ProfileDirectoryPath <Object>] [-DefaultDownloadPath <Object>] [-AsDefaultDriver] [-Quiet]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
-```
-
-### Maximized
-```
-Start-SeNewEdge [[-StartURL] <String>] [-HideVersionHint] [-Maximized] [-BinaryPath <Object>]
- [-ProfileDirectoryPath <Object>] [-DefaultDownloadPath <Object>] [-AsDefaultDriver] [-Quiet]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
-```
-
-### Fullscreen
-```
-Start-SeNewEdge [[-StartURL] <String>] [-HideVersionHint] [-FullScreen] [-BinaryPath <Object>]
- [-ProfileDirectoryPath <Object>] [-DefaultDownloadPath <Object>] [-AsDefaultDriver] [-Quiet]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
-```
-
-### Headless
-```
-Start-SeNewEdge [[-StartURL] <String>] [-HideVersionHint] [-Headless] [-BinaryPath <Object>]
- [-ProfileDirectoryPath <Object>] [-DefaultDownloadPath <Object>] [-AsDefaultDriver] [-Quiet]
- [-PrivateBrowsing] [-ImplicitWait <Int32>] [-WebDriverDirectory <Object>] [<CommonParameters>]
+Start-SeRemote [-RemoteAddress <String>] [-DesiredCapabilities <Hashtable>] [[-StartURL] <String>]
+ [-ImplicitWait <Double>] [-Size <Size>] [-Position <Point>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Start a remote driver session.
+you can a remote testing account with testing bot at https://testingbot.com/users/sign_up
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+#Set $key and $secret and then ...
+        #see also https://crossbrowsertesting.com/freetrial / https://help.crossbrowsertesting.com/selenium-testing/getting-started/c-sharp/
+        #and https://www.browserstack.com/automate/c-sharp
+        $RemoteDriverURL = [uri]"http://$key`:$secret@hub.testingbot.com/wd/hub"
+        #See https://testingbot.com/support/getting-started/csharp.html for values for different browsers/platforms
+        $caps = @{
+          platform     = 'HIGH-SIERRA'
+          version      = '11'
+          browserName  = 'safari'
+        }
+        Start-SeRemote -RemoteAddress $remoteDriverUrl -DesiredCapabilties $caps
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
-### -AsDefaultDriver
-{{ Fill AsDefaultDriver Description }}
+### -DesiredCapabilities
+{{ Fill DesiredCapabilities Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BinaryPath
-{{ Fill BinaryPath Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DefaultDownloadPath
-{{ Fill DefaultDownloadPath Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FullScreen
-Driver will open browser in a fullscreen state
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Fullscreen
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Headless
-Start driver without any visual interface
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Headless
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -HideVersionHint
-{{ Fill HideVersionHint Description }}
-
-```yaml
-Type: SwitchParameter
+Type: Hashtable
 Parameter Sets: (All)
 Aliases:
 
@@ -152,10 +56,10 @@ Accept wildcard characters: False
 ```
 
 ### -ImplicitWait
-Control timeout duration (in seconds)
+{{ Fill ImplicitWait Description }}
 
 ```yaml
-Type: Int32
+Type: Double
 Parameter Sets: (All)
 Aliases:
 
@@ -166,56 +70,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Maximized
-Driver will open browser in a maximized state
+### -Position
+{{ Fill Position Description }}
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: Maximized
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Minimized
-Driver will open browser in a minimized state
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Minimized
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -PrivateBrowsing
-Driver will open a private session
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: Incognito
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProfileDirectoryPath
-Driver will use the specified user profile path
-
-```yaml
-Type: Object
+Type: Point
 Parameter Sets: (All)
 Aliases:
 
@@ -226,11 +85,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Quiet
-Hide command prompt window
+### -RemoteAddress
+{{ Fill RemoteAddress Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+{{ Fill Size Description }}
+
+```yaml
+Type: Size
 Parameter Sets: (All)
 Aliases:
 
@@ -242,7 +116,7 @@ Accept wildcard characters: False
 ```
 
 ### -StartURL
-Define Driver starting URL
+{{ Fill StartURL Description }}
 
 ```yaml
 Type: String
@@ -251,21 +125,6 @@ Aliases:
 
 Required: False
 Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WebDriverDirectory
-{{ Fill WebDriverDirectory Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

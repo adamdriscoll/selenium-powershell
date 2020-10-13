@@ -13,7 +13,7 @@ Navigate back to the most recently pushed URL in the location stack.
 ## SYNTAX
 
 ```
-Pop-SeUrl [[-Target] <Object>] [<CommonParameters>]
+Pop-SeUrl [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,21 +30,6 @@ Pop-SeUrl
 Retrieves the most recently pushed URL and navigates back to that URL.
 
 ## PARAMETERS
-
-### -Target
-{{ Fill Target Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Driver
-
-Required: False
-Position: 1
-Default value: $Global:SeDriver
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).

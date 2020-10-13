@@ -8,33 +8,72 @@ schema: 2.0.0
 # Invoke-SeClick
 
 ## SYNOPSIS
-Select an element then send a click action on it.
+Perform a click in the browser window or specified element.
 
 ## SYNTAX
 
-### Default (Default)
 ```
-Invoke-SeClick -Element <IWebElement> [<CommonParameters>]
-```
-
-### JavaScript
-```
-Invoke-SeClick -Element <IWebElement> [-JavaScriptClick] [-Driver <Object>] [<CommonParameters>]
+Invoke-SeClick [[-Action] <Object>] [[-Element] <IWebElement>] [-Sleep <Double>] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Select an element then send a click action on it.
+Perform a click in the browser window or specified element.
 
 ## EXAMPLES
 
+### Example 1
+```powershell
+PS C:\> Invoke-SeClick
+```
+
+Perform a click in the browser at the current position
+
+### Example 2
+```powershell
+PS C:\> Invoke-SeClick -Action Click_JS -Element $Element
+```
+
+Perform a javascript click on the specified element. 
+
 ## PARAMETERS
 
-### -Driver
-Target webdriver
+### -Action
+test
 
 ```yaml
 Type: Object
-Parameter Sets: JavaScript
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+Target IWebElement.
+
+```yaml
+Type: IWebElement
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -PassThru
+Return the IWebElement.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -44,30 +83,15 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Element
-Element for which the click will be performed upon
+### -Sleep
+Sleep time in second after performing the click action.
 
 ```yaml
-Type: IWebElement
+Type: Double
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -JavaScriptClick
-Use Javascript to perform the click
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: JavaScript
-Aliases:
-
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

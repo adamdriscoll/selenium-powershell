@@ -1,27 +1,43 @@
 function Stop-SeDriver { 
-    [alias('SeClose')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
-        [ValidateNotNullOrEmpty()]
         [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver
+        $Driver
     )
-    $TextInfo = (Get-Culture).TextInfo
-    if (($null -ne $Target) -and ($Target -is [OpenQA.Selenium.IWebDriver])) {
-        $BrowserName = $TextInfo.ToTitleCase($Target.Capabilities.browsername)
-
-        if ($null -eq $Target.SessionId) {
-            Write-Warning "$BrowserName Driver already closed"
-            return $null
+    Begin {
+        $ElementsToRemove = [System.Collections.Generic.List[PSObject]]::new()
+    }
+    Process {
+        if (! $PSBoundParameters.ContainsKey('Driver')) {
+            $Driver = Get-SeDriver -Current
         }
 
-        Write-Verbose -Message "Closing $BrowserName..."
-        $Target.Close()
-        $Target.Dispose()    
         
-        
-        if ($Target -eq $Global:SeDriver) { Remove-Variable -Name SeDriver -Scope global }
+        if ($null -ne $Driver) {
+            $Processes = (Get-Process -Id $Driver.SeProcessId, $Driver.SeServiceProcessId -ErrorAction SilentlyContinue )
+
+            switch ($Processes.Count) {
+                2 {
+                    Write-Verbose -Message "Closing $BrowserName $($Driver.SeFriendlyName )..."
+                    $Driver.Close()
+                    $Driver.Dispose() 
+                    break
+                }
+                1 { Stop-Process -Id $Processes.Id -ErrorAction SilentlyContinue }
+            }
+            $ElementsToRemove.Add($Driver)   
+        }
+               
     }
-    else { Write-Warning 'A valid <IWebDriver> must be provided.' }
+    End {
+        $ElementsToRemove | ForEach-Object { [void]($script:SeDrivers.Remove($_)) }
+        if ($script:SeDriversCurrent -notin $script:SeDrivers) {
+            $script:SeDriversCurrent = $null
+        }
+        
+    }
+    
+
+  
 }

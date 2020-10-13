@@ -20,28 +20,21 @@ function Get-SeUrl {
     To utilise a driver's Back/Forward functionality, instead use Set-SeUrl.
     #>
     [CmdletBinding()]
-    [Alias('Get-SeLocation')]
     param(
         # Optionally retrieve the stored URL stack for the target or default
         # webdriver instance.
         [Parameter()]
         [switch]
-        $Stack,
-
-        # The webdriver instance for which to retrieve the current URL or
-        # internal URL stack.
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        $Stack
     )
-
+    $Driver = Init-SeDriver -ErrorAction Stop
+    
     if ($Stack) {
-        if ($Script:SeLocationMap[$Target].Count -gt 0) {
-            $Script:SeLocationMap[$Target].ToArray()
+        if ($Script:SeLocationMap[$Driver].Count -gt 0) {
+            $Script:SeLocationMap[$Driver].ToArray()
         }
     }
     else {
-        $Target.Url
+        $Driver.Url
     }
 }

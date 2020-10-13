@@ -1,9 +1,6 @@
 function Get-SeCookie {
-    param(
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
-    )
-    $Target.Manage().Cookies.AllCookies.GetEnumerator()
+    [CmdletBinding()]
+    param()
+    $Driver = Init-SeDriver -ErrorAction Stop
+    $Driver.Manage().Cookies.AllCookies.GetEnumerator()
 }

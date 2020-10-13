@@ -1,0 +1,54 @@
+# https://aka.ms/yaml
+
+parameters:
+  - name: Browser
+    type: string
+    values:
+      - Chrome
+      - Edge
+      - Firefox
+      - InternetExplorer
+      - MSEdge
+  - name: OS
+    type: string
+    default: ubuntu
+    values:
+      - ubuntu
+      - windows
+  - name: Stack
+    type: string
+    default: pwsh
+    values:
+      - powershell
+      - pwsh
+
+jobs:
+  - job: "${{ parameters.OS }}_${{ parameters.Browser }}_${{ parameters.Stack }}"
+    displayName: "${{ parameters.Browser }} - ${{ parameters.OS }} (${{ parameters.Stack }})"
+    pool:
+      vmImage: "${{ parameters.OS }}-latest"
+    steps:
+      - checkout: none
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifactName: "dependencies_pwsh"
+          #artifactName: "dependencies_${{ parameters.Stack }}"
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifactName: "checkout"
+      - ${{ if eq(parameters.Stack, 'Powershell') }}:
+          - powershell: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
+            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }} (ps)"
+      - ${{ if eq(parameters.Stack, 'pwsh') }}:
+          - pwsh: "$(Pipeline.Workspace)/CI/CI.ps1 -ModulePath '$(Pipeline.Workspace)' -browserlist ${{ parameters.Browser }}"
+            displayName: "Run ${{ parameters.Browser }} Test on ${{ parameters.OS }} (pwsh)"
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: "$(Build.ArtifactStagingDirectory)/results"
+          artifact: "${{ parameters.OS }} - ${{ parameters.Browser }} - ${{ parameters.Stack }} Results"
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          testResultsFormat: "NUnit"
+          testResultsFiles: "$(Pipeline.Workspace)/testResults.xml"
+          failTaskOnFailedTests: true

@@ -14,17 +14,17 @@ Instructs the driver to send future commands to a different frame
 
 ### Frame
 ```
-Switch-SeFrame [-Frame] <Object> [-Target <Object>] [<CommonParameters>]
+Switch-SeFrame [-Frame] <Object> [<CommonParameters>]
 ```
 
 ### Parent
 ```
-Switch-SeFrame [-Parent] [-Target <Object>] [<CommonParameters>]
+Switch-SeFrame [-Parent] [<CommonParameters>]
 ```
 
 ### Root
 ```
-Switch-SeFrame [-Root] [-Target <Object>] [<CommonParameters>]
+Switch-SeFrame [-Root] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,11 +33,6 @@ Instructs the driver to send future commands to a different frame
 ## EXAMPLES
 
 ### Example 1
-```powershell
-PS C:\> {{ Add example code here }}
-```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -77,27 +72,12 @@ Accept wildcard characters: False
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Root
-Aliases: defaultContent
+Aliases:
 
 Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-{{ Fill Target Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Driver
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

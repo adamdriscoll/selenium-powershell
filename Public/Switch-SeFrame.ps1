@@ -1,5 +1,5 @@
 function Switch-SeFrame {
-    [Alias('SeFrame')]
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = 'Frame', Position = 0)]
         $Frame,
@@ -8,16 +8,12 @@ function Switch-SeFrame {
         [switch]$Parent,
 
         [Parameter(Mandatory = $true, ParameterSetName = 'Root')]
-        [Alias('defaultContent')]
-        [switch]$Root,
-
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        [switch]$Root
     )
- 
-    if ($frame) { [void]$Target.SwitchTo().Frame($Frame) }
-    elseif ($Parent) { [void]$Target.SwitchTo().ParentFrame() }
-    elseif ($Root) { [void]$Target.SwitchTo().defaultContent() }
+    $Driver = Init-SeDriver  -ErrorAction Stop
+    #TODO Frame validation... Do not try to switch if element does not exist ?
+    #TODO Review ... Maybe Parent / Root should be a unique parameter : -Level Parent/Root )
+    if ($PSBoundParameters.ContainsKey('Frame')) { [void]$Driver.SwitchTo().Frame($Frame) }
+    elseif ($Parent) { [void]$Driver.SwitchTo().ParentFrame() }
+    elseif ($Root) { [void]$Driver.SwitchTo().defaultContent() }
 }

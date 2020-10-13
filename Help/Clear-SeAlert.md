@@ -8,31 +8,25 @@ schema: 2.0.0
 # Clear-SeAlert
 
 ## SYNOPSIS
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
 
 ## SYNTAX
 
-### Alert
 ```
-Clear-SeAlert [[-Alert] <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
-```
-
-### Driver
-```
-Clear-SeAlert [-Target <Object>] [-Action <Object>] [-PassThru] [<CommonParameters>]
+Clear-SeAlert [-Action <Object>] [-Alert <Object>] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Accept and clear alert popup
+Clear alert popup by dismissing or accepting it.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Clear-SeAlert -Action Dismiss
 ```
 
-{{ Add example description here }}
+Dismiss an alert on the currently selected driver.
 
 ## PARAMETERS
 
@@ -57,38 +51,23 @@ Specify alert window. Seems to be ignored in favor of Target / Default Target.
 
 ```yaml
 Type: Object
-Parameter Sets: Alert
+Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 0
+Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+Return Alert object.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: PT
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-Target webdriver
-
-```yaml
-Type: Object
-Parameter Sets: Driver
-Aliases: Driver
+Aliases:
 
 Required: False
 Position: Named

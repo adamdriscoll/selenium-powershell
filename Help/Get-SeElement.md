@@ -13,33 +13,70 @@ Finds all IWebElements within the current context using the given mechanism
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Get-SeElement [-By <String>] [-Selection] <String> [[-Timeout] <Int32>] [[-Target] <Object>] [-Wait]
- [<CommonParameters>]
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Double>] [-All] [-Attributes <String[]>]
+ [-Single] [<CommonParameters>]
+```
+
+### ByElement
+```
+Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [-Element] <IWebElement> [-All]
+ [-Attributes <String[]>] [-Single] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Finds all IWebElements within the current context using the given mechanism
+Finds all IWebElements within the current context using the given mechanism.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Get-SeElement -By Name -Selection 'username'
+PS C:\> Get-SeElement -By XPath '//*[@id="home_text3"]/div[2]' -Value '//*[@id="home_text3"]/div[2]'
+#Same but positionally bound
+PS C:\> Get-SeElement '//*[@id="home_text3"]/div[2]'
 ```
 
-Get the username field by name
+Get the elements matching the specified XPath selector.
+
+### Example 2
+```powershell
+PS C:\> Get-SeElement -By Name -Value 'username' -Single
+```
+
+Get the username field by name with the expectation only one element is to be returned.
+
+### Example 3
+```powershell
+PS C:\> Get-SeElement -By Name -Value 'username' -Single
+```
+
+Get the username field by name with the expectation only one element is to be returned.
+
+### Example 4
+```powershell
+PS C:\> Get-SeElement -By ClassName -Value homeitem -All -Attributes name, id -Timeout 2.5
+#To return all attributes instead: -Attributes *
+```
+
+Get the elements by classname. Include hidden items `-All` and append an `Attributes` NoteProperty to all the result containing the value for the name and id attribute. The call will also fail if no results are found after 2.5 seconds.
+
+### Example 5
+```powershell
+PS C:\> Get-SeElement -By ClassName,PartialLinkText -Value 'homeitem','The'
+```
+
+Get the elements that match the selectors in a sequential manner. This call will return all links that contains the defined text (The) within elements that have a classname of "homeitem".
 
 ## PARAMETERS
 
-### -By
-The locating mechanism to use
+### -All
+Return matching hidden items in addition to displayed ones. 
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
-Accepted values: CssSelector, Name, Id, ClassName, LinkText, PartialLinkText, TagName, XPath
 
 Required: False
 Position: Named
@@ -48,33 +85,64 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Selection
-String Identifier of the object to find
+### -Attributes
+Append a list of Attributes (case sensitive) to each element returned. Attributes will be available through a dictionary property of the same name. Is the wildcard `*` character is used, all attributes will be queried and appended.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
-Aliases: CssSelector, Name, Id, ClassName, LinkText, PartialLinkText, TagName, XPath
+Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Target
-Target webdriver
+### -By
+The locating mechanism to use. It is possible to use multiple locator, in which case they will be processed sequentially.
 
 ```yaml
-Type: Object
+Type: SeBySelector[]
 Parameter Sets: (All)
-Aliases: Element, Driver
+Aliases:
+Accepted values: ClassName, CssSelector, Id, LinkText, PartialLinkText, Name, TagName, XPath
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Element
+Target IWebElement.
+
+```yaml
+Type: IWebElement
+Parameter Sets: ByElement
+Aliases:
+
+Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Single
+Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -82,8 +150,8 @@ Accept wildcard characters: False
 Timeout (in seconds)
 
 ```yaml
-Type: Int32
-Parameter Sets: (All)
+Type: Double
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -93,16 +161,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Wait
-Set Timeout to 30 seconds (Will not override Timeout value if already defined)
+### -Value
+Locator Value corresponding to the `$By` selector. There should be an equal number of values than `$By` selector provided.
 
 ```yaml
-Type: SwitchParameter
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: Named
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

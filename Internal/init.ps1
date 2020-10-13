@@ -1,5 +1,32 @@
 ﻿using namespace System.Collections.Generic
 
+
+if (!$PSCommandPath.EndsWith('init.ps1')) {
+    $MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = { 
+         Get-SeDriver | Stop-SeDriver
+    }
+
+}
+
+
+Function New-Condition {
+    Param([Parameter(Mandatory = $true)]$Text, [Type]$ValueType, $Tooltip, [Switch]$OptionalValue, $ElementRequired = $true )
+    return [PSCustomObject]@{
+        Text            = $Text
+        ValueType       = $ValueType
+        Tooltip         = $Tooltip
+        ElementRequired = $ElementRequired
+    }
+}
+
+$Script:SeMouseAction = @(
+    New-Condition -Text 'DragAndDrop' -ValueType ([OpenQA.Selenium.IWebElement]) -Tooltip 'Performs a drag-and-drop operation from one element to another.'
+    New-Condition -Text 'DragAndDropToOffset'  -ValueType ([System.Drawing.Point]) -Tooltip 'Performs a drag-and-drop operation on one element to a specified offset.'
+    New-Condition -Text 'MoveByOffset' -ValueType ([System.Drawing.Point]) -ElementRequired $null -Tooltip 'Moves the mouse to the specified offset of the last known mouse coordinates.'
+    New-Condition -Text 'MoveToElement'  -ValueType ([System.Drawing.Point]) -OptionalValue -Tooltip 'Moves the mouse to the specified element with offset of the top-left corner of the specified element.'
+    New-Condition -Text 'Release' -ValueType $null -Tooltip 'Releases the mouse button at the last known mouse coordinates or specified element.'
+)
+
 $Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Static |
     Select-Object -Property Name, @{N = "ObjectString"; E = { "[OpenQA.Selenium.Keys]::$($_.Name)" } }
 
@@ -27,170 +54,51 @@ if ($AssembliesPath) {
     }
 }
 
-#endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<#
-@jhoneill Shouldn't -default be assumed if not feed a webdriver? see alternate below
-function Stop-SeDriver {
-    [alias('SeClose')]
-    param(
-        [Parameter(ValueFromPipeline = $true, position = 0, ParameterSetName = 'Driver')]
-        [ValidateIsWebDriverAttribute()]
-        $Driver,
-        [Parameter(Mandatory = $true, ParameterSetName = 'Default')]
-        [switch]$Default
-    )
-    if (-not $PSBoundParameters.ContainsKey('Driver') -and $Global:SeDriver -and ($Default -or $MyInvocation.InvocationName -eq 'SeClose')) {
-        Write-Verbose -Message "Closing $($Global:SeDriver.Capabilities.browsername)..."
-        $Global:SeDriver.Close()
-        $Global:SeDriver.Dispose()
-        Remove-Variable -Name SeDriver -Scope global
-    }
-    elseif ($Driver) {
-        $Driver.Close()
-        $Driver.Dispose()
-    }
-    else { Write-Warning -Message 'No Driver Specified' }
+$Script:SeDriversAdditionalBrowserSwitches = @{
+    Chrome           = @('DisableAutomationExtension', 'EnablePDFViewer')
+    Edge             = @()
+    Firefox          = @('SuppressLogging')
+    InternetExplorer = @('IgnoreProtectedModeSettings')
+    MsEdge           = @()
 }
-#>
 
-
-
-<#
-function Enter-SeUrl {
-    param($Driver, $Url)
-    $Driver.Navigate().GoToUrl($Url)
+# List of suggested command line arguments for each browser
+$Script:SeDriversBrowserArguments = @{
+    Chrome           = @("--user-agent=Android")
+    Edge             = @()
+    Firefox          = @()
+    InternetExplorer = @()
+    MsEdge           = @()
 }
-#>
+
+$Script:SeDrivers = [System.Collections.Generic.List[PSObject]]::new()
+$Script:SeDriversCurrent = $null
 
 
-
-<#
-function Find-SeElement {
-    param(
-        [Parameter()]
-        $Driver,
-        [Parameter()]
-        $Element,
-        [Parameter()][Switch]$Wait,
-        [Parameter()]$Timeout = 30,
-        [Parameter(ParameterSetName = "ByCss")]
-        $Css,
-        [Parameter(ParameterSetName = "ByName")]
-        $Name,
-        [Parameter(ParameterSetName = "ById")]
-        $Id,
-        [Parameter(ParameterSetName = "ByClassName")]
-        $ClassName,
-        [Parameter(ParameterSetName = "ByLinkText")]
-        $LinkText,
-        [Parameter(ParameterSetName = "ByPartialLinkText")]
-        $PartialLinkText,
-        [Parameter(ParameterSetName = "ByTagName")]
-        $TagName,
-        [Parameter(ParameterSetName = "ByXPath")]
-        $XPath
-    )
-
-
-    process {
-
-        if ($null -ne $Driver -and $null -ne $Element) {
-            throw "Driver and Element may not be specified together."
-        }
-        elseif ($null -ne $Driver) {
-            $Target = $Driver
-        }
-        elseif (-ne $Null $Element) {
-            $Target = $Element
-        }
-        else {
-            "Driver or element must be specified"
-        }
-
-        if ($Wait) {
-            if ($PSCmdlet.ParameterSetName -eq "ByName") {
-                $TargetElement = [OpenQA.Selenium.By]::Name($Name)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ById") {
-                $TargetElement = [OpenQA.Selenium.By]::Id($Id)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
-                $TargetElement = [OpenQA.Selenium.By]::LinkText($LinkText)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
-                $TargetElement = [OpenQA.Selenium.By]::PartialLinkText($PartialLinkText)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
-                $TargetElement = [OpenQA.Selenium.By]::ClassName($ClassName)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
-                $TargetElement = [OpenQA.Selenium.By]::TagName($TagName)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
-                $TargetElement = [OpenQA.Selenium.By]::XPath($XPath)
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
-                $TargetElement = [OpenQA.Selenium.By]::CssSelector($Css)
-            }
-
-            $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
-            $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-            $WebDriverWait.Until($Condition)
-        }
-        else {
-            if ($PSCmdlet.ParameterSetName -eq "ByName") {
-                $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ById") {
-                $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
-                $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
-                $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
-                $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
-                $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
-                $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
-            }
-
-            if ($PSCmdlet.ParameterSetName -eq "ByCss") {
-                $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
-            }
-        }
+$AdditionalOptionsSwitchesCompletion = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    
+    if ($fakeBoundParameters.ContainsKey('Browser')) {
+        $Browser = $fakeBoundParameters.Item('Browser')
+        
+        $Output = $Script:SeDriversAdditionalBrowserSwitches."$Browser"
+        $Output | % { [System.Management.Automation.CompletionResult]::new($_) }
+        
+        
     }
 }
-#>
+
+
+$SeDriversBrowserArgumentsCompletion = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+    if ($fakeBoundParameters.ContainsKey('Browser')) {
+        $Browser = $fakeBoundParameters.Item('Browser')
+        $Output = $Script:SeDriversBrowserArguments."$Browser" | Where { $_ -like "*$wordToComplete*" }
+        $ptext = [System.Management.Automation.CompletionResultType]::ParameterValue
+        $Output | % { [System.Management.Automation.CompletionResult]::new("'$_'", $_, $ptext, $_) }
+    }
+}
+
+Register-ArgumentCompleter -CommandName Start-SeDriver, New-SeDriverOptions -ParameterName Switches -ScriptBlock $AdditionalOptionsSwitchesCompletion 
+Register-ArgumentCompleter -CommandName Start-SeDriver, New-SeDriverOptions -ParameterName Arguments -ScriptBlock $SeDriversBrowserArgumentsCompletion 

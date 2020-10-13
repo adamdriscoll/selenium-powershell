@@ -1,12 +1,10 @@
 function Get-SeWindow {
-    param(
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true)]
-        [Alias('Driver')]
-        [OpenQA.Selenium.IWebDriver]
-        $Target = $Global:SeDriver
-    )
-
+    [CmdletBinding()]
+    param()
+    begin {
+        $Driver = Init-SeDriver  -ErrorAction Stop
+    }
     process {
-        $Target.WindowHandles
+        $Driver.WindowHandles
     }
 }

@@ -34,10 +34,10 @@ function Set-SeUrl {
     location stack.
     #>
     [CmdletBinding(DefaultParameterSetName = 'default')]
-    [Alias('SeNavigate', 'Enter-SeUrl', 'Set-SeLocation', 'Open-SeUrl')]
     param(
         # The target URL for the webdriver to navigate to.
         [Parameter(Mandatory = $true, position = 0, ParameterSetName = 'url')]
+        [StringUrlTransformAttribute()]
         [ValidateURIAttribute()]
         [string]$Url,
 
@@ -52,21 +52,21 @@ function Set-SeUrl {
         # Refresh the current page in the webdriver.
         [Parameter(Mandatory = $true, ParameterSetName = 'refresh')]
         [switch]$Refresh,
-
-        # The target webdriver to manage navigation for. Will utilise the
-        # default driver if left unset.
-        [Parameter(ValueFromPipeline = $true)]
-        [Alias("Driver")]
-        [ValidateIsWebDriverAttribute()]
-        $Target = $Global:SeDriver
+        
+        [Parameter(ParameterSetName = 'back')]
+        [Parameter(ParameterSetName = 'forward', Position = 1)]
+        [ValidateScript( { $_ -ge 1 })] 
+        [Int]$Depth = 1
     )
-
-    switch ($PSCmdlet.ParameterSetName) {
-        'url' { $Target.Navigate().GoToUrl($Url); break }
-        'back' { $Target.Navigate().Back(); break }
-        'forward' { $Target.Navigate().Forward(); break }
-        'refresh' { $Target.Navigate().Refresh(); break }
-
-        default { throw 'Unexpected ParameterSet' }
+    $Driver = Init-SeDriver  -ErrorAction Stop
+    for ($i = 0; $i -lt $Depth; $i++) {
+        switch ($PSCmdlet.ParameterSetName) {
+            'url' { $Driver.Navigate().GoToUrl($Url); break }
+            'back' { $Driver.Navigate().Back(); break }
+            'forward' { $Driver.Navigate().Forward(); break }
+            'refresh' { $Driver.Navigate().Refresh(); break }
+            default { throw 'Unexpected ParameterSet' }
+        }    
     }
+    
 }

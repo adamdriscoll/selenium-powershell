@@ -7,9 +7,9 @@ function SeShouldHave {
 
         [Parameter(ParameterSetName = 'DefaultPS', Mandatory = $false)]
         [Parameter(ParameterSetName = 'Element' , Mandatory = $false)]
-        [ValidateSet('CssSelector', 'Name', 'Id', 'ClassName', 'LinkText', 'PartialLinkText', 'TagName', 'XPath')]
-        [ByTransformAttribute()]
-        [string]$By = 'XPath',
+        [ArgumentCompleter( { [Enum]::GetNames([SeBySelector]) })]
+        [ValidateScript( { $_ -in [Enum]::GetNames([SeBySelector]) })]
+        [string]$By = [SeBySelector]::XPath,
 
         [Parameter(ParameterSetName = 'Element' , Mandatory = $true , Position = 1)]
         [string]$With,
@@ -21,9 +21,7 @@ function SeShouldHave {
         [Parameter(ParameterSetName = 'Title' , Mandatory = $true)]
         [switch]$Title,
         [Parameter(ParameterSetName = 'URL' , Mandatory = $true)]
-        [Alias('URI')]
         [switch]$URL,
-
         [Parameter(ParameterSetName = 'Element' , Mandatory = $false, Position = 3)]
         [Parameter(ParameterSetName = 'Alert' , Mandatory = $false, Position = 3)]
         [Parameter(ParameterSetName = 'Title' , Mandatory = $false, Position = 3)]
@@ -43,13 +41,12 @@ function SeShouldHave {
         [Parameter(ParameterSetName = 'DefaultPS')]
         [Parameter(ParameterSetName = 'Element')]
         [Parameter(ParameterSetName = 'Alert')]
-        [Alias('PT')]
         [switch]$PassThru,
 
-        [Int]$Timeout = 0
+        [Double]$Timeout = 0
     )
     begin {
-        $endTime = [datetime]::now.AddSeconds($Timeout)
+        $endTime = [datetime]::now.AddMilliseconds($Timeout * 1000)
         $lineText = $MyInvocation.Line.TrimEnd("$([System.Environment]::NewLine)")
         $lineNo = $MyInvocation.ScriptLineNumber
         $file = $MyInvocation.ScriptName
@@ -91,34 +88,35 @@ function SeShouldHave {
             $Operator = $matches[1]
         }
         $Success = $false
-        $foundElements = @()
+        $foundElements = [System.Collections.Generic.List[PSObject]]::new()
     }
     process {
+        $Driver = (Get-SeDriver -Current)
         #If we have been asked to check URL or title get them from the driver. Otherwise call Get-SEElement.
         if ($URL) {
             do {
-                $Success = applyTest -testitems $Global:SeDriver.Url -operator $Operator -value $Value
+                $Success = applyTest -testitems $Driver.Url -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "PageURL was $($Global:SeDriver.Url). The comparison '-$operator $value' failed.")
+                throw (expandErr "PageURL was $($Driver.Url). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Title) {
             do {
-                $Success = applyTest -testitems $Global:SeDriver.Title -operator $Operator -value $Value
+                $Success = applyTest -testitems $Driver.Title -operator $Operator -value $Value
                 Start-Sleep -Milliseconds 500
             }
             until ($Success -or [datetime]::now -gt $endTime)
             if (-not $Success) {
-                throw (expandErr "Page title was $($Global:SeDriver.Title). The comparison '-$operator $value' failed.")
+                throw (expandErr "Page title was $($Driver.Title). The comparison '-$operator $value' failed.")
             }
         }
         elseif ($Alert -or $NoAlert) {
             do {
                 try {
-                    $a = $Global:SeDriver.SwitchTo().alert()
+                    $a = $Driver.SwitchTo().alert()
                     $Success = $true
                 }
                 catch {
@@ -140,16 +138,16 @@ function SeShouldHave {
         }
         else {
             foreach ($s in $Selection) {
-                $GSEParams = @{By = $By; Selection = $s }
+                $GSEParams = @{By = $By; Value = $s }
                 if ($Timeout) { $GSEParams['Timeout'] = $Timeout }
-                try { $e = Get-SeElement @GSEParams }
+                try { $e = Get-SeElement @GSEParams -All }
                 catch { throw (expandErr $_.Exception.Message) }
 
                 #throw if we didn't get the element; if were only asked to check it was there, return gracefully
                 if (-not $e) { throw (expandErr "Didn't find '$s' by $by") }
                 else {
                     Write-Verbose "Matched element(s) for $s"
-                    $foundElements += $e
+                    $foundElements.add($e)
                 }
             }
         }
@@ -168,7 +166,7 @@ function SeShouldHave {
                     'Y' { $testItem = $e.Location.Y }
                     'Width' { $testItem = $e.Size.Width }
                     'Height' { $testItem = $e.Size.Height }
-                    'Choice' { $testItem = (Get-SeSelectionOption -Element $e -ListOptionText) }
+                    'Choice' { $testItem = (Get-SeSelectValue -Element $e -All).Items.Text }
                     default { $testItem = $e.GetAttribute($with) }
                 }
                 if (-not $testItem -and ($Value -ne '' -and $foundElements.count -eq 1)) {

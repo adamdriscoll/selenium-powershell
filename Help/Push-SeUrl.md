@@ -14,7 +14,7 @@ navigate to a new URL.
 ## SYNTAX
 
 ```
-Push-SeUrl [[-Url] <String>] [-Target <Object>] [<CommonParameters>]
+Push-SeUrl [[-Url] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,22 +52,6 @@ Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Target
-The webdriver instance that owns the url stack, and will navigate to
-a provided new url (if any).
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Driver
-
-Required: False
-Position: Named
-Default value: $Global:SeDriver
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
