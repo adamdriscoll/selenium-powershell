@@ -14,5 +14,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: Publish
       run: | 
-        pwsh -Command "Publish-Module -Path ./Selenium.psd1 -NuGetApiKey $Env:api_key"
+        pwsh -Command "Publish-Module -Path ./Output/Selenium.psd1 -NuGetApiKey $Env:api_key"
         
