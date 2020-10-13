@@ -8,9 +8,9 @@ public void testClass() throws Exception {
     Assert.assertEquals("Wikipedia. the free encyclopedia", driver.getTitle());
 }
 #>
-SeOpen "http://www.wikipedia.org/"
+Start-SeDriver -Browser Chrome -StartURL  "https://www.wikipedia.org/"
 SeShouldHave -Title eq Wikipedia
-SeShouldHave 'strong' -By CssSelector -With  Text eq 'English' -PassThru | SeClick
+SeShouldHave 'strong' -By CssSelector -With  Text eq 'English' -PassThru | Invoke-SeClick
 SeShouldHave -Title eq 'Wikipedia, the free encyclopedia'
 
 <#
@@ -52,7 +52,9 @@ public static void main(String[] args) {
 }
 #>
 
-SeOpen "http://demo.guru99.com/test/newtours/" -In FireFox # or #-in Chrome -in MsEdge -in NewEdge or -in IE
+Start-SeDriver -Browser Firefox -StartURL "http://demo.guru99.com/test/newtours/"  
 SeShouldHave -Title eq "Welcome: Mercury Tours"
-SeClose
+
+#Stop opened drivers 
+Get-SeDriver | Stop-SeDriver
 
