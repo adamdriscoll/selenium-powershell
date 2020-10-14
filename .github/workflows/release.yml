@@ -6,14 +6,12 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     env:
       secrets: ${{ secrets.api_key }}
-        
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish
-      run: | 
-        pwsh -Command "Publish-Module -Path ./Output/Selenium.psd1 -NuGetApiKey $Env:api_key"
-        
+      - uses: actions/checkout@v1
+      - name: Publish
+        run: |
+          pwsh -Command "Publish-Module -Path ./Output/Selenium/Selenium.psd1 -NuGetApiKey $Env:api_key"
