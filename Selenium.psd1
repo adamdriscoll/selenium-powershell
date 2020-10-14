@@ -39,7 +39,7 @@
 
             # A URL to an icon representing this module.
             # IconUri = ''
-            # Prerelease = 'beta2'
+            Prerelease   = 'preview1'
         } # End of PSData hashtable
 
     } # End of PrivateData hashtable

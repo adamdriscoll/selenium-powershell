@@ -1,11 +1,13 @@
-#4.0.0 (Unreleased)
+
 
 
 # 4.0.0-preview1 (Prerelease)
-Note: V4 have an enormous amount of breakchanges. Most of the cmdlet have been rewriten in a way or another. 
+Note: V4 have an enormous amount of breakchanges. Most of the cmdlet have been rewriten in a way or another.
+Important changes includes, but are not limited to: 
+- Removing all aliases and duplicate functions
+- Removal of -AsDefaultDriver and $Driver parameter in favor of an internal implementation which make the last driver started the active driver. Should you need to switch between 1 or more driver, this can be accomplished through the Switch-SeDriver cmdlet.
 
-Duplicate functions have been eliminated along with all aliases that piled up over time.  Start-SeDriver provide an unified front to start all the browsers and the $Driver parameter / default driver are no more. Instead, starting a driver make it the active driver. Switching active driver can be accomplished through the Switch-SeDriver cmdlet. 
-
+  
 ## Added
 - Convert-toSeSelenium to convert IDE projects to Selenium-Powershell script
 - Update-SeDriver to download the latest driver (Support only Chrome currently)
