@@ -8,7 +8,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    secrets: ["api_key"]
+    env:
+      secrets: ${{ secrets.api_key }}
         
     steps:
     - uses: actions/checkout@v1
