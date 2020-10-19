@@ -8,10 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      secrets: ${{ secrets.api_key }}
+      ApiKey: ${{ secrets.API_KEY }}
 
     steps:
       - uses: actions/checkout@v1
       - name: Publish
         run: |
-          pwsh -Command "Publish-Module -Path ${{ github.workspace }}/Output/Selenium/ -NuGetApiKey $env:api_key"
+          pwsh -Command "Publish-Module -Path ${{ github.workspace }}/Output/Selenium/ -NuGetApiKey $env:ApiKey"
