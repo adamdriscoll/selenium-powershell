@@ -108,7 +108,7 @@ function Start-SeDriver {
 
         switch ($SelectedBrowser) {
             'Chrome' { $Driver = Start-SeChromeDriver @PSBoundParameters; break }
-            'Edge' { $Driver = Start-EdgeDriver @PSBoundParameters; break }
+            'Edge' { $Driver = Start-SeEdgeDriver @PSBoundParameters; break }
             'Firefox' { $Driver = Start-SeFirefoxDriver @PSBoundParameters; break }
             'InternetExplorer' { $Driver = Start-SeInternetExplorerDriver @PSBoundParameters; break }
             'MSEdge' { $Driver = Start-SeMSEdgeDriver @PSBoundParameters; break }
