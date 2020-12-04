@@ -51,8 +51,6 @@ function Start-SeEdgeDriver {
         $WebDriverPath = "$PSScriptRoot\Assemblies\"
         Write-Verbose -Message "Using Web driver from the default location"
     }
-    if (-not $WebDriverPath) { throw "Could not find msedgedriver.exe"; return }
-
     
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
