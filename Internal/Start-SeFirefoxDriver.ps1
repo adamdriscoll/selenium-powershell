@@ -18,26 +18,24 @@ function Start-SeFirefoxDriver {
         
     )
     process {
-        #region firefox set-up options
-        $Firefox_Options = [OpenQA.Selenium.Firefox.FirefoxOptions]::new()
 
         if ($State -eq [SeWindowState]::Headless) {
-            $Firefox_Options.AddArguments('-headless')
+            $Options.AddArguments('-headless')
         }
 
         if ($DefaultDownloadPath) {
             Write-Verbose "Setting Default Download directory: $DefaultDownloadPath"
-            $Firefox_Options.setPreference("browser.download.folderList", 2);
-            $Firefox_Options.SetPreference("browser.download.dir", "$DefaultDownloadPath");
+            $Options.setPreference("browser.download.folderList", 2);
+            $Options.SetPreference("browser.download.dir", "$DefaultDownloadPath");
         }
 
         if ($UserAgent) {
             Write-Verbose "Setting User Agent: $UserAgent"
-            $Firefox_Options.SetPreference("general.useragent.override", $UserAgent)
+            $Options.SetPreference("general.useragent.override", $UserAgent)
         }
 
         if ($PrivateBrowsing) {
-            $Firefox_Options.SetPreference("browser.privatebrowsing.autostart", $true)
+            $Options.SetPreference("browser.privatebrowsing.autostart", $true)
         }
 
         if ($PSBoundParameters.ContainsKey('LogLevel')) {
@@ -52,7 +50,7 @@ function Start-SeFirefoxDriver {
         }
 
 
-        $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Firefox_Options)
+        $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options)
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
