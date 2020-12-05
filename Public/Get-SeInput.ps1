@@ -40,7 +40,7 @@ function Get-SeInput {
         $Filter = [scriptblock]::Create(@"
             if ("" -ne "$Type") { if (`$_.Attributes.type -ne "$type") { return } }
             if ("" -ne "$Text") { if (`$_.Text -ne "$Text" ) { return } }
-            if ("" -ne "$Value" -and "" -ne "$Attribute") { if (`$_.Attributes."$Attribute" -ne "$Value" ) { return } }
+            if ("" -ne "$Value" -and "" -ne "$SelectedAttribute") { if (`$_.Attributes."$SelectedAttribute" -ne "$Value" ) { return } }
             `$_
 "@)
         Get-SeElement -By TagName -Value input @PSBoundParameters @MyAttributes -Filter $Filter
