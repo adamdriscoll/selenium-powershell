@@ -18,12 +18,6 @@ function Get-SeInput {
     Process {
         $MyAttributes = @{}
         $SelectedAttribute = ""
-        Filter ConditionFilter($Type, $Text, $Value, $Attribute) {
-            if ("" -ne $Type) { if ($_.Attributes.type -ne $type) { return } }
-            if ("" -ne $Text) { if ($_.Text -ne $Text ) { return } }
-            if ("" -ne $Value -and "" -ne $Attribute) { if ($_.Attributes.$Attribute -ne $Value ) { return } }
-            $_
-        }
 
         if ($PSBoundParameters.Remove('Attributes')) {
             $MyAttributes = @{Attributes = [System.Collections.Generic.List[String]]$Attributes }
@@ -42,7 +36,15 @@ function Get-SeInput {
             
         }
         [void]($PSBoundParameters.Remove('Value'))
-        Get-SeElement -By TagName -Value input @PSBoundParameters @MyAttributes | ConditionFilter -Type $Type -Text $Text -Value $Value -Attribute $SelectedAttribute
+
+        $Filter = [scriptblock]::Create(@"
+            if ("" -ne "$Type") { if (`$_.Attributes.type -ne "$type") { return } }
+            if ("" -ne "$Text") { if (`$_.Text -ne "$Text" ) { return } }
+            if ("" -ne "$Value" -and "" -ne "$Attribute") { if (`$_.Attributes."$Attribute" -ne "$Value" ) { return } }
+            `$_
+"@)
+        Get-SeElement -By TagName -Value input @PSBoundParameters @MyAttributes -Filter $Filter
+
     }
 }
 
