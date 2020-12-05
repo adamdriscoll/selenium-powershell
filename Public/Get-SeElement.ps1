@@ -94,10 +94,9 @@ function Get-SeElement {
         $MyAttributes =  [System.Collections.Generic.List[String]]::new()
         if (!$GetAllAttributes -and $Filter) {
             if ( $null -ne $Attributes) { $MyAttributes = [System.Collections.Generic.List[String]]$Attributes}
-            $AdditionalAttributes = [regex]::Matches($sb, '\$_\.Attributes.(\w*)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | % { $_.Groups[1].value }
+            $AdditionalAttributes = [regex]::Matches($Filter, '\$_\.Attributes.(\w+)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | % { $_.Groups[1].value }
             $AdditionalAttributes | ForEach-Object {
-                if ($MyAttributes.Contains($_)) { continue }
-                $MyAttributes.Add($_)
+                if (!$MyAttributes.Contains($_)) { $MyAttributes.Add($_) }
             }
             $Attributes = [String[]]$MyAttributes
         }
@@ -136,7 +135,7 @@ function Get-SeElement {
         # Apply filter here
         $AndFilterstr = ""
         if ($Filter) { 
-            $AndFilterstr = " and filter: $Filter"
+            $AndFilterstr = " and the applied filter"
             $Output = $Output | Where-Object $Filter 
         }
         
