@@ -16,13 +16,13 @@ Finds all IWebElements within the current context using the given mechanism
 ### Default (Default)
 ```
 Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [[-Timeout] <Double>] [-All] [-Attributes <String[]>]
- [-Single] [<CommonParameters>]
+ [-Filter <ScriptBlock>] [-Single] [<CommonParameters>]
 ```
 
 ### ByElement
 ```
 Get-SeElement [-By <SeBySelector[]>] [-Value] <String[]> [-Element] <IWebElement> [-All]
- [-Attributes <String[]>] [-Single] [<CommonParameters>]
+ [-Attributes <String[]>] [-Filter <ScriptBlock>] [-Single] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -128,6 +128,21 @@ Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Filter
+Filter the obtained output with additional conditions. This is equivalent to doing a Where-Object afterward with the benefit of going trough the Get-SeElement error management.
+
+```yaml
+Type: ScriptBlock
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

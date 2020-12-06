@@ -1,6 +1,6 @@
 function New-SeScreenshot {
     
-    [cmdletbinding(DefaultParameterSetName = 'Path')]
+    [cmdletbinding(DefaultParameterSetName = 'Driver')]
     param(
         [Parameter(DontShow, ValueFromPipeline = $true, ParameterSetName = 'Pipeline')]
         [ValidateScript( {

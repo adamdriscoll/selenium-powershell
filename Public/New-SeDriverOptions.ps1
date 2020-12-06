@@ -32,16 +32,22 @@ function New-SeDriverOptions {
         [SeDriverUserAgentTransformAttribute()]
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
-        [String]$UserAgent
+        [String]$UserAgent,
+        [Switch]$AcceptInsecureCertificates
     )
     if ($PSBoundParameters.ContainsKey('UserAgent')) { Test-SeDriverUserAgent -Browser $Browser -ErrorAction Stop }
+    if ($PSBoundParameters.ContainsKey('AcceptInsecureCertificates')) { Test-SeDriverAcceptInsecureCertificates -Browser $Browser -ErrorAction Stop }
+    
     #  [Enum]::GetNames([sebrowsers])
     $output = $null
     switch ($Browser) {
         Chrome { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
-        Edge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }
+        Edge { $Output = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property @{ browserName = '' } }
         Firefox { $Output = [OpenQA.Selenium.Firefox.FirefoxOptions]::new() }
-        InternetExplorer { $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() }
+        InternetExplorer { 
+            $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() 
+            $Output.IgnoreZoomLevel = $true
+        }
         MSEdge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }
     }
 

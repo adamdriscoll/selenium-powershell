@@ -33,15 +33,24 @@ $Script:SeKeys = [OpenQA.Selenium.Keys] | Get-Member -MemberType Property -Stati
 [Dictionary[object, Stack[string]]] $Script:SeLocationMap = [Dictionary[object, Stack[string]]]::new()
 
 #region Set path to assemblies on Linux and MacOS and Grant Execution permissions on them
+
+$ScriptRoot = $PSScriptRoot
+# This will happens only if we are debugging
+if ($ScriptRoot.EndsWith('Internal')){
+    $ScriptRoot = Split-Path -Path $ScriptRoot
+}
+
 if ($IsLinux) {
-    $AssembliesPath = "$PSScriptRoot/assemblies/linux"
+    $AssembliesPath = "$ScriptRoot/assemblies/linux"
 }
 elseif ($IsMacOS) {
-    $AssembliesPath = "$PSScriptRoot/assemblies/macos"
+    $AssembliesPath = "$ScriptRoot/assemblies/macos"
+} else {
+    $AssembliesPath = "$ScriptRoot\assemblies"
 }
 
 # Grant Execution permission to assemblies on Linux and MacOS
-if ($AssembliesPath) {
+if ($IsLinux -or $IsMacOS) {
     # Check if powershell is NOT running as root
     Get-Item -Path "$AssembliesPath/chromedriver", "$AssembliesPath/geckodriver" | ForEach-Object {
         if ($IsLinux) { $FileMod = stat -c "%a" $_.FullName }

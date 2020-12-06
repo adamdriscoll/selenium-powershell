@@ -17,6 +17,7 @@ function Get-SeElement {
         [Switch]$All,
         [ValidateNotNullOrEmpty()]
         [String[]]$Attributes,
+        [scriptblock]$Filter,
         [Switch]$Single
     )
     Begin {
@@ -89,9 +90,18 @@ function Get-SeElement {
         }
         
  
+        $GetAllAttributes = $PSBoundParameters.ContainsKey('Attributes') -and $Attributes.Count -eq 1 -and $Attributes[0] -eq '*'
+        $MyAttributes =  [System.Collections.Generic.List[String]]::new()
+        if (!$GetAllAttributes -and $Filter) {
+            if ( $null -ne $Attributes) { $MyAttributes = [System.Collections.Generic.List[String]]$Attributes}
+            $AdditionalAttributes = [regex]::Matches($Filter, '\$_\.Attributes.(\w+)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | % { $_.Groups[1].value }
+            $AdditionalAttributes | ForEach-Object {
+                if (!$MyAttributes.Contains($_)) { $MyAttributes.Add($_) }
+            }
+            $Attributes = [String[]]$MyAttributes
+        }
 
-        if ($PSBoundParameters.ContainsKey('Attributes')) {
-            $GetAllAttributes = $Attributes.Count -eq 1 -and $Attributes[0] -eq '*'
+        if ($Attributes) {
             
             if ($GetAllAttributes) {
                 Foreach ($Item in $Output) {
@@ -110,8 +120,8 @@ function Get-SeElement {
                     $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
                  
                     foreach ($att in $Attributes) {
-                        $Value = $Item.GetAttribute($att)
-                        if ($Value -ne "") {
+                        $attValue = $Item.GetAttribute($att)
+                        if ($attValue -ne "") {
                             $AttArray.Add($att, $Item.GetAttribute($att))
                         }
                 
@@ -121,13 +131,22 @@ function Get-SeElement {
             }
               
         }
+
+        # Apply filter here
+        $AndFilterstr = ""
+        if ($Filter) { 
+            $AndFilterstr = " and the applied filter"
+            $Output = $Output | Where-Object $Filter 
+        }
+        
+
         if ($null -eq $Output) {
-            $Message = "no such element: Unable to locate element by: $($By -join ',') with value $($Value -join ',')"
+            $Message = "no such element: Unable to locate element by: $($By -join ',') with value $($Value -join ',')$AndFilterstr"
             Write-Error -Exception ([System.Management.Automation.ItemNotFoundException]::new($Message))
             return
         }
         elseif ($PSBoundParameters.ContainsKey('Single') -and $Single -eq $true -and $Output.count -gt 1) {
-            $Message = "A single element was expected but $($Output.count) elements were found using the locator  $($By -join ',') with value $($Value -join ',')."
+            $Message = "A single element was expected but $($Output.count) elements were found using the locator  $($By -join ',') with value $($Value -join ',')$AndFilterstr."
             Write-Error -Exception ([System.InvalidOperationException]::new($Message))
             return
         }

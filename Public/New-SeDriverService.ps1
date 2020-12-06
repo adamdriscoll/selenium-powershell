@@ -27,7 +27,7 @@ function New-SeDriverService {
             else { $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService() }
         }
         Edge { 
-            $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($WebDriverPath, 'msedgedriver.exe')
+            $service = [OpenQA.Selenium.Chrome.ChromeDriverService]::CreateDefaultService($ServicePath, 'msedgedriver.exe')
         }
         Firefox { 
             if ($ServicePath) { $service = [OpenQA.Selenium.Firefox.FirefoxDriverService]::CreateDefaultService($ServicePath) }

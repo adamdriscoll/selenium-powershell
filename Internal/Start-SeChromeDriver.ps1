@@ -14,7 +14,8 @@ function Start-SeChromeDriver {
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        $UserAgent
+        $UserAgent,
+        [Switch]$AcceptInsecureCertificates
         
 
 
@@ -50,6 +51,11 @@ function Start-SeChromeDriver {
         if ($UserAgent) {
             Write-Verbose "Setting User Agent: $UserAgent"
             $Options.AddArgument("--user-agent=$UserAgent")
+        }
+
+        if ($AcceptInsecureCertificates) {
+            Write-Verbose "AcceptInsecureCertificates capability set to: $($AcceptInsecureCertificates.IsPresent)"
+            $Options.AddAdditionalCapability([OpenQA.Selenium.Remote.CapabilityType]::AcceptInsecureCertificates, $true, $true)
         }
 
         if ($ProfilePath) {

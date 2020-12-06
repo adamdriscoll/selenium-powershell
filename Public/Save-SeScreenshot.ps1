@@ -34,7 +34,7 @@ function Save-SeScreenshot {
                     { $_ -is [OpenQA.Selenium.Screenshot] } { $Screenshot = $InputObject }
                 }    
             }
-            'Driver' { $Screenshot = New-SeScreenshot -Driver $Driver }
+            'Driver' { $Screenshot = New-SeScreenshot }
             'Element' { $Screenshot = New-SeScreenshot -Element $Element }
         }
         

@@ -16,33 +16,39 @@ function Get-SeInput {
         $Driver = Init-SeDriver -ErrorAction Stop
     }
     Process {
-        $MyAttributes = @{}
+        $MyAttributes = @{Attributes = [System.Collections.Generic.List[String]]::new()}
         $SelectedAttribute = ""
-        Filter ConditionFilter($Type, $Text, $Value, $Attribute) {
-            if ("" -ne $Type) { if ($_.Attributes.type -ne $type) { return } }
-            if ("" -ne $Text) { if ($_.Text -ne $Text ) { return } }
-            if ("" -ne $Value -and "" -ne $Attribute) { if ($_.Attributes.$Attribute -ne $Value ) { return } }
-            $_
-        }
+        $LoadAllAttributes = $false
 
         if ($PSBoundParameters.Remove('Attributes')) {
             $MyAttributes = @{Attributes = [System.Collections.Generic.List[String]]$Attributes }
+            $LoadAllAttributes = $Attributes.Count -eq 1 -and  $Attributes[0] -eq '*'
             if ($Attributes[0] -ne '*') { $SelectedAttribute = $MyAttributes.Attributes[0] }
         }
-        if ($PSBoundParameters.Remove('Type')) {
-            if ($null -eq $Attributes) {
-                $MyAttributes = @{Attributes = 'type' }
-            }
-            else {
-                if (-not $Attributes.contains('type') -and -not $Attributes.contains('*')) {
-                    $MyAttributes.Attributes.add('type') 
-                }
-            }
 
-            
+        if (!$LoadAllAttributes){
+            if ($PSBoundParameters.Remove('Type')) {
+                if (-not $MyAttributes.Attributes.Contains('type')) { $MyAttributes.Attributes.add('type') }
+            }
+            if (-not $MyAttributes.Attributes.Contains('placeholder')) { $MyAttributes.Attributes.add('placeholder') }
+            if (-not $MyAttributes.Attributes.Contains('value')) { $MyAttributes.Attributes.add('value') }
         }
+
+
         [void]($PSBoundParameters.Remove('Value'))
-        Get-SeElement -By TagName -Value input @PSBoundParameters @MyAttributes | ConditionFilter -Type $Type -Text $Text -Value $Value -Attribute $SelectedAttribute
+
+        $Filter = [scriptblock]::Create(@"
+            if ("" -ne "$Type") { if (`$_.Attributes.type -ne "$type") { return } }
+            if ("" -ne "$Text") { if (`$_.Text -ne "$Text" ) { return } }
+            if ("" -ne "$Value" -and "" -ne "$SelectedAttribute") { if (`$_.Attributes."$SelectedAttribute" -ne "$Value" ) { return } }
+            `$_
+"@)
+
+        Get-SeElement -By TagName -Value input @PSBoundParameters @MyAttributes -Filter $Filter | ForEach-Object {
+            $_.Psobject.TypeNames.Insert(0, 'selenium-powershell/SeInput')
+            $_
+        } 
+
     }
 }
 

@@ -22,11 +22,9 @@ function Start-SeMSEdgeDriver {
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
         #if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
-        $service = New-SeDriverService -Browser MSEdge @ServiceParams
+        $service = New-SeDriverService -Browser MSEdge @ServiceParams -ErrorAction Stop
     }
     
-    $options = [OpenQA.Selenium.Edge.EdgeOptions]::new()
-
     if ($PrivateBrowsing) { $options.UseInPrivateBrowsing = $true }
     if ($StartURL) { $options.StartPage = $StartURL }
     #endregion

@@ -17,7 +17,7 @@ New-SeDriverOptions [-Browser <Object>] [[-StartURL] <String>] [-State <Object>]
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
  [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-UserAgent <String>]
- [<CommonParameters>]
+ [-AcceptInsecureCertificates] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,6 +37,21 @@ PS C:\> Start-SeDriver -Options $Options
 Create a Chrome driver option object to perform additional things unsupported directly by Start-SeDriver, such as adding an additional capability, then Start a driver instance with the modified Chrome driver options object.
 
 ## PARAMETERS
+
+### -AcceptInsecureCertificates
+If set, Ignore SSL certificate error (Chrome,Edge,Firefox)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Arguments
 Command line arguments to be passed to the browser.
