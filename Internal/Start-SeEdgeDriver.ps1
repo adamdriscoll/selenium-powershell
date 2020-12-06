@@ -23,6 +23,18 @@ function Start-SeEdgeDriver {
         throw "Could not find $BinaryPath"; return
     }
 
+    if ($WebDriverPath -and -not (Test-Path -Path (Join-Path -Path $WebDriverPath -ChildPath 'msedgedriver.exe'))) {
+        throw "Could not find msedgedriver.exe in $WebDriverPath"; return
+    }
+    elseif ($WebDriverPath -and (Test-Path (Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'))) {
+        Write-Verbose -Message "Using browser from $WebDriverPath"
+        $Options.BinaryLocation = Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'
+    }
+    elseif ($BinaryPath) {
+        $Options.BinaryLocation = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
+        Write-Verbose -Message "Will request $($Options.BinaryLocation) as the browser"
+    }
+
     if ($PSBoundParameters.ContainsKey('LogLevel')) {
         Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
     }

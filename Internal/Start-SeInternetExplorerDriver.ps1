@@ -15,17 +15,17 @@ function Start-SeInternetExplorerDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel
     )
 
-    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'
+  
     #region IE set-up options
     if ($state -eq [SeWindowState]::Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
-    $InternetExplorer_Options = [OpenQA.Selenium.IE.InternetExplorerOptions]::new()
+    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'  
     $InternetExplorer_Options.IgnoreZoomLevel = $true
     if ($IgnoreProtectedModeSettings) {
         $InternetExplorer_Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
     }
 
-    if ($StartURL) { $InternetExplorer_Options.InitialBrowserUrl = $StartURL }
+    if ($StartURL) { $Options.InitialBrowserUrl = $StartURL }
     
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
@@ -35,7 +35,7 @@ function Start-SeInternetExplorerDriver {
     
     #endregion
 
-    $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $InternetExplorer_Options)
+    $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
     Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     if ($PSBoundParameters.ContainsKey('LogLevel')) {
