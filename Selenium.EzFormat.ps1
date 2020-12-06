@@ -7,7 +7,7 @@ Push-Location $myRoot
 $Type = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebElement' }
 $Typed = @{TypeName = 'OpenQA.Selenium.Remote.RemoteWebDriver' }
 $formatting = @(
-    Write-FormatView @type  -Property Tagname, Enabled, Displayed, Text   -Width 7, 7, 9, 80 -AlignProperty @{Text = 'Left' } -VirtualProperty @{'Hello' = { 'World' } } 
+    Write-FormatView @type  -Property Tagname, Enabled, Displayed, Text   -Width 7, 7, 9, 80 -AlignProperty @{Text = 'Left' }
     Write-FormatView @type -AsList -Property Tagname, Text, Enabled, Selected, Location, Size, Displayed 
 
     Write-FormatView -TypeName 'selenium-powershell/SeFrame' -Property 'TagName', 'Enabled', 'Name', 'Id' -VirtualProperty @{
@@ -15,6 +15,11 @@ $formatting = @(
         Id   = { $_.Attributes.id }
     }
 
+        Write-FormatView -TypeName 'selenium-powershell/SeInput' -Property 'Tagname','Type*','Enabled','Displayed','Text','Placeholder*','Value*'  -VirtualProperty @{
+            'Type*' = {$_.Attributes.type}
+            'Placeholder*' = {$_.Attributes.placeholder}
+            'Value*' =  {$_.Attributes.value}
+        }
     
 
     # Add your own Write-FormatView here,
