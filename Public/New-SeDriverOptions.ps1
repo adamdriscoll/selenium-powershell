@@ -32,9 +32,12 @@ function New-SeDriverOptions {
         [SeDriverUserAgentTransformAttribute()]
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
-        [String]$UserAgent
+        [String]$UserAgent,
+        [Switch]$AcceptInsecureCertificates
     )
     if ($PSBoundParameters.ContainsKey('UserAgent')) { Test-SeDriverUserAgent -Browser $Browser -ErrorAction Stop }
+    if ($PSBoundParameters.ContainsKey('AcceptInsecureCertificates')) { Test-SeDriverAcceptInsecureCertificates -Browser $Browser -ErrorAction Stop }
+    
     #  [Enum]::GetNames([sebrowsers])
     $output = $null
     switch ($Browser) {

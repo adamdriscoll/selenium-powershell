@@ -14,9 +14,15 @@ function Start-SeEdgeDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [Switch]$AcceptInsecureCertificates
 
     )
+
+    if ($AcceptInsecureCertificates) {
+        Write-Verbose "AcceptInsecureCertificates capability set to: $($AcceptInsecureCertificates.IsPresent)"
+        $Options.AddAdditionalCapability([OpenQA.Selenium.Remote.CapabilityType]::AcceptInsecureCertificates, $true, $true)
+    }
  
     #region check / set paths for browser and web driver and edge options
     if ($PSBoundParameters['BinaryPath'] -and -not (Test-Path -Path $BinaryPath)) {

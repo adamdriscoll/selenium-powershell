@@ -14,7 +14,8 @@ function Start-SeFirefoxDriver {
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        [String]$UserAgent
+        [String]$UserAgent,
+        [Switch]$AcceptInsecureCertificates
         
     )
     process {
@@ -32,6 +33,11 @@ function Start-SeFirefoxDriver {
         if ($UserAgent) {
             Write-Verbose "Setting User Agent: $UserAgent"
             $Options.SetPreference("general.useragent.override", $UserAgent)
+        }
+
+        if ($AcceptInsecureCertificates) {
+            Write-Verbose "AcceptInsecureCertificates capability set to: $($AcceptInsecureCertificates.IsPresent)"
+            $Options.AddAdditionalCapability([OpenQA.Selenium.Remote.CapabilityType]::AcceptInsecureCertificates,$true,$true)
         }
 
         if ($PrivateBrowsing) {

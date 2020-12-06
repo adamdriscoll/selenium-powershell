@@ -37,11 +37,13 @@ function Start-SeDriver {
         [SeDriverUserAgentTransformAttribute()]
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
-        [String]$UserAgent
+        [String]$UserAgent,
+        [Switch]$AcceptInsecureCertificates
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     Begin {
         if ($PSBoundParameters.ContainsKey('UserAgent')) { Test-SeDriverUserAgent -Browser $Browser -ErrorAction Stop }
+        if ($PSBoundParameters.ContainsKey('AcceptInsecureCertificates')) { Test-SeDriverAcceptInsecureCertificates -Browser $Browser -ErrorAction Stop }
     }
     process {
         #Params with default value that need to be pased down to Start-SeXXDriver
