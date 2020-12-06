@@ -39,7 +39,24 @@ function New-SeDriverOptions {
     $output = $null
     switch ($Browser) {
         Chrome { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
-        Edge { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
+        Edge { 
+               $OptionSettings = @{ browserName = '' }
+           
+            if ($WebDriverPath -and -not (Test-Path -Path (Join-Path -Path $WebDriverPath -ChildPath 'msedgedriver.exe'))) {
+                throw "Could not find msedgedriver.exe in $WebDriverPath"; return
+            }
+            elseif ($WebDriverPath -and (Test-Path (Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'))) {
+                Write-Verbose -Message "Using browser from $WebDriverPath"
+                $optionsettings['BinaryLocation'] = Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'
+            }
+            elseif ($BinaryPath) {
+                $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
+                Write-Verbose -Message "Will request $($OptionSettings['BinaryLocation']) as the browser"
+            }
+            #BrowserName is Read-only so we use that method to create the new object
+            $Output = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
+            
+        }
         Firefox { $Output = [OpenQA.Selenium.Firefox.FirefoxOptions]::new() }
         InternetExplorer { $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() }
         MSEdge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }

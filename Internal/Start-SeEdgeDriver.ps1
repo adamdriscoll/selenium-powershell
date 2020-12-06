@@ -17,7 +17,7 @@ function Start-SeEdgeDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel
 
     )
-    $OptionSettings = @{ browserName = '' }
+ 
     #region check / set paths for browser and web driver and edge options
     if ($PSBoundParameters['BinaryPath'] -and -not (Test-Path -Path $BinaryPath)) {
         throw "Could not find $BinaryPath"; return
@@ -27,22 +27,6 @@ function Start-SeEdgeDriver {
         Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
     }
 
-    #Were we given a driver location and is msedgedriver there ?
-    #If were were given a location (which might be from an environment variable) is the driver THERE ?
-    # if not, were we given a path for the browser executable, and is the driver THERE ?
-    # and if not there either, is there one in the assemblies sub dir ? And if not bail
-    if ($WebDriverPath -and -not (Test-Path -Path (Join-Path -Path $WebDriverPath -ChildPath 'msedgedriver.exe'))) {
-        throw "Could not find msedgedriver.exe in $WebDriverPath"; return
-    }
-    elseif ($WebDriverPath -and (Test-Path (Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'))) {
-        Write-Verbose -Message "Using browser from $WebDriverPath"
-        $optionsettings['BinaryLocation'] = Join-Path -Path $WebDriverPath -ChildPath 'msedge.exe'
-    }
-    elseif ($BinaryPath) {
-        $optionsettings['BinaryLocation'] = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($BinaryPath)
-        $binaryDir = Split-Path -Path $BinaryPath -Parent
-        Write-Verbose -Message "Will request $($OptionSettings['BinaryLocation']) as the browser"
-    }
     if (-not $WebDriverPath -and $binaryDir -and (Test-Path (Join-Path -Path $binaryDir -ChildPath 'msedgedriver.exe'))) {
         $WebDriverPath = $binaryDir
     }
@@ -57,8 +41,6 @@ function Start-SeEdgeDriver {
         if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
         $service = New-SeDriverService -Browser Edge @ServiceParams
     }
-    
-    $options = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property $OptionSettings
     
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them
     if ($PrivateBrowsing) { $options.AddArguments('InPrivate') }
