@@ -20,9 +20,8 @@ function Start-SeInternetExplorerDriver {
     if ($state -eq [SeWindowState]::Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
     $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'  
-    $InternetExplorer_Options.IgnoreZoomLevel = $true
     if ($IgnoreProtectedModeSettings) {
-        $InternetExplorer_Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
+        $Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
     }
 
     if ($StartURL) { $Options.InitialBrowserUrl = $StartURL }

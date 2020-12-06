@@ -41,7 +41,10 @@ function New-SeDriverOptions {
         Chrome { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
         Edge { $Output = New-Object -TypeName OpenQA.Selenium.Chrome.ChromeOptions -Property @{ browserName = '' } }
         Firefox { $Output = [OpenQA.Selenium.Firefox.FirefoxOptions]::new() }
-        InternetExplorer { $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() }
+        InternetExplorer { 
+            $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() 
+            $Output.IgnoreZoomLevel = $true
+        }
         MSEdge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }
     }
 
