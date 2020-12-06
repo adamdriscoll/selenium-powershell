@@ -653,6 +653,18 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>Filter the obtained output with additional conditions. This is equivalent to doing a Where-Object afterward with the benefit of going trough the Get-SeElement error management.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">ScriptBlock</command:parameterValue>
+          <dev:type>
+            <maml:name>ScriptBlock</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Single</maml:name>
           <maml:Description>
             <maml:para>Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.</maml:para>
@@ -736,6 +748,18 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Filter</maml:name>
+          <maml:Description>
+            <maml:para>Filter the obtained output with additional conditions. This is equivalent to doing a Where-Object afterward with the benefit of going trough the Get-SeElement error management.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">ScriptBlock</command:parameterValue>
+          <dev:type>
+            <maml:name>ScriptBlock</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Single</maml:name>
           <maml:Description>
             <maml:para>Expectation that only one element will be returned. An error will be returned if that parameter is set and more than one corresponding element is found.</maml:para>
@@ -793,6 +817,18 @@
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
           <maml:name>IWebElement</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Filter</maml:name>
+        <maml:Description>
+          <maml:para>Filter the obtained output with additional conditions. This is equivalent to doing a Where-Object afterward with the benefit of going trough the Get-SeElement error management.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">ScriptBlock</command:parameterValue>
+        <dev:type>
+          <maml:name>ScriptBlock</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -2379,6 +2415,17 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AcceptInsecureCertificates</maml:name>
+          <maml:Description>
+            <maml:para>If set, Ignore SSL certificate error (Chrome,Edge,Firefox)</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
             <maml:para>Command line arguments to be passed to the browser.</maml:para>
@@ -2556,6 +2603,18 @@ PS C:\&gt; Invoke-SeKeys -Element $Search -Keys 'Powershell-Selenium{{Enter}}'</
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AcceptInsecureCertificates</maml:name>
+        <maml:Description>
+          <maml:para>If set, Ignore SSL certificate error (Chrome,Edge,Firefox)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Arguments</maml:name>
         <maml:Description>
@@ -4336,6 +4395,17 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AcceptInsecureCertificates</maml:name>
+          <maml:Description>
+            <maml:para>If set, Ignore SSL certificate error (Chrome,Edge,Firefox)</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
             <maml:para>Command line arguments to be passed to the browser.</maml:para>
@@ -4557,6 +4627,17 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AcceptInsecureCertificates</maml:name>
+          <maml:Description>
+            <maml:para>If set, Ignore SSL certificate error (Chrome,Edge,Firefox)</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Arguments</maml:name>
           <maml:Description>
             <maml:para>Command line arguments to be passed to the browser.</maml:para>
@@ -4753,6 +4834,18 @@ PS C:\&gt; Save-SeScreenshot -Screenshot $Screenshot -Path 'c:\temp\image.png' -
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AcceptInsecureCertificates</maml:name>
+        <maml:Description>
+          <maml:para>If set, Ignore SSL certificate error (Chrome,Edge,Firefox)</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Arguments</maml:name>
         <maml:Description>

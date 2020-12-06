@@ -12,7 +12,7 @@ Take a screenshot of the current page
 
 ## SYNTAX
 
-### Path (Default)
+### Driver (Default)
 ```
 New-SeScreenshot [-AsBase64EncodedString] [<CommonParameters>]
 ```

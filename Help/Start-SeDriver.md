@@ -17,7 +17,7 @@ Launch the specified browser.
 Start-SeDriver [[-StartURL] <String>] [-State <SeWindowState>] [-DefaultDownloadPath <FileInfo>]
  [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>] [-Position <Point>] [-WebDriverPath <Object>]
  [-BinaryPath <Object>] [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>]
- [-UserAgent <String>] [<CommonParameters>]
+ [-UserAgent <String>] [-AcceptInsecureCertificates] [<CommonParameters>]
 ```
 
 ### DriverOptions
@@ -26,7 +26,7 @@ Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Service <DriverService>]
  -Options <DriverOptions> [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>]
- [-Name <Object>] [-UserAgent <String>] [<CommonParameters>]
+ [-Name <Object>] [-UserAgent <String>] [-AcceptInsecureCertificates] [<CommonParameters>]
 ```
 
 ### Default
@@ -35,7 +35,7 @@ Start-SeDriver [-Browser <Object>] [[-StartURL] <String>] [-State <SeWindowState
  [-DefaultDownloadPath <FileInfo>] [-PrivateBrowsing] [-ImplicitWait <Double>] [-Size <Size>]
  [-Position <Point>] [-WebDriverPath <Object>] [-BinaryPath <Object>] [-Switches <String[]>]
  [-Arguments <String[]>] [-ProfilePath <Object>] [-LogLevel <LogLevel>] [-Name <Object>] [-UserAgent <String>]
- [<CommonParameters>]
+ [-AcceptInsecureCertificates] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,6 +51,21 @@ PS C:\> Start-SeDriver -Browser Chrome -Position 1920x0 -StartURL 'google.com'
 Start a Chrome browser at the specified position and starting URL
 
 ## PARAMETERS
+
+### -AcceptInsecureCertificates
+If set, Ignore SSL certificate error (Chrome,Edge,Firefox)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Arguments
 Command line arguments to be passed to the browser.
