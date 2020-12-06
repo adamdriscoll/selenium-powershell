@@ -25,8 +25,6 @@ function Start-SeMSEdgeDriver {
         $service = New-SeDriverService -Browser MSEdge @ServiceParams
     }
     
-    $options = [OpenQA.Selenium.Edge.EdgeOptions]::new()
-
     if ($PrivateBrowsing) { $options.UseInPrivateBrowsing = $true }
     if ($StartURL) { $options.StartPage = $StartURL }
     #endregion
