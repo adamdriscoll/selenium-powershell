@@ -39,7 +39,7 @@ function New-SeDriverOptions {
     $output = $null
     switch ($Browser) {
         Chrome { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
-        Edge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }
+        Edge { $Output = [OpenQA.Selenium.Chrome.ChromeOptions]::new() }
         Firefox { $Output = [OpenQA.Selenium.Firefox.FirefoxOptions]::new() }
         InternetExplorer { $Output = [OpenQA.Selenium.IE.InternetExplorerOptions]::new() }
         MSEdge { $Output = [OpenQA.Selenium.Edge.EdgeOptions]::new() }
