@@ -1,6 +1,11 @@
 
 # 4.0.0-preview3 (Planned)
 
+## Added / Modified
+
+## Fixes
+- Get-SeElement -Filter attributes check fix.
+
 
 
 # 4.0.0-preview2 (Prerelease)
