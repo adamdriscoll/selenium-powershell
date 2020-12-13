@@ -102,8 +102,8 @@ function Get-SeElement {
         if ($MyAttributes.Count -gt 0) {
            Foreach ($Item in $Output) {
                 $htAttributes = Get-SeElementAttribute -Element $Item -Name $MyAttributes
-                if ($htAttributes -is [String]) {$htAttributes = @{$Add-Member -InputObject $Item -Name 'Attributes' -Value $htAttributes -MemberType NotePropertyMyAttributes[0] = $htAttributes }}
-                
+                if ($htAttributes -is [String]) {$htAttributes = @{$MyAttributes[0] = $htAttributes }}
+                Add-Member -InputObject $Item -Name 'Attributes' -Value $htAttributes -MemberType NoteProperty
            }
         }
 
