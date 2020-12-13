@@ -98,9 +98,10 @@ function Get-SeElement {
             $AdditionalAttributes | ForEach-Object {
                 if (!$MyAttributes.Contains($_)) { $MyAttributes.Add($_) }
             }
+            $Attributes = [String[]]$MyAttributes
         }
 
-        if ($MyAttributes.Count -gt 0) {
+        if ($Attributes) {
             
             if ($GetAllAttributes) {
                 Foreach ($Item in $Output) {
@@ -118,7 +119,7 @@ function Get-SeElement {
                 foreach ($Item in $Output) {
                     $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
                  
-                    foreach ($att in $MyAttributes) {
+                    foreach ($att in $Attributes) {
                         $attValue = $Item.GetAttribute($att)
                         if ($attValue -ne "") {
                             $AttArray.Add($att, $Item.GetAttribute($att))
