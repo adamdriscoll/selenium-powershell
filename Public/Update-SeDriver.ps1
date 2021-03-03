@@ -18,9 +18,9 @@ function Update-SeDriver {
         $Path = $PSScriptRoot
         if ($Path.EndsWith('Public')) { $Path = Split-Path -Path $Path } #Debugging
         switch ($OS) {
-            'Linux' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assembiles/linux' }
-            'Mac' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assembiles/macos' }
-            'Windows' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assembiles' }
+            'Linux' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assemblies/linux' }
+            'Mac' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assemblies/macos' }
+            'Windows' { $AssembliesDir = Join-Path -Path $Path -ChildPath '/assemblies' }
         }
         
     }
@@ -59,9 +59,4 @@ function Update-SeDriver {
             Write-Warning 'Not Supported Yet' 
         }
     }
-
-
-    
-
-
 }
