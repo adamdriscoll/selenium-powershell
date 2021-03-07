@@ -3018,7 +3018,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Element</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill Element Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
           <dev:type>
@@ -3044,7 +3044,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
           <maml:name>InputObject</maml:name>
           <maml:Description>
-            <maml:para>{{ Fill InputObject Description }}</maml:para>
+            <maml:para>Target IWebElement.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
           <dev:type>
@@ -3071,7 +3071,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Element</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill Element Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">IWebElement</command:parameterValue>
         <dev:type>
@@ -3083,7 +3083,7 @@ PS C:\&gt; $Service.ProcessId</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
         <maml:name>InputObject</maml:name>
         <maml:Description>
-          <maml:para>{{ Fill InputObject Description }}</maml:para>
+          <maml:para>Target IWebElement.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
         <dev:type>
@@ -3121,9 +3121,9 @@ PS C:\&gt; $Service.ProcessId</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-SeScreenshot -Path 'c:\temp\Screenshot.png' -ImageFormat Png</dev:code>
+        <dev:code>PS C:\&gt; $Element | New-SeScreenshot</dev:code>
         <dev:remarks>
-          <maml:para>Save a screenshot in PNG format at the specified location</maml:para>
+          <maml:para>Take  a screenshot of the specified element.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
