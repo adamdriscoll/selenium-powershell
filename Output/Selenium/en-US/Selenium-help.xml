@@ -219,7 +219,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Convert Selenium IDE .side recording file to PowerShell commands.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>

@@ -9,6 +9,8 @@
 - Get-SeElement now make use of Get-SeElementAttribute internally to query attributes.
 - Get-SeElement error when using filter / attribute
 - Update-SeDriver default path typo (#206)
+- New-SeScreenshot documentation update (#200)
+- Casing issue with Types.ps1xml filename (#203)
 
 # 4.0.0-preview2 (Prerelease)
 ## Added / Modified
