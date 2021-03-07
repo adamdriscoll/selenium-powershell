@@ -92,44 +92,19 @@ function Get-SeElement {
  
         $GetAllAttributes = $PSBoundParameters.ContainsKey('Attributes') -and $Attributes.Count -eq 1 -and $Attributes[0] -eq '*'
         $MyAttributes =  [System.Collections.Generic.List[String]]::new()
+        if ( $null -ne $Attributes) { $MyAttributes = [System.Collections.Generic.List[String]]$Attributes }
+        
         if (!$GetAllAttributes -and $Filter) {
-            if ( $null -ne $Attributes) { $MyAttributes = [System.Collections.Generic.List[String]]$Attributes}
-            $AdditionalAttributes = [regex]::Matches($Filter, '\$_\.Attributes.(\w+)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | % { $_.Groups[1].value }
-            $AdditionalAttributes | ForEach-Object {
-                if (!$MyAttributes.Contains($_)) { $MyAttributes.Add($_) }
-            }
-            $Attributes = [String[]]$MyAttributes
+                $AdditionalAttributes = [regex]::Matches($Filter, '\$_\.Attributes.(\w+)', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | % { $_.Groups[1].value }
+                $AdditionalAttributes | ForEach-Object {if (!$MyAttributes.Contains($_)) { $MyAttributes.Add($_) }}
         }
 
-        if ($Attributes) {
-            
-            if ($GetAllAttributes) {
-                Foreach ($Item in $Output) {
-                    $AllAttributes = $Driver.ExecuteScript('var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;', $Item)
-                    $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
-
-                    Foreach ($AttKey in $AllAttributes.Keys) {
-                        $AttArray.Add($AttKey, $AllAttributes[$AttKey])
-                    }
-
-                    Add-Member -InputObject $Item -Name 'Attributes' -Value $AttArray -MemberType NoteProperty
-                }
-            }
-            else {
-                foreach ($Item in $Output) {
-                    $AttArray = [System.Collections.Generic.Dictionary[String, String]]::new()
-                 
-                    foreach ($att in $Attributes) {
-                        $attValue = $Item.GetAttribute($att)
-                        if ($attValue -ne "") {
-                            $AttArray.Add($att, $Item.GetAttribute($att))
-                        }
-                
-                    }
-                    Add-Member -InputObject $Item -Name 'Attributes' -Value $AttArray -MemberType NoteProperty
-                }
-            }
-              
+        if ($MyAttributes.Count -gt 0) {
+           Foreach ($Item in $Output) {
+                $htAttributes = Get-SeElementAttribute -Element $Item -Name $MyAttributes
+                if ($htAttributes -is [String]) {$htAttributes = @{$MyAttributes[0] = $htAttributes }}
+                Add-Member -InputObject $Item -Name 'Attributes' -Value $htAttributes -MemberType NoteProperty
+           }
         }
 
         # Apply filter here

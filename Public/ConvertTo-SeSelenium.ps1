@@ -1,8 +1,4 @@
 function ConvertTo-Selenium {
-    <#
-        .SYNOPSIS
-        Convert Selenium IDE .side recording file to PowerShell commands.
-    #>
     [CmdletBinding()]
     param (
         # Path to .side file.

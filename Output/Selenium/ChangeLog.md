@@ -1,5 +1,29 @@
 
+# 4.0.0-preview3 (Planned)
+## Added / Modified
+- Get-SeElementAttribute now return a hashtable instead of a pscustom object when multiple attributes are queried
 
+
+
+## Fixes
+- Get-SeElement now make use of Get-SeElementAttribute internally to query attributes.
+- Get-SeElement error when using filter / attribute
+- Update-SeDriver default path typo (#206)
+- New-SeScreenshot documentation update (#200)
+- Casing issue with Types.ps1xml filename (#203)
+
+# 4.0.0-preview2 (Prerelease)
+## Added / Modified
+- Get-SeElement -Filter; Add a new parameter to do additional filtering before returning. This is equivalent to doing a Where afterward but with the Get-SeElement error management logic applied before returning. (#192) 
+- AcceptInsecureCertificates switch added to Start-SeDriver / New-SeDriverOptions (Supported by: Chrome, Firefox, Edge) (#189) 
+- Chrome web drivers assemblies updated to latest version
+
+## Fixes
+- Starting Edge browser broken (#188,#195)
+- custom driver options, when specified, are not used (#191,#193)
+- Processes management internal logic error (#190)
+- Get-SeInput not working properly with -Single switch (#186)
+- Screenshots fail when attempting to screenshot the page (#187)
 
 # 4.0.0-preview1 (Prerelease)
 Note: V4 have an enormous amount of breakchanges. Most of the cmdlet have been rewriten in a way or another.

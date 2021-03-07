@@ -34,10 +34,10 @@ Take a screenshot of the current page
 
 ### Example 1
 ```powershell
-PS C:\> New-SeScreenshot -Path 'c:\temp\Screenshot.png' -ImageFormat Png
+PS C:\> $Element | New-SeScreenshot
 ```
 
-Save a screenshot in PNG format at the specified location
+Take  a screenshot of the specified element.
 
 ## PARAMETERS
 
@@ -57,7 +57,7 @@ Accept wildcard characters: False
 ```
 
 ### -Element
-{{ Fill Element Description }}
+Target IWebElement.
 
 ```yaml
 Type: IWebElement
@@ -72,7 +72,7 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-{{ Fill InputObject Description }}
+Target IWebElement.
 
 ```yaml
 Type: Object

@@ -23,7 +23,7 @@ function Get-SeElementAttribute {
                     $Output.$Att = $value
                 }
             }
-            [PSCustomObject]$Output 
+            $Output
         }
         elseif ($ManyAttributes) {
             $Output = @{}
@@ -33,7 +33,7 @@ function Get-SeElementAttribute {
                     $Output.$Att = $value
                 }
             }
-            [PSCustomObject]$Output
+           $Output
         }
         else {
             $Element.GetAttribute($Name)

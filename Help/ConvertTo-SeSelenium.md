@@ -17,7 +17,7 @@ ConvertTo-Selenium [-Path] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Convert Selenium IDE .side recording file to PowerShell commands.
 
 ## EXAMPLES
 
