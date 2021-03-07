@@ -69,7 +69,7 @@
     # RequiredModules = @()
 
     #Type files (.ps1xml) to be loaded when importing this module
-    TypesToProcess       = @('types/Selenium.Types.ps1xml')
+    TypesToProcess       = @('types/Selenium.types.ps1xml')
 
     # Format files (.ps1xml) to be loaded when importing this module
     FormatsToProcess     = @('formats/Selenium.format.ps1xml')
