@@ -16,7 +16,7 @@ function Start-SeFirefoxDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel,
         [String]$UserAgent,
         [Switch]$AcceptInsecureCertificates
-        
+
     )
     process {
 
@@ -71,7 +71,7 @@ function Start-SeFirefoxDriver {
             { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() ; break }
             { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() ; break }
         }
-        
+
         if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 

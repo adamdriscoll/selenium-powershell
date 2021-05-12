@@ -15,23 +15,23 @@ function Start-SeInternetExplorerDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel
     )
 
-  
+
     #region IE set-up options
     if ($state -eq [SeWindowState]::Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
-    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'  
+    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'
     if ($IgnoreProtectedModeSettings) {
         $Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
     }
 
     if ($StartURL) { $Options.InitialBrowserUrl = $StartURL }
-    
+
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
         if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
         $service = New-SeDriverService -Browser InternetExplorer @ServiceParams
     }
-    
+
     #endregion
 
     $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
@@ -46,7 +46,7 @@ function Start-SeInternetExplorerDriver {
     if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 
-    
+
     switch ($State) {
         { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); }
         { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() }

@@ -16,20 +16,20 @@ function Start-SeChromeDriver {
         [OpenQA.Selenium.LogLevel]$LogLevel,
         $UserAgent,
         [Switch]$AcceptInsecureCertificates
-        
+
 
 
         #        [System.IO.FileInfo]$ProfilePath,
         #        $BinaryPath,
-    
+
         # "user-data-dir=$ProfilePath"
 
 
-    
+
     )
 
     process {
-        #Additional Switches 
+        #Additional Switches
         $EnablePDFViewer = Get-OptionsSwitchValue -Switches $Switches -Name  'EnablePDFViewer'
         $DisableAutomationExtension = Get-OptionsSwitchValue -Switches $Switches -Name 'DisableAutomationExtension'
 
@@ -72,7 +72,7 @@ function Start-SeChromeDriver {
             Write-Warning "LogLevel parameter is not implemented for $($Options.SeParams.Browser)"
         }
 
-       
+
 
         switch ($State) {
             { $_ -eq [SeWindowState]::Headless } { $Options.AddArguments('headless') }
@@ -80,28 +80,28 @@ function Start-SeChromeDriver {
             { $_ -eq [SeWindowState]::Maximized } { $Options.AddArguments('start-maximized') }
             { $_ -eq [SeWindowState]::Fullscreen } { $Options.AddArguments('start-fullscreen') }
         }
-      
+
         if ($PrivateBrowsing) {
             $Options.AddArguments('Incognito')
         }
         #  $Location = @('--window-position=1921,0', '--window-size=1919,1080')
-        if ($PSBoundParameters.ContainsKey('Size')) { 
+        if ($PSBoundParameters.ContainsKey('Size')) {
             $Options.AddArguments("--window-size=$($Size.Width),$($Size.Height)")
         }
         if ($PSBoundParameters.ContainsKey('Position')) {
             $Options.AddArguments("--window-position=$($Position.X),$($Position.Y)")
         }
-        
 
-       
+
+
         if (-not $PSBoundParameters.ContainsKey('Service')) {
             $ServiceParams = @{}
             if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
             $service = New-SeDriverService -Browser Chrome @ServiceParams
         }
-        
 
-        
+
+
         $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
