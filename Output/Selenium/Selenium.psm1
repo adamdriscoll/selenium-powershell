@@ -1740,7 +1740,8 @@ function Start-SeDriver {
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
         [String]$UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     Begin {
@@ -2277,7 +2278,8 @@ function Start-SeChromeDriver {
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         $UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
 
 
@@ -2363,8 +2365,12 @@ function Start-SeChromeDriver {
         }
 
 
-
-        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
+        if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+            $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+        }
+        else {
+            $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
+        }
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
@@ -2406,7 +2412,8 @@ function Start-SeEdgeDriver {
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
     )
 
@@ -2466,7 +2473,12 @@ function Start-SeEdgeDriver {
     }
     #endregion
 
-    $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    }
 
     #region post driver checks and option checks If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
     if (-not $Driver) {
@@ -2524,7 +2536,8 @@ function Start-SeFirefoxDriver {
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         [String]$UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
     )
     process {
@@ -2565,7 +2578,12 @@ function Start-SeFirefoxDriver {
         }
 
 
-        $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options)
+        if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+            $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+        }
+        else {
+            $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options)
+        }
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
@@ -2601,7 +2619,8 @@ function Start-SeInternetExplorerDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [Double]$CommandTimeout
     )
 
 
@@ -2623,7 +2642,12 @@ function Start-SeInternetExplorerDriver {
 
     #endregion
 
-    $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    }
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
     Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     if ($PSBoundParameters.ContainsKey('LogLevel')) {

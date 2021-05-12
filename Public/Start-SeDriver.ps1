@@ -38,7 +38,8 @@ function Start-SeDriver {
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
         [String]$UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     Begin {

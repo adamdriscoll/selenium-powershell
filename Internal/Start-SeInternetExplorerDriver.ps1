@@ -12,7 +12,8 @@ function Start-SeInternetExplorerDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [Double]$CommandTimeout
     )
 
 
@@ -34,7 +35,12 @@ function Start-SeInternetExplorerDriver {
 
     #endregion
 
-    $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    }
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
     Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     if ($PSBoundParameters.ContainsKey('LogLevel')) {

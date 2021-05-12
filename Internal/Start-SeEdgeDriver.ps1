@@ -15,7 +15,8 @@ function Start-SeEdgeDriver {
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
     )
 
@@ -75,7 +76,12 @@ function Start-SeEdgeDriver {
     }
     #endregion
 
-    $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    }
 
     #region post driver checks and option checks If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
     if (-not $Driver) {

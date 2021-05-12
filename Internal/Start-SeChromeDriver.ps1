@@ -15,7 +15,8 @@ function Start-SeChromeDriver {
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         $UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
 
 
@@ -101,8 +102,12 @@ function Start-SeChromeDriver {
         }
 
 
-
-        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
+        if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+            $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+        }
+        else {
+            $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options)
+        }
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
