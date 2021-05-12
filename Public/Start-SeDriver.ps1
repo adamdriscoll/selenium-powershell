@@ -38,7 +38,8 @@ function Start-SeDriver {
         [ValidateNotNull()]
         [ArgumentCompleter( [SeDriverUserAgentCompleter])]
         [String]$UserAgent,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
         # See ParametersToRemove to view parameters that should not be passed to browsers internal implementations.
     )
     Begin {
@@ -58,9 +59,9 @@ function Start-SeDriver {
         $ParametersToRemove = @('Arguments', 'Browser', 'Name', 'PassThru')
         $SelectedBrowser = $Browser
         switch ($PSCmdlet.ParameterSetName) {
-            'Default' { 
+            'Default' {
                 $Options = New-SeDriverOptions -Browser $Browser
-                $PSBoundParameters.Add('Options', $Options) 
+                $PSBoundParameters.Add('Options', $Options)
 
             }
             'DriverOptions' {
@@ -73,10 +74,10 @@ function Start-SeDriver {
                     }
                 }
 
-                $Options = $PSBoundParameters.Item('Options') 
+                $Options = $PSBoundParameters.Item('Options')
                 $SelectedBrowser = $Options.SeParams.Browser
 
-                # Start-SeDrivers params overrides whatever is in the options. 
+                # Start-SeDrivers params overrides whatever is in the options.
                 # Any options parameter not specified by Start-SeDriver get added to the psboundparameters
                 foreach ($Key in $Options.SeParams.Keys) {
                     if (! $PSBoundParameters.ContainsKey($Key)) {
@@ -93,17 +94,17 @@ function Start-SeDriver {
             }
         }
 
-        
+
         $FriendlyName = $null
-        if ($PSBoundParameters.ContainsKey('Name')) { 
-            $FriendlyName = $Name 
-       
+        if ($PSBoundParameters.ContainsKey('Name')) {
+            $FriendlyName = $Name
+
             $AlreadyExist = $Script:SeDrivers.Where( { $_.SeFriendlyName -eq $FriendlyName }, 'first').Count -gt 0
             if ($AlreadyExist) {
                 throw "A driver with the name $FriendlyName is already in the active list of started driver."
             }
         }
-       
+
 
         #Remove params exclusive to this cmdlet before going further.
         $ParametersToRemove | ForEach-Object { if ($PSBoundParameters.ContainsKey("$_")) { [void]($PSBoundParameters.Remove("$_")) } }
@@ -116,7 +117,7 @@ function Start-SeDriver {
             'MSEdge' { $Driver = Start-SeMSEdgeDriver @PSBoundParameters; break }
         }
         if ($null -ne $Driver) {
-            if ($null -eq $FriendlyName) { $FriendlyName = $Driver.SessionId } 
+            if ($null -eq $FriendlyName) { $FriendlyName = $Driver.SessionId }
             Write-Verbose -Message "Opened $($Driver.Capabilities.browsername) $($Driver.Capabilities.ToDictionary().browserVersion)"
 
             #Se prefix used to avoid clash with anything from Selenium in the future
@@ -124,7 +125,7 @@ function Start-SeDriver {
             $Headless = if ($state -eq [SeWindowState]::Headless) { " (headless)" } else { "" }
             $mp = @{InputObject = $Driver ; MemberType = 'NoteProperty' }
             Add-Member @mp -Name 'SeBrowser' -Value "$SelectedBrowser$($Headless)"
-            Add-Member @mp -Name 'SeFriendlyName' -Value "$FriendlyName"  
+            Add-Member @mp -Name 'SeFriendlyName' -Value "$FriendlyName"
             Add-Member @mp -Name 'SeSelectedElements' -Value $null
             Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeProcessId' -Value (Get-DriverProcessId -ServiceProcessId $Driver.SeServiceProcessId)
 

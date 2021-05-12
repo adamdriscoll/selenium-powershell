@@ -1,5 +1,5 @@
 
-# 4.0.0-preview3 (Planned)
+# 4.0.0-preview3
 ## Added / Modified
 - Get-SeElementAttribute now return a hashtable instead of a pscustom object when multiple attributes are queried
 

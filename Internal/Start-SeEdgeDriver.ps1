@@ -15,7 +15,8 @@ function Start-SeEdgeDriver {
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
-        [Switch]$AcceptInsecureCertificates
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
 
     )
 
@@ -23,7 +24,7 @@ function Start-SeEdgeDriver {
         Write-Verbose "AcceptInsecureCertificates capability set to: $($AcceptInsecureCertificates.IsPresent)"
         $Options.AddAdditionalCapability([OpenQA.Selenium.Remote.CapabilityType]::AcceptInsecureCertificates, $true, $true)
     }
- 
+
     #region check / set paths for browser and web driver and edge options
     if ($PSBoundParameters['BinaryPath'] -and -not (Test-Path -Path $BinaryPath)) {
         throw "Could not find $BinaryPath"; return
@@ -53,13 +54,13 @@ function Start-SeEdgeDriver {
         $WebDriverPath = "$PSScriptRoot\Assemblies\"
         Write-Verbose -Message "Using Web driver from the default location"
     }
-    
+
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
         if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
         $service = New-SeDriverService -Browser Edge @ServiceParams
     }
-    
+
     #The command line args may now be --inprivate --headless but msedge driver V81 does not pass them
     if ($PrivateBrowsing) { $options.AddArguments('InPrivate') }
     if ($State -eq [SeWindowState]::Headless) { $options.AddArguments('headless') }
@@ -75,7 +76,12 @@ function Start-SeEdgeDriver {
     }
     #endregion
 
-    $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.Chrome.ChromeDriver]::new($service, $options)
+    }
 
     #region post driver checks and option checks If we have a version know to have problems with passing arguments, generate a warning if we tried to send any.
     if (-not $Driver) {
@@ -88,7 +94,7 @@ function Start-SeEdgeDriver {
         Write-Verbose "Web Driver version $driverversion"
         Write-Verbose ("Browser: {0,9} {1}" -f $Driver.Capabilities.ToDictionary().browserName,
             $Driver.Capabilities.ToDictionary().browserVersion)
-        
+
         $browserCmdline = (Get-CimInstance -Verbose:$false -Query (
                 "Select * From win32_process " +
                 "Where parentprocessid = $($service.ProcessId) " +
@@ -111,7 +117,7 @@ function Start-SeEdgeDriver {
         { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() }
     }
 
- 
+
     #endregion
 
     return  $Driver

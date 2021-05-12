@@ -15,8 +15,9 @@ function Start-SeFirefoxDriver {
         [String[]]$Switches,
         [OpenQA.Selenium.LogLevel]$LogLevel,
         [String]$UserAgent,
-        [Switch]$AcceptInsecureCertificates
-        
+        [Switch]$AcceptInsecureCertificates,
+        [Double]$CommandTimeout
+
     )
     process {
 
@@ -56,7 +57,12 @@ function Start-SeFirefoxDriver {
         }
 
 
-        $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options)
+        if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+            $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+        }
+        else {
+            $Driver = [OpenQA.Selenium.Firefox.FirefoxDriver]::new($service, $Options)
+        }
         if (-not $Driver) { Write-Warning "Web driver was not created"; return }
         Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
         #region post creation options
@@ -71,7 +77,7 @@ function Start-SeFirefoxDriver {
             { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() ; break }
             { $_ -eq [SeWindowState]::Fullscreen } { $Driver.Manage().Window.FullScreen() ; break }
         }
-        
+
         if ($StartURL) { $Driver.Navigate().GoToUrl($StartURL) }
         #endregion
 

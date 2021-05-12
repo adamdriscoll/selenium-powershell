@@ -12,29 +12,35 @@ function Start-SeInternetExplorerDriver {
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
-        [OpenQA.Selenium.LogLevel]$LogLevel
+        [OpenQA.Selenium.LogLevel]$LogLevel,
+        [Double]$CommandTimeout
     )
 
-  
+
     #region IE set-up options
     if ($state -eq [SeWindowState]::Headless -or $PrivateBrowsing) { Write-Warning 'The Internet explorer driver does not support headless or Inprivate operation; these switches are ignored' }
 
-    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'  
+    $IgnoreProtectedModeSettings = Get-OptionsSwitchValue -Switches $Switches -Name  'IgnoreProtectedModeSettings'
     if ($IgnoreProtectedModeSettings) {
         $Options.IntroduceInstabilityByIgnoringProtectedModeSettings = $true
     }
 
     if ($StartURL) { $Options.InitialBrowserUrl = $StartURL }
-    
+
     if (-not $PSBoundParameters.ContainsKey('Service')) {
         $ServiceParams = @{}
         if ($WebDriverPath) { $ServiceParams.Add('WebDriverPath', $WebDriverPath) }
         $service = New-SeDriverService -Browser InternetExplorer @ServiceParams
     }
-    
+
     #endregion
 
-    $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    if ($PSBoundParameters.ContainsKey('CommandTimeout')) {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options, [TimeSpan]::FromMilliseconds($CommandTimeout * 1000))
+    }
+    else {
+        $Driver = [OpenQA.Selenium.IE.InternetExplorerDriver]::new($service, $Options)
+    }
     if (-not $Driver) { Write-Warning "Web driver was not created"; return }
     Add-Member -InputObject $Driver -MemberType NoteProperty -Name 'SeServiceProcessId' -Value $Service.ProcessID
     if ($PSBoundParameters.ContainsKey('LogLevel')) {
@@ -46,7 +52,7 @@ function Start-SeInternetExplorerDriver {
     if ($PSBoundParameters.ContainsKey('Position')) { $Driver.Manage().Window.Position = $Position }
     $Driver.Manage().Timeouts().ImplicitWait = [TimeSpan]::FromMilliseconds($ImplicitWait * 1000)
 
-    
+
     switch ($State) {
         { $_ -eq [SeWindowState]::Minimized } { $Driver.Manage().Window.Minimize(); }
         { $_ -eq [SeWindowState]::Maximized } { $Driver.Manage().Window.Maximize() }
