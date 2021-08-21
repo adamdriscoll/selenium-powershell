@@ -1,5 +1,6 @@
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.dll")
 [System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\WebDriver.Support.dll")
+[System.Reflection.Assembly]::LoadFrom("$PSScriptRoot\assemblies\HtmlAgilityPack.dll")
 
 if($IsLinux){
     $AssembliesPath = "$PSScriptRoot/assemblies/linux"
@@ -26,6 +27,114 @@ if($IsLinux -or $IsMacOS){
         }
     }
 }
+
+
+#region htmlagilitypack
+
+function Init-HTMLAgilityPack {
+    [CmdletBinding()]
+    param ($Element)
+    
+    # Initialize the Selenium Driver
+    $driver = Init-SeDriver -Element $Element
+    Refresh-HTMLAgilityPackSource -Driver $driver
+
+}
+
+function Refresh-HTMLAgilityPackSource {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        $Driver
+    )
+
+    process {
+        # If the Driver Page Source is $null, skip
+        if ($Null -eq $Driver.PageSource) {
+            $Driver.HTMLAgilityPackDocument = $null 
+        } else {
+            $Driver.HTMLAgilityPackDocument.LoadHtml($Driver.PageSource)
+        }
+
+    }
+
+}
+
+function Get-SeHTMLAgilityPack {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        $Driver
+    )
+        
+    process {
+        return $Driver.HTMLAgilityPackDocument
+    }
+    
+}
+
+function Refresh-SeHTMLAgilityPack {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        $Driver
+    )
+
+    process {
+        Refresh-HTMLAgilityPackSource -Driver $Driver
+    }
+    
+    end {
+
+        if ($null -eq $Driver.HTMLAgilityPackDocument) {
+            Throw ([System.InvalidOperationException]::new("Missing Selenium HTML Driver. Please Start the Selenium Driver prior to invoking the HTMLAgilityPack."))
+        }
+
+        return $Driver.HTMLAgilityPackDocument
+
+    }
+
+}
+
+function Get-SeChildElements {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [Object]
+        $Element
+    )
+
+    if ($null -eq $Element.WrappedHTMLAgilityPackElement) {
+        Throw "HTMLAgilityPack was not loaded."
+    }
+
+    if ($null -ne $Element.WrappedHTMLAgilityPackElement.ChildNodes.XPath) {
+        $Element.WrappedHTMLAgilityPackElement.ChildNodes.XPath | ForEach-Object {
+            Find-SeElement -Element $Element.WrappedDriver -XPath $_
+        }
+    }
+    
+}
+
+function Get-SeParentElement {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [Object]
+        $Element
+    )
+
+    if ($null -eq $Element.WrappedHTMLAgilityPackElement) {
+        Throw "HTMLAgilityPack was not loaded."
+    }
+
+    if ($null -ne $Element.WrappedHTMLAgilityPackElement.ParentNode.XPath) {
+        Find-SeElement -Element $Element.WrappedDriver -XPath $Element.WrappedHTMLAgilityPackElement.ParentNode.XPath
+    }
+    
+}
+
+#endregion htmlagilitypack
 
 function Validate-URL{
     param(
@@ -142,8 +251,13 @@ function Start-SeChrome {
             $Driver.ExecuteChromeCommand('Page.setDownloadBehavior', $HeadlessDownloadParams)
         }
 
+        # Add the HTML Agility Pack into the Driver
+        $mp = @{InputObject = $Driver ; MemberType = 'NoteProperty' }
+        Add-Member @mp -Name 'HTMLAgilityPackDocument' -Value ([HtmlAgilityPack.HtmlDocument]::New())
+
         if($StartURL -and $Driver){
             Enter-SeUrl -Driver $Driver -Url $StartURL
+            Refresh-HTMLAgilityPackSource -Driver $Driver
         }
     }
     END{
@@ -242,8 +356,13 @@ function Start-SeFirefox {
             $Driver.Manage().Window.FullScreen()
         }
 
+        # Add the HTML Agility Pack into the Driver
+        $mp = @{InputObject = $Driver ; MemberType = 'NoteProperty' }
+        Add-Member @mp -Name 'HTMLAgilityPackDocument' -Value ([HtmlAgilityPack.HtmlDocument]::New())
+
         if($StartURL -and $Driver){
             Enter-SeUrl -Driver $Driver -Url $StartURL
+            Refresh-HTMLAgilityPackSource -Driver $Driver
         }
     }
     END{
@@ -261,6 +380,10 @@ function Enter-SeUrl {
     param($Driver, $Url)
 
     $Driver.Navigate().GoToUrl($Url)
+
+    # Refresh the HTMLAgilityPack with all the amzaing goodness!
+    Refresh-HTMLAgilityPackSource -Driver $Driver    
+
 }
 
 function Find-SeElement {
@@ -340,41 +463,59 @@ function Find-SeElement {
             
             $WebDriverWait = New-Object -TypeName OpenQA.Selenium.Support.UI.WebDriverWait($Driver, (New-TimeSpan -Seconds $Timeout))
             $Condition = [OpenQA.Selenium.Support.UI.ExpectedConditions]::ElementExists($TargetElement)
-            $WebDriverWait.Until($Condition)
+            $output = $WebDriverWait.Until($Condition)
         }
-        else{
+        else
+        {
             if ($PSCmdlet.ParameterSetName -eq "ByName") {
-                $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::Name($Name))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ById") {
-                $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::Id($Id))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ByLinkText") {
-                $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::LinkText($LinkText))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ByPartialLinkText") {
-                $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::PartialLinkText($PartialLinkText))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ByClassName") {
-                $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::ClassName($ClassName))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ByTagName") {
-                $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::TagName($TagName))
             }
 
             if ($PSCmdlet.ParameterSetName -eq "ByXPath") {
-                $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::XPath($XPath))
             }
             
             if ($PSCmdlet.ParameterSetName -eq "ByCss") {
-                $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
+                $output = $Target.FindElements([OpenQA.Selenium.By]::CssSelector($Css))
             }
         }
+
+        # Append the HTMLAgilityPack Object into the resulting element         
+        Refresh-HTMLAgilityPackSource -Driver $Target
+
+        # Append ID into XPathQuery if there is an ID. Strict match.            
+        if ($Id) { $xpathQuery = '//*[@id="{0}"]' -f $Output.GetAttribute('Id') } 
+        # Perform Literal lookup if using XPath in the lookup
+        elseif ($XPath) { $xpathQuery = $XPath }
+        # Perform Loose Matching
+        else { $xpathQuery = '//*/{0}[@class="{1}"]' -f $Output.Tagname, $Output.GetAttribute('Class') }
+
+        # Add the Property to the output
+        $null = $output | Add-Member -MemberType NoteProperty -Name 'WrappedHTMLAgilityPackElement' -Value ($output.WrappedDriver.HTMLAgilityPackDocument.DocumentNode.SelectSingleNode($xpathQuery))
+        
+        # Return
+        return $Output
+
     }
 }
 
