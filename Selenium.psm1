@@ -96,7 +96,7 @@ function Refresh-SeHTMLAgilityPack {
 
 }
 
-function Get-SeChildElements {
+function Get-SeChildElement {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
