@@ -27,6 +27,19 @@ OR
 ```
 Import-Module "{FullPath}\selenium-powershell\Selenium.psd1"
 ```
+## Possible Additional Steps
+The following is based on the report of some users who tried to install this module and faced some issues.
+You may have to donwload the appropriate `chromedriver.exe` from https://chromedriver.chromium.org/downloads and place it under the folder of selenium-powershell module `...\PowerShell\Modules\Selenium\3.0.1\assemblies`. To get the local folder, use this command:
+```
+(Get-InstalledModule -Name selenium).installedlocation
+```
+You can replace the existing `chromedriver.exe` or rename it to keep a safe backup.
+ 
+When you install this module and you don't specify a version, the latest one will be installed. If it doesn't work, try using this command to install other version:
+```
+Install-Module -Name Selenium -RequiredVersion 3.0.1
+```
+To remove the old version, use powershell command `Get-InstalledModule -Name selenium | Uninstall-Module`, and also delete the local folder of Selenium, otherwise you may face other errors.
 
 # Usage
 `Note: in order to use a specific driver you will need to have the brower of the driver installed on your system.
