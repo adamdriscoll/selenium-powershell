@@ -10,6 +10,7 @@ function Start-SeChromeDriver {
         [System.Drawing.Point]$Position,
         $WebDriverPath = $env:ChromeWebDriver,
         $BinaryPath,
+        [string]$ProfilePath,
         [OpenQA.Selenium.DriverService]$service,
         [OpenQA.Selenium.DriverOptions]$Options,
         [String[]]$Switches,
