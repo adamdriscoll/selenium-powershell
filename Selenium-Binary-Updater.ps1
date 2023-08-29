@@ -21,7 +21,7 @@ switch ($Browser){
 
         $version = $currentVersionDownloads.versions |? { $_.version -eq $latestChromeStableVersion }
         if(-not $version) {
-            Write-Host "Unable to find download information for latest stable Chrome version '$latestChromeStableVersion' from '$"
+            Write-Host "Unable to find download information for latest stable Chrome version '$latestChromeStableVersion' from '$cftKnownGoodVersionsUrl`. Exiting."
         }
 
         $ChromeBuilds = @('chromedriver_linux64','chromedriver_mac64','chromedriver_win32')
